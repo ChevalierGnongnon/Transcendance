@@ -1,4 +1,4 @@
-TTable account{
+Table account{
   account_id integer [primary key]
   name VARCHAR(50)
   last_name VARCHAR(50)
