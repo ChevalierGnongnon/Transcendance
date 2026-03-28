@@ -1,5 +1,5 @@
 Table account{
-  account_id integer [primary key]
+  account_id integer [pk]
   name VARCHAR(50)
   last_name VARCHAR(50)
   email VARCHAR(255) [unique, not null]
@@ -15,19 +15,28 @@ Table account{
 }
 
 Table game{
-  game_id integer [primary key]
+  game_id integer [pk]
   players_count integer [not null]
+  played_at timestamp [not null]
 }
 
 Table game_player{
-  game_player_id integer [primary key]
+  game_player_id integer [pk]
   game_id integer [not null, ref: > game.game_id]
   account_id integer [not null, ref: > account.account_id]
   score integer [not null]
   placement integer
-  /*to avoid same player multiple times on the same*/ 
-  /*game*/
+  
   indexes {
     (game_id, account_id) [unique]
   }
 }
+
+Table friendship{
+  account_1_id integer [not null, ref: > account.account_id]
+  account_2_id integer [not null, ref: > account.account_id]
+  indexes {
+    (account_1_id, account_2_id) [pk]
+  }
+}
+
