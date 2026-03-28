@@ -40,7 +40,6 @@ CREATE TABLE friendship (
 	ON DELETE CASCADE,
 	PRIMARY KEY(account_id_1, account_id_2),
 	CHECK (account_id_1 < account_id_2)
-	ON DELETE CASCADE
 );
 
 CREATE TABLE blocking(
