@@ -16,8 +16,8 @@ CREATE TABLE account (
 
 CREATE TABLE game (
   game_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-  players_count INTEGER NOT NULL
-  played_at TIMESTAMP
+  players_count INTEGER NOT NULL,
+  played_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE game_player (
@@ -34,9 +34,22 @@ CREATE TABLE game_player (
 CREATE TABLE friendship (
 	account_id_1 INTEGER NOT NULL,
 	account_id_2 INTEGER NOT NULL,
-	FOREIGN KEY (account_id_1) REFERENCES account(account_id),
-    FOREIGN KEY (account_id_2) REFERENCES account(account_id),
+	FOREIGN KEY (account_id_1) REFERENCES account(account_id)
+	ON DELETE CASCADE,
+    FOREIGN KEY (account_id_2) REFERENCES account(account_id)
+	ON DELETE CASCADE,
 	PRIMARY KEY(account_id_1, account_id_2),
 	CHECK (account_id_1 < account_id_2)
+	ON DELETE CASCADE
 );
 
+CREATE TABLE blocking(
+	account_blocker_id INTEGER NOT NULL,
+	account_blocked_id INTEGER NOT NULL,
+	FOREIGN KEY (account_blocker_id) REFERENCES account(account_id)
+	ON DELETE CASCADE,
+    FOREIGN KEY (account_blocked_id) REFERENCES account(account_id)
+	ON DELETE CASCADE,
+	PRIMARY KEY(account_blocker_id, account_blocked_id),
+	CHECK (account_blocker_id != account_blocked_id)
+)
