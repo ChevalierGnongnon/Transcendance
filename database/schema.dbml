@@ -33,10 +33,17 @@ Table game_player{
 }
 
 Table friendship{
-  account_1_id integer [not null, ref: > account.account_id]
   account_2_id integer [not null, ref: > account.account_id]
+  account_1_id integer [not null, ref: > account.account_id]
   indexes {
     (account_1_id, account_2_id) [pk]
   }
 }
 
+Table blocking{
+  account_blocker_id integer [not null, ref: > account.account_id]
+  account_blocked_id integer [not null, ref: > account.account_id]
+  indexes {
+    (account_blocker_id, account_blocked_id) [pk]
+  }
+}
