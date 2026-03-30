@@ -58,7 +58,7 @@
 	◦ A basic chat system (send/receive messages between users).  
 	◦ A profile system (view user information).  
 	◦ A friends system (add/remove friends, see friends list).  
-- [ ] • Major: A public API to interact with the database with a secured API key, rate
+- [X] • Major: A public API to interact with the database with a secured API key, rate
 limiting, documentation, and at least 5 endpoints:
 	◦ GET /api/{something}  
 	◦ POST /api/{something}  
