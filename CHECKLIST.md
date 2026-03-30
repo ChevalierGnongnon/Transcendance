@@ -44,7 +44,7 @@
 - Modules of choice
 
 ## Web
-- [] Major: Use a framework for both the frontend and backend.
+- [ ] Major: Use a framework for both the frontend and backend.
 	◦ Use a frontend framework (React, Vue, Angular, Svelte, etc.).  
 	◦ Use a backend framework (Express, NestJS, Django, Flask, Ruby on Rails, etc.).  
 	◦ Full-stack frameworks (Next.js, Nuxt.js, SvelteKit) count as both if you use both their frontend and backend capabilities.  
