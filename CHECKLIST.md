@@ -54,7 +54,7 @@
 	◦ Real-time updates across clients.  
 	◦ Handle connection/disconnection gracefully.  
 	◦ Efficient message broadcasting.  
-- [ ] Major: Allow users to interact with other users. The minimum requirements are:
+- [X] Major: Allow users to interact with other users. The minimum requirements are:
 	◦ A basic chat system (send/receive messages between users).  
 	◦ A profile system (view user information).  
 	◦ A friends system (add/remove friends, see friends list).  
@@ -64,7 +64,7 @@ limiting, documentation, and at least 5 endpoints:
 	◦ POST /api/{something}  
 	◦ PUT /api/{something}  
 	◦ DELETE /api/{something}  
-- [ ] Minor: Use an ORM for the database.
+- [X] Minor: Use an ORM for the database.
 - [ ] Minor: A complete notification system for all creation, update, and deletion actions.
 - [ ] Minor: Real-time collaborative features (shared workspaces, live editing, collaborative drawing, etc.).
 - [ ] Minor: Server-Side Rendering (SSR) for improved performance and SEO.
