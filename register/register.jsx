@@ -1,5 +1,7 @@
 import "./register.scss" //scss file, for styling
 import {useState} from "react" //allows re-render
+
+
 function Register(){
 	const [name, setName] = useState("");
 	const [last_name, setLastName] = useState("");
@@ -8,9 +10,14 @@ function Register(){
 	const [birthdate, setBirthDate] = useState("");
 	const [password, setPassword] = useState("");
 	const [passwordVerify, setPasswordVerify] = useState("");
+
+	const ManageSubmit = (e) =>{
+		e.preventDefault();
+		console.log({ name, last_name, pseudo, email, password, passwordVerify, birthdate,});
+	}
 	
 	return (
-		<form className="register-form">
+		<form className="register-form" onSubmit={ManageSubmit} >
 			<input type="text" name="name" value={name} placeholder="Name" className="register-text-input"   onChange={(e) => setName(e.target.value)}/>
 			<input type="text" name="last_name" value={last_name} placeholder="Last name" className="register-text-input"   onChange={(e) => setLastName(e.target.value)}/>
 			<input type="text" name="pseudo" value={pseudo} placeholder="Pseudo" className="register-text-input"   onChange={(e) => setPseudo(e.target.value)}/>
