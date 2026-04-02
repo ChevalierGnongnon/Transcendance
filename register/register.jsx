@@ -23,7 +23,7 @@ function Register(){
 			<input type="text" name="pseudo" value={pseudo} placeholder="Pseudo" className="register-text-input"   onChange={(e) => setPseudo(e.target.value)}/>
 			<input type="email" name="email" value={email} placeholder="example@example.com" className="register-email-input" onChange={(e) => setEmail(e.target.value)}/>
 			<input type="password" name="password" value={password} placeholder="Password" className="register-password-input" onChange={(e) => setPassword(e.target.value)}/>
-			<input type="password" name="password-verify" value={passwordVerify} placeholder="Password" className="register-password-input" onChange={(e) => setPasswordVerify(e.target.value)}/>
+			<input type="password" name="password_verify" value={passwordVerify} placeholder="password verify" className="register-password-input" onChange={(e) => setPasswordVerify(e.target.value)}/>
 			<input type="date" name="birthdate" value={birthdate} className="register-birthdate-input" onChange={(e) => setBirthDate(e.target.value)}/>
 			<button type="submit" className="register-submit-button">Submit</button>
 		</form>
