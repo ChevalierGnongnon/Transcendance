@@ -1,3 +1,4 @@
 - [ ] remake exam rank
 - [ ] make a the scss form 
 - [ ] start coding the back end
+- [ ] make dockerfile for react
