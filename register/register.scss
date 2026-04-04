@@ -1,0 +1,9 @@
+@use "../common-variables.scss";
+
+.register-form{
+	background-color:	$background-common-color;
+	width:				50%;
+	height:				300px;
+	border-radius:		12px;
+	border:				2px solid black;
+}

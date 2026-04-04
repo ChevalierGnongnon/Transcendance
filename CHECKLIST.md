@@ -64,7 +64,7 @@ limiting, documentation, and at least 5 endpoints:
 	◦ POST /api/{something}  
 	◦ PUT /api/{something}  
 	◦ DELETE /api/{something}  
-- [X] Minor: Use an ORM for the database.
+- [ ] Minor: Use an ORM for the database.
 - [ ] Minor: A complete notification system for all creation, update, and deletion actions.
 - [ ] Minor: Real-time collaborative features (shared workspaces, live editing, collaborative drawing, etc.).
 - [ ] Minor: Server-Side Rendering (SSR) for improved performance and SEO.
