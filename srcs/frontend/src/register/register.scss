@@ -1,4 +1,4 @@
-@use "../common-variables.scss";
+@use "../style/common-variables.scss" as *;
 
 .register-form{
 	background-color:	$background-common-color;

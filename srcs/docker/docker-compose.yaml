@@ -1,12 +1,32 @@
- services:
-  nginx:
-    build: nginx/
-    image: nginx:transcendance
-    container_name: nginx
+#  services:
+#   nginx:
+#     build: nginx/
+#     image: nginx:transcendance
+#     container_name: nginx
+#     ports:
+#       - "8443:443"
+#     networks:
+#       - transcendance
+#     env_file:
+#       - ./secrets/.env
+#     restart: unless-stopped
+services:
+  reactjs:
+    build:
+      context: ../..
+      dockerfile: srcs/docker/reactjs/Dockerfile
+    container_name: reactjs
     ports:
-      - "8443:443"
+      - "5173:5173"
+    volumes:
+      - ../frontend:/app
+      - react_node_modules:/app/node_modules
     networks:
       - transcendance
-    env_file:
-      - ./secrets/.env
     restart: unless-stopped
+
+networks:
+  transcendance:
+
+volumes:
+  react_node_modules:
