@@ -1,0 +1,12 @@
+ services:
+  nginx:
+    build: nginx/
+    image: nginx:transcendance
+    container_name: nginx
+    ports:
+      - "8443:443"
+    networks:
+      - transcendance
+    env_file:
+      - ./secrets/.env
+    restart: unless-stopped
