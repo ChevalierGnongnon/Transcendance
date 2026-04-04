@@ -18,14 +18,15 @@ function Register(){
 	
 	return (
 		<form className="register-form d-flex flex-column gap-3" onSubmit={ManageSubmit} >
-			<input type="text" name="name" value={name} placeholder="Name" className="form-control"   onChange={(e) => setName(e.target.value)}/>
-			<input type="text" name="last_name" value={last_name} placeholder="Last name" className="form-control"   onChange={(e) => setLastName(e.target.value)}/>
-			<input type="text" name="pseudo" value={pseudo} placeholder="Pseudo" className="form-control"   onChange={(e) => setPseudo(e.target.value)}/>
-			<input type="email" name="email" value={email} placeholder="example@example.com" className="form-control" onChange={(e) => setEmail(e.target.value)}/>
-			<input type="password" name="password" value={password} placeholder="Password" className="form-control" onChange={(e) => setPassword(e.target.value)}/>
-			<input type="password" name="password_verify" value={passwordVerify} placeholder="password verify" className="form-control" onChange={(e) => setPasswordVerify(e.target.value)}/>
-			<input type="date" name="birthdate" value={birthdate} className="form-control" onChange={(e) => setBirthDate(e.target.value)}/>
-			<button type="submit" className="btn btn-primary">Submit</button>
+			<input type="text" name="name" value={name} placeholder="Name" className="form-control register-input"   onChange={(e) => setName(e.target.value)}/>
+			<input type="text" name="last_name" value={last_name} placeholder="Last name" className="form-control register-input"   onChange={(e) => setLastName(e.target.value)}/>
+			<input type="text" name="pseudo" value={pseudo} placeholder="Pseudo" className="form-control register-input"   onChange={(e) => setPseudo(e.target.value)}/>
+			<input type="email" name="email" value={email} placeholder="example@example.com" className="form-control register-input" onChange={(e) => setEmail(e.target.value)}/>
+			<input type="password" name="password" value={password} placeholder="Password" className="form-control register-input" onChange={(e) => setPassword(e.target.value)}/>
+			<input type="password" name="password_verify" value={passwordVerify} placeholder="password verify" className="form-control register-input" onChange={(e) => setPasswordVerify(e.target.value)}/>
+			<input type="date" name="birthdate" value={birthdate} className="form-control register-input" onChange={(e) => setBirthDate(e.target.value)}/>
+			<button type="submit" className="btn btn-primary register-input">Register</button>
 		</form>
 	);
 }
+export default Register;
