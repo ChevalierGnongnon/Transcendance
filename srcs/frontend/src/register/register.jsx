@@ -19,6 +19,7 @@ function Register(){
 	return (
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
 			<form className="register-form d-flex flex-column gap-3" onSubmit={manageSubmit} >
+				<h1 className="register-title">Register</h1>
 				<label htmlFor="name" className="register-text">Name:</label>
 				<input type="text" name="name" value={name} placeholder="Name" className="form-control register-input" id="name" onChange={(e) => setName(e.target.value)}/>
 				<label htmlFor="last_name" className="register-text">Last name:</label>
