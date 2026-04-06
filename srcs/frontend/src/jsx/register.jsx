@@ -1,4 +1,4 @@
-import "../style/register.scss" //scss file, for styling
+import "../scss/register.scss" //scss file, for styling
 import {useState} from "react" //allows re-render
 
 
