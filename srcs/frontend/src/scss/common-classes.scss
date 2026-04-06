@@ -1,0 +1,20 @@
+@use "./common-variables.scss" as *;
+
+.form-text{
+	color: $text-form-color;
+}
+
+.form-button{
+	border-radius: 12px;
+	margin-top: 1rem;
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto
+}
+// .form-input{
+// 	background-color:	$background-common-color;
+// 	width:				50%;
+// 	padding:			2rem;
+// 	border-radius:		12px;
+// 	border:				2px solid black;
+// }

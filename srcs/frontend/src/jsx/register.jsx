@@ -20,21 +20,21 @@ function Register(){
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
 			<form className="register-form d-flex flex-column gap-3" onSubmit={manageSubmit} >
 				<h1 className="register-title">Register</h1>
-				<label htmlFor="name" className="register-text">Name:</label>
+				<label htmlFor="name" className="form-text">Name:</label>
 				<input type="text" name="name" value={name} placeholder="Name" className="form-control register-input" id="name" onChange={(e) => setName(e.target.value)}/>
-				<label htmlFor="last_name" className="register-text">Last name:</label>
+				<label htmlFor="last_name" className="form-text">Last name:</label>
 				<input type="text" name="last_name" value={last_name} placeholder="Last name" className="form-control register-input" id="last_name" onChange={(e) => setLastName(e.target.value)}/>
-				<label htmlFor="pseudo" className="register-text">Pseudo:</label>
+				<label htmlFor="pseudo" className="form-text">Pseudo:</label>
 				<input type="text" name="pseudo" value={pseudo} placeholder="Pseudo" className="form-control register-input" id="pseudo" onChange={(e) => setPseudo(e.target.value)}/>
-				<label htmlFor="email" className="register-text">Email:</label>
+				<label htmlFor="email" className="form-text">Email:</label>
 				<input type="email" name="email" value={email} placeholder="example@example.com" className="form-control register-input" id="email" onChange={(e) => setEmail(e.target.value)}/>
-				<label htmlFor="password" className="register-text">Password:</label>
+				<label htmlFor="password" className="form-text">Password:</label>
 				<input type="password" name="password" value={password} placeholder="Password" className="form-control register-input" id="password" onChange={(e) => setPassword(e.target.value)}/>
-				<label htmlFor="password_verify" className="register-text">Password verify: </label>
+				<label htmlFor="password_verify" className="form-text">Password verify: </label>
 				<input type="password" name="password_verify" value={passwordVerify} placeholder="password verify" className="form-control register-input" id="password_verify" onChange={(e) => setPasswordVerify(e.target.value)}/>
-				<label htmlFor="birthdate" className="register-text">Birthdate:</label>
+				<label htmlFor="birthdate" className="form-text">Birthdate:</label>
 				<input type="date" name="birthdate" value={birthdate} className="form-control register-input" id="birthdate" onChange={(e) => setBirthDate(e.target.value)}/>
-				<button type="submit" className="btn btn-primary register-button">Register</button>
+				<button type="submit" className="btn btn-primary form-button">Register</button>
 			</form>
 		</div>
 	);
