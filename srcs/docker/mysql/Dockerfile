@@ -12,5 +12,3 @@ EXPOSE 3306
 RUN chmod +x /usr/local/bin/database-script.sh 
 
 ENTRYPOINT ["/usr/local/bin/database-script.sh"]
-
-

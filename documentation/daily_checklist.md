@@ -1,5 +1,4 @@
 - [ ] remake exam rank
-- [X] make a the scss form 
 - [ ] start coding the back end
-- [X] make dockerfile for react
 - [ ] make container for mysql
+- [ ] update docker compose.yaml and make script.sh for mysql
