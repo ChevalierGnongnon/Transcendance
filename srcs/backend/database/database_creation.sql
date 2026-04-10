@@ -12,7 +12,8 @@ CREATE TABLE account (
 	games_played INTEGER UNSIGNED NOT NULL DEFAULT 0,
 	games_won INTEGER UNSIGNED NOT NULL DEFAULT 0,
 	games_lost INTEGER UNSIGNED NOT NULL DEFAULT 0,
-	personal_best INTEGER UNSIGNED NOT NULL DEFAULT 0
+	personal_best INTEGER UNSIGNED NOT NULL DEFAULT 0,
+	is_deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE game (
@@ -29,14 +30,17 @@ CREATE TABLE game_player (
 	account_id INTEGER UNSIGNED NOT NULL,
 	score INTEGER UNSIGNED NOT NULL,
 	placement INTEGER UNSIGNED NOT NULL,
-	FOREIGN KEY (game_id) REFERENCES game(game_id),
-	FOREIGN KEY (account_id) REFERENCES account(account_id),
+	FOREIGN KEY (game_id) REFERENCES game(game_id)
+	ON DELETE CASCADE,
+	FOREIGN KEY (account_id) REFERENCES account(account_id)
+	ON DELETE CASCADE,
 	UNIQUE (game_id, account_id)
 );
 
 CREATE TABLE friendship (
 	account_id_1 INTEGER UNSIGNED NOT NULL,
 	account_id_2 INTEGER UNSIGNED NOT NULL,
+	created_at DATETIME NOT NULL,
 	FOREIGN KEY (account_id_1) REFERENCES account(account_id)
 	ON DELETE CASCADE,
 	FOREIGN KEY (account_id_2) REFERENCES account(account_id)
@@ -58,15 +62,13 @@ CREATE TABLE blocking(
 
 CREATE TABLE conversation(
 	conversation_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	account_id_1 INTEGER UNSIGNED NOT NULL,
-	account_id_2 INTEGER UNSIGNED NOT NULL,
+	account_id_1 INTEGER UNSIGNED,
+	account_id_2 INTEGER UNSIGNED,
 	created_at DATETIME NOT NULL,
-	are_friends BOOLEAN NOT NULL,
-	message_count INTEGER UNSIGNED NOT NULL,
 	FOREIGN KEY (account_id_1) REFERENCES account(account_id)
-	ON DELETE CASCADE,
+	ON DELETE SET NULL,
 	FOREIGN KEY (account_id_2) REFERENCES account(account_id)
-	ON DELETE CASCADE
+	ON DELETE SET NULL
 );
 
 CREATE TABLE message(
@@ -74,7 +76,6 @@ CREATE TABLE message(
 	conversation_id INTEGER NOT NULL,
 	sender_id INTEGER UNSIGNED NOT NULL,
 	content TEXT NOT NULL,
-	message_size INTEGER NOT NULL,
 	is_read BOOLEAN,
 	send_at DATETIME,
 	read_at DATETIME,
@@ -91,10 +92,10 @@ CREATE TABLE notification(
 	created_at DATETIME NOT NULL,
 	read_at DATETIME,
 	sender_type ENUM('user', 'friend', 'moderation', 'newsletter') NOT NULL,
-	sender_id INTEGER UNSIGNED NOT NULL,
-	account_id INTEGER UNSIGNED NOT NULL,
+	sender_id INTEGER UNSIGNED,
+	receiver_id INTEGER UNSIGNED NOT NULL,
 	FOREIGN KEY (sender_id) REFERENCES account(account_id)
-	ON DELETE CASCADE,
+	ON DELETE SET NULL, 
 	FOREIGN KEY (receiver_id) REFERENCES account(account_id)
 	ON DELETE CASCADE
 );
