@@ -1,3 +1,4 @@
+
 CREATE TABLE account (
 	account_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	name VARCHAR(50),
@@ -17,7 +18,9 @@ CREATE TABLE account (
 CREATE TABLE game (
 	game_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	players_count INTEGER UNSIGNED NOT NULL,
-	played_at DATETIME NOT NULL
+	played_at DATETIME NOT NULL,
+	winner_id INTEGER UNSIGNED NOT NULL,
+	FOREIGN KEY (winner_id) REFERENCES account(account_id)
 );
 
 CREATE TABLE game_player (
@@ -53,3 +56,45 @@ CREATE TABLE blocking(
 	CHECK (account_blocker_id != account_blocked_id)
 );
 
+CREATE TABLE conversation(
+	conversation_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	account_id_1 INTEGER UNSIGNED NOT NULL,
+	account_id_2 INTEGER UNSIGNED NOT NULL,
+	created_at DATETIME NOT NULL,
+	are_friends BOOLEAN NOT NULL,
+	message_count INTEGER UNSIGNED NOT NULL,
+	FOREIGN KEY (account_id_1) REFERENCES account(account_id)
+	ON DELETE CASCADE,
+	FOREIGN KEY (account_id_2) REFERENCES account(account_id)
+	ON DELETE CASCADE
+);
+
+CREATE TABLE message(
+	message_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	conversation_id INTEGER NOT NULL,
+	sender_id INTEGER UNSIGNED NOT NULL,
+	content TEXT NOT NULL,
+	message_size INTEGER NOT NULL,
+	is_read BOOLEAN,
+	send_at DATETIME,
+	read_at DATETIME,
+	FOREIGN KEY (conversation_id) REFERENCES conversation(conversation_id)
+	ON DELETE CASCADE,
+	FOREIGN KEY (sender_id) REFERENCES account(account_id)
+	ON DELETE CASCADE
+);
+
+CREATE TABLE notification(
+	notification_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	notification_type ENUM('message', 'friend_request', 'game_invite', 'news') NOT NULL,
+	is_read BOOLEAN NOT NULL,
+	created_at DATETIME NOT NULL,
+	read_at DATETIME,
+	sender_type ENUM('user', 'friend', 'moderation', 'newsletter') NOT NULL,
+	sender_id INTEGER UNSIGNED NOT NULL,
+	account_id INTEGER UNSIGNED NOT NULL,
+	FOREIGN KEY (sender_id) REFERENCES account(account_id)
+	ON DELETE CASCADE,
+	FOREIGN KEY (receiver_id) REFERENCES account(account_id)
+	ON DELETE CASCADE
+);
