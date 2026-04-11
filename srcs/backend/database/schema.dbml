@@ -12,12 +12,14 @@ Table account{
   games_won integer [not null, default: 0]
   games_lost integer [not null, default: 0]
   personal_best integer [not null, default: 0]
+  is_deleted boolean 
 }
 
 Table game{
   game_id integer [pk]
   players_count integer [not null]
   played_at timestamp [not null]
+  winner_id integer [not null, ref:> account.account_id]
 }
 
 Table game_player{
@@ -35,6 +37,7 @@ Table game_player{
 Table friendship{
   account_2_id integer [not null, ref: > account.account_id]
   account_1_id integer [not null, ref: > account.account_id]
+  created_at datetime
   indexes {
     (account_1_id, account_2_id) [pk]
   }
@@ -50,18 +53,16 @@ Table blocking{
 
 table conversation{
   conversation_id integer [pk]
-  account_id_1 integer [not null, ref: > account.account_id]
-  account_id_2 integer [not null, ref: > account.account_id]
+  account_id_1 integer [ref: > account.account_id]
+  account_id_2 integer [ref: > account.account_id]
   created_at datetime [not null]
 }
 
 table message {
-  mesage_id integer [pk]
+  message_id integer [pk]
   conversation_id integer [not null, ref: > conversation.conversation_id]
   sender_id integer [not null, ref: > account.account_id]
-  receiver_id integer [not null, ref: > account.account_id]
   content text [not null]
-  size integer [not null]
   is_read boolean
   send_at datetime
   read_at datetime
@@ -69,10 +70,11 @@ table message {
 
 table notification{
   notification_id integer [pk]
-  type varchar(50) [not null, note: 'enum: message, friend_request, game_invite']
+  notification_type varchar(50) [not null, note: 'enum: message, friend_request, game_invite']
+  sender_type varchar(50) [not null, note: 'enum: friend, moderation, newsletter']
   is_read boolean [not null]
   created_at datetime [not null]
-  read_at datetime [not null]
+  read_at datetime
   sender_id integer [not null, ref: > account.account_id]
-  
+  receiver_id integer [not null, ref: > account.account_id]
 }
