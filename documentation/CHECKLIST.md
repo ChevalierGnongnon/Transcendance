@@ -65,14 +65,14 @@ limiting, documentation, and at least 5 endpoints:
 	◦ PUT /api/{something}  
 	◦ DELETE /api/{something}  
 - [ ] Minor: Use an ORM for the database.
-- [ ] Minor: A complete notification system for all creation, update, and deletion actions.
+- [X] Minor: A complete notification system for all creation, update, and deletion actions.
 - [ ] Minor: Real-time collaborative features (shared workspaces, live editing, collaborative drawing, etc.).
 - [ ] Minor: Server-Side Rendering (SSR) for improved performance and SEO.
 - [ ] Minor: Progressive Web App (PWA) with offline support and installability.
 - [ ] Minor: Custom-made design system with reusable components, including a proper color palette, typography, and icons (minimum: 10 reusable components).
 - [ ] Minor: Implement advanced search functionality with filters, sorting, and pagina-
 tion.
-- [ ] Minor: File upload and management system.
+- [X] Minor: File upload and management system.
 	◦ Support multiple file types (images, documents, etc.).  
 	◦ Client-side and server-side validation (type, size, format).  
 	◦ Secure file storage with proper access control.  
@@ -81,12 +81,12 @@ tion.
 	◦ Ability to delete uploaded files.  
 
 ## User management
-- [ ] Major: Standard user management and authentication.
+- [X] Major: Standard user management and authentication.
 	◦ Users can update their profile information.  
 	◦ Users can upload an avatar (with a default avatar if none provided).  
 	◦ Users can add other users as friends and see their online status.  
 	◦ Users have a profile page displaying their information.  
-- [ ] Minor: Game statistics and match history (requires a game module).  
+- [X] Minor: Game statistics and match history (requires a game module).  
 	◦ Track user game statistics (wins, losses, ranking, level, etc.).  
 	◦ Display match history (1v1 games, dates, results, opponents).  
 	◦ Show achievements and progression.  
@@ -131,16 +131,16 @@ etc.)
 - [ ] Minor: Image recognition and tagging system.
 
 ## Gaming and user experience
-- [ ] Major: Implement a complete web-based game where users can play against each other.
+- [X] Major: Implement a complete web-based game where users can play against each other.
 	◦ The game can be real-time multiplayer (e.g., Pong, Chess, Tic-Tac-Toe, Card games, etc.).  
 	◦ Players must be able to play live matches.  
 	◦ The game must have clear rules and win/loss conditions.  
 	◦ The game can be 2D or 3D.  
-- [ ] Major: Remote players — Enable two players on separate computers to play the same game in real-time.
+- [X] Major: Remote players — Enable two players on separate computers to play the same game in real-time.
 	◦ Handle network latency and disconnections gracefully.  
 	◦ Provide a smooth user experience for remote gameplay.  
 	◦ Implement reconnection logic.  
-- [ ] Major: Multiplayer game (more than two players).
+- [X] Major: Multiplayer game (more than two players).
 	◦ Support for three or more players simultaneously.  
 	◦ Fair gameplay mechanics for all participants.  
 	◦ Proper synchronization across all clients.  
@@ -153,7 +153,7 @@ etc.)
 	◦ Create an immersive 3D environment.  
 	◦ Implement advanced rendering techniques.  
 	◦ Ensure smooth performance and user interaction.  
-- [ ] Minor: Advanced chat features (enhances the basic chat from "User interaction" module).
+- [X] Minor: Advanced chat features (enhances the basic chat from "User interaction" module).
 	◦ Ability to block users from messaging you.  
 	◦ Invite users to play games directly from chat.  
 	◦ Game/tournament notifications in chat.  
@@ -200,7 +200,7 @@ etc.)
 - [ ] Minor: Health check and status page system with automated backups and disaster recovery procedures.
 
 ## Data and Analytics
-- [ ] Major: Advanced analytics dashboard with data visualization.
+- [X] Major: Advanced analytics dashboard with data visualization.
 	◦ Interactive charts and graphs (line, bar, pie, etc.).  
 	◦ Real-time data updates.  
 	◦ Export functionality (PDF, CSV, etc.).  
