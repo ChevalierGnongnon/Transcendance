@@ -1,16 +1,24 @@
-#  services:
-#   nginx:
-#     build: nginx/
-#     image: nginx:transcendance
-#     container_name: nginx
-#     ports:
-#       - "8443:443"
-#     networks:
-#       - transcendance
-#     env_file:
-#       - ./secrets/.env
-#     restart: unless-stopped
+
 services:
+  nginx:
+    build:
+      context: ../..
+      dockerfile: srcs/docker/nginx/Dockerfile
+    image: nginx:transcendance
+    container_name: nginx
+    ports:
+      - "8443:443"
+    networks:
+      - transcendance
+    env_file:
+      - ./secrets/.env
+    restart: unless-stopped
+    depends_on:
+      laravel: 
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+
   reactjs:
     build:
       context: ../..
