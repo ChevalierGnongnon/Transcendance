@@ -47,12 +47,9 @@ services:
       env_file: secrets/.env
 
 
-
-
 networks:
   transcendance:
 
 volumes:
   react_node_modules:
   laravel_storage:
-  
