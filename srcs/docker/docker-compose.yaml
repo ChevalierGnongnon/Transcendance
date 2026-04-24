@@ -1,23 +1,19 @@
 
 services:
-  nginx:
-    build:
-      context: ../..
-      dockerfile: srcs/docker/nginx/Dockerfile
-    image: nginx:transcendance
-    container_name: nginx
-    ports:
-      - "8443:443"
-    networks:
-      - transcendance
-    env_file:
-      - ./secrets/.env
-    restart: unless-stopped
-    depends_on:
-      laravel: 
-        condition: service_healthy
-      mysql:
-        condition: service_healthy
+  # nginx:
+  #   build:
+  #     context: ../..
+  #     dockerfile: srcs/docker/nginx/Dockerfile
+  #   image: nginx:transcendance
+  #   container_name: nginx
+  #   ports:
+  #     - "8443:443"
+  #   networks:
+  #     - transcendance
+  #   env_file:
+  #     - ./secrets/.env
+  #   restart: unless-stopped
+    
 
   reactjs:
     build:
@@ -33,26 +29,6 @@ services:
       - transcendance
     restart: unless-stopped
     env_file: secrets/.env
-  laravel:
-    build:
-      context: ../..
-      dockerfile: srcs/docker/laravel/Dockerfile
-      container_name: laravel
-      volumes:
-        - laravel_storage:/var/www/html/storage/app/public
-      networks:
-        - transcendance
-      depends_on:
-        mysql:
-          condition: service_healthy
-      restart: unless-stopped
-      healthcheck:
-       test: ["CMD", "php", "artisan", "about"]
-       interval: 10s
-       timeout: 5s
-       retries: 10
-       start_period: 60s
-      env_file: secrets/.env
 
 
 networks:

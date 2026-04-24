@@ -11,8 +11,7 @@ RUN apt-get update \
 	
 EXPOSE 443
 
-COPY ./conf/default.conf /etc/nginx/sites-available/chhoflac
-
+COPY srcs/docker/nginx/conf/default.conf /etc/nginx/sites-available/chhoflac
 RUN rm -f /etc/nginx/sites-enabled/default \
     && ln -sf /etc/nginx/sites-available/chhoflac /etc/nginx/sites-enabled/chhoflac
 
