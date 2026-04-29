@@ -1,6 +1,6 @@
 FROM node:22-bookworm-slim
 
-workdir /app
+WORKDIR /app
 
 COPY srcs/backend/ ./
 
