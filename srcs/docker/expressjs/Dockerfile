@@ -1,12 +1,10 @@
 FROM node:22-bookworm-slim
 
-WORKDIR /app
-
-COPY srcs/backend/package*.json ./
-
-RUN npm install
+workdir /app
 
 COPY srcs/backend/ ./
+
+RUN	npm install
 
 EXPOSE 3000
 
