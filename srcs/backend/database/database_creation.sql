@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS transcendance;
+USE transcendance;
 
 CREATE TABLE account (
 	account_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
