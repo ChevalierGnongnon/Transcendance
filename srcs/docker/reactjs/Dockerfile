@@ -2,12 +2,15 @@ FROM node:22-bookworm-slim
 
 WORKDIR /app
 
-COPY srcs/backend/package*.json ./
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl
+
+COPY srcs/frontend/package*.json ./
 
 RUN npm install
 
-COPY srcs/backend/ ./
+COPY srcs/frontend/ ./
 
-EXPOSE 3000
+EXPOSE 5173
 
-CMD ["node", "server.js"]
+CMD ["npm", "run", "dev"]
