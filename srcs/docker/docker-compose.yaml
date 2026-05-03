@@ -78,7 +78,7 @@ services:
     restart: unless-stopped
     env_file: secrets/.env
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-u", "root"]
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
       interval: 5s
       timeout: 3s
       retries: 10

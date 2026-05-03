@@ -1,4 +1,3 @@
-CREATE DATABASE IF NOT EXISTS transcendance;
 USE transcendance;
 
 CREATE TABLE account (
