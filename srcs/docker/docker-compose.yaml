@@ -18,6 +18,8 @@ services:
         condition: service_healthy
       reactjs:
         condition: service_healthy
+      mysql:
+        condition: service_healthy
   reactjs:
     build:
       context: ../..
@@ -55,10 +57,31 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
-
+    depends_on:
+      mysql:
+        condition: service_healthy
+  mysql:
+    build:
+      context: ../..
+      dockerfile: srcs/docker/mysql/Dockerfile
+    image: mysql:transcendance
+    container_name: mysql_database
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - transcendance
+    restart: unless-stopped
+    env_file: secrets/.env
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-u", "root"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    
 networks:
   transcendance:
 
 volumes:
   react_node_modules:
   express_node_modules:
+  mysql_data: 
