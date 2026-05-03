@@ -1,3 +1,8 @@
+secrets:
+  mysql_password: 
+    file: ./secrets/mysql_password.txt
+  mysql_root_password:
+    file: ./secrets/mysql_root_password.txt
 
 services:
   nginx:
@@ -77,6 +82,9 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+    secrets:
+      - mysql_password
+      - mysql_root_password
     
 networks:
   transcendance:
