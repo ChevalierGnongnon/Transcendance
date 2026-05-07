@@ -57,6 +57,8 @@ services:
       - transcendance
     restart: unless-stopped
     env_file: secrets/.env
+    secrets:
+      - mysql_password
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 5s
