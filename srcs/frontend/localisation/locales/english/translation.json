@@ -1,0 +1,26 @@
+{
+  "login": {
+    "title": "",
+    "label_login": "",
+    "placeholder_login": "",
+    "button": ""
+  },
+  "register": {
+    "title": "",
+    "label_name": "",
+    "placeholder_name": "",
+    "label_lastname": "",
+    "placeholder_lastname": "",
+    "label_pseudo": "",
+    "placeholder_pseudo": "",
+    "label_email": "",
+    "label_birthdate": "",
+    "button": ""
+  },
+  "common": {
+    "label_password": "",
+    "placeholder_password": "",
+    "label_password_verify": "",
+    "placeholder_password_verify": ""
+  }
+}

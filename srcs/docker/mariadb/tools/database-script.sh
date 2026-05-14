@@ -2,7 +2,7 @@
 
 set -e
 
-MYSQL_PASSWORD=$(cat /run/secrets/mysql_password | tr -d '\n')
+MYSQL_PASSWORD=$(cat /run/secrets/mysql_password | tr -d '\n') 
 MYSQL_ROOT_PASSWORD=$(cat /run/secrets/mysql_root_password | tr -d '\n')
 
 if [ ! -d /var/lib/mysql/mysql ]; then
