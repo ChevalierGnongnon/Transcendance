@@ -1,26 +1,26 @@
 {
   "login": {
-    "title": "",
-    "label_login": "",
-    "placeholder_login": "",
-    "button": ""
+    "title": "Login",
+    "label_login": "Mail or Pseudo",
+    "placeholder_login": "Mail or pseudo",
+    "button": "Login"
   },
   "register": {
-    "title": "",
-    "label_name": "",
-    "placeholder_name": "",
-    "label_lastname": "",
-    "placeholder_lastname": "",
-    "label_pseudo": "",
-    "placeholder_pseudo": "",
-    "label_email": "",
-    "label_birthdate": "",
-    "button": ""
+    "title": "Register",
+    "label_name": "Name",
+    "placeholder_name": "Name",
+    "label_lastname": "Last name",
+    "placeholder_lastname": "Last Name",
+    "label_pseudo": "Pseudo",
+    "placeholder_pseudo": "Pseudo",
+    "label_email": "Email",
+    "label_birthdate": "Birthdate",
+    "button": "Register"
   },
   "common": {
-    "label_password": "",
-    "placeholder_password": "",
-    "label_password_verify": "",
-    "placeholder_password_verify": ""
+    "label_password": "Password",
+    "placeholder_password": "Password",
+    "label_password_verify": "Password verify",
+    "placeholder_password_verify": "Password verify"
   }
 }
