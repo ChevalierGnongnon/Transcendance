@@ -4,11 +4,16 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler'
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler'
+        }
       }
+    },
+    server: {
+      host: '0.0.0.0',
+      hmr: { clientPort: 8443 }
     }
-  }
 })
+
