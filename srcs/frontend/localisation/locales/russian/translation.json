@@ -1,26 +1,26 @@
 {
   "login": {
-    "title": "",
-    "label_login": "",
-    "placeholder_login": "",
-    "button": ""
+    "title": "Вход",
+    "label_login": "Почта или псевдоним",
+    "placeholder_login": "Почта или псевдоним",
+    "button": "Войти"
   },
   "register": {
-    "title": "",
-    "label_name": "",
-    "placeholder_name": "",
-    "label_lastname": "",
-    "placeholder_lastname": "",
-    "label_pseudo": "",
-    "placeholder_pseudo": "",
-    "label_email": "",
-    "label_birthdate": "",
-    "button": ""
+    "title": "Регистрация",
+    "label_name": "Имя",
+    "placeholder_name": "Имя",
+    "label_lastname": "Фамилия",
+    "placeholder_lastname": "Фамилия",
+    "label_pseudo": "Псевдоним",
+    "placeholder_pseudo": "Псевдоним",
+    "label_email": "Электронная почта",
+    "label_birthdate": "Дата рождения",
+    "button": "Зарегистрироваться"
   },
   "common": {
-    "label_password": "",
-    "placeholder_password": "",
-    "label_password_verify": "",
-    "placeholder_password_verify": ""
+    "label_password": "Пароль",
+    "placeholder_password": "Пароль",
+    "label_password_verify": "Подтверждение пароля",
+    "placeholder_password_verify": "Подтверждение пароля"
   }
 }

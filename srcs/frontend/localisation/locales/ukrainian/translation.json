@@ -1,26 +1,26 @@
 {
   "login": {
-    "title": "",
-    "label_login": "",
-    "placeholder_login": "",
-    "button": ""
+    "title": "Вхід",
+    "label_login": "Пошта або псевдонім",
+    "placeholder_login": "Пошта або псевдонім",
+    "button": "Увійти"
   },
   "register": {
-    "title": "",
-    "label_name": "",
-    "placeholder_name": "",
-    "label_lastname": "",
-    "placeholder_lastname": "",
-    "label_pseudo": "",
-    "placeholder_pseudo": "",
-    "label_email": "",
-    "label_birthdate": "",
-    "button": ""
+    "title": "Реєстрація",
+    "label_name": "Ім'я",
+    "placeholder_name": "Ім'я",
+    "label_lastname": "Прізвище",
+    "placeholder_lastname": "Прізвище",
+    "label_pseudo": "Псевдонім",
+    "placeholder_pseudo": "Псевдонім",
+    "label_email": "Електронна пошта",
+    "label_birthdate": "Дата народження",
+    "button": "Зареєструватися"
   },
   "common": {
-    "label_password": "",
-    "placeholder_password": "",
-    "label_password_verify": "",
-    "placeholder_password_verify": ""
+    "label_password": "Пароль",
+    "placeholder_password": "Пароль",
+    "label_password_verify": "Підтвердження пароля",
+    "placeholder_password_verify": "Підтвердження пароля"
   }
 }
