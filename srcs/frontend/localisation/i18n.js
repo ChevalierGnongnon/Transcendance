@@ -14,7 +14,7 @@ i18n.use(initReactI18next).init({
         uk: {translation: ukrainian_trans},
         ru: {translation: russian_trans}
     },
-    lng: 'en',
+    lng: localStorage.getItem('lang') || 'en',
     fallbackLng: 'en',
 });
 
