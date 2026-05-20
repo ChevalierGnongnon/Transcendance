@@ -4,11 +4,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./login";
 import i18n from "../../localisation/i18n.js"
 import Header from "./header";
+import Register from "./register.jsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<Header />
 		<Login />
+		<Register />
 	</React.StrictMode>
 );
