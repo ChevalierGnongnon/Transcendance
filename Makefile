@@ -5,27 +5,25 @@ all: up
 
 up:
 # 	@echo "Building images and starting the containers"
-	@sudo mkdir -p $(WP_DATA) $(DB_DATA)
-	@cd srcs/ && $(DC) up -d --build
+	@cd srcs/docker && $(DC) up -d --build
 
 down :
 # 	@echo "Shutting down the server and containers"
-	@cd srcs/ && $(DC) down
+	@cd srcs/docker && $(DC) down
 
 clean : down
 	@echo "light cleaning"
 
 fclean : clean
 # 	@echo "Deleting Wordpress and mariadb volumes"
-	@cd srcs/ && $(DC) down -v
-	@sudo rm -rf $(WP_DATA) $(DB_DATA)
+	@cd srcs/docker && $(DC) down -v
 
 re : fclean all
 # 	@echo "Restarting server and services"
 
 logs :
 # 	@echo "Showing  containers logs"
-	@cd srcs/ && $(DC) logs -f
+	@cd srcs/docker && $(DC) logs -f
 
 big_reset:
 	@echo "⚠️  BIG RESET: removing ALL docker containers/images/volumes/networks on this VM"
@@ -40,6 +38,6 @@ factory_reset: fclean big_reset
 
 ps :
 	@echo "Active containers :"
-	@cd srcs/ && $(DC) ps
+	@cd srcs/docker && $(DC) ps
 
 .PHONY : all up down clean fclean re logs big_reset ps factory_reset
