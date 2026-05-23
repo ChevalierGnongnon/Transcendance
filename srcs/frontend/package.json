@@ -9,6 +9,7 @@
     "preview": "vite preview --host"
   },
   "dependencies": {
+    "react-router-dom": "^6.0.0",
     "bootstrap": "^5.3.3",
     "i18next": "^23.0.0",
     "react": "^18.3.1",
