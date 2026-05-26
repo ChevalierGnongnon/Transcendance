@@ -16,6 +16,7 @@ function Login() {
 	const {t} = useTranslation();
 
 	return (
+		
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
 			<form className="login-form d-flex flex-column gap-3" onSubmit={manageSubmit} >
 				<h1 className="login-title">{t('login.title')}</h1>
