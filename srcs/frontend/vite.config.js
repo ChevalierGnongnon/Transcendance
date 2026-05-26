@@ -13,7 +13,9 @@ export default defineConfig({
     },
     server: {
       host: '0.0.0.0',
-      hmr: { clientPort: 8443 }
+      hmr: { clientPort: 8443 },
+      allowedHosts: ['reactjs']
     }
+
 })
 
