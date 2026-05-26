@@ -5,7 +5,7 @@ CREATE TABLE account (
 	name VARCHAR(50),
 	last_name VARCHAR(50),
 	email VARCHAR(255) UNIQUE NOT NULL,
-	password_hash VARCHAR(255) NOT NULL,
+	password_hash VARCHAR(255),
 	pseudo VARCHAR(30) UNIQUE NOT NULL,
 	-- profile_photo_url VARCHAR(255),
 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -15,6 +15,14 @@ CREATE TABLE account (
 	-- games_lost INTEGER UNSIGNED NOT NULL DEFAULT 0,
 	-- personal_best INTEGER UNSIGNED NOT NULL DEFAULT 0,
 	is_deleted BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE Oauth_account(
+	account_id INTEGER UNSIGNED,
+	provider VARCHAR(20), 
+	provider_id VARCHAR(255),
+	FOREIGN KEY (account_id) REFERENCES account(account_id),
+	PRIMARY KEY(account_id, provider)
 );
 
 -- CREATE TABLE game (
