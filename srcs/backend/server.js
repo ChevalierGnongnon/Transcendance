@@ -3,6 +3,8 @@ const database = require('./src/db-connexion.js');
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 app.get('/health', (req, res) => {
   res.status(200).send('OK')
 });
@@ -12,9 +14,10 @@ app.listen(port, () => {
 });
 
 database.query('SELECT 1', (err, results) => {
-    if (err) {
-        console.error('DB connection failed:', err);
-    } else {
-        console.log('DB connected!');
-    }
+  if (err) {
+      console.error('DB connection failed:', err);
+  } else {
+      console.log('DB connected!');
+  }
 });
+
