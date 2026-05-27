@@ -26,6 +26,8 @@
   "complete-your-profile": {
       "title": "Vervollständige dein Profil",
       "label-pseudo": "Gib einen Pseudonamen ein",
-      "complete-button": "Abschließen"
+      "complete-button": "Abschließen",
+      "upload-avatar": "Avatar hochladen"
+      
   }
 }

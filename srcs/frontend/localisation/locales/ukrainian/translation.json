@@ -26,6 +26,8 @@
   "complete-your-profile": {
     "title": "Заповніть свій профіль",
     "label-pseudo": "Введіть псевдонім",
-    "complete-button": "Завершити"
+    "complete-button": "Завершити",
+    "upload-avatar": "Завантажити аватар"
+
   }
 }

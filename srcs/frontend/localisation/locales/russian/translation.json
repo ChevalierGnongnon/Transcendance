@@ -26,6 +26,7 @@
   "complete-your-profile": {
     "title": "Заполните свой профиль",
     "label-pseudo": "Введите псевдоним",
-    "complete-button": "Завершить"
+    "complete-button": "Завершить",
+    "upload-avatar": "Загрузить аватар"
   }
 }
