@@ -22,5 +22,10 @@
     "placeholder_password": "Passwort",
     "label_password_verify": "Passwort bestätigen",
     "placeholder_password_verify": "Passwort bestätigen"
+  },
+  "complete-your-profile": {
+      "title": "Vervollständige dein Profil",
+      "label-pseudo": "Gib einen Pseudonamen ein",
+      "complete-button": "Abschließen"
   }
 }

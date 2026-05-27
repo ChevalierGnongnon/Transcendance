@@ -22,5 +22,10 @@
     "placeholder_password": "Пароль",
     "label_password_verify": "Подтверждение пароля",
     "placeholder_password_verify": "Подтверждение пароля"
+  },
+  "complete-your-profile": {
+    "title": "Заполните свой профиль",
+    "label-pseudo": "Введите псевдоним",
+    "complete-button": "Завершить"
   }
 }

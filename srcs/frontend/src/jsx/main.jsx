@@ -5,6 +5,7 @@ import Login from "./login";
 import i18n from "../../localisation/i18n.js"
 import Header from "./header";
 import Register from "./register.jsx";
+import CompleteYourProfile from "./complete-profile.jsx";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -14,7 +15,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 			<Routes>
 				<Route path="/login" element={<Login/>}/>
 				<Route path="/register" element={<Register/>}/>
-				<Route path="/" element={<Login />} />
+				<Route path="/completeYourProfile" element={<CompleteYourProfile/>}/>
+				<Route path="/" element={<CompleteYourProfile/>} />
 			</Routes>
 		</BrowserRouter>
 	</React.StrictMode>

@@ -22,5 +22,10 @@
     "placeholder_password": "Mot de passe",
     "label_password_verify": "Verification de mot de passe",
     "placeholder_password_verify": "Verification de mot passe"
+  },
+  "complete-your-profile": {
+      "title": "Completez votre profil",
+      "label-pseudo": "Creez un pseudo",
+      "complete-button": "Valider"
   }
 }
