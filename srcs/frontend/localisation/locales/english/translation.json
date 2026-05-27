@@ -27,6 +27,7 @@
       "title": "Complete your profile",
       "label-pseudo": "Enter a pseudo",
       "complete-button": "Confirm",
-      "upload-avatar": "Upload an avatar"
+      "upload-avatar": "Upload an avatar",
+      "choose-an-avatar": "Or choose a default avatar :"
   }
 }

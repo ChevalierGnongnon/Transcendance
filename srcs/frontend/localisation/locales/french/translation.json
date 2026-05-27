@@ -27,6 +27,7 @@
       "title": "Completez votre profil",
       "label-pseudo": "Creez un pseudo",
       "complete-button": "Valider",
-      "upload-avatar": "Telecharger une photo de profil"
+      "upload-avatar": "Telecharger un avatar",
+      "choose-an-avatar": "Ou choisir un avatar de base :"
   }
 }
