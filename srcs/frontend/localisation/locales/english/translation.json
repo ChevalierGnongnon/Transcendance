@@ -3,7 +3,10 @@
     "title": "Login",
     "label_login": "Mail or Pseudo",
     "placeholder_login": "Mail or pseudo",
-    "button": "Login"
+    "button": "Login",
+    "log-google": "Log in with google",
+    "log-github": "Log in with github",
+    "log-fourty-two": "Log in with 42"
   },
   "register": {
     "title": "Register",

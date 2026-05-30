@@ -3,7 +3,10 @@
     "title": "Вхід",
     "label_login": "Пошта або псевдонім",
     "placeholder_login": "Пошта або псевдонім",
-    "button": "Увійти"
+    "button": "Увійти",
+    "log-google": "Увійти через Google",
+    "log-github": "Увійти через GitHub",
+    "log-fourty-two": "Увійти через 42"
   },
   "register": {
     "title": "Реєстрація",

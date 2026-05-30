@@ -3,7 +3,10 @@
     "title": "Se connecter",
     "label_login": "Adresse email ou pseudo",
     "placeholder_login": "Adresse email ou pseudo",
-    "button": "Se connecter"
+    "button": "Se connecter",
+    "log-google": "Se connecter avec google",
+    "log-github": "Se connecter avec github",
+    "log-fourty-two": "Se connecter avec 42"
   },
   "register": {
     "title": "Inscription",

@@ -3,7 +3,10 @@
     "title": "Anmeldung",
     "label_login": "E-Mail oder Pseudonym",
     "placeholder_login": "E-Mail oder Pseudonym",
-    "button": "Anmelden"
+    "button": "Anmelden",
+    "log-google": "Mit Google anmelden",
+    "log-github": "Mit GitHub anmelden",
+    "log-fourty-two": "Mit 42 anmelden"
   },
   "register": {
     "title": "Registrierung",
