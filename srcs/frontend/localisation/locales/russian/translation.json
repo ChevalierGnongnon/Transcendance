@@ -31,6 +31,8 @@
     "label-pseudo": "Введите псевдоним",
     "complete-button": "Завершить",
     "upload-avatar": "Загрузить аватар",
-    "choose-an-avatar": "Или выбрать стандартный аватар :"
+    "choose-an-avatar": "Или выбрать стандартный аватар :",
+    "placeholder_pseudo": "Введите псевдоним"
+
   }
 }

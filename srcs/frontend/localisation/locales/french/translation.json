@@ -31,6 +31,8 @@
       "label-pseudo": "Creez un pseudo",
       "complete-button": "Valider",
       "upload-avatar": "Telecharger un avatar",
-      "choose-an-avatar": "Ou choisir un avatar de base :"
+      "choose-an-avatar": "Ou choisir un avatar de base :",
+      "placeholder_pseudo": "Entrez un pseudonyme"
+
   }
 }
