@@ -11,6 +11,21 @@
 	margin-left: auto;
 	margin-right: auto
 }
+
+.img-avatar{
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	object-fit: cover;
+	cursor: pointer;
+	border: 3px solid transparent;
+	background-color: rgb(92, 156, 185);
+	&.selected{
+		border: 4px solid white;
+	}
+
+}
+
 // .form-input{
 // 	background-color:	$background-common-color;
 // 	width:				50%;
