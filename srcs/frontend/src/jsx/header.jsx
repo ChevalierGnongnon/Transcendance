@@ -15,10 +15,9 @@ function Header(){
             <div className="ms-auto d-flex gap-2">
                 <Link to="/login" className="btn btn-secondary btn-sm">{t('header.login-button')}</Link>
                 <Link to="/register" className="btn btn-secondary btn-sm">{t('header.register-button')}</Link>
-                <Link to="/personalpage" className="btn btn-secondary btn-sm">{t('header.personal-page-button')}</Link>
+                <Link to="/personalpage" className="btn btn-secondary btn-sm">{t('header.profile-page')}</Link>
             </div>
         </header>
     );
 }
-
 export default Header;
