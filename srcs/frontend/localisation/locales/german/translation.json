@@ -33,5 +33,10 @@
       "upload-avatar": "Avatar hochladen",
       "choose-an-avatar": "Oder einen Standard-Avatar wählen :",
       "placeholder_pseudo": "Pseudonym eingeben"
+  },
+  "header": {
+    "login-button": "Anmelden",
+    "register-button": "Registrieren",
+    "profile-page": "Meine Seite"
   }
 }

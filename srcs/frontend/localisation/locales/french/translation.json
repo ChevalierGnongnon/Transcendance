@@ -34,5 +34,10 @@
       "choose-an-avatar": "Ou choisissez un avatar de base :",
       "placeholder_pseudo": "Entrez un pseudonyme"
 
+  },
+    "header": {
+      "login-button": "Se connecter",
+      "register-button": "S'inscrire",
+      "profile-page": "Mon profil"
   }
 }

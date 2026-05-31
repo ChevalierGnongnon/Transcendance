@@ -13,8 +13,9 @@ function Header(){
             <input type="button" value="Русский" className="btn btn-secondary btn-sm" onClick={() => {i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }}/>
             <input type="button" value="українська" className="btn btn-secondary btn-sm" onClick={() => {i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }}/>
             <div className="ms-auto d-flex gap-2">
-                <Link to="/login" className="btn btn-secondary btn-sm">{t('login.button')}</Link>
-                <Link to="/register" className="btn btn-secondary btn-sm">{t('register.button')}</Link>
+                <Link to="/login" className="btn btn-secondary btn-sm">{t('header.login-button')}</Link>
+                <Link to="/register" className="btn btn-secondary btn-sm">{t('header.register-button')}</Link>
+                <Link to="/personalpage" className="btn btn-secondary btn-sm">{t('header.personal-page-button')}</Link>
             </div>
         </header>
     );

@@ -33,5 +33,10 @@
     "upload-avatar": "Завантажити аватар",
     "choose-an-avatar": "Або вибрати стандартний аватар :",
     "placeholder_pseudo": "Введіть псевдонім"
+  },
+  "header": {
+    "login-button": "Увійти",
+    "register-button": "Зареєструватися",
+    "profile-page": "Моя сторінка"
   }
 }

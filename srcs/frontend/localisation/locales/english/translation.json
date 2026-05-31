@@ -33,5 +33,10 @@
       "upload-avatar": "Upload an avatar",
       "choose-an-avatar": "Or choose a default avatar :",
       "placeholder_pseudo": "Enter a pseudomym"
+  },
+  "header": {
+      "login-button": "Login",
+      "register-button": "Register",
+      "profile-page": "My page"
   }
 }
