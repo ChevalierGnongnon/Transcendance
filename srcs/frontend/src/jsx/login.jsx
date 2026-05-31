@@ -18,7 +18,7 @@ function Login() {
 	return (
 		
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
-			<form className="login-form d-flex flex-column gap-3" onSubmit={manageSubmit} >
+    		<form className="login-form d-flex flex-column align-items-center gap-3">
 				<h1 className="login-title">{t('login.title')}</h1>
 				<label htmlFor="login" className="form-text">{t('login.label_login')}</label>
 				<input type="text" name="name" value={login} placeholder={t('login.placeholder_login')} className="form-control form-input" id="login" onChange={(e) => setLogin(e.target.value)} />
