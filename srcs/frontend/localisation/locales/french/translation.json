@@ -7,8 +7,9 @@
     "log-google": "Se connecter avec google",
     "log-github": "Se connecter avec github",
     "log-fourty-two": "Se connecter avec 42",
-    "or": "OU"
-
+    "or": "OU",
+    "no-account": "Pas encore de compte?",
+    "create-account": "Creer un nouveau compte"
   },
   "register": {
     "title": "Inscription",

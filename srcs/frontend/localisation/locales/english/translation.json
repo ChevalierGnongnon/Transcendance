@@ -7,7 +7,9 @@
     "log-google": "Log in with google",
     "log-github": "Log in with github",
     "log-fourty-two": "Log in with 42",
-    "or": "OR"
+    "or": "OR",
+    "no-account": "No account yet?",
+    "create-account": "Create a new account"
   },
   "register": {
     "title": "Register",

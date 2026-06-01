@@ -51,7 +51,8 @@ function Login() {
 						</a>
 					</div>
 				</div>
-
+				<p className="login-text">{t(login.no-account)}</p>
+				<button type="submit" className="btn btn-primary form-button">{t('login.create-account')}</button>
 			</form>
 		</div>
 	);

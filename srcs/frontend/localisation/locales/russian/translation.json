@@ -7,7 +7,9 @@
     "log-google": "Войти через Google",
     "log-github": "Войти через GitHub",
     "log-fourty-two": "Войти через 42",
-    "or": "ИЛИ"
+    "or": "ИЛИ",
+    "no-account": "Ещё нет аккаунта?",
+    "create-account": "Создать новый аккаунт"
   },
   "register": {
     "title": "Регистрация",

@@ -7,8 +7,9 @@
     "log-google": "Mit Google anmelden",
     "log-github": "Mit GitHub anmelden",
     "log-fourty-two": "Mit 42 anmelden",
-    "or": "ODER"
-
+    "or": "ODER",
+    "no-account": "Noch kein Konto?",
+    "create-account": "Neues Konto erstellen"
 
   },
   "register": {
