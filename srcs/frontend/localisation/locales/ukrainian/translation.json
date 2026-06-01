@@ -21,7 +21,10 @@
     "placeholder_pseudo": "Псевдонім",
     "label_email": "Електронна пошта",
     "label_birthdate": "Дата народження",
-    "button": "Зареєструватися"
+    "button": "Зареєструватися",
+    "register-google": "Зареєструватися через Google",
+    "register-github": "Зареєструватися через GitHub",
+    "register-fourty-two": "Зареєструватися через 42"
   },
   "common": {
     "label_password": "Пароль",

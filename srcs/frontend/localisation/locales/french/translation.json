@@ -21,7 +21,10 @@
     "placeholder_pseudo": "Pseudo",
     "label_email": "Email",
     "label_birthdate": "Date de naissance",
-    "button": "Inscription"
+    "button": "Inscription",
+    "register-google": "S'inscrire avec google",
+    "register-github": "S'inscrire avec github",
+    "register-fourty-two": "S'inscrire avec 42"
   },
   "common": {
     "label_password": "Mot de passe",
