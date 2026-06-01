@@ -6,7 +6,9 @@
     "button": "Se connecter",
     "log-google": "Se connecter avec google",
     "log-github": "Se connecter avec github",
-    "log-fourty-two": "Se connecter avec 42"
+    "log-fourty-two": "Se connecter avec 42",
+    "or": "OU"
+
   },
   "register": {
     "title": "Inscription",

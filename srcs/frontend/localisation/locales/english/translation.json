@@ -6,7 +6,8 @@
     "button": "Login",
     "log-google": "Log in with google",
     "log-github": "Log in with github",
-    "log-fourty-two": "Log in with 42"
+    "log-fourty-two": "Log in with 42",
+    "or": "OR"
   },
   "register": {
     "title": "Register",

@@ -6,7 +6,8 @@
     "button": "Войти",
     "log-google": "Войти через Google",
     "log-github": "Войти через GitHub",
-    "log-fourty-two": "Войти через 42"
+    "log-fourty-two": "Войти через 42",
+    "or": "ИЛИ"
   },
   "register": {
     "title": "Регистрация",

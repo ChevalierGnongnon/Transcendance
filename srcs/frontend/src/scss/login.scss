@@ -2,7 +2,7 @@
 
 .login-form{
 	background-color:	$background-common-color;
-	width:				40%;
+	width:				70%;
 	padding:			2rem;
 	border-radius:		12px;
 	border:				2px solid black;
@@ -10,4 +10,43 @@
 .login-title{
 	color:white;
 	text-align: center;
+}
+
+.connect-options-div {
+    flex: 1;
+    border: 1px solid white;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+	justify-content: center;
+}
+
+.login-text{
+	color: white;
+	text-align: center;
+}
+.login-input{
+	width: 60%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.separator-or {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+	color: white;
+	align-items: center;
+
+    &::before,
+    &::after {
+        content: '';
+        flex: 1;
+        width: 1px;
+        background-color: white;
+    }
 }

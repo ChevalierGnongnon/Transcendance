@@ -6,7 +6,10 @@
     "button": "Anmelden",
     "log-google": "Mit Google anmelden",
     "log-github": "Mit GitHub anmelden",
-    "log-fourty-two": "Mit 42 anmelden"
+    "log-fourty-two": "Mit 42 anmelden",
+    "or": "ODER"
+
+
   },
   "register": {
     "title": "Registrierung",
