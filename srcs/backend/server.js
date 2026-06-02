@@ -1,11 +1,13 @@
 const express = require('express');
 const database = require('./src/db-connexion.js');
-const registrationRouter = require('./registration.js');
+const registrationRouter = require('./src/registration.js');
 const app = express();
 const port = 3000;
+const completeProfileRouter = require('./src/complete-profile.js');
 
 app.use(express.json());
 app.use('/api', registrationRouter);
+app.use('/api', completeProfileRouter);
 
 app.get('/health', (req, res) => {
     res.status(200).send('OK')

@@ -10,20 +10,34 @@ import virtue from '../assets/avatars/virtue.png';
 import hershel from '../assets/avatars/hershel.webp';
 
 
-function CompleteYourProfile(){
+function CompleteYourProfile({ token }){
     const {t} = useTranslation();
 	const [pseudo, setPseudo] = useState("");
 	const [avatar, setAvatar] = useState(null);
-	const defaultAvatars = [holocene, kindred, radian, taxman, virtue, hershel];
+	const defaultAvatars = [
+		{ src: holocene, name: 'holocene.png' },
+		{ src: kindred, name: 'kindred.png' },
+		{ src: radian, name: 'radian.png' },
+		{ src: taxman, name: 'taxman.png' },
+		{ src: virtue, name: 'virtue.png' },
+		{ src: hershel, name: 'hershel.webp' },
+	];
 
-	const manageSubmit = (e) => {
+	const manageSubmit = async (e) => {
 		e.preventDefault();
-		console.log({ pseudo, avatar });
+		const response = await fetch('/api/complete-profile', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ pseudo, avatar, token })
+		});
+		const data = await response.json();
+		if (!response.ok)
+			console.error(data.error);
 	}
     return (
-		
+
         <div className="d-flex justify-content-center align-items-center min-vh-100">
-    		<form className="login-form d-flex flex-column align-items-center gap-3">
+    		<form className="login-form d-flex flex-column align-items-center gap-3" onSubmit={manageSubmit}>
 				<h1 className="login-title">{t('complete-your-profile.title')}</h1>
 				<label htmlFor="pseudo" className="form-text">{t('complete-your-profile.label-pseudo')}</label>
 				<input type="text" name="name" value={pseudo} placeholder={t('complete-your-profile.placeholder_pseudo')} className="form-control form-input" id="pseudo" onChange={(e) => setPseudo(e.target.value)} />
@@ -36,8 +50,8 @@ function CompleteYourProfile(){
 					{t('complete-your-profile.choose-an-avatar')}
 				</p>
 				<div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
-				{defaultAvatars.map((src, i) => (
-					<img key={i} src={src} alt={`avatar-${i}`} className={`img-avatar ${avatar === src ? 'selected' : ''}`} onClick={() => setAvatar(src)}/>
+				{defaultAvatars.map((item, i) => (
+					<img key={i} src={item.src} alt={`avatar-${i}`} className={`img-avatar ${avatar === item.name ? 'selected' : ''}`} onClick={() => setAvatar(item.name)}/>
 				))}
 			</div>
 				<button type="submit" className="btn btn-primary btn-sm align-self-center">
