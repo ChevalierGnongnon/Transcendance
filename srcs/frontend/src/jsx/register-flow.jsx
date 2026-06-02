@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Register } from "./register.jsx";
-import { CompleteYourProfile } from "./complete-profile.jsx";
+import Register from "./register.jsx";
+import CompleteYourProfile  from "./complete-profile.jsx";
 
 
 function RegisterFlow() {
@@ -8,8 +8,9 @@ function RegisterFlow() {
     const [token, setToken] = useState(null);
     return (
         <>
-            {step === 1 && <Register onSuccess={(token) => { saveToken; setStep(2) }} />}
+            {step === 1 && <Register onSuccess={(token) => { setToken(token); setStep(2) }} />}
             {step === 2 && <CompleteYourProfile token={token} />}
         </>
     )
 }
+export default RegisterFlow;

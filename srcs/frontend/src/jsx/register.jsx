@@ -2,7 +2,7 @@ import "../scss/register.scss"
 import { useState } from "react"
 import { useTranslation } from 'react-i18next';
 
-function Register() {
+function Register({ onSuccess }) {
 	const [name, setName] = useState("");
 	const [last_name, setLastName] = useState("");
 	const [pseudo, setPseudo] = useState("");
@@ -13,14 +13,23 @@ function Register() {
 
 	const { t } = useTranslation();
 
-	const manageSubmit = (e) => {
+	const manageSubmit = async (e) => {
 		e.preventDefault();
-		console.log({ name, last_name, pseudo, email, password, passwordVerify, birthdate });
+		const response = await fetch('/api/register', {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({name, last_name, email, password, passwordVerify, birthdate})
+		});
+		const data = await response.json();
+		if (response.ok)
+			onSuccess(data.token);
+		else
+			console.error(data.error);
 	}
 
 	return (
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
-			<form className="login-form d-flex flex-column align-items-center gap-3">
+			<form className="login-form d-flex flex-column align-items-center gap-3" onSubmit={manageSubmit}>
 				<h1 className="register-title">{t('register.title')}</h1>
 				<div className="d-flex gap-3 w-100">
 					<div className="connect-options-div">
