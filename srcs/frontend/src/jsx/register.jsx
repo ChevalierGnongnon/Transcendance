@@ -1,6 +1,7 @@
 import "../scss/register.scss"
 import { useState } from "react"
 import { useTranslation } from 'react-i18next';
+import { errorMessage } from "./error-message.jsx";
 
 function Register({ onSuccess }) {
 	const [name, setName] = useState("");
@@ -10,6 +11,7 @@ function Register({ onSuccess }) {
 	const [birthdate, setBirthDate] = useState("");
 	const [password, setPassword] = useState("");
 	const [passwordVerify, setPasswordVerify] = useState("");
+	const [error, setError] = useState(null);
 
 	const { t } = useTranslation();
 
@@ -45,6 +47,7 @@ function Register({ onSuccess }) {
 						<input type="password" name="password_verify" value={passwordVerify} placeholder={t('common.placeholder_password_verify')} className="form-control login-input" id="password_verify" onChange={(e) => setPasswordVerify(e.target.value)} />
 						<label htmlFor="birthdate" className="login-text">{t('register.label_birthdate')}</label>
 						<input type="date" name="birthdate" value={birthdate} className="form-control login-input" id="birthdate" onChange={(e) => setBirthDate(e.target.value)} />
+						<ErrorMessage error={error} />
 						<button type="submit" className="btn btn-primary form-button">{t('register.button')}</button>
 					</div>
 					<div className="separator-or">{t('login.or')}</div>

@@ -1,5 +1,6 @@
 import "../scss/login.scss" //scss file, for styling
 import "../scss/common-classes.scss"
+import { errorMessage } from "./error-message.jsx";
 import { useState } from "react" //allows re-render
 import { useTranslation } from 'react-i18next';
 
@@ -7,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 function Login() {
 	const [login, setLogin] = useState("");
 	const [password, setPassword] = useState("");
+	const [error, setError] = useState(null);
 
 	const manageSubmit = (e) => {
 		e.preventDefault();
@@ -52,6 +54,7 @@ function Login() {
 					</div>
 				</div>
 				<p className="login-text">{t('login.no-account')}</p>
+				<ErrorMessage error={error} />
 				<button type="submit" className="btn btn-primary form-button">{t('login.create-account')}</button>
 			</form>
 		</div>
