@@ -45,5 +45,17 @@
     "login-button": "Anmelden",
     "register-button": "Registrieren",
     "profile-page": "Meine Seite"
-  }
+  },
+  "errors": {
+    "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",
+    "INVALID_EMAIL": "Ungültiges E-Mail-Format",
+    "INVALID_PASSWORD": "Ungültiges Passwort (mindestens 12 Zeichen, 1 Großbuchstabe, 1 Zahl, 1 Sonderzeichen)",
+    "PASSWORDS_NOT_SAME": "Die Passwörter stimmen nicht überein",
+    "TOO_YOUNG": "Sie müssen mindestens 18 Jahre alt sein",
+    "EMAIL_EXISTS": "Diese E-Mail-Adresse wird bereits verwendet",
+    "PSEUDO_EXISTS": "Dieser Benutzername ist bereits vergeben",
+    "INVALID_TOKEN": "Ungültige Sitzung",
+    "DATABASE_ERROR": "Serverfehler, bitte versuchen Sie es später erneut"
+   }
+   
 }

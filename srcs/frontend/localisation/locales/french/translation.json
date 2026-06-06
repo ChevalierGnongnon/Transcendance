@@ -45,5 +45,16 @@
       "login-button": "Se connecter",
       "register-button": "S'inscrire",
       "profile-page": "Mon profil"
+  },
+  "errors": {
+    "ALL_FIELDS_REQUIRED": "Tous les champs sont obligatoires",
+    "INVALID_EMAIL": "Format d'email invalide",
+    "INVALID_PASSWORD": "Mot de passe invalide (12 caractères min, 1 majuscule, 1 chiffre, 1 caractère spécial)",
+    "PASSWORDS_NOT_SAME": "Les mots de passe ne correspondent pas",
+    "TOO_YOUNG": "Vous devez avoir au moins 18 ans",
+    "EMAIL_EXISTS": "Cet email est déjà utilisé",
+    "PSEUDO_EXISTS": "Ce pseudo est déjà pris",
+    "INVALID_TOKEN": "Session invalide",
+    "DATABASE_ERROR": "Erreur serveur, réessayez plus tard"
   }
 }
