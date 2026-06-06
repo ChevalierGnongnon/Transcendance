@@ -45,6 +45,9 @@
     "register-button": "Зарегистрироваться",
     "profile-page": "Моя страница"
   },
+  "profile-page": {
+    "title": "Мой профиль"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Все поля обязательны для заполнения",
     "INVALID_EMAIL": "Неверный формат электронной почты",

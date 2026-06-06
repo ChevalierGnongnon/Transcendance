@@ -46,6 +46,9 @@
       "register-button": "S'inscrire",
       "profile-page": "Mon profil"
   },
+  "profile-page": {
+    "title": "Mon profil"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont obligatoires",
     "INVALID_EMAIL": "Format d'email invalide",
