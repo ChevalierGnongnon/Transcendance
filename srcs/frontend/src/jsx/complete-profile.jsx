@@ -2,13 +2,13 @@ import "../scss/login.scss" //scss file, for styling
 import "../scss/common-classes.scss"
 import { useState } from "react" //allows re-render
 import { useTranslation } from 'react-i18next';
-import { errorMessage } from "./error-message.jsx";
 import holocene from '../assets/avatars/holocene.png';
 import kindred from '../assets/avatars/kindred.png';
 import radian from '../assets/avatars/radian.png';
 import taxman from '../assets/avatars/taxman.png';
 import virtue from '../assets/avatars/virtue.png';
 import hershel from '../assets/avatars/hershel.webp';
+import ErrorMessage from "./error-message.jsx";
 
 
 function CompleteYourProfile({ token }) {
@@ -34,7 +34,7 @@ function CompleteYourProfile({ token }) {
 		});
 		const data = await response.json();
 		if (!response.ok)
-			console.error(data.error);
+			setError(data.error);
 	}
 	return (
 

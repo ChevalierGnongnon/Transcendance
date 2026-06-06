@@ -15,23 +15,23 @@ router.post('/register', async(req, res) =>{
     const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{12,}$/;
 
     if (!name || !last_name || !email || !password || !passwordVerify || !birthdate)
-        return (res.status(400).json({ error: 'All fields are required'}));
+        return (res.status(400).json({ error: 'ALL_FIELDS_REQUIRED'}));
     if (!emailRegex.test(email))
-        return (res.status(400).json({ error: 'Invalid email format' }));
+        return (res.status(400).json({ error: 'INVALID_EMAIL' }));
     if (!passwordRegex.test(password))
-        return (res.status(400).json({ error: 'Invalid password format (1 uppercase, 1 lowercase, 1 digit, 1 special char and 12 char min.)' }));
+        return (res.status(400).json({ error: 'INVALID_PASSWORD' }));
     if (password !== passwordVerify)
-        return (res.status(400).json({ error: 'Passwords are not the same' }));
+        return (res.status(400).json({ error: 'PASSWORDS_NOT_SAME' }));
     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0))
         age--;
     if (age < 18)
-        return res.status(400).json({ error: 'You must be at least 18 years old' });
+        return res.status(400).json({ error: 'TOO_YOUNG' });
     try{
         const [results] = await database.promise().query(
             'SELECT account_id FROM account WHERE email = ?', [email]
         );
         if (results.length > 0)
-            return res.status(409).json({ error: 'Email already exists!' });
+            return res.status(409).json({ error: 'EMAIL_EXISTS' });
         const hashed = await bcrypt.hash(password, 12);
         const token = jwt.sign(
             {name, last_name, email, password_hash : hashed, birthdate},
@@ -39,7 +39,7 @@ router.post('/register', async(req, res) =>{
         );
         return res.status(200).json({ token });
     } catch (err) {
-        return (res.status(500).json({error: 'database error'}));
+        return (res.status(500).json({error: 'DATABASE_ERROR'}));
     }
 })
 module.exports = router;

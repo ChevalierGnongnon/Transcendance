@@ -24,6 +24,15 @@
 		border: 4px solid white;
 	}
 }
+.error-message{
+	background-color: $background-common-color;
+	color:red;
+	border: 2px solid red;
+	text-align: center;
+	width: 45%;
+	margin-left: auto;
+	margin-right: auto;
+}
 .google-button{
 	background-color: white;
 	border-radius: 20px;

@@ -1,7 +1,7 @@
 import "../scss/register.scss"
 import { useState } from "react"
 import { useTranslation } from 'react-i18next';
-import { errorMessage } from "./error-message.jsx";
+import ErrorMessage from "./error-message.jsx";
 
 function Register({ onSuccess }) {
 	const [name, setName] = useState("");
@@ -26,7 +26,7 @@ function Register({ onSuccess }) {
 		if (response.ok)
 			onSuccess(data.token);
 		else
-			console.error(data.error);
+			setError(data.error);
 	}
 
 	return (

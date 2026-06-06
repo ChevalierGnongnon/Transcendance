@@ -1,6 +1,6 @@
 import "../scss/login.scss" //scss file, for styling
 import "../scss/common-classes.scss"
-import { errorMessage } from "./error-message.jsx";
+import errorMessage from "./error-message.jsx";
 import { useState } from "react" //allows re-render
 import { useTranslation } from 'react-i18next';
 

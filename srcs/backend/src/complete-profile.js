@@ -8,18 +8,18 @@ router.post('/complete-profile', async(req, res) =>{
     let decoded;
 
     if (!pseudo || !avatar || !token)
-        return res.status(400).json({ error: 'All fields are required' });
+        return res.status(400).json({ error: 'ALL_FIELDS_REQUIRED' });
     try {
         decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (err) {
-        return res.status(401).json({ error: 'Invalid token' });
+        return res.status(401).json({ error: 'INVALID_TOKEN' });
     }
     try{
         const [results] = await database.promise().query(
             'SELECT account_id FROM account WHERE pseudo = ?', [pseudo]
         );
         if (results.length > 0)
-            return res.status(409).json({ error: 'Pseudo already exists!' });
+            return res.status(409).json({ error: 'PSEUDO_EXISTS' });
         await database.promise().query(
             'INSERT INTO account (name, last_name, email, password_hash, birthdate, pseudo, profile_photo_url) VALUES (?, ?, ?, ?, ?, ?, ?)',
             [decoded.name, decoded.last_name, decoded.email, decoded.password_hash, decoded.birthdate, pseudo, avatar]
@@ -28,7 +28,7 @@ router.post('/complete-profile', async(req, res) =>{
         return res.status(201).json({ message: 'Account created' });
     } catch (err) {
         console.error(err);
-        return (res.status(500).json({error: 'database error'}));
+        return (res.status(500).json({error: 'DATABASE_ERROR'}));
     }
 })
 module.exports = router;
