@@ -83,7 +83,7 @@ CREATE TABLE conversation(
 
 CREATE TABLE message(
 	message_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	conversation_id INTEGER NOT NULL,
+	conversation_id INTEGER UNSIGNED NOT NULL,
 	sender_id INTEGER UNSIGNED NOT NULL,
 	content TEXT NOT NULL,
 	is_read BOOLEAN,
@@ -96,7 +96,7 @@ CREATE TABLE message(
 );
 
 CREATE TABLE notification(
-	notification_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	notification_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	notification_type ENUM('message', 'friend_request', 'game_invite', 'news') NOT NULL,
 	is_read BOOLEAN NOT NULL,
 	created_at DATETIME NOT NULL,
