@@ -26,7 +26,7 @@ router.post('/register', async(req, res) =>{
     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0))
         age--;
     if (age < 18)
-        return res.status(400).json({ error: 'TOO_YOUNG' });
+        return (res.status(400).json({ error: 'TOO_YOUNG' }));
     try{
         const [results] = await database.promise().query(
             'SELECT account_id FROM account WHERE email = ?', [email]
@@ -38,7 +38,7 @@ router.post('/register', async(req, res) =>{
             {name, last_name, email, password_hash : hashed, birthdate},
             process.env.JWT_SECRET
         );
-        return res.status(200).json({ token });
+        return (res.status(200).json({ token }));
     } catch (err) {
         return (res.status(500).json({error: 'DATABASE_ERROR'}));
     }
