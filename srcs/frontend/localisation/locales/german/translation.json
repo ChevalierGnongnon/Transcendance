@@ -51,6 +51,7 @@
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",
+    "INVALID_PSEUDO": "Leerzeichen sind im Benutzernamen nicht erlaubt",
     "INVALID_EMAIL": "Ungültiges E-Mail-Format",
     "INVALID_PASSWORD": "Ungültiges Passwort (mindestens 12 Zeichen, 1 Großbuchstabe, 1 Zahl, 1 Sonderzeichen)",
     "PASSWORDS_NOT_SAME": "Die Passwörter stimmen nicht überein",

@@ -51,6 +51,7 @@
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont obligatoires",
+    "INVALID_PSEUDO": "Les espaces ne sont pas autorisés dans le pseudo",
     "INVALID_EMAIL": "Format d'email invalide",
     "INVALID_PASSWORD": "Mot de passe invalide (12 caractères min, 1 majuscule, 1 chiffre, 1 caractère spécial)",
     "PASSWORDS_NOT_SAME": "Les mots de passe ne correspondent pas",

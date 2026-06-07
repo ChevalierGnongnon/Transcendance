@@ -20,6 +20,7 @@ router.post('/register', async(req, res) =>{
         return (res.status(400).json({ error: 'INVALID_EMAIL' }));
     if (!passwordRegex.test(password))
         return (res.status(400).json({ error: 'INVALID_PASSWORD' }));
+    
     if (password !== passwordVerify)
         return (res.status(400).json({ error: 'PASSWORDS_NOT_SAME' }));
     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0))

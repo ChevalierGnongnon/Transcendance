@@ -17,16 +17,21 @@ function Register({ onSuccess }) {
 
 	const manageSubmit = async (e) => {
 		e.preventDefault();
-		const response = await fetch('/api/register', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify({name, last_name, email, password, passwordVerify, birthdate})
-		});
-		const data = await response.json();
-		if (response.ok)
-			onSuccess(data.token);
-		else
-			setError(data.error);
+		setError(null);
+		try {
+			const response = await fetch('/api/register', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ name, last_name, email, password, passwordVerify, birthdate })
+			});
+			const data = await response.json();
+			if (response.ok)
+				onSuccess(data.token);
+			else
+				setError(data.error);
+		} catch (err) {
+			setError('DATABASE_ERROR');
+		}
 	}
 
 	return (

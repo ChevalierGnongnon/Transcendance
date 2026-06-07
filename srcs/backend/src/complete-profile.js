@@ -5,10 +5,13 @@ const router = express.Router()
 
 router.post('/complete-profile', async(req, res) =>{
     const {pseudo, avatar, token} =  req.body;
+    const pseudoRegex = /^\S+$/;
     let decoded;
 
     if (!pseudo || !avatar || !token)
         return res.status(400).json({ error: 'ALL_FIELDS_REQUIRED' });
+    if (!pseudoRegex.test(pseudo))
+        return (res.status(400).json({ error: 'INVALID_PSEUDO'}));
     try {
         decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (err) {
