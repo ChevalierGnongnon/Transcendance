@@ -23,10 +23,12 @@ router.post('/complete-profile', async(req, res) =>{
         );
         if (results.length > 0)
             return res.status(409).json({ error: 'PSEUDO_EXISTS' });
-        await database.promise().query(
+        const [results] = await database.promise().query(
             'INSERT INTO account (name, last_name, email, password_hash, birthdate, pseudo, profile_photo_url) VALUES (?, ?, ?, ?, ?, ?, ?)',
             [decoded.name, decoded.last_name, decoded.email, decoded.password_hash, decoded.birthdate, pseudo, avatar]
         );
+        const id = results.insertId;
+        const idToken = jwt.sign({account_id: id}, process.env.JWT_SECRET);
         console.log('profile completed');
         return res.status(201).json({ message: 'Account created' });
     } catch (err) {
