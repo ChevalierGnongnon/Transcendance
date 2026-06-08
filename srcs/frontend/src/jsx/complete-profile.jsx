@@ -1,6 +1,7 @@
 import "../scss/login.scss" //scss file, for styling
 import "../scss/common-classes.scss"
 import { useState } from "react" //allows re-render
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import holocene from '../assets/avatars/holocene.png';
 import kindred from '../assets/avatars/kindred.png';
@@ -24,6 +25,7 @@ function CompleteYourProfile({ token }) {
 		{ src: hershel, name: 'hershel.webp' },
 	];
 	const [error, setError] = useState(null);
+	const navigate = useNavigate();
 
 	const manageSubmit = async (e) => {
 		e.preventDefault();
@@ -33,7 +35,11 @@ function CompleteYourProfile({ token }) {
 			body: JSON.stringify({ pseudo, avatar, token })
 		});
 		const data = await response.json();
-		if (!response.ok)
+		if (response.ok){
+			localStorage.setItem('token', data.token);
+			navigate('/personalpage');
+		}
+		else if (!response.ok)
 			setError(data.error);
 	}
 	return (
@@ -59,6 +65,7 @@ function CompleteYourProfile({ token }) {
 				<ErrorMessage error={error} />
 				<button type="submit" className="btn btn-primary btn-sm align-self-center">
 					{t('complete-your-profile.complete-button')}
+				
 				</button>
 			</form>
 		</div>

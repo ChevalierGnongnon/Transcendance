@@ -6,3 +6,4 @@ const router = express.Router();
 router.get('/my-profile', async(req, res)=>{
     const authHeader = req.header['authorization']
 })
+module.exports = router;

@@ -1,6 +1,6 @@
 import "../scss/login.scss" //scss file, for styling
 import "../scss/common-classes.scss"
-import errorMessage from "./error-message.jsx";
+import ErrorMessage from "./error-message.jsx";
 import { useState } from "react" //allows re-render
 import { useTranslation } from 'react-i18next';
 
@@ -20,7 +20,7 @@ function Login() {
 	return (
 
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
-			<form className="login-form d-flex flex-column align-items-center gap-3">
+			<form className="login-form d-flex flex-column align-items-center gap-3" onSubmit={manageSubmit}>
 				<h1 className="login-title">{t('login.title')}</h1>
 				<div className="d-flex gap-3 w-100">
 					<div className="connect-options-div">
