@@ -3,12 +3,6 @@ import "../scss/common-classes.scss"
 import { useState } from "react" //allows re-render
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
-import holocene from '../assets/avatars/holocene.png';
-import kindred from '../assets/avatars/kindred.png';
-import radian from '../assets/avatars/radian.png';
-import taxman from '../assets/avatars/taxman.png';
-import virtue from '../assets/avatars/virtue.png';
-import hershel from '../assets/avatars/hershel.webp';
 import ErrorMessage from "./error-message.jsx";
 
 
@@ -17,12 +11,12 @@ function CompleteYourProfile({ token }) {
 	const [pseudo, setPseudo] = useState("");
 	const [avatar, setAvatar] = useState(null);
 	const defaultAvatars = [
-		{ src: holocene, name: 'holocene.png' },
-		{ src: kindred, name: 'kindred.png' },
-		{ src: radian, name: 'radian.png' },
-		{ src: taxman, name: 'taxman.png' },
-		{ src: virtue, name: 'virtue.png' },
-		{ src: hershel, name: 'hershel.webp' },
+		'/avatars/holocene.png',
+		'/avatars/hershel.webp',
+		'/avatars/kindred.png',
+		'/avatars/radian.png',
+		'/avatars/taxman.png',
+		'/avatars/virtue.png'
 	];
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
@@ -59,7 +53,7 @@ function CompleteYourProfile({ token }) {
 				</p>
 				<div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
 					{defaultAvatars.map((item, i) => (
-						<img key={i} src={item.src} alt={`avatar-${i}`} className={`img-avatar ${avatar === item.name ? 'selected' : ''}`} onClick={() => setAvatar(item.name)} />
+						<img key={i} src={item} alt={`avatar-${i}`} className={`img-avatar ${avatar === item ? 'selected' : ''}`} onClick={() => setAvatar(item)} />
 					))}
 				</div>
 				<ErrorMessage error={error} />

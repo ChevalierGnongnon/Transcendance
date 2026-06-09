@@ -7,14 +7,16 @@ import { useState, useEffect } from "react";
 function PersonalPage() {
     const { t } = useTranslation();
     const [user, setUser] = useState(null);
-if (!user) return <p>Chargement...</p>
     useEffect(() => {
         fetch('/api/my-profile', {
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
         })
-        .then(res => res.json())
-        .then(data => setUser(data))
+            .then(res => res.json())
+            .then(data => setUser(data))
     }, []);
+
+    if (!user)
+        return <p>Chargement...</p>;
     return (
 
         <main className="d-flex justify-content-center align-items-center min-vh-100">
