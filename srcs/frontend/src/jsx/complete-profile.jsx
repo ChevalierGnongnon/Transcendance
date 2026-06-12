@@ -1,5 +1,6 @@
 import "../scss/login.scss" //scss file, for styling
 import "../scss/common-classes.scss"
+import "../scss/complete-profile.scss"
 import { useState } from "react" //allows re-render
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';

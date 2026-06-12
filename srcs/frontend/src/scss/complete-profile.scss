@@ -1,0 +1,15 @@
+@use "./common-variables.scss" as *;
+
+.img-avatar{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: aqua;
+    cursor: pointer;
+    &:hover{
+        border: 3px solid whitesmoke;
+    }
+    &.selected{
+        border: 3px solid whitesmoke;
+    }
+}
