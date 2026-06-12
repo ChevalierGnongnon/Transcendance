@@ -3,16 +3,28 @@ import "../scss/common-classes.scss"
 import ErrorMessage from "./error-message.jsx";
 import { useState } from "react" //allows re-render
 import { useTranslation } from 'react-i18next';
-
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
 	const [login, setLogin] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState(null);
+	const navigate = useNavigate();
 
-	const manageSubmit = (e) => {
+	const manageSubmit = async (e) => {
 		e.preventDefault();
-		console.log({ login, password });
+		const response = await fetch('/api/login', {
+			method: 'POST',
+			headers:{ 'Content-type': 'application/json'},
+			body: JSON.stringify({login, password})
+		});
+		const data = await response.json();
+		if (response.ok){
+			localStorage.setItem('token', data.token)
+			navigate('/personalpage');
+		}
+		else if (!response.ok)
+			setError(data.error);
 	}
 
 	const { t } = useTranslation();
