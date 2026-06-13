@@ -4,12 +4,13 @@ const database = require('./db-connexion.js');
 const router = express.Router()
 
 router.post('/complete-profile', async(req, res) =>{
-    const {pseudo, avatar, token} =  req.body;
+    const token =  req.cookies.tmp_token;
+    const {pseudo, avatar} = req.body;
     const pseudoRegex = /^\S+$/;
     let decoded;
 
     if (!pseudo || !avatar || !token)
-        return res.status(400).json({ error: 'ALL_FIELDS_REQUIRED' });
+        return (res.status(400).json({ error: 'ALL_FIELDS_REQUIRED' }));
     if (!pseudoRegex.test(pseudo))
         return (res.status(400).json({ error: 'INVALID_PSEUDO'}));
     try {
@@ -28,9 +29,10 @@ router.post('/complete-profile', async(req, res) =>{
             [decoded.name, decoded.last_name, decoded.email, decoded.password_hash, decoded.birthdate, pseudo, avatar]
         );
         const id = insertResults.insertId;
-        const idToken = jwt.sign({account_id: id}, process.env.JWT_SECRET);
-        console.log('profile completed');
-        return (res.status(201).json({ token: idToken }));
+        const idToken = jwt.sign({ account_id: id }, process.env.JWT_SECRET);
+        res.clearCookie('tmp_token');
+        res.cookie('token', idToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
+        return res.status(201).json({ success: true });
     } catch (err) {
         console.error(err);
         return (res.status(500).json({error: 'DATABASE_ERROR'}));

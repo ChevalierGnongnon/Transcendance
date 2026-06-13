@@ -38,7 +38,8 @@ router.post('/register', async(req, res) =>{
             {name, last_name, email, password_hash : hashed, birthdate},
             process.env.JWT_SECRET
         );
-        return (res.status(200).json({ token }));
+        res.cookie('tmp_token', token, { httpOnly: true, secure: true, sameSite: 'Strict' })
+        return res.status(200).json({ success: true });
     } catch (err) {
         return (res.status(500).json({error: 'DATABASE_ERROR'}));
     }
