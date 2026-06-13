@@ -9,6 +9,7 @@ const loginRouter = require('./src/login.js');
 const cookieParser = require('cookie-parser');
 
 app.use(express.json());
+app.use(cookieParser());
 app.use('/api', registrationRouter);
 app.use('/api', completeProfileRouter);
 app.use('/api', myProfileRouter);
