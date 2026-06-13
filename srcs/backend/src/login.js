@@ -22,7 +22,8 @@ router.post('/login', async(req , res) =>{
             { account_id: results[0].account_id },
             process.env.JWT_SECRET
         );
-        return (res.status(200).json({ token }));
+        res.cookie('token', token, {httpOnly : true, secure: true, sameSite: 'Strict'});
+        return (res.status(200).json({success: true}));
     } catch (err){
         return (res.status(500).json({error: 'DATABASE_ERROR'}));
     }
