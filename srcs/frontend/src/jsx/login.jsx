@@ -16,11 +16,11 @@ function Login() {
 		const response = await fetch('/api/login', {
 			method: 'POST',
 			headers:{ 'Content-type': 'application/json'},
+			credentials: 'include',
 			body: JSON.stringify({login, password})
 		});
 		const data = await response.json();
 		if (response.ok){
-			localStorage.setItem('token', data.token)
 			navigate('/personalpage');
 		}
 		else if (!response.ok)

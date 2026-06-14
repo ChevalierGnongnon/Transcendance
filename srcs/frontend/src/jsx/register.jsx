@@ -22,11 +22,12 @@ function Register({ onSuccess }) {
 			const response = await fetch('/api/register', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
+				credentials: 'include',
 				body: JSON.stringify({ name, last_name, email, password, passwordVerify, birthdate })
 			});
 			const data = await response.json();
 			if (response.ok)
-				onSuccess(data.token);
+				onSuccess();
 			else
 				setError(data.error);
 		} catch (err) {

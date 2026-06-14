@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import ErrorMessage from "./error-message.jsx";
 
 
-function CompleteYourProfile({ token }) {
+function CompleteYourProfile() {
 	const { t } = useTranslation();
 	const [pseudo, setPseudo] = useState("");
 	const [avatar, setAvatar] = useState(null);
@@ -27,11 +27,11 @@ function CompleteYourProfile({ token }) {
 		const response = await fetch('/api/complete-profile', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ pseudo, avatar, token })
+			credentials: 'include',
+			body: JSON.stringify({ pseudo, avatars })
 		});
 		const data = await response.json();
 		if (response.ok){
-			localStorage.setItem('token', data.token);
 			navigate('/personalpage');
 		}
 		else if (!response.ok)

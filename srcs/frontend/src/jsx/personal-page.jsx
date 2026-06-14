@@ -13,7 +13,7 @@ function PersonalPage() {
     const [user, setUser] = useState(null);
     useEffect(() => {
         fetch('/api/my-profile', {
-            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+            credentials: 'include'
         })
             .then(res => res.json())
             .then(data => setUser(data))
@@ -35,13 +35,13 @@ function PersonalPage() {
                 </section>
                 <section className="ms-auto d-flex gap-2">
                     <figure className="m-0 pp-icons-header" img data-tooltip="Messages">
-                        <img src={messageIcon} alt="message-icon"/>
+                        <img src={messageIcon} alt="message-icon" />
                     </figure>
                     <figure className="m-0 pp-icons-header" img data-tooltip="Parametres">
-                         <img src={notificationIcon} alt="parameters-icon"/>
+                        <img src={notificationIcon} alt="parameters-icon" />
                     </figure>
                     <figure className="m-0 pp-icons-header" img data-tooltip="Parametres">
-                        <img src={parametersIcon} alt="parameters-icon"/>
+                        <img src={parametersIcon} alt="parameters-icon" />
                     </figure>
                 </section>
             </header>
