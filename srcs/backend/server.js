@@ -8,7 +8,7 @@ const completeProfileRouter = require('./src/complete-profile.js');
 const myProfileRouter = require('./src/my-profile.js');
 const loginRouter = require('./src/login.js');
 const checkAuth = require('./src/check-auth.js');
-const logout = require('./src/logout.js')
+const logoutRouter = require('./src/logout.js')
 
 app.use(express.json());
 app.use(cookieParser());
@@ -16,6 +16,8 @@ app.use('/api', registrationRouter);
 app.use('/api', completeProfileRouter);
 app.use('/api', myProfileRouter);
 app.use('/api', loginRouter);
+app.use('/api', logoutRouter);
+
 app.use('/api', checkAuth);
 
 app.get('/health', (req, res) => {

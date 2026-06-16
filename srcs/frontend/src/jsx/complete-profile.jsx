@@ -28,7 +28,7 @@ function CompleteYourProfile() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			credentials: 'include',
-			body: JSON.stringify({ pseudo, avatars })
+			body: JSON.stringify({ pseudo, avatar })
 		});
 		const data = await response.json();
 		if (response.ok){
