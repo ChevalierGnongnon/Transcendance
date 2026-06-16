@@ -43,7 +43,10 @@
   "header": {
       "login-button": "Login",
       "register-button": "Register",
-      "profile-page": "My page"
+      "profile-page": "My page",
+      "messages": "Messages",
+      "notifications": "Notifications",
+      "parameters": "Parameters"
   },
   "profile-page":{
     "title": "My page"

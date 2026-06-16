@@ -41,10 +41,13 @@
       "placeholder_pseudo": "Entrez un pseudonyme"
 
   },
-    "header": {
+  "header": {
       "login-button": "Se connecter",
       "register-button": "S'inscrire",
-      "profile-page": "Mon profil"
+      "profile-page": "Mon profil",
+      "messages": "Messages",
+      "notifications": "Notifications",
+      "parameters": "Parametres"
   },
   "profile-page": {
     "title": "Mon profil"
