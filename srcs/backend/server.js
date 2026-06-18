@@ -1,14 +1,15 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const database = require('./src/db-connexion.js');
-const registrationRouter = require('./src/registration.js');
+const database = require('./src/config/db-connexion.js');
+const registrationRouter = require('./src/routes/auth/registration.js');
 const app = express();
 const port = 3000;
-const completeProfileRouter = require('./src/complete-profile.js');
-const myProfileRouter = require('./src/my-profile.js');
-const loginRouter = require('./src/login.js');
-const checkAuth = require('./src/check-auth.js');
-const logoutRouter = require('./src/logout.js')
+const completeProfileRouter = require('./src/routes/user/complete-profile.js');
+const myProfileRouter = require('./src/routes/my-profile.js');
+const loginRouter = require('./src/routes/auth/login.js');
+const checkAuth = require('./src/routes/auth/check-auth.js');
+const logoutRouter = require('./src/routes/auth/logout.js')
+const updateProfile = require('./src/routes/user/update-profile.js');
 
 app.use(express.json());
 app.use(cookieParser());
