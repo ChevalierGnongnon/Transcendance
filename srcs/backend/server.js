@@ -5,7 +5,7 @@ const registrationRouter = require('./src/routes/auth/registration.js');
 const app = express();
 const port = 3000;
 const completeProfileRouter = require('./src/routes/user/complete-profile.js');
-const myProfileRouter = require('./src/routes/my-profile.js');
+const myProfileRouter = require('./src/routes/user/my-profile.js');
 const loginRouter = require('./src/routes/auth/login.js');
 const checkAuth = require('./src/routes/auth/check-auth.js');
 const logoutRouter = require('./src/routes/auth/logout.js')
@@ -18,7 +18,7 @@ app.use('/api', completeProfileRouter);
 app.use('/api', myProfileRouter);
 app.use('/api', loginRouter);
 app.use('/api', logoutRouter);
-
+app.use('/api', updateProfile);
 app.use('/api', checkAuth);
 
 app.get('/health', (req, res) => {
