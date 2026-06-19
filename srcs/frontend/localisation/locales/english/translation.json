@@ -1,4 +1,4 @@
-{
+ {
   "common":{
     "login": "Login",
     "password": "Password",
@@ -33,7 +33,8 @@
       "enter-a-pseudo": "Enter a pseudo",
       "confirm": "Confirm",
       "upload-avatar": "Upload an avatar",
-      "choose-an-avatar": "Or choose a default avatar :"
+      "choose-an-avatar": "Or choose a default avatar :",
+      "complete-button": "Confirm"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",
