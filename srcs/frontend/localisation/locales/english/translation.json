@@ -27,14 +27,15 @@
     "register-google": "Register with google",
     "register-github": "Register with github",
     "register-fourty-two": "Register with 42"
+    
   },
   "complete-your-profile": {
       "title": "Complete your profile",
       "enter-a-pseudo": "Enter a pseudo",
       "confirm": "Confirm",
       "upload-avatar": "Upload an avatar",
-      "choose-an-avatar": "Or choose a default avatar :",
-      "complete-button": "Confirm"
+      "choose-an-avatar": "Or choose a default avatar :"
+      
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",

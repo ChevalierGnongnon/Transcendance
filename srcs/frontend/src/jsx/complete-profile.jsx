@@ -59,8 +59,7 @@ function CompleteYourProfile() {
 				</div>
 				<ErrorMessage error={error} />
 				<button type="submit" className="btn btn-primary btn-sm align-self-center">
-					{t('complete-your-profile.complete-button')}
-				
+					{t('complete-your-profile.confirm')}
 				</button>
 			</form>
 		</div>

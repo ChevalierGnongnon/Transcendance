@@ -41,20 +41,20 @@ function Register({ onSuccess }) {
 				<h1 className="register-title">{t('register.title')}</h1>
 				<div className="d-flex gap-3 w-100">
 					<div className="connect-options-div">
-						<label htmlFor="name" className="login-text">{t('register.label_name')}</label>
-						<input type="text" name="name" value={name} placeholder={t('register.placeholder_name')} className="form-control login-input" id="name" onChange={(e) => setName(e.target.value)} />
-						<label htmlFor="last_name" className="login-text">{t('register.label_lastname')}</label>
-						<input type="text" name="last_name" value={last_name} placeholder={t('register.placeholder_lastname')} className="form-control login-input" id="last_name" onChange={(e) => setLastName(e.target.value)} />
-						<label htmlFor="email" className="login-text">{t('register.label_email')}</label>
+						<label htmlFor="name" className="login-text">{t('common.name')}</label>
+						<input type="text" name="name" value={name} placeholder={t('common.name')} className="form-control login-input" id="name" onChange={(e) => setName(e.target.value)} />
+						<label htmlFor="last_name" className="login-text">{t('common.lastname')}</label>
+						<input type="text" name="last_name" value={last_name} placeholder={t('common.lastname')} className="form-control login-input" id="last_name" onChange={(e) => setLastName(e.target.value)} />
+						<label htmlFor="email" className="login-text">{t('common.email')}</label>
 						<input type="email" name="email" value={email} placeholder="example@example.com" className="form-control login-input" id="email" onChange={(e) => setEmail(e.target.value)} />
-						<label htmlFor="password" className="login-text">{t('common.label_password')}</label>
-						<input type="password" name="password" value={password} placeholder={t('common.placeholder_password')} className="form-control login-input" id="password" onChange={(e) => setPassword(e.target.value)} />
-						<label htmlFor="password_verify" className="login-text">{t('common.label_password_verify')}</label>
-						<input type="password" name="password_verify" value={passwordVerify} placeholder={t('common.placeholder_password_verify')} className="form-control login-input" id="password_verify" onChange={(e) => setPasswordVerify(e.target.value)} />
-						<label htmlFor="birthdate" className="login-text">{t('register.label_birthdate')}</label>
+						<label htmlFor="password" className="login-text">{t('common.password')}</label>
+						<input type="password" name="password" value={password} placeholder={t('common.password')} className="form-control login-input" id="password" onChange={(e) => setPassword(e.target.value)} />
+						<label htmlFor="password_verify" className="login-text">{t('common.password_verify')}</label>
+						<input type="password" name="password_verify" value={passwordVerify} placeholder={t('common.password_verify')} className="form-control login-input" id="password_verify" onChange={(e) => setPasswordVerify(e.target.value)} />
+						<label htmlFor="birthdate" className="login-text">{t('register.birthdate')}</label>
 						<input type="date" name="birthdate" value={birthdate} className="form-control login-input" id="birthdate" onChange={(e) => setBirthDate(e.target.value)} />
 						<ErrorMessage error={error} />
-						<button type="submit" className="btn btn-primary form-button">{t('register.button')}</button>
+						<button type="submit" className="btn btn-primary form-button">{t('common.register')}</button>
 					</div>
 					<div className="separator-or">{t('login.or')}</div>
 					<div className="connect-options-div">
