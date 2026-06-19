@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const database = require('../config/db-connexion.js');
+const database = require('../../config/db-connexion.js');
 const router = express.Router();
 
 router.get('/my-profile', async(req, res)=>{
