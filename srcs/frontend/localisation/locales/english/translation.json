@@ -1,61 +1,47 @@
 {
+  "common":{
+    "login": "Login",
+    "password": "Password",
+    "password_verify": "Password verify",
+    "register": "Register",
+    "my-page": "My page",
+    "messages": "Messages",
+    "notifications": "Notifications",
+    "parameters": "Parameters",
+    "name": "Name",
+    "lastname": "Last name",
+    "pseudo": "Pseudo",
+    "email": "Email"
+  },
   "login": {
-    "title": "Login",
-    "label_login": "Mail or Pseudo",
-    "placeholder_login": "Mail or pseudo",
-    "button": "Login",
-    "log-google": "Log in with google",
-    "log-github": "Log in with github",
-    "log-fourty-two": "Log in with 42",
+    "mail-or-pseudo": "Mail or Pseudo",
+    "log-google": "Connect with google",
+    "log-github": "Connect with github",
+    "log-fourty-two": "Connect with 42",
     "or": "OR",
     "no-account": "No account yet?",
     "create-account": "Create a new account"
   },
   "register": {
-    "title": "Register",
-    "label_name": "Name",
-    "placeholder_name": "Name",
-    "label_lastname": "Last name",
-    "placeholder_lastname": "Last Name",
-    "label_pseudo": "Pseudo",
-    "placeholder_pseudo": "Pseudo",
-    "label_email": "Email",
-    "label_birthdate": "Birthdate",
-    "button": "Register",
+    "birthdate": "Birthdate",
     "register-google": "Register with google",
     "register-github": "Register with github",
     "register-fourty-two": "Register with 42"
   },
-  "common": {
-    "label_password": "Password",
-    "placeholder_password": "Password",
-    "label_password_verify": "Password verify",
-    "placeholder_password_verify": "Password verify"
-  },
   "complete-your-profile": {
       "title": "Complete your profile",
-      "label-pseudo": "Enter a pseudo",
-      "complete-button": "Confirm",
+      "enter-a-pseudo": "Enter a pseudo",
+      "confirm": "Confirm",
       "upload-avatar": "Upload an avatar",
-      "choose-an-avatar": "Or choose a default avatar :",
-      "placeholder_pseudo": "Enter a pseudomym"
-  },
-  "header": {
-      "login-button": "Login",
-      "register-button": "Register",
-      "profile-page": "My page",
-      "messages": "Messages",
-      "notifications": "Notifications",
-      "parameters": "Parameters"
-  },
-  "profile-page":{
-    "title": "My page"
+      "choose-an-avatar": "Or choose a default avatar :"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",
     "INVALID_EMAIL": "Invalid email format",
-    "INVALID_PASSWORD": "Invalid password (minimum 12 characters, 1 uppercase letter, 1 number, 1 special character)",
+    "INVALID_PASSWORD_REGISTRATION": "Invalid password (minimum 12 characters, 1 uppercase letter, 1 number, 1 special character)",
+    "LOGIN_OR_PASSWORD_INVALID": "Invalid password or email",
     "INVALID_PSEUDO": "Spaces are not allowed in your username",
+    "USER_NOT_FOUND": "No account corresponds with this email or pseudo",
     "PASSWORDS_NOT_SAME": "Passwords do not match",
     "TOO_YOUNG": "You must be at least 18 years old",
     "EMAIL_EXISTS": "This email address is already in use",

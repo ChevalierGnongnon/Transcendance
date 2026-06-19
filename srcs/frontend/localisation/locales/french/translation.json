@@ -1,67 +1,53 @@
 {
+  "common":{
+    "login": "Login",
+    "password": "Mot de passe",
+    "password_verify": "Verification de mot de passe",
+    "register": "Inscription",
+    "my-page": "Ma page",
+    "messages": "Messages",
+    "notifications": "Notifications",
+    "parameters": "Parametres",
+    "name": "Nom",
+    "lastname": "Prenom",
+    "pseudo": "Pseudo",
+    "email": "Email"
+  },
   "login": {
-    "title": "Se connecter",
-    "label_login": "Adresse email ou pseudo",
-    "placeholder_login": "Adresse email ou pseudo",
-    "button": "Se connecter",
+    "mail-or-pseudo": "Mail ou pseudo",
     "log-google": "Se connecter avec google",
     "log-github": "Se connecter avec github",
     "log-fourty-two": "Se connecter avec 42",
     "or": "OU",
     "no-account": "Pas encore de compte?",
-    "create-account": "Creer un nouveau compte"
+    "create-account": "Creez un compte"
   },
   "register": {
-    "title": "Inscription",
-    "label_name": "Nom",
-    "placeholder_name": "Nom",
-    "label_lastname": "Prenom",
-    "placeholder_lastname": "Prenom",
-    "label_pseudo": "Pseudo",
-    "placeholder_pseudo": "Pseudo",
-    "label_email": "Email",
-    "label_birthdate": "Date de naissance",
-    "button": "Inscription",
+    "birthdate": "Date de naissance",
     "register-google": "S'inscrire avec google",
     "register-github": "S'inscrire avec github",
     "register-fourty-two": "S'inscrire avec 42"
   },
-  "common": {
-    "label_password": "Mot de passe",
-    "placeholder_password": "Mot de passe",
-    "label_password_verify": "Verification de mot de passe",
-    "placeholder_password_verify": "Verification de mot passe"
-  },
   "complete-your-profile": {
       "title": "Completez votre profil",
-      "label-pseudo": "Creez un pseudo",
-      "complete-button": "Valider",
+      "enter-a-pseudo": "Entrez un pseudo",
+      "confirm": "Confirmer",
       "upload-avatar": "Telechargez un avatar",
-      "choose-an-avatar": "Ou choisissez un avatar de base :",
-      "placeholder_pseudo": "Entrez un pseudonyme"
-
-  },
-  "header": {
-      "login-button": "Se connecter",
-      "register-button": "S'inscrire",
-      "profile-page": "Mon profil",
-      "messages": "Messages",
-      "notifications": "Notifications",
-      "parameters": "Parametres"
-  },
-  "profile-page": {
-    "title": "Mon profil"
+      "choose-an-avatar": "Ou choisissez-en un par defaut"
   },
   "errors": {
-    "ALL_FIELDS_REQUIRED": "Tous les champs sont obligatoires",
-    "INVALID_PSEUDO": "Les espaces ne sont pas autorisés dans le pseudo",
-    "INVALID_EMAIL": "Format d'email invalide",
-    "INVALID_PASSWORD": "Mot de passe invalide (12 caractères min, 1 majuscule, 1 chiffre, 1 caractère spécial)",
-    "PASSWORDS_NOT_SAME": "Les mots de passe ne correspondent pas",
-    "TOO_YOUNG": "Vous devez avoir au moins 18 ans",
-    "EMAIL_EXISTS": "Cet email est déjà utilisé",
-    "PSEUDO_EXISTS": "Ce pseudo est déjà pris",
+    "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
+    "INVALID_EMAIL": "Format d'email invalid",
+    "INVALID_PASSWORD_REGISTRATION": "Mot de passe invalide(1 majuscule, 1 minuscule, 1 chiffre, 12 caracteres minimum)",
+    "LOGIN_OR_PASSWORD_INVALID": "Mot de passe et / ou adresse email invalide",
+    "INVALID_PSEUDO": "Les espaces sont invalides dans les pseudos",
+    "USER_NOT_FOUND": "Aucun compte ne correspond avec cet email ou ce mot de passe",
+    "PASSWORDS_NOT_SAME": "Les mots de passes ne correspondent pas",
+    "TOO_YOUNG": "Vous devez au moins avoir 18 ans",
+    "EMAIL_EXISTS": "Cette adresse email est deja utilisee",
+    "PSEUDO_EXISTS": "Ce pseudo est deja utilise",
     "INVALID_TOKEN": "Session invalide",
-    "DATABASE_ERROR": "Erreur serveur, réessayez plus tard"
+    "DATABASE_ERROR": "Erreur serveur, merci de reessayer plus tard"
   }
 }
+
