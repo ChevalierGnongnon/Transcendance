@@ -109,3 +109,12 @@ CREATE TABLE notification(
 	FOREIGN KEY (receiver_id) REFERENCES account(account_id)
 	ON DELETE CASCADE
 );
+
+CREATE TABLE file(
+	file_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	file_name VARCHAR(255) NOT NULL, 
+	uploader_id INTEGER UNSIGNED NOT NULL,
+	type ENUM('profile_photo', 'message') NOT NULL,
+	uploaded_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (uploader_id) REFERENCES account(account_id) ON DELETE CASCADE
+);
