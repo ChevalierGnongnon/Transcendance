@@ -5,3 +5,6 @@ const database = require('../../config/db-connexion.js');
 const fs = require('fs');
 const path = require('path');
 
+router.post('/upload', async(req, res) =>{
+
+})
