@@ -111,9 +111,9 @@ CREATE TABLE notification(
 );
 
 CREATE TABLE file(
-	file_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	file_name VARCHAR(255) NOT NULL, 
-	uploader_id INTEGER UNSIGNED NOT NULL,
+	file_id CHAR(36) PRIMARY KEY,
+	file_name VARCHAR(255) NOT NULL,
+	uploader_id CHAR(36) NOT NULL,
 	type ENUM('profile_photo', 'message') NOT NULL,
 	uploaded_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (uploader_id) REFERENCES account(account_id) ON DELETE CASCADE

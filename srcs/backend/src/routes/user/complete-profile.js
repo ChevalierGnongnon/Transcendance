@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const database = require('../../config/db-connexion.js');
 const router = express.Router()
+const {randomUUID} = require('crypto');
 
 router.post('/complete-profile', async(req, res) =>{
     const token =  req.cookies.tmp_token;
@@ -24,11 +25,11 @@ router.post('/complete-profile', async(req, res) =>{
         );
         if (results.length > 0)
             return res.status(409).json({ error: 'PSEUDO_EXISTS' });
+        const id = randomUUID();
         const [insertResults] = await database.promise().query(
-            'INSERT INTO account (name, last_name, email, password_hash, birthdate, pseudo, profile_photo_url) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            [decoded.name, decoded.last_name, decoded.email, decoded.password_hash, decoded.birthdate, pseudo, avatar]
+            'INSERT INTO account (account_id, name, last_name, email, password_hash, birthdate, pseudo, profile_photo_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            [id, decoded.name, decoded.last_name, decoded.email, decoded.password_hash, decoded.birthdate, pseudo, avatar]
         );
-        const id = insertResults.insertId;
         const idToken = jwt.sign({ account_id: id }, process.env.JWT_SECRET);
         res.clearCookie('tmp_token');
         res.cookie('token', idToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
