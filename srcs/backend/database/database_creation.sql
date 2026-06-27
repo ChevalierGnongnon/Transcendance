@@ -1,7 +1,7 @@
 USE transcendance;
 
 CREATE TABLE account (
-	account_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	account_id CHAR(36) PRIMARY KEY,
 	name VARCHAR(50),
 	last_name VARCHAR(50),
 	email VARCHAR(255) UNIQUE NOT NULL,
@@ -19,25 +19,25 @@ CREATE TABLE account (
 );
 
 CREATE TABLE Oauth_account(
-	account_id INTEGER UNSIGNED,
-	provider VARCHAR(20), 
+	account_id CHAR(36) NOT NULL,
+	provider VARCHAR(20),
 	provider_id VARCHAR(255),
 	FOREIGN KEY (account_id) REFERENCES account(account_id),
 	PRIMARY KEY(account_id, provider)
 );
 
 CREATE TABLE game (
-	game_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	game_id CHAR(36) PRIMARY KEY,
 	players_count INTEGER UNSIGNED NOT NULL,
 	played_at DATETIME NOT NULL,
-	winner_id INTEGER UNSIGNED NOT NULL,
+	winner_id CHAR(36) NOT NULL,
 	FOREIGN KEY (winner_id) REFERENCES account(account_id)
 );
 
 CREATE TABLE game_player (
-	game_player_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	game_id INTEGER UNSIGNED NOT NULL,
-	account_id INTEGER UNSIGNED NOT NULL,
+	game_player_id CHAR(36) PRIMARY KEY,
+	game_id CHAR(36) NOT NULL,
+	account_id CHAR(36) NOT NULL,
 	score INTEGER UNSIGNED NOT NULL,
 	placement INTEGER UNSIGNED NOT NULL,
 	FOREIGN KEY (game_id) REFERENCES game(game_id)
@@ -48,8 +48,8 @@ CREATE TABLE game_player (
 );
 
 CREATE TABLE friendship (
-	account_id_1 INTEGER UNSIGNED NOT NULL,
-	account_id_2 INTEGER UNSIGNED NOT NULL,
+	account_id_1 CHAR(36) NOT NULL,
+	account_id_2 CHAR(36) NOT NULL,
 	created_at DATETIME NOT NULL,
 	FOREIGN KEY (account_id_1) REFERENCES account(account_id)
 	ON DELETE CASCADE,
@@ -60,20 +60,20 @@ CREATE TABLE friendship (
 );
 
 CREATE TABLE blocking(
-	account_blocker_id INTEGER UNSIGNED NOT NULL,
-	account_blocked_id INTEGER UNSIGNED NOT NULL,
+	account_blocker_id CHAR(36) NOT NULL,
+	account_blocked_id CHAR(36) NOT NULL,
 	FOREIGN KEY (account_blocker_id) REFERENCES account(account_id)
 	ON DELETE CASCADE,
-    FOREIGN KEY (account_blocked_id) REFERENCES account(account_id)
+	FOREIGN KEY (account_blocked_id) REFERENCES account(account_id)
 	ON DELETE CASCADE,
 	PRIMARY KEY(account_blocker_id, account_blocked_id),
 	CHECK (account_blocker_id != account_blocked_id)
 );
 
 CREATE TABLE conversation(
-	conversation_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	account_id_1 INTEGER UNSIGNED,
-	account_id_2 INTEGER UNSIGNED,
+	conversation_id CHAR(36) PRIMARY KEY,
+	account_id_1 CHAR(36),
+	account_id_2 CHAR(36),
 	created_at DATETIME NOT NULL,
 	FOREIGN KEY (account_id_1) REFERENCES account(account_id)
 	ON DELETE SET NULL,
@@ -82,9 +82,9 @@ CREATE TABLE conversation(
 );
 
 CREATE TABLE message(
-	message_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	conversation_id INTEGER UNSIGNED NOT NULL,
-	sender_id INTEGER UNSIGNED NOT NULL,
+	message_id CHAR(36) PRIMARY KEY,
+	conversation_id CHAR(36) NOT NULL,
+	sender_id CHAR(36) NOT NULL,
 	content TEXT NOT NULL,
 	is_read BOOLEAN,
 	send_at DATETIME,
@@ -96,16 +96,16 @@ CREATE TABLE message(
 );
 
 CREATE TABLE notification(
-	notification_id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	notification_id CHAR(36) PRIMARY KEY,
 	notification_type ENUM('message', 'friend_request', 'game_invite', 'news') NOT NULL,
 	is_read BOOLEAN NOT NULL,
 	created_at DATETIME NOT NULL,
 	read_at DATETIME,
 	sender_type ENUM('user', 'friend', 'moderation', 'newsletter') NOT NULL,
-	sender_id INTEGER UNSIGNED,
-	receiver_id INTEGER UNSIGNED NOT NULL,
+	sender_id CHAR(36),
+	receiver_id CHAR(36) NOT NULL,
 	FOREIGN KEY (sender_id) REFERENCES account(account_id)
-	ON DELETE SET NULL, 
+	ON DELETE SET NULL,
 	FOREIGN KEY (receiver_id) REFERENCES account(account_id)
 	ON DELETE CASCADE
 );
