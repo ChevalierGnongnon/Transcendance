@@ -116,7 +116,7 @@ CREATE TABLE file(
 	uploader_id CHAR(36) NOT NULL,
 	mime_type VARCHAR(100) NOT NULL, 
 	expires_at DATETIME,
-	message_id char(36) DEFAULT NOT NULL,
+	message_id char(36) DEFAULT NULL,
 	type ENUM('profile_photo', 'message') NOT NULL,
 	uploaded_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (uploader_id) REFERENCES account(account_id) ON DELETE CASCADE, 

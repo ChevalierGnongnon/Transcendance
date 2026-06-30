@@ -12,6 +12,8 @@ RUN npm install
 
 COPY srcs/backend/ ./
 
+COPY srcs/backend/default-avatars/ /app/uploads/
+
 EXPOSE 3000
 
 CMD ["npx", "nodemon", "server.js"]

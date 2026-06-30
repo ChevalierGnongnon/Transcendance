@@ -12,12 +12,12 @@ function CompleteYourProfile() {
 	const [pseudo, setPseudo] = useState("");
 	const [avatar, setAvatar] = useState(null);
 	const defaultAvatars = [
-		'/avatars/holocene.png',
-		'/avatars/hershel.webp',
-		'/avatars/kindred.png',
-		'/avatars/radian.png',
-		'/avatars/taxman.png',
-		'/avatars/virtue.png'
+		'/uploads/holocene.png',
+		'/uploads/hershel.webp',
+		'/uploads/kindred.png',
+		'/uploads/radian.png',
+		'/uploads/taxman.png',
+		'/uploads/virtue.png'
 	];
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
