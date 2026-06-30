@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y mariadb-server \
     && rm -rf /var/lib/mysql/*
 
 COPY srcs/docker/mariadb/config/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY srcs/backend/database/database_creation.sql /tmp/
+COPY srcs/backend/database/scripts/database_creation.sql /tmp/
 COPY srcs/docker/mariadb/tools/database-script.sh /usr/local/bin/
 
 RUN mkdir -p /run/mysqld \

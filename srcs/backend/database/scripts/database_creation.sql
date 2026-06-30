@@ -114,6 +114,7 @@ CREATE TABLE notification(
 CREATE TABLE file(
 	file_id CHAR(36) PRIMARY KEY,
 	file_name VARCHAR(255) NOT NULL,
+	type_file ENUM('profile_photo', 'default_avatar', 'message') NOT NULL,
 	uploader_id CHAR(36) NOT NULL,
 	mime_type VARCHAR(100) NOT NULL, 
 	expires_at DATETIME,
