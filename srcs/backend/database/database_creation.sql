@@ -2,6 +2,7 @@ USE transcendance;
 
 CREATE TABLE account (
 	account_id CHAR(36) PRIMARY KEY,
+	account_type ENUM('admin', 'user', 'moderator', 'guest') NOT NULL DEFAULT 'user',
 	name VARCHAR(50),
 	last_name VARCHAR(50),
 	email VARCHAR(255) UNIQUE NOT NULL,
@@ -85,7 +86,7 @@ CREATE TABLE message(
 	message_id CHAR(36) PRIMARY KEY,
 	conversation_id CHAR(36) NOT NULL,
 	sender_id CHAR(36) NOT NULL,
-	content TEXT NOT NULL,
+	content TEXT NOT NULL,0
 	is_read BOOLEAN,
 	send_at DATETIME,
 	read_at DATETIME,
