@@ -114,12 +114,11 @@ CREATE TABLE notification(
 CREATE TABLE file(
 	file_id CHAR(36) PRIMARY KEY,
 	file_name VARCHAR(255) NOT NULL,
-	type_file ENUM('profile_photo', 'default_avatar', 'message') NOT NULL,
+	type ENUM('profile_photo', 'default_avatar', 'message') NOT NULL,
 	uploader_id CHAR(36) NOT NULL,
 	mime_type VARCHAR(100) NOT NULL, 
 	expires_at DATETIME,
 	message_id char(36) DEFAULT NULL,
-	type ENUM('profile_photo', 'message') NOT NULL,
 	uploaded_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (uploader_id) REFERENCES account(account_id) ON DELETE CASCADE, 
 	FOREIGN KEY (message_id) REFERENCES message(message_id) ON DELETE CASCADE
