@@ -8,7 +8,7 @@ CREATE TABLE account (
 	email VARCHAR(255) UNIQUE NOT NULL,
 	password_hash VARCHAR(255),
 	pseudo VARCHAR(30) UNIQUE NOT NULL,
-	profile_photo_url VARCHAR(255),
+	profile_photo_id CHAR(36) DEFAULT NULL,
 	birthdate DATE NOT NULL,
 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -86,7 +86,7 @@ CREATE TABLE message(
 	message_id CHAR(36) PRIMARY KEY,
 	conversation_id CHAR(36) NOT NULL,
 	sender_id CHAR(36) NOT NULL,
-	content TEXT NOT NULL,0
+	content TEXT NOT NULL,
 	is_read BOOLEAN,
 	send_at DATETIME,
 	read_at DATETIME,
@@ -123,3 +123,8 @@ CREATE TABLE file(
 	FOREIGN KEY (uploader_id) REFERENCES account(account_id) ON DELETE CASCADE, 
 	FOREIGN KEY (message_id) REFERENCES message(message_id) ON DELETE CASCADE
 );
+
+ALTER TABLE account
+	ADD CONSTRAINT fk_profile_photo
+	FOREIGN KEY (profile_photo_id) REFERENCES file(file_id) ON DELETE SET NULL;
+
