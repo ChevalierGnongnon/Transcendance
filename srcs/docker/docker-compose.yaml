@@ -1,4 +1,6 @@
 secrets:
+  admin_password:
+    file: ./secrets/admin_password.txt
   mysql_password: 
     file: ./secrets/mysql_password.txt
   mysql_root_password:
@@ -62,6 +64,7 @@ services:
     env_file: secrets/.env
     secrets:
       - mysql_password
+      - admin_password
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 5s
