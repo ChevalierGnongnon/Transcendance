@@ -3,8 +3,10 @@ const bcrypt = require('bcrypt');
 const database = require('../../config/db-connexion.js');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const rateLimit = require('../../middlewares/rate-limiter.js');
 
-router.post('/login', async(req , res) =>{
+
+router.post('/login', rateLimit, async(req , res) =>{
     const {login, password} = req.body;
 
     if (!login  || !password)

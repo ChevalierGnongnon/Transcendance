@@ -3,8 +3,10 @@ const bcrypt = require('bcrypt');
 const database = require('../../config/db-connexion.js');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
+const rateLimit = require('../../middlewares/rate-limiter.js');
 
-router.post('/register', async(req, res) =>{
+
+router.post('/register', rateLimit, async(req, res) =>{
     const { name, last_name, email, password, passwordVerify, birthdate } = req.body;
     const today = new Date();
     const birth = new Date(birthdate);
