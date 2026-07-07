@@ -38,9 +38,10 @@ router.post('/register', rateLimit, async(req, res) =>{
         const hashed = await bcrypt.hash(password, 12);
         const token = jwt.sign(
             {name, last_name, email, password_hash : hashed, birthdate},
-            process.env.JWT_SECRET
+            process.env.JWT_SECRET,
+            { expiresIn:'24h' }
         );
-        res.cookie('tmp_token', token, { httpOnly: true, secure: true, sameSite: 'Strict' })
+        res.cookie('tmp_token', token, { httpOnly: true, secure: true, sameSite: 'Strict' , expires: new Date(Date.now() + (24 * 60 * 60 * 1000))})
         return res.status(200).json({ success: true });
     } catch (err) {
         return (res.status(500).json({error: 'DATABASE_ERROR'}));

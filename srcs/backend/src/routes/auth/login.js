@@ -22,6 +22,7 @@ router.post('/login', rateLimit, async(req , res) =>{
             return (res.status(400).json({error: 'IVALID_CREDENTIALS'}));
         const token = jwt.sign(
             { account_id: results[0].account_id },
+            { expiresIn:'24h' },
             process.env.JWT_SECRET
         );
         res.cookie('token', token, {httpOnly : true, secure: true, sameSite: 'Strict', expires: new Date(Date.now() + (24 * 60 * 60 * 1000))});
