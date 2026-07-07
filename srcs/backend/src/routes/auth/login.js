@@ -19,11 +19,11 @@ router.post('/login', rateLimit, async(req , res) =>{
             return (res.status(400).json({error: 'INVALID_CREDENTIALS'}));
         const compare =  await bcrypt.compare(password, results[0].password_hash);
         if (!compare)
-            return (res.status(400).json({error: 'IVALID_CREDENTIALS'}));
+            return (res.status(400).json({error: 'INVALID_CREDENTIALS'}));
         const token = jwt.sign(
             { account_id: results[0].account_id },
+            process.env.JWT_SECRET,
             { expiresIn:'24h' },
-            process.env.JWT_SECRET
         );
         res.cookie('token', token, {httpOnly : true, secure: true, sameSite: 'Strict', expires: new Date(Date.now() + (24 * 60 * 60 * 1000))});
         return (res.status(200).json({success: true}));
