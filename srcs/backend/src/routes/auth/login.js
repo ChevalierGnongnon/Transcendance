@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const database = require('../../config/db-connexion.js');
 const router = express.Router();
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 router.post('/login', async(req , res) =>{
     const {login, password} = req.body;
@@ -14,15 +14,15 @@ router.post('/login', async(req , res) =>{
             'SELECT account_id, password_hash FROM account WHERE email=? OR pseudo=?', [login, login]
         );
         if (!results.length)
-            return (res.status(400).json({error: 'USER_NOT_FOUND'}));
+            return (res.status(400).json({error: 'INVALID_CREDENTIALS'}));
         const compare =  await bcrypt.compare(password, results[0].password_hash);
         if (!compare)
-            return (res.status(400).json({error: 'INVALID_PASSWORD'}));
+            return (res.status(400).json({error: 'IVALID_CREDENTIALS'}));
         const token = jwt.sign(
             { account_id: results[0].account_id },
             process.env.JWT_SECRET
         );
-        res.cookie('token', token, {httpOnly : true, secure: true, sameSite: 'Strict'});
+        res.cookie('token', token, {httpOnly : true, secure: true, sameSite: 'Strict', expires: new Date(Date.now() + (24 * 60 * 60 * 1000))});
         return (res.status(200).json({success: true}));
     } catch (err){
         return (res.status(500).json({error: 'DATABASE_ERROR'}));
