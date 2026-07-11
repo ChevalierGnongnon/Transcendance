@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-
+const database = require('../../srcs/backend/src/config/db-connexion.js')
 
 const initDefaultProdilePictures= async() => {
     const hershel_img_id = crypto.randomUUID();
