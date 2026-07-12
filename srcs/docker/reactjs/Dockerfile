@@ -8,7 +8,9 @@ RUN apt-get update \
 
 COPY srcs/frontend/package*.json ./
 
-RUN npm install
+RUN npm install 
+
+RUN npm install --save-dev @types/react @types/react-dom typescript
 
 COPY srcs/frontend/ ./
 
