@@ -4,12 +4,12 @@ const database = require('../../src/config/db-connexion.js');
 const initDefaultProdilePictures = async() => {
     try{
         const [resCheckDefaultAvatar] = await database.promise().query(
-            'SELECT COUNT(*) FROM account WHERE type=?', ['default_avatar']
+            'SELECT COUNT(*) FROM file WHERE type=?', ['default_avatar']
         );
         if (resCheckDefaultAvatar[0]['COUNT(*)'] > 0)
             return ;
         const [adminId] = await database.promise().query(
-            'SELECT account_id FROM account WHERE type=? AND email=?', ['admin', 'adm@transcendance.local']
+            'SELECT account_id FROM account WHERE account_type=? AND email=?', ['admin', 'adm@transcendance.local']
         )
         const avatars = [
             { file_name: 'holocene.png', mime_type: 'image/png' },
