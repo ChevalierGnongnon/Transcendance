@@ -25,6 +25,7 @@ if [ ! -d /var/lib/mysql/transcendance ]; then
         GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'localhost';
         FLUSH PRIVILEGES;
         $(cat /tmp/database_creation.sql)
+        $(cat /tmp/triggers.sql) 
 EOF
     kill $MYSQLD_PID
     wait $MYSQLD_PID

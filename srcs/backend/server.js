@@ -11,6 +11,15 @@ const checkAuth = require('./src/routes/auth/check-auth.js');
 const logoutRouter = require('./src/routes/auth/logout.js')
 // const updateProfile = require('./src/routes/user/update-profile.js');
 
+const initAdmin = require('./database/scripts/init_admin.js');
+const initDefaultPictures = require('./database/scripts/init_default_profile_pictures.js');
+
+const start = async () => {
+    await initAdmin();
+    await initDefaultPictures();
+};
+start();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api', registrationRouter);
