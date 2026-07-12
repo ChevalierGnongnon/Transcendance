@@ -9,6 +9,8 @@ const myProfileRouter = require('./src/routes/user/my-profile.js');
 const loginRouter = require('./src/routes/auth/login.js');
 const checkAuth = require('./src/routes/auth/check-auth.js');
 const logoutRouter = require('./src/routes/auth/logout.js')
+const helmet = require('helmet');
+const cors = require('cors');
 // const updateProfile = require('./src/routes/user/update-profile.js');
 
 const initAdmin = require('./database/scripts/init_admin.js');
@@ -20,8 +22,13 @@ const start = async () => {
 };
 start();
 
+//packages 
+app.use(helmet());
+app.use(cors({ origin: 'https://transcendance.fr' }));
 app.use(express.json());
 app.use(cookieParser());
+
+//routes
 app.use('/api', registrationRouter);
 app.use('/api', completeProfileRouter);
 app.use('/api', myProfileRouter);

@@ -7,7 +7,7 @@ const {randomUUID} = require('crypto');
 router.post('/complete-profile', async(req, res) =>{
     const token =  req.cookies.tmp_token;
     const {pseudo, avatar} = req.body;
-    const pseudoRegex = /^\S+$/;
+    const pseudoRegex = /^[a-zA-Z0-9_-]{3,30}$/
     let decoded;
 
     if (!pseudo || !avatar || !token)
@@ -30,7 +30,7 @@ router.post('/complete-profile', async(req, res) =>{
             'INSERT INTO account (account_id, name, last_name, email, password_hash, birthdate, pseudo, profile_photo_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [id, decoded.name, decoded.last_name, decoded.email, decoded.password_hash, decoded.birthdate, pseudo, avatar]
         );
-        const idToken = jwt.sign({ account_id: id }, process.env.JWT_SECRET);
+        const idToken = jwt.sign({ account_id: id }, process.env.JWT_SECRET, { expiresIn: '24h' })
         res.clearCookie('tmp_token');
         res.cookie('token', idToken, { httpOnly: true, secure: true, sameSite: 'Strict', expires: new Date(Date.now() + (24 * 60 * 60 * 1000))});
         return res.status(201).json({ success: true });
