@@ -14,9 +14,14 @@ router.get('/my-profile', async(req, res)=>{
     } catch (err) {
         return (res.status(401).json({ error: 'INVALID_TOKEN' }));
     }
-    const [account_personal_infos] = await database.promise().query(
-        'SELECT name, last_name, email, pseudo, profile_photo_url FROM account WHERE account_id = ?', [decoded.account_id]
-    );
+    try{
+        const [account_personal_infos] = await database.promise().query(
+            'SELECT name, last_name, email, pseudo, profile_photo_id FROM account WHERE account_id = ?', [decoded.account_id]
+        );
+    }
+    catch (err) {
+        return (res.status(401).json({ error: 'INVALID_TOKEN' }));
+    }
     return (res.status(200).json(account_personal_infos[0]));
 })
 module.exports = router;

@@ -27,12 +27,12 @@ router.post('/complete-profile', async(req, res) =>{
             return res.status(409).json({ error: 'PSEUDO_EXISTS' });
         const id = randomUUID();
         const [insertResults] = await database.promise().query(
-            'INSERT INTO account (account_id, name, last_name, email, password_hash, birthdate, pseudo, profile_photo_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            'INSERT INTO account (account_id, name, last_name, email, password_hash, birthdate, pseudo, profile_photo_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [id, decoded.name, decoded.last_name, decoded.email, decoded.password_hash, decoded.birthdate, pseudo, avatar]
         );
         const idToken = jwt.sign({ account_id: id }, process.env.JWT_SECRET);
         res.clearCookie('tmp_token');
-        res.cookie('token', idToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
+        res.cookie('token', idToken, { httpOnly: true, secure: true, sameSite: 'Strict', expires: new Date(Date.now() + (24 * 60 * 60 * 1000))});
         return res.status(201).json({ success: true });
     } catch (err) {
         console.error(err);

@@ -4,7 +4,7 @@ const crypto = require('crypto');
 
 function uploadConfig(options){
     return (multer({
-        storage: multer.memoryStorage,
+        storage: multer.memoryStorage(),
         limits: {fileSize: options.maxSize}, 
         fileFilter: options.fileFilter
     }));
