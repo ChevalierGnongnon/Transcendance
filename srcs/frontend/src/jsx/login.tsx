@@ -1,26 +1,26 @@
 import "../scss/login.scss" //scss file, for styling
 import "../scss/common-classes.scss"
-import ErrorMessage from "./error-message.jsx";
-import { useState } from "react" //allows re-render
+import ErrorMessage from "./error-message";
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { useState, FormEvent } from "react";
 
 function Login() {
 	const [login, setLogin] = useState("");
 	const [password, setPassword] = useState("");
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<string | null>(null);
 	const navigate = useNavigate();
 
-	const manageSubmit = async (e) => {
+	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const response = await fetch('/api/login', {
 			method: 'POST',
-			headers:{ 'Content-type': 'application/json'},
+			headers: { 'Content-type': 'application/json' },
 			credentials: 'include',
-			body: JSON.stringify({login, password})
+			body: JSON.stringify({ login, password })
 		});
 		const data = await response.json();
-		if (response.ok){
+		if (response.ok) {
 			navigate('/personalpage');
 		}
 		else if (!response.ok)
@@ -39,7 +39,7 @@ function Login() {
 						<label htmlFor="login" className="login-text">{t('login.label_login')}</label>
 						<input type="text" name="name" value={login} placeholder={t('login.placeholder_login')} className="form-control login-input" id="login" onChange={(e) => setLogin(e.target.value)} />
 						<label htmlFor="password" className="login-text">{t('common.label_password')}</label>
-						<input type="password" name="password" value={password} placeholder={t('common.placeholder_password')} className="form-control login-input" id="password" onChange={(e) => setPassword(e.target.value)} />					
+						<input type="password" name="password" value={password} placeholder={t('common.placeholder_password')} className="form-control login-input" id="password" onChange={(e) => setPassword(e.target.value)} />
 						<button type="submit" className="btn btn-primary form-button">{t('login.button')}</button>
 					</div>
 					<div className="separator-or">{t('login.or')}</div>
@@ -67,7 +67,9 @@ function Login() {
 				</div>
 				<p className="login-text">{t('login.no-account')}</p>
 				<ErrorMessage error={error} />
-				<button type="submit" className="btn btn-primary form-button">{t('login.create-account')}</button>
+				<button type="button" onClick={() => navigate('/register')} className="btn btn-primary form-button">
+					{t('login.create-account')}
+				</button>
 			</form>
 		</div>
 	);

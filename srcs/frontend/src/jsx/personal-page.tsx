@@ -1,6 +1,6 @@
 import "../scss/common-classes.scss";
 import "../scss/profile-page.scss";
-import i18n from '../../localisation/i18n.js';
+import i18n from '../../localisation/i18n';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
@@ -9,8 +9,15 @@ import parametersIcon from '../assets/icons/icon-parameters.png';
 import notificationIcon from '../assets/icons/icon-notifications.png'
 
 function PersonalPage() {
+    interface User {
+        name: string;
+        last_name: string;
+        email: string;
+        pseudo: string;
+        profile_photo_id: string | null;
+    }
+    const [user, setUser] = useState<User | null>(null);
     const { t } = useTranslation();
-    const [user, setUser] = useState(null);
     useEffect(() => {
         fetch('/api/my-profile', {
             credentials: 'include'
@@ -26,7 +33,7 @@ function PersonalPage() {
             <header className="profile-page-header">
                 <section className="d-flex align-items-center gap-3">
                     <figure className="m-0">
-                        <img src={user.profile_photo_url} alt="avatar" className="img-avatar-profilePage" />
+                        <img src={user.profile_photo_id ?? '/default-avatar.png'} alt="avatar" className="img-avatar-profilePage" />
                     </figure>
                     <div className="d-flex flex-column">
                         <h3>{user.pseudo}</h3>
@@ -34,13 +41,13 @@ function PersonalPage() {
                     </div>
                 </section>
                 <section className="ms-auto d-flex gap-2">
-                    <figure className="m-0 pp-icons-header" img data-tooltip={t('header.messages')}>
+                    <figure className="m-0 pp-icons-header" data-tooltip={t('header.messages')}>
                         <img src={messageIcon} alt="message-icon" />
                     </figure>
-                    <figure className="m-0 pp-icons-header" img data-tooltip={t('header.notifications')}>
+                    <figure className="m-0 pp-icons-header" data-tooltip={t('header.notifications')}>
                         <img src={notificationIcon} alt="notification-icon" />
                     </figure>
-                    <figure className="m-0 pp-icons-header" img data-tooltip={t('header.parameters')}>
+                    <figure className="m-0 pp-icons-header" data-tooltip={t('header.parameters')}>
                         <img src={parametersIcon} alt="parameters-icon" />
                     </figure>
                 </section>

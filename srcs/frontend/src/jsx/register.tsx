@@ -1,21 +1,20 @@
 import "../scss/register.scss"
-import { useState } from "react"
+import { useState, FormEvent } from "react";
 import { useTranslation } from 'react-i18next';
-import ErrorMessage from "./error-message.jsx";
+import ErrorMessage from "./error-message";
 
-function Register({ onSuccess }) {
+function Register({ onSuccess }: { onSuccess: () => void }) {
 	const [name, setName] = useState("");
 	const [last_name, setLastName] = useState("");
-	const [pseudo, setPseudo] = useState("");
 	const [email, setEmail] = useState("");
 	const [birthdate, setBirthDate] = useState("");
 	const [password, setPassword] = useState("");
 	const [passwordVerify, setPasswordVerify] = useState("");
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<string | null> (null);
 
 	const { t } = useTranslation();
 
-	const manageSubmit = async (e) => {
+	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setError(null);
 		try {

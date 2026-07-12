@@ -2,13 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./login";
-import i18n from "../../localisation/i18n.js"
 import Header from "./header";
 import PersonalPage from "./personal-page.jsx";
 import RegisterFlow from "./register-flow.jsx"
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<Header/>
