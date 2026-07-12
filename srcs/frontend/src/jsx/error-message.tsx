@@ -1,7 +1,7 @@
 import "../scss/common-classes.scss"
 import { useTranslation } from 'react-i18next';
 
-function ErrorMessage({error}){
+function ErrorMessage({error} : {error: string | null}){
     const {t} = useTranslation();
 
     if (!error)

@@ -1,5 +1,5 @@
 import "../scss/common-classes.scss"
-import i18n from '../../localisation/i18n.js'
+import i18n from '../../localisation/i18n'
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
