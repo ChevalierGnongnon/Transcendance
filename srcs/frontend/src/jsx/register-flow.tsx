@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Register from "./register.jsx";
-import CompleteYourProfile  from "./complete-profile.jsx";
+import Register from "./register";
+import CompleteYourProfile  from "./complete-profile";
 
 
 function RegisterFlow() {

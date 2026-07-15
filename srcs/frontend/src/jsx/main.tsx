@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./login";
 import Header from "./header";
-import PersonalPage from "./personal-page.jsx";
-import RegisterFlow from "./register-flow.jsx"
+import PersonalPage from "./personal-page";
+import RegisterFlow from "./register-flow"
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
