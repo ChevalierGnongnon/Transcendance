@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const database = require('../../src/config/db-connexion.js');
+const database = require('../../src/config/db-connexion');
 
 const initDefaultProdilePictures = async() => {
     try{

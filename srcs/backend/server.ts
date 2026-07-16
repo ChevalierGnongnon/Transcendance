@@ -1,20 +1,21 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const database = require('./src/config/db-connexion.js');
-const registrationRouter = require('./src/routes/auth/registration.js');
+import database from './src/config/db-connexion';
+const registrationRouter = require('./src/routes/auth/registration');
 const app = express();
 const port = 3000;
-const completeProfileRouter = require('./src/routes/user/complete-profile.js');
-const myProfileRouter = require('./src/routes/user/my-profile.js');
-const loginRouter = require('./src/routes/auth/login.js');
-const checkAuth = require('./src/routes/auth/check-auth.js');
-const logoutRouter = require('./src/routes/auth/logout.js')
+const completeProfileRouter = require('./src/routes/user/complete-profile');
+const myProfileRouter = require('./src/routes/user/my-profile');
+const loginRouter = require('./src/routes/auth/login');
+const checkAuth = require('./src/routes/auth/check-auth');
+const logoutRouter = require('./src/routes/auth/logout')
 const helmet = require('helmet');
 const cors = require('cors');
-// const updateProfile = require('./src/routes/user/update-profile.js');
+import { Request, Response  } from 'express'
+// const updateProfile = require('./src/routes/user/update-profile');
 
-const initAdmin = require('./database/scripts/init_admin.js');
-const initDefaultPictures = require('./database/scripts/init_default_profile_pictures.js');
+const initAdmin = require('./database/scripts/init_admin');
+const initDefaultPictures = require('./database/scripts/init_default_profile_pictures');
 
 const start = async () => {
     await initAdmin();
@@ -37,7 +38,7 @@ app.use('/api', logoutRouter);
 // app.use('/api', updateProfile);
 app.use('/api', checkAuth);
 
-app.get('/health', (req, res) => {
+app.get('/health', (req: Request, res: Response) => {
     res.status(200).send('OK')
 });
 

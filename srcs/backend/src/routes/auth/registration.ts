@@ -1,12 +1,21 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const database = require('../../config/db-connexion.js');
+const database = require('../../config/db-connexion');
 const router = express.Router();
-const jwt = require('jsonwebtoken')
-const rateLimit = require('../../middlewares/rate-limiter.js');
+const rateLimit = require('../../middlewares/rate-limiter');
+import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 
+interface RegisterBody{
+    name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    passwordVerify: string;
+    birthdate: string
+}
 
-router.post('/register', rateLimit, async(req, res) =>{
+router.post('/register', rateLimit, async(req: Request<{}, {}, RegisterBody>, res: Response) =>{
     const { name, last_name, email, password, passwordVerify, birthdate } = req.body;
     const today = new Date();
     const birth = new Date(birthdate);
@@ -36,12 +45,14 @@ router.post('/register', rateLimit, async(req, res) =>{
         if (results.length > 0)
             return res.status(409).json({ error: 'EMAIL_EXISTS' });
         const hashed = await bcrypt.hash(password, 12);
+        if (!process.env.JWT_SECRET)
+            return res.status(500).json({ error: 'SERVER_MISCONFIGURED' });
         const token = jwt.sign(
             { name, last_name, email, password_hash: hashed, birthdate },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
-        res.cookie('tmp_token', token, { httpOnly: true, secure: true, sameSite: 'Strict' , expires: new Date(Date.now() + (24 * 60 * 60 * 1000))})
+        res.cookie('tmp_token', token, { httpOnly: true, secure: true, sameSite: 'strict' , expires: new Date(Date.now() + (24 * 60 * 60 * 1000))})
         return res.status(200).json({ success: true });
     } catch (err) {
         return (res.status(500).json({error: 'DATABASE_ERROR'}));

@@ -1,11 +1,15 @@
 const express = require('express');
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
-const database = require('../../config/db-connexion.js');
-const uploadConfig = require('../../config/multer-config.js');
+const database = require('../../config/db-connexion');
+const uploadConfig = require('../../config/multer-config');
 const fs = require('fs');
 const path = require('path');
+const router = express.Router();
 
-router.post('/upload', async(req, res) =>{
+import { Request, Response } from 'express';
+
+
+router.post('/upload', async(req: Request, res: Response) =>{
     
 })

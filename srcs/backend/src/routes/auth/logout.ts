@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+import { Request, Response } from 'express';
 
-router.post('/logout', (req, res) => {
+
+router.post('/logout', (req: Request, res: Response) => {
     const   infos = req.cookies.token;
     
     if (!infos)

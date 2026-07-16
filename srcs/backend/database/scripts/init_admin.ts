@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const database = require('../../config/db-connexion.js');
+const database = require('../../config/db-connexion');
 const fs = require('fs');
 
 const initAdmin = async() => {
