@@ -1,14 +1,15 @@
-const crypto = require('crypto');
-const database = require('../../src/config/db-connexion');
+import  crypto from 'crypto'
+import  database from '../../src/config/db-connexion'
+import { RowDataPacket } from 'mysql2';
 
 const initDefaultProdilePictures = async() => {
     try{
-        const [resCheckDefaultAvatar] = await database.promise().query(
+        const [resCheckDefaultAvatar] = await database.promise().query<RowDataPacket[]>(
             'SELECT COUNT(*) FROM file WHERE type=?', ['default_avatar']
         );
         if (resCheckDefaultAvatar[0]['COUNT(*)'] > 0)
             return ;
-        const [adminId] = await database.promise().query(
+        const [adminId] = await database.promise().query<RowDataPacket[]>(
             'SELECT account_id FROM account WHERE account_type=? AND email=?', ['admin', 'adm@transcendance.local']
         )
         const avatars = [
@@ -32,6 +33,6 @@ const initDefaultProdilePictures = async() => {
 
 }
 
-module.exports = initDefaultProdilePictures;
+export = initDefaultProdilePictures;
 
 

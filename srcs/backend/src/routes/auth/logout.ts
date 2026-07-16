@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 import { Request, Response } from 'express';
 
@@ -11,4 +11,4 @@ router.post('/logout', (req: Request, res: Response) => {
     res.clearCookie('token');
     return (res.status(200).json({authenticated : false }));
 })
-module.exports = router;
+export = router;

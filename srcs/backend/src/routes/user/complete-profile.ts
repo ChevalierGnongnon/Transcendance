@@ -1,9 +1,10 @@
-const express = require('express');
-const database = require('../../config/db-connexion');
+import express from 'express';
+import database from '../../config/db-connexion';
 const router = express.Router()
-const {randomUUID} = require('crypto');
+import {randomUUID} from 'crypto';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { RowDataPacket } from 'mysql2';
 
 interface completeProfileBody{
     pseudo: string;
@@ -30,7 +31,7 @@ router.post('/complete-profile', async(req: Request<{}, {}, completeProfileBody>
     if (typeof decoded === 'string')
         return res.status(401).json({ error: 'INVALID_TOKEN' });
     try{
-        const [results] = await database.promise().query(
+        const [results] = await database.promise().query<RowDataPacket[]>(
             'SELECT account_id FROM account WHERE pseudo = ?', [pseudo]
         );
         if (results.length > 0)
@@ -49,4 +50,4 @@ router.post('/complete-profile', async(req: Request<{}, {}, completeProfileBody>
         return (res.status(500).json({error: 'DATABASE_ERROR'}));
     }
 })
-module.exports = router;
+export = router;

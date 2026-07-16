@@ -1,7 +1,5 @@
 import { FileFilterCallback } from 'multer';
-const multer = require('multer');
-const path = require('path');
-const crypto = require('crypto');
+import multer from 'multer';
 import { Request} from 'express';
 
 interface UploadOptions {

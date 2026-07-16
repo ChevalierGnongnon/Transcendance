@@ -1,10 +1,11 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
-const database = require('../../config/db-connexion');
+import express from 'express';
+import bcrypt from 'bcrypt';
+import database from '../../config/db-connexion';
 const router = express.Router();
-const rateLimit = require('../../middlewares/rate-limiter');
+import rateLimit from '../../middlewares/rate-limiter';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { RowDataPacket } from 'mysql2';
 
 router.post('/login', rateLimit, async(req: Request , res: Response) =>{
     const {login, password} = req.body;
@@ -12,7 +13,7 @@ router.post('/login', rateLimit, async(req: Request , res: Response) =>{
     if (!login  || !password)
         return (res.status(400).json({ error: 'ALL_FIELDS_REQUIRED'}));
     try{
-        const [results] = await database.promise().query(
+        const [results] = await database.promise().query<RowDataPacket[]>(
             'SELECT account_id, password_hash FROM account WHERE email=? OR pseudo=?', [login, login]
         );
         if (!results.length)
@@ -33,4 +34,4 @@ router.post('/login', rateLimit, async(req: Request , res: Response) =>{
         return (res.status(500).json({error: 'DATABASE_ERROR'}));
     }
 })
-module.exports = router;
+export = router;

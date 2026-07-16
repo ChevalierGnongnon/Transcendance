@@ -1,4 +1,4 @@
-const rateLimiter = require('express-rate-limit');
+import rateLimiter from 'express-rate-limit'
 
 const rateLimit = rateLimiter({
     windowMs: 15 * 60 * 1000,
@@ -6,4 +6,4 @@ const rateLimit = rateLimiter({
     message: {error: 'TOO_MANY_TRYS'}
 });
 
-module.exports = rateLimit;
+export = rateLimit;

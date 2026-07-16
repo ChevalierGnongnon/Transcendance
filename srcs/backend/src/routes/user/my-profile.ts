@@ -1,7 +1,7 @@
-const express = require('express');
-const database = require('../../config/db-connexion');
+import express from 'express';
+import database from '../../config/db-connexion';
 const router = express.Router();
-
+import { RowDataPacket } from 'mysql2';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken'
 
@@ -21,7 +21,7 @@ router.get('/my-profile', async(req: Request, res: Response)=>{
     if (typeof decoded === 'string')
         return res.status(401).json({ error: 'INVALID_TOKEN' });
     try{
-        const [account_personal_infos] = await database.promise().query(
+        const [account_personal_infos] = await database.promise().query<RowDataPacket[]>(
             'SELECT name, last_name, email, pseudo, profile_photo_id FROM account WHERE account_id = ?', [decoded.account_id]
         );
         return (res.status(200).json(account_personal_infos[0]));
@@ -30,4 +30,4 @@ router.get('/my-profile', async(req: Request, res: Response)=>{
         return (res.status(500).json({ error: 'DATABASE_ERROR' }));
     }
 })
-module.exports = router;
+export = router;

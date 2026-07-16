@@ -1,7 +1,8 @@
-const bcrypt = require('bcrypt');
-const crypto = require('crypto');
-const database = require('../../config/db-connexion');
-const fs = require('fs');
+import  bcrypt from 'bcrypt';
+import  crypto from 'crypto'
+import  database from '../../src/config/db-connexion'
+import fs from 'fs'
+import { RowDataPacket } from 'mysql2';
 
 const initAdmin = async() => {
     const emailAdmin = 'adm@transcendance.local';
@@ -21,7 +22,7 @@ const initAdmin = async() => {
     const ppType = 'profile_photo';
     const ppMimeType = 'image/webp';
     try{
-        const [results] = await database.promise().query(
+        const [results] = await database.promise().query<RowDataPacket[]>(
             'SELECT account_id FROM account WHERE email = ?', [emailAdmin]
         );
         if (results.length > 0)
@@ -46,4 +47,4 @@ const initAdmin = async() => {
     
 }
 
-module.exports = initAdmin;
+export = initAdmin;

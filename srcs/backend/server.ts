@@ -1,21 +1,20 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
+import express, { Request, Response } from 'express';
+import cookieParser from 'cookie-parser';
 import database from './src/config/db-connexion';
-const registrationRouter = require('./src/routes/auth/registration');
+import registrationRouter from './src/routes/auth/registration';
+import completeProfileRouter from './src/routes/user/complete-profile';
+import myProfileRouter from './src/routes/user/my-profile';
+import loginRouter from './src/routes/auth/login';
+import checkAuth from './src/routes/auth/check-auth';
+import logoutRouter from './src/routes/auth/logout';
+import helmet from 'helmet';
+import cors from 'cors';
+import initAdmin from './database/scripts/init_admin';
+import initDefaultPictures from './database/scripts/init_default_profile_pictures';
+// import updateProfile from './src/routes/user/update-profile';
+
 const app = express();
 const port = 3000;
-const completeProfileRouter = require('./src/routes/user/complete-profile');
-const myProfileRouter = require('./src/routes/user/my-profile');
-const loginRouter = require('./src/routes/auth/login');
-const checkAuth = require('./src/routes/auth/check-auth');
-const logoutRouter = require('./src/routes/auth/logout')
-const helmet = require('helmet');
-const cors = require('cors');
-import { Request, Response  } from 'express'
-// const updateProfile = require('./src/routes/user/update-profile');
-
-const initAdmin = require('./database/scripts/init_admin');
-const initDefaultPictures = require('./database/scripts/init_default_profile_pictures');
 
 const start = async () => {
     await initAdmin();

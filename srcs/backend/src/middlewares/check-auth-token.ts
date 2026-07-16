@@ -16,4 +16,4 @@ const checkAuthToken = (req: Request, res: Response, next: NextFunction) => {
         return res.status(403).json({ error: 'INVALID_TOKEN' });
     }
 }
-module.exports = checkAuthToken;
+export = checkAuthToken;
