@@ -8,14 +8,15 @@ import messageIcon from '../assets/icons/icon-messages.png';
 import parametersIcon from '../assets/icons/icon-parameters.png';
 import notificationIcon from '../assets/icons/icon-notifications.png'
 
+interface user {
+    name: string;
+    last_name: string;
+    email: string;
+    pseudo: string;
+    file_name: string | null;
+}
+
 function PersonalPage() {
-    interface User {
-        name: string;
-        last_name: string;
-        email: string;
-        pseudo: string;
-        profile_photo_id: string | null;
-    }
     const [user, setUser] = useState<User | null>(null);
     const { t } = useTranslation();
     useEffect(() => {
@@ -33,7 +34,7 @@ function PersonalPage() {
             <header className="profile-page-header">
                 <section className="d-flex align-items-center gap-3">
                     <figure className="m-0">
-                        <img src={user.profile_photo_id ?? '/default-avatar.png'} alt="avatar" className="img-avatar-profilePage" />
+                    <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-profilePage" />
                     </figure>
                     <div className="d-flex flex-column">
                         <h3>{user.pseudo}</h3>

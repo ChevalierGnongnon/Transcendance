@@ -16,4 +16,4 @@ COPY srcs/backend/default-avatars/ /app/uploads/
 
 EXPOSE 3000
 
-CMD ["npx", "nodemon", "server.js"]
+CMD ["npx", "nodemon", "--exec", "tsx", "server.ts"]

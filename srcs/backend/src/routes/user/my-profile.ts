@@ -22,7 +22,10 @@ router.get('/my-profile', async(req: Request, res: Response)=>{
         return res.status(401).json({ error: 'INVALID_TOKEN' });
     try{
         const [account_personal_infos] = await database.promise().query<RowDataPacket[]>(
-            'SELECT name, last_name, email, pseudo, profile_photo_id FROM account WHERE account_id = ?', [decoded.account_id]
+            'SELECT account.name, account.last_name, account.email, account.pseudo, file.file_name\
+            FROM account\
+            LEFT JOIN file ON account.profile_photo_id = file.file_id\
+            WHERE account.account_id = ?', [decoded.account_id]
         );
         return (res.status(200).json(account_personal_infos[0]));
     }

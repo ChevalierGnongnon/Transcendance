@@ -40,7 +40,7 @@ function CompleteYourProfile() {
 	return (
 
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
-			<form className="login-form d-flex flex-column align-items-center gap-3" onSubmit={manageSubmit}>
+			<form className="login-form d-flex flex-column align-items-center gap-3" encType="multipart/form-data" onSubmit={manageSubmit}>
 				<h1 className="login-title">{t('complete-your-profile.title')}</h1>
 				<label htmlFor="pseudo" className="form-text">{t('complete-your-profile.enter-a-pseudo')}</label>
 				<input type="text" name="name" value={pseudo} placeholder={t('complete-your-profile.enter-a-pseudo')} className="form-control form-input" id="pseudo" onChange={(e) => setPseudo(e.target.value)} />

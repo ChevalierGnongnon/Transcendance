@@ -1,6 +1,6 @@
 secrets:
   admin_password:
-    file: ./secrets/website_admin_password.txt
+    file: ./secrets/admin_password.txt
   mysql_password: 
     file: ./secrets/mysql_password.txt
   mysql_root_password:
