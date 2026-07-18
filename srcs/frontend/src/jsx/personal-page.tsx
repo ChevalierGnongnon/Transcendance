@@ -8,7 +8,7 @@ import messageIcon from '../assets/icons/icon-messages.png';
 import parametersIcon from '../assets/icons/icon-parameters.png';
 import notificationIcon from '../assets/icons/icon-notifications.png'
 
-interface user {
+interface User {
     name: string;
     last_name: string;
     email: string;
