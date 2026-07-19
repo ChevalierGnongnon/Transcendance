@@ -13,6 +13,7 @@ import initAdmin from './database/scripts/init_admin';
 import initDefaultPictures from './database/scripts/init_default_profile_pictures';
 // import updateProfile from './src/routes/user/update-profile';
 
+import uploadRouter from './src/routes/files/upload-file';
 const app = express();
 const port = 3000;
 
@@ -34,6 +35,8 @@ app.use('/api', completeProfileRouter);
 app.use('/api', myProfileRouter);
 app.use('/api', loginRouter);
 app.use('/api', logoutRouter);
+app.use('/api', uploadRouter);
+
 // app.use('/api', updateProfile);
 app.use('/api', checkAuth);
 

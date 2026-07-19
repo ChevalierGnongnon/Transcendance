@@ -24,17 +24,36 @@ function CompleteYourProfile() {
 
 	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		let avatarId: string | null = avatar instanceof File ? null : avatar;
+
+		if (avatar instanceof File) {
+			const formData = new FormData();
+			formData.append('file', avatar);
+			const uploadResponse = await fetch('/api/upload', {
+				method: 'POST',
+				credentials: 'include',
+				body: formData
+			});
+			const uploadData = await uploadResponse.json();
+			if (!uploadResponse.ok) {
+				setError(uploadData.error);
+				return;
+			}
+			avatarId = uploadData.file_id;
+		}
+
 		const response = await fetch('/api/complete-profile', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			credentials: 'include',
-			body: JSON.stringify({ pseudo, avatar })
+			body: JSON.stringify({ pseudo, avatar: avatarId })
 		});
 		const data = await response.json();
 		if (response.ok){
 			navigate('/personalpage');
 		}
-		else if (!response.ok)
+		else
 			setError(data.error);
 	}
 	return (

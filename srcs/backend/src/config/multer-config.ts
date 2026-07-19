@@ -13,4 +13,4 @@ function uploadConfig(options: UploadOptions){
         fileFilter: options.fileFilter
     }));
 }
-module.exports = uploadConfig;
+export = uploadConfig;
