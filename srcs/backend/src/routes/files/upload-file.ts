@@ -36,7 +36,10 @@ router.post('/upload', checkAuthToken, upload.single('file'), async(req: Request
         const [results] = await database.promise().query(
             'INSERT INTO file (file_id, file_name, type, uploader_id, mime_type) VALUES (?, ?, ?, ?, ?)',
             [id, fileName, 'profile_photo', req.account.account_id, 'image/webp']
-            
+        );
+        const [updateWithProfilePhoto] = await database.promise().query(
+            'UPDATE account SET profile_photo_id = ? WHERE account_id = ?',
+            [id, req.account.account_id]
         );
         return res.status(201).json({ file_id: id });
     } catch (err) {

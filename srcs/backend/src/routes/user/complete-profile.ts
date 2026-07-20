@@ -8,7 +8,7 @@ import { RowDataPacket } from 'mysql2';
 
 interface completeProfileBody{
     pseudo: string;
-    avatar: string;
+    avatar?: string;
 }
 
 router.post('/complete-profile', async(req: Request<{}, {}, completeProfileBody>, res: Response) =>{
@@ -17,7 +17,7 @@ router.post('/complete-profile', async(req: Request<{}, {}, completeProfileBody>
     const pseudoRegex = /^[a-zA-Z0-9_-]{3,30}$/
     let decoded;
 
-    if (!pseudo || !avatar || !token)
+    if (!pseudo || !token)
         return (res.status(400).json({ error: 'ALL_FIELDS_REQUIRED' }));
     if (!pseudoRegex.test(pseudo))
         return (res.status(400).json({ error: 'INVALID_PSEUDO'}));
@@ -39,7 +39,7 @@ router.post('/complete-profile', async(req: Request<{}, {}, completeProfileBody>
         const id = randomUUID();
         const [insertResults] = await database.promise().query(
             'INSERT INTO account (account_id, name, last_name, email, password_hash, birthdate, pseudo, profile_photo_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-            [id, decoded.name, decoded.last_name, decoded.email, decoded.password_hash, decoded.birthdate, pseudo, avatar]
+            [id, decoded.name, decoded.last_name, decoded.email, decoded.password_hash, decoded.birthdate, pseudo, avatar?? null]
         );
         const idToken = jwt.sign({ account_id: id }, process.env.JWT_SECRET, { expiresIn: '24h' })
         res.clearCookie('tmp_token');

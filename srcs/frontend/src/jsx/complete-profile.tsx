@@ -23,26 +23,9 @@ function CompleteYourProfile() {
 	const navigate = useNavigate();
 
 	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
 		let avatarId: string | null = avatar instanceof File ? null : avatar;
 
-		if (avatar instanceof File) {
-			const formData = new FormData();
-			formData.append('file', avatar);
-			const uploadResponse = await fetch('/api/upload', {
-				method: 'POST',
-				credentials: 'include',
-				body: formData
-			});
-			const uploadData = await uploadResponse.json();
-			if (!uploadResponse.ok) {
-				setError(uploadData.error);
-				return;
-			}
-			avatarId = uploadData.file_id;
-		}
-
+		e.preventDefault();
 		const response = await fetch('/api/complete-profile', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -51,11 +34,28 @@ function CompleteYourProfile() {
 		});
 		const data = await response.json();
 		if (response.ok){
+			if (avatar instanceof File) {
+				const formData = new FormData();
+				formData.append('file', avatar);
+				const uploadResponse = await fetch('/api/upload', {
+					method: 'POST',
+					credentials: 'include',
+					body: formData
+				});
+				const uploadData = await uploadResponse.json();
+				if (!uploadResponse.ok) {
+					setError(uploadData.error);
+					return;
+				}
+				avatarId = uploadData.file_id;
+			}
+		}
+		else {
+			setError(data.error);
+			return ;
+		}
 			navigate('/personalpage');
 		}
-		else
-			setError(data.error);
-	}
 	return (
 
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
