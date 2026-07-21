@@ -3,23 +3,27 @@ import "../scss/common-classes.scss"
 import "../scss/complete-profile.scss"
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
-import { useState, FormEvent } from "react"
+import { useState, useEffect, FormEvent } from "react"
 import ErrorMessage from "./error-message";
 
+interface DefaultAvatar {
+	file_id: string;
+	file_name: string;
+}
 
 function CompleteYourProfile() {
 	const { t } = useTranslation();
 	const [pseudo, setPseudo] = useState("");
 	const [avatar, setAvatar] = useState<File | string | null>(null);
-	const defaultAvatars = [
-		'/uploads/holocene.png',
-		'/uploads/hershel.webp',
-		'/uploads/kindred.png',
-		'/uploads/radian.png',
-		'/uploads/taxman.png',
-		'/uploads/virtue.png'
-	];
+	const [defaultAvatars, setDefaultAvatars] = useState<DefaultAvatar[]>([]);
 	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		fetch('/api/default-avatars')
+			.then(res => res.json())
+			.then((data: DefaultAvatar[]) => setDefaultAvatars(data))
+			.catch(() => setError('FETCH_DEFAULT_AVATARS_ERROR'));
+	}, []);
 	const navigate = useNavigate();
 
 	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -72,8 +76,8 @@ function CompleteYourProfile() {
 					{t('complete-your-profile.choose-an-avatar')}
 				</p>
 				<div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
-					{defaultAvatars.map((item, i) => (
-						<img key={i} src={item} alt={`avatar-${i}`} className={`img-avatar ${avatar === item ? 'selected' : ''}`} onClick={() => setAvatar(item)} />
+					{defaultAvatars.map((item) => (
+						<img key={item.file_id} src={`/uploads/${item.file_name}`} alt={item.file_name} className={`img-avatar ${avatar === item.file_id ? 'selected' : ''}`} onClick={() => setAvatar(item.file_id)} />
 					))}
 				</div>
 				<ErrorMessage error={error} />
