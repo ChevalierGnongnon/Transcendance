@@ -1,4 +1,4 @@
- {
+{
   "common":{
     "login": "Login",
     "password": "Password",
@@ -14,41 +14,46 @@
     "email": "Email"
   },
   "login": {
-    "mail-or-pseudo": "Mail or Pseudo",
-    "log-google": "Connect with google",
-    "log-github": "Connect with github",
-    "log-fourty-two": "Connect with 42",
+    "mail-or-pseudo": "Mail or pseudo",
+    "log-google": "Login with Google",
+    "log-github": "Login with GitHub",
+    "log-fourty-two": "Login with 42",
     "or": "OR",
     "no-account": "No account yet?",
-    "create-account": "Create a new account"
+    "create-account": "Create an account"
   },
   "register": {
     "birthdate": "Birthdate",
-    "register-google": "Register with google",
-    "register-github": "Register with github",
+    "register-google": "Register with Google",
+    "register-github": "Register with GitHub",
     "register-fourty-two": "Register with 42"
-    
   },
   "complete-your-profile": {
       "title": "Complete your profile",
       "enter-a-pseudo": "Enter a pseudo",
       "confirm": "Confirm",
       "upload-avatar": "Upload an avatar",
-      "choose-an-avatar": "Or choose a default avatar :"
-      
+      "choose-an-avatar": "Or choose a default one"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",
     "INVALID_EMAIL": "Invalid email format",
-    "INVALID_PASSWORD_REGISTRATION": "Invalid password (minimum 12 characters, 1 uppercase letter, 1 number, 1 special character)",
-    "LOGIN_OR_PASSWORD_INVALID": "Invalid password or email",
-    "INVALID_PSEUDO": "Spaces are not allowed in your username",
-    "USER_NOT_FOUND": "No account corresponds with this email or pseudo",
+    "INVALID_PASSWORD_REGISTRATION": "Invalid password (12 characters at least, 1 lowercase, 1 uppercase, 1 digit and 1 special character)",
+    "LOGIN_OR_PASSWORD_INVALID": "Invalid password and / or email",
+    "INVALID_PSEUDO": "Spaces are not allowed in pseudos",
+    "USER_NOT_FOUND": "No account with this email or password",
     "PASSWORDS_NOT_SAME": "Passwords do not match",
     "TOO_YOUNG": "You must be at least 18 years old",
-    "EMAIL_EXISTS": "This email address is already in use",
-    "PSEUDO_EXISTS": "This username is already taken",
+    "EMAIL_EXISTS": "Email is already used",
+    "PSEUDO_EXISTS": "Pseudo is already used",
     "INVALID_TOKEN": "Invalid session",
-    "DATABASE_ERROR": "Server error, please try again later"
+    "DATABASE_ERROR": "Server error, please try again later",
+    "INVALID_CREDENTIALS": "Invalid credentials",
+    "INVALID_PASSWORD": "Invalid password",
+    "NO_FILE_UPLOADED": "No file has been provided",
+    "SERVER_MISCONFIGURED": "Bad server configuration",
+    "UPLOAD_FAILED": "Upload has failed",
+    "WRONG_FILE_TYPE": "Bad file type (only: png, jpg, jpeg or webp)",
+    "FETCH_DEFAULT_AVATARS_ERROR": "Failed to fetch default avatars"
   }
 }
