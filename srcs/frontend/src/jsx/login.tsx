@@ -33,7 +33,7 @@ function Login() {
 
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
 			<form className="login-form d-flex flex-column align-items-center gap-3" onSubmit={manageSubmit}>
-				<h1 className="login-title">{t('login.title')}</h1>
+				<h1 className="login-title">{t('common.login')}</h1>
 				<div className="d-flex gap-3 w-100">
 					<div className="connect-options-div">
 						<label htmlFor="login" className="login-text">{t('login.mail-or-pseudo')}</label>

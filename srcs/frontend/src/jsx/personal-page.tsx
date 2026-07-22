@@ -42,13 +42,13 @@ function PersonalPage() {
                     </div>
                 </section>
                 <section className="ms-auto d-flex gap-2">
-                    <figure className="m-0 pp-icons-header" data-tooltip={t('header.messages')}>
+                    <figure className="m-0 pp-icons-header" data-tooltip={t('common.messages')}>
                         <img src={messageIcon} alt="message-icon" />
                     </figure>
-                    <figure className="m-0 pp-icons-header" data-tooltip={t('header.notifications')}>
+                    <figure className="m-0 pp-icons-header" data-tooltip={t('common.notifications')}>
                         <img src={notificationIcon} alt="notification-icon" />
                     </figure>
-                    <figure className="m-0 pp-icons-header" data-tooltip={t('header.parameters')}>
+                    <figure className="m-0 pp-icons-header" data-tooltip={t('common.parameters')}>
                         <img src={parametersIcon} alt="parameters-icon" />
                     </figure>
                 </section>

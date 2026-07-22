@@ -37,7 +37,7 @@ function Register({ onSuccess }: { onSuccess: () => void }) {
 	return (
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
 			<form className="login-form d-flex flex-column align-items-center gap-3" onSubmit={manageSubmit}>
-				<h1 className="register-title">{t('register.title')}</h1>
+				<h1 className="register-title">{t('common.register')}</h1>
 				<div className="d-flex gap-3 w-100">
 					<div className="connect-options-div">
 						<label htmlFor="name" className="login-text">{t('common.name')}</label>
