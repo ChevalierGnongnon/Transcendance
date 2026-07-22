@@ -40,7 +40,7 @@ function Login() {
 						<input type="text" name="name" value={login} placeholder={t('login.mail-or-pseudo')} className="form-control login-input" id="login" onChange={(e) => setLogin(e.target.value)} />
 						<label htmlFor="password" className="login-text">{t('common.password')}</label>
 						<input type="password" name="password" value={password} placeholder={t('common.password')} className="form-control login-input" id="password" onChange={(e) => setPassword(e.target.value)} />
-						<button type="submit" className="btn btn-primary form-button">{t('login.button')}</button>
+						<button type="submit" className="btn btn-primary form-button">{t('common.login')}</button>
 					</div>
 					<div className="separator-or">{t('login.or')}</div>
 					<div className="connect-options-div">
