@@ -1,10 +1,14 @@
 secrets:
+  OAuth_client_github_id:
+    file: ./secrets/github/OAuth_client_github_id.txt
+  OAuth_client_github_secret:
+    file: ./secrets/github/OAuth_client_github_secret.txt
   admin_password:
-    file: ./secrets/admin_password.txt
+    file: ./secrets/accounts/admin_password.txt
   mysql_password: 
-    file: ./secrets/mysql_password.txt
+    file: ./secrets/mysql/mysql_password.txt
   mysql_root_password:
-    file: ./secrets/mysql_root_password.txt
+    file: ./secrets/mysql/mysql_root_password.txt
 
 services:
   nginx:
@@ -65,6 +69,8 @@ services:
     secrets:
       - mysql_password
       - admin_password
+      - OAuth_client_github_secret
+      - OAuth_client_github_id
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 5s

@@ -12,6 +12,7 @@ import cors from 'cors';
 import initAdmin from './database/scripts/init_admin';
 import initDefaultPictures from './database/scripts/init_default_profile_pictures';
 import defaultAvatarRoute from './src/routes/files/default-avatars'
+import OAuthGithub from './src/OAuth/OAuth-github'
 // import updateProfile from './src/routes/user/update-profile';
 
 import uploadRouter from './src/routes/files/upload-file';
@@ -38,6 +39,7 @@ app.use('/api', loginRouter);
 app.use('/api', logoutRouter);
 app.use('/api', uploadRouter);
 app.use('/api', defaultAvatarRoute);
+app.use('/api', OAuthGithub);
 // app.use('/api', updateProfile);
 app.use('/api', checkAuth);
 
