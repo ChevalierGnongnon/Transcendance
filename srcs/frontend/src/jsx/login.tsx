@@ -36,10 +36,10 @@ function Login() {
 				<h1 className="login-title">{t('login.title')}</h1>
 				<div className="d-flex gap-3 w-100">
 					<div className="connect-options-div">
-						<label htmlFor="login" className="login-text">{t('login.label_login')}</label>
-						<input type="text" name="name" value={login} placeholder={t('login.placeholder_login')} className="form-control login-input" id="login" onChange={(e) => setLogin(e.target.value)} />
-						<label htmlFor="password" className="login-text">{t('common.label_password')}</label>
-						<input type="password" name="password" value={password} placeholder={t('common.placeholder_password')} className="form-control login-input" id="password" onChange={(e) => setPassword(e.target.value)} />
+						<label htmlFor="login" className="login-text">{t('login.mail-or-pseudo')}</label>
+						<input type="text" name="name" value={login} placeholder={t('login.mail-or-pseudo')} className="form-control login-input" id="login" onChange={(e) => setLogin(e.target.value)} />
+						<label htmlFor="password" className="login-text">{t('common.password')}</label>
+						<input type="password" name="password" value={password} placeholder={t('common.password')} className="form-control login-input" id="password" onChange={(e) => setPassword(e.target.value)} />
 						<button type="submit" className="btn btn-primary form-button">{t('login.button')}</button>
 					</div>
 					<div className="separator-or">{t('login.or')}</div>

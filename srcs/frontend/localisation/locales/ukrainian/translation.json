@@ -1,53 +1,52 @@
- {
-  "common":{
-    "login": "Login",
-    "password": "Password",
-    "password_verify": "Password verify",
-    "register": "Register",
-    "my-page": "My page",
-    "messages": "Messages",
-    "notifications": "Notifications",
-    "parameters": "Parameters",
-    "name": "Name",
-    "lastname": "Last name",
-    "pseudo": "Pseudo",
-    "email": "Email"
+{
+  "common": {
+    "login": "Логін",
+    "password": "Пароль",
+    "password_verify": "Підтвердження пароля",
+    "register": "Зареєструватися",
+    "my-page": "Моя сторінка",
+    "messages": "Повідомлення",
+    "notifications": "Сповіщення",
+    "parameters": "Параметри",
+    "name": "Ім’я",
+    "lastname": "Прізвище",
+    "pseudo": "Псевдонім",
+    "email": "Електронна пошта"
   },
   "login": {
-    "mail-or-pseudo": "Mail or Pseudo",
-    "log-google": "Connect with google",
-    "log-github": "Connect with github",
-    "log-fourty-two": "Connect with 42",
-    "or": "OR",
-    "no-account": "No account yet?",
-    "create-account": "Create a new account"
+    "mail-or-pseudo": "Пошта або псевдонім",
+    "log-google": "Увійти через Google",
+    "log-github": "Увійти через GitHub",
+    "log-fourty-two": "Увійти через 42",
+    "or": "АБО",
+    "no-account": "Ще немає акаунта?",
+    "create-account": "Створити новий акаунт"
   },
   "register": {
-    "birthdate": "Birthdate",
-    "register-google": "Register with google",
-    "register-github": "Register with github",
-    "register-fourty-two": "Register with 42"
+    "birthdate": "Дата народження",
+    "register-google": "Реєстрація через Google",
+    "register-github": "Реєстрація через GitHub",
+    "register-fourty-two": "Реєстрація через 42"
   },
   "complete-your-profile": {
-      "title": "Complete your profile",
-      "enter-a-pseudo": "Enter a pseudo",
-      "confirm": "Confirm",
-      "upload-avatar": "Upload an avatar",
-      "choose-an-avatar": "Or choose a default avatar :",
-      "complete-button": "Confirm"
+    "title": "Заповніть свій профіль",
+    "enter-a-pseudo": "Введіть псевдонім",
+    "confirm": "Підтвердити",
+    "upload-avatar": "Завантажити аватар",
+    "choose-an-avatar": "Або виберіть стандартний аватар:"
   },
   "errors": {
-    "ALL_FIELDS_REQUIRED": "All fields are required",
-    "INVALID_EMAIL": "Invalid email format",
-    "INVALID_PASSWORD_REGISTRATION": "Invalid password (minimum 12 characters, 1 uppercase letter, 1 number, 1 special character)",
-    "LOGIN_OR_PASSWORD_INVALID": "Invalid password or email",
-    "INVALID_PSEUDO": "Spaces are not allowed in your username",
-    "USER_NOT_FOUND": "No account corresponds with this email or pseudo",
-    "PASSWORDS_NOT_SAME": "Passwords do not match",
-    "TOO_YOUNG": "You must be at least 18 years old",
-    "EMAIL_EXISTS": "This email address is already in use",
-    "PSEUDO_EXISTS": "This username is already taken",
-    "INVALID_TOKEN": "Invalid session",
-    "DATABASE_ERROR": "Server error, please try again later"
+    "ALL_FIELDS_REQUIRED": "Усі поля є обов’язковими",
+    "INVALID_EMAIL": "Невірний формат електронної пошти",
+    "INVALID_PASSWORD_REGISTRATION": "Невірний пароль (мінімум 12 символів, 1 велика літера, 1 цифра, 1 спеціальний символ)",
+    "LOGIN_OR_PASSWORD_INVALID": "Невірний пароль або електронна пошта",
+    "INVALID_PSEUDO": "Пробіли не допускаються в імені користувача",
+    "USER_NOT_FOUND": "Акаунт з такою поштою або псевдонімом не знайдено",
+    "PASSWORDS_NOT_SAME": "Паролі не збігаються",
+    "TOO_YOUNG": "Вам має бути щонайменше 18 років",
+    "EMAIL_EXISTS": "Ця електронна адреса вже використовується",
+    "PSEUDO_EXISTS": "Цей псевдонім уже зайнятий",
+    "INVALID_TOKEN": "Недійсна сесія",
+    "DATABASE_ERROR": "Помилка сервера, спробуйте пізніше"
   }
 }
