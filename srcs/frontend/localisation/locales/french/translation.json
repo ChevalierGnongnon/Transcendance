@@ -1,53 +1,59 @@
 {
   "common":{
-    "login": "Login",
+    "login": "Se connecter",
     "password": "Mot de passe",
-    "password_verify": "Verification de mot de passe",
+    "password_verify": "Vérification de mot de passe",
     "register": "Inscription",
     "my-page": "Ma page",
     "messages": "Messages",
     "notifications": "Notifications",
-    "parameters": "Parametres",
+    "parameters": "Paramètres",
     "name": "Nom",
-    "lastname": "Prenom",
+    "lastname": "Prénom",
     "pseudo": "Pseudo",
     "email": "Email"
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",
-    "log-google": "Se connecter avec google",
-    "log-github": "Se connecter avec github",
+    "log-google": "Se connecter avec Google",
+    "log-github": "Se connecter avec GitHub",
     "log-fourty-two": "Se connecter avec 42",
     "or": "OU",
-    "no-account": "Pas encore de compte?",
-    "create-account": "Creez un compte"
+    "no-account": "Pas encore de compte ?",
+    "create-account": "Créez un compte"
   },
   "register": {
     "birthdate": "Date de naissance",
-    "register-google": "S'inscrire avec google",
-    "register-github": "S'inscrire avec github",
+    "register-google": "S'inscrire avec Google",
+    "register-github": "S'inscrire avec GitHub",
     "register-fourty-two": "S'inscrire avec 42"
   },
   "complete-your-profile": {
-      "title": "Completez votre profil",
+      "title": "Complétez votre profil",
       "enter-a-pseudo": "Entrez un pseudo",
       "confirm": "Confirmer",
-      "upload-avatar": "Telechargez un avatar",
-      "choose-an-avatar": "Ou choisissez-en un par defaut"
+      "upload-avatar": "Téléchargez un avatar",
+      "choose-an-avatar": "Ou choisissez-en un par défaut"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
-    "INVALID_EMAIL": "Format d'email invalid",
-    "INVALID_PASSWORD_REGISTRATION": "Mot de passe invalide(1 majuscule, 1 minuscule, 1 chiffre, 12 caracteres minimum)",
+    "INVALID_EMAIL": "Format d'email invalide",
+    "INVALID_PASSWORD_REGISTRATION": "Mot de passe invalide (1 majuscule, 1 minuscule, 1 chiffre, 12 caractères minimum)",
     "LOGIN_OR_PASSWORD_INVALID": "Mot de passe et / ou adresse email invalide",
     "INVALID_PSEUDO": "Les espaces sont invalides dans les pseudos",
     "USER_NOT_FOUND": "Aucun compte ne correspond avec cet email ou ce mot de passe",
-    "PASSWORDS_NOT_SAME": "Les mots de passes ne correspondent pas",
-    "TOO_YOUNG": "Vous devez au moins avoir 18 ans",
-    "EMAIL_EXISTS": "Cette adresse email est deja utilisee",
-    "PSEUDO_EXISTS": "Ce pseudo est deja utilise",
+    "PASSWORDS_NOT_SAME": "Les mots de passe ne correspondent pas",
+    "TOO_YOUNG": "Vous devez avoir au moins 18 ans",
+    "EMAIL_EXISTS": "Cette adresse email est déjà utilisée",
+    "PSEUDO_EXISTS": "Ce pseudo est déjà utilisé",
     "INVALID_TOKEN": "Session invalide",
-    "DATABASE_ERROR": "Erreur serveur, merci de reessayer plus tard"
+    "DATABASE_ERROR": "Erreur serveur, merci de réessayer plus tard",
+    "INVALID_CREDENTIALS": "Identifiants invalides",
+    "INVALID_PASSWORD": "Mot de passe invalide",
+    "NO_FILE_UPLOADED": "Aucun fichier n'a été téléchargé",
+    "SERVER_MISCONFIGURED": "Mauvaise configuration serveur",
+    "UPLOAD_FAILED": "Le téléchargement a échoué",
+    "WRONG_FILE_TYPE": "Mauvais type de fichier (uniquement : png, jpg, jpeg ou webp)",
+    "FETCH_DEFAULT_AVATARS_ERROR": "Les avatars par défaut n'ont pas pu être importés"
   }
 }
-
