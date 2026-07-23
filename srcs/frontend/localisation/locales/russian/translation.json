@@ -1,53 +1,59 @@
- {
+{
   "common":{
-    "login": "Login",
-    "password": "Password",
-    "password_verify": "Password verify",
-    "register": "Register",
-    "my-page": "My page",
-    "messages": "Messages",
-    "notifications": "Notifications",
-    "parameters": "Parameters",
-    "name": "Name",
-    "lastname": "Last name",
-    "pseudo": "Pseudo",
-    "email": "Email"
+    "login": "Вход",
+    "password": "Пароль",
+    "password_verify": "Подтверждение пароля",
+    "register": "Регистрация",
+    "my-page": "Моя страница",
+    "messages": "Сообщения",
+    "notifications": "Уведомления",
+    "parameters": "Настройки",
+    "name": "Имя",
+    "lastname": "Фамилия",
+    "pseudo": "Псевдоним",
+    "email": "Электронная почта"
   },
   "login": {
-    "mail-or-pseudo": "Mail or Pseudo",
-    "log-google": "Connect with google",
-    "log-github": "Connect with github",
-    "log-fourty-two": "Connect with 42",
-    "or": "OR",
-    "no-account": "No account yet?",
-    "create-account": "Create a new account"
+    "mail-or-pseudo": "Почта или псевдоним",
+    "log-google": "Войти через Google",
+    "log-github": "Войти через GitHub",
+    "log-fourty-two": "Войти через 42",
+    "or": "ИЛИ",
+    "no-account": "Ещё нет аккаунта?",
+    "create-account": "Создать аккаунт"
   },
   "register": {
-    "birthdate": "Birthdate",
-    "register-google": "Register with google",
-    "register-github": "Register with github",
-    "register-fourty-two": "Register with 42"
+    "birthdate": "Дата рождения",
+    "register-google": "Зарегистрироваться через Google",
+    "register-github": "Зарегистрироваться через GitHub",
+    "register-fourty-two": "Зарегистрироваться через 42"
   },
   "complete-your-profile": {
-      "title": "Complete your profile",
-      "enter-a-pseudo": "Enter a pseudo",
-      "confirm": "Confirm",
-      "upload-avatar": "Upload an avatar",
-      "choose-an-avatar": "Or choose a default avatar :",
-      "complete-button": "Confirm"
+      "title": "Заполните свой профиль",
+      "enter-a-pseudo": "Введите псевдоним",
+      "confirm": "Подтвердить",
+      "upload-avatar": "Загрузить аватар",
+      "choose-an-avatar": "Или выберите аватар по умолчанию"
   },
   "errors": {
-    "ALL_FIELDS_REQUIRED": "All fields are required",
-    "INVALID_EMAIL": "Invalid email format",
-    "INVALID_PASSWORD_REGISTRATION": "Invalid password (minimum 12 characters, 1 uppercase letter, 1 number, 1 special character)",
-    "LOGIN_OR_PASSWORD_INVALID": "Invalid password or email",
-    "INVALID_PSEUDO": "Spaces are not allowed in your username",
-    "USER_NOT_FOUND": "No account corresponds with this email or pseudo",
-    "PASSWORDS_NOT_SAME": "Passwords do not match",
-    "TOO_YOUNG": "You must be at least 18 years old",
-    "EMAIL_EXISTS": "This email address is already in use",
-    "PSEUDO_EXISTS": "This username is already taken",
-    "INVALID_TOKEN": "Invalid session",
-    "DATABASE_ERROR": "Server error, please try again later"
+    "ALL_FIELDS_REQUIRED": "Все поля обязательны для заполнения",
+    "INVALID_EMAIL": "Неверный формат электронной почты",
+    "INVALID_PASSWORD_REGISTRATION": "Неверный пароль (минимум 12 символов, 1 строчная буква, 1 заглавная буква, 1 цифра и 1 специальный символ)",
+    "LOGIN_OR_PASSWORD_INVALID": "Неверный пароль и/или адрес электронной почты",
+    "INVALID_PSEUDO": "Пробелы в псевдониме недопустимы",
+    "USER_NOT_FOUND": "Нет аккаунта с такой почтой или паролем",
+    "PASSWORDS_NOT_SAME": "Пароли не совпадают",
+    "TOO_YOUNG": "Вам должно быть не менее 18 лет",
+    "EMAIL_EXISTS": "Этот адрес электронной почты уже используется",
+    "PSEUDO_EXISTS": "Этот псевдоним уже занят",
+    "INVALID_TOKEN": "Недействительная сессия",
+    "DATABASE_ERROR": "Ошибка сервера, попробуйте позже",
+    "INVALID_CREDENTIALS": "Неверные учётные данные",
+    "INVALID_PASSWORD": "Неверный пароль",
+    "NO_FILE_UPLOADED": "Файл не был предоставлен",
+    "SERVER_MISCONFIGURED": "Неверная конфигурация сервера",
+    "UPLOAD_FAILED": "Загрузка не удалась",
+    "WRONG_FILE_TYPE": "Неверный тип файла (только: png, jpg, jpeg или webp)",
+    "FETCH_DEFAULT_AVATARS_ERROR": "Не удалось загрузить аватары по умолчанию"
   }
 }

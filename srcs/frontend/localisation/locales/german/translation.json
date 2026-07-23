@@ -1,53 +1,59 @@
- {
+{
   "common":{
-    "login": "Login",
-    "password": "Password",
-    "password_verify": "Password verify",
-    "register": "Register",
-    "my-page": "My page",
-    "messages": "Messages",
-    "notifications": "Notifications",
-    "parameters": "Parameters",
+    "login": "Anmelden",
+    "password": "Passwort",
+    "password_verify": "Passwort bestätigen",
+    "register": "Registrieren",
+    "my-page": "Meine Seite",
+    "messages": "Nachrichten",
+    "notifications": "Benachrichtigungen",
+    "parameters": "Einstellungen",
     "name": "Name",
-    "lastname": "Last name",
-    "pseudo": "Pseudo",
-    "email": "Email"
+    "lastname": "Nachname",
+    "pseudo": "Pseudonym",
+    "email": "E-Mail"
   },
   "login": {
-    "mail-or-pseudo": "Mail or Pseudo",
-    "log-google": "Connect with google",
-    "log-github": "Connect with github",
-    "log-fourty-two": "Connect with 42",
-    "or": "OR",
-    "no-account": "No account yet?",
-    "create-account": "Create a new account"
+    "mail-or-pseudo": "E-Mail oder Pseudonym",
+    "log-google": "Mit Google anmelden",
+    "log-github": "Mit GitHub anmelden",
+    "log-fourty-two": "Mit 42 anmelden",
+    "or": "ODER",
+    "no-account": "Noch kein Konto?",
+    "create-account": "Ein Konto erstellen"
   },
   "register": {
-    "birthdate": "Birthdate",
-    "register-google": "Register with google",
-    "register-github": "Register with github",
-    "register-fourty-two": "Register with 42"
+    "birthdate": "Geburtsdatum",
+    "register-google": "Mit Google registrieren",
+    "register-github": "Mit GitHub registrieren",
+    "register-fourty-two": "Mit 42 registrieren"
   },
   "complete-your-profile": {
-      "title": "Complete your profile",
-      "enter-a-pseudo": "Enter a pseudo",
-      "confirm": "Confirm",
-      "upload-avatar": "Upload an avatar",
-      "choose-an-avatar": "Or choose a default avatar :",
-      "complete-button": "Confirm"
+      "title": "Vervollständigen Sie Ihr Profil",
+      "enter-a-pseudo": "Geben Sie ein Pseudonym ein",
+      "confirm": "Bestätigen",
+      "upload-avatar": "Avatar hochladen",
+      "choose-an-avatar": "Oder wählen Sie einen Standardavatar"
   },
   "errors": {
-    "ALL_FIELDS_REQUIRED": "All fields are required",
-    "INVALID_EMAIL": "Invalid email format",
-    "INVALID_PASSWORD_REGISTRATION": "Invalid password (minimum 12 characters, 1 uppercase letter, 1 number, 1 special character)",
-    "LOGIN_OR_PASSWORD_INVALID": "Invalid password or email",
-    "INVALID_PSEUDO": "Spaces are not allowed in your username",
-    "USER_NOT_FOUND": "No account corresponds with this email or pseudo",
-    "PASSWORDS_NOT_SAME": "Passwords do not match",
-    "TOO_YOUNG": "You must be at least 18 years old",
-    "EMAIL_EXISTS": "This email address is already in use",
-    "PSEUDO_EXISTS": "This username is already taken",
-    "INVALID_TOKEN": "Invalid session",
-    "DATABASE_ERROR": "Server error, please try again later"
+    "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",
+    "INVALID_EMAIL": "Ungültiges E-Mail-Format",
+    "INVALID_PASSWORD_REGISTRATION": "Ungültiges Passwort (mindestens 12 Zeichen, 1 Kleinbuchstabe, 1 Großbuchstabe, 1 Ziffer und 1 Sonderzeichen)",
+    "LOGIN_OR_PASSWORD_INVALID": "Ungültiges Passwort und/oder E-Mail",
+    "INVALID_PSEUDO": "Leerzeichen sind in Pseudonymen nicht erlaubt",
+    "USER_NOT_FOUND": "Kein Konto mit dieser E-Mail-Adresse oder diesem Passwort gefunden",
+    "PASSWORDS_NOT_SAME": "Die Passwörter stimmen nicht überein",
+    "TOO_YOUNG": "Sie müssen mindestens 18 Jahre alt sein",
+    "EMAIL_EXISTS": "Diese E-Mail-Adresse wird bereits verwendet",
+    "PSEUDO_EXISTS": "Dieses Pseudonym wird bereits verwendet",
+    "INVALID_TOKEN": "Ungültige Sitzung",
+    "DATABASE_ERROR": "Serverfehler, bitte versuchen Sie es später erneut",
+    "INVALID_CREDENTIALS": "Ungültige Anmeldedaten",
+    "INVALID_PASSWORD": "Ungültiges Passwort",
+    "NO_FILE_UPLOADED": "Es wurde keine Datei bereitgestellt",
+    "SERVER_MISCONFIGURED": "Fehlerhafte Serverkonfiguration",
+    "UPLOAD_FAILED": "Der Upload ist fehlgeschlagen",
+    "WRONG_FILE_TYPE": "Falscher Dateityp (nur: png, jpg, jpeg oder webp)",
+    "FETCH_DEFAULT_AVATARS_ERROR": "Die Standardavatare konnten nicht abgerufen werden"
   }
 }

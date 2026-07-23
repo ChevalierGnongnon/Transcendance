@@ -1,9 +1,9 @@
 {
   "common": {
-    "login": "Логін",
+    "login": "Вхід",
     "password": "Пароль",
     "password_verify": "Підтвердження пароля",
-    "register": "Зареєструватися",
+    "register": "Реєстрація",
     "my-page": "Моя сторінка",
     "messages": "Повідомлення",
     "notifications": "Сповіщення",
@@ -20,33 +20,40 @@
     "log-fourty-two": "Увійти через 42",
     "or": "АБО",
     "no-account": "Ще немає акаунта?",
-    "create-account": "Створити новий акаунт"
+    "create-account": "Створити акаунт"
   },
   "register": {
     "birthdate": "Дата народження",
-    "register-google": "Реєстрація через Google",
-    "register-github": "Реєстрація через GitHub",
-    "register-fourty-two": "Реєстрація через 42"
+    "register-google": "Зареєструватися через Google",
+    "register-github": "Зареєструватися через GitHub",
+    "register-fourty-two": "Зареєструватися через 42"
   },
   "complete-your-profile": {
-    "title": "Заповніть свій профіль",
-    "enter-a-pseudo": "Введіть псевдонім",
-    "confirm": "Підтвердити",
-    "upload-avatar": "Завантажити аватар",
-    "choose-an-avatar": "Або виберіть стандартний аватар:"
+      "title": "Заповніть свій профіль",
+      "enter-a-pseudo": "Введіть псевдонім",
+      "confirm": "Підтвердити",
+      "upload-avatar": "Завантажити аватар",
+      "choose-an-avatar": "Або виберіть стандартний аватар"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Усі поля є обов’язковими",
     "INVALID_EMAIL": "Невірний формат електронної пошти",
-    "INVALID_PASSWORD_REGISTRATION": "Невірний пароль (мінімум 12 символів, 1 велика літера, 1 цифра, 1 спеціальний символ)",
-    "LOGIN_OR_PASSWORD_INVALID": "Невірний пароль або електронна пошта",
-    "INVALID_PSEUDO": "Пробіли не допускаються в імені користувача",
-    "USER_NOT_FOUND": "Акаунт з такою поштою або псевдонімом не знайдено",
+    "INVALID_PASSWORD_REGISTRATION": "Невірний пароль (мінімум 12 символів, 1 мала літера, 1 велика літера, 1 цифра та 1 спеціальний символ)",
+    "LOGIN_OR_PASSWORD_INVALID": "Невірний пароль та/або електронна пошта",
+    "INVALID_PSEUDO": "Пробіли в псевдонімі не допускаються",
+    "USER_NOT_FOUND": "Немає акаунта з такою поштою або паролем",
     "PASSWORDS_NOT_SAME": "Паролі не збігаються",
     "TOO_YOUNG": "Вам має бути щонайменше 18 років",
     "EMAIL_EXISTS": "Ця електронна адреса вже використовується",
     "PSEUDO_EXISTS": "Цей псевдонім уже зайнятий",
     "INVALID_TOKEN": "Недійсна сесія",
-    "DATABASE_ERROR": "Помилка сервера, спробуйте пізніше"
+    "DATABASE_ERROR": "Помилка сервера, спробуйте пізніше",
+    "INVALID_CREDENTIALS": "Невірні облікові дані",
+    "INVALID_PASSWORD": "Невірний пароль",
+    "NO_FILE_UPLOADED": "Файл не було надано",
+    "SERVER_MISCONFIGURED": "Неправильна конфігурація сервера",
+    "UPLOAD_FAILED": "Завантаження не вдалося",
+    "WRONG_FILE_TYPE": "Неправильний тип файлу (лише: png, jpg, jpeg або webp)",
+    "FETCH_DEFAULT_AVATARS_ERROR": "Не вдалося завантажити стандартні аватари"
   }
 }
