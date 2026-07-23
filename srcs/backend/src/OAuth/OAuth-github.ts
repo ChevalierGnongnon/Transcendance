@@ -25,6 +25,12 @@ router.get('/auth/github', rateLimit, (req:Request, res:Response) => {
 })
 
 router.get('/auth/github/callback', rateLimit, async(req: Request, res: Response) => {
-     
+    const state = req.query.state;
+    const code = req.query.code;
+    const Oauth_state = req.cookies.github_oauth_state;
+
+    if (!state || !code || !Oauth_state)
+        return (res.status(403).json({errror: 'INVALID_OAUTH_TOKEN'}));
+    res.clearCookie('github_oauth_state'); 
 })
 export = router;
