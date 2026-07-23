@@ -1,10 +1,10 @@
 
-function Parameters(){
+function Parameters() {
     return (
         <>
-        <header>
-        </header>      
-        </>   
+            <header>
+            </header>
+        </>
     )
 }
 

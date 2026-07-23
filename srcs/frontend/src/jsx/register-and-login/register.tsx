@@ -1,7 +1,7 @@
 import "../scss/register.scss"
 import { useState, FormEvent } from "react";
 import { useTranslation } from 'react-i18next';
-import ErrorMessage from "./error-message";
+import ErrorMessage from "../others/error-message";
 
 function Register({ onSuccess }: { onSuccess: () => void }) {
 	const [name, setName] = useState("");

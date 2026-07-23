@@ -4,7 +4,7 @@ import "../scss/complete-profile.scss"
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, FormEvent } from "react"
-import ErrorMessage from "./error-message";
+import ErrorMessage from "../others/error-message";
 
 interface DefaultAvatar {
 	file_id: string;

@@ -1,6 +1,6 @@
 import "../scss/login.scss" //scss file, for styling
 import "../scss/common-classes.scss"
-import ErrorMessage from "./error-message";
+import ErrorMessage from "../others/error-message";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useState, FormEvent } from "react";
