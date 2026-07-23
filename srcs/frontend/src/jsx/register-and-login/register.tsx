@@ -1,4 +1,5 @@
-import "../scss/register.scss"
+import "../../scss/login.scss" //scss file, for styling
+import "../../scss/common-classes.scss"
 import { useState, FormEvent } from "react";
 import { useTranslation } from 'react-i18next';
 import ErrorMessage from "../others/error-message";

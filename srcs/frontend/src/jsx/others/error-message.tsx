@@ -1,4 +1,4 @@
-import "../scss/common-classes.scss"
+import "../../scss/common-classes.scss"
 import { useTranslation } from 'react-i18next';
 
 function ErrorMessage({error} : {error: string | null}){

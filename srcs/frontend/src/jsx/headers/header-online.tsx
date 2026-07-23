@@ -1,12 +1,12 @@
-import "../scss/common-classes.scss";
-import "../scss/profile-page.scss";
+import "../../scss/common-classes.scss";
+import "../../scss/profile-page.scss";
 import i18n from '../../../localisation/i18n';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
-import messageIcon from '../assets/icons/icon-messages.png';
-import parametersIcon from '../assets/icons/icon-parameters.png';
-import notificationIcon from '../assets/icons/icon-notifications.png'
+import messageIcon from '../../assets/icons/icon-messages.png';
+import parametersIcon from '../../assets/icons/icon-parameters.png';
+import notificationIcon from '../../assets/icons/icon-notifications.png'
 
 interface User {
     name: string;

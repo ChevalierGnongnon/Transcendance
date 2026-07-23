@@ -1,3 +1,5 @@
+import "../../scss/login.scss" //scss file, for styling
+import "../../scss/common-classes.scss"
 import { useState } from "react";
 import Register from "./register";
 import CompleteYourProfile  from "./complete-profile";

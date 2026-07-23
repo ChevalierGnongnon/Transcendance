@@ -1,6 +1,6 @@
-import "../scss/login.scss" //scss file, for styling
-import "../scss/common-classes.scss"
-import "../scss/complete-profile.scss"
+import "../../scss/login.scss" //scss file, for styling
+import "../../scss/common-classes.scss"
+import "../../scss/complete-profile.scss"
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, FormEvent } from "react"
