@@ -1,6 +1,6 @@
 import "../scss/common-classes.scss";
 import "../scss/profile-page.scss";
-import i18n from '../../localisation/i18n';
+import i18n from '../../../localisation/i18n';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
@@ -16,7 +16,8 @@ interface User {
     file_name: string | null;
 }
 
-function PersonalPage() {
+
+function PersonalHeader() {
     const [user, setUser] = useState<User | null>(null);
     const { t } = useTranslation();
     useEffect(() => {
@@ -26,7 +27,6 @@ function PersonalPage() {
             .then(res => res.json())
             .then(data => setUser(data))
     }, []);
-
     if (!user)
         return <p>Chargement...</p>;
     return (
@@ -34,7 +34,7 @@ function PersonalPage() {
             <header className="profile-page-header">
                 <section className="d-flex align-items-center gap-3">
                     <figure className="m-0">
-                    <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-profilePage" />
+                        <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-profilePage" />
                     </figure>
                     <div className="d-flex flex-column">
                         <h3>{user.pseudo}</h3>
@@ -53,10 +53,7 @@ function PersonalPage() {
                     </figure>
                 </section>
             </header>
-            <main className="d-flex justify-content-center align-items-center min-vh-100">
-
-            </main>
         </>
-    );
+    )
 }
-export default PersonalPage;
+export default PersonalHeader;
