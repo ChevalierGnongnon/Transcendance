@@ -3,7 +3,7 @@ import i18n from '../../../localisation/i18n'
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-function Header(){
+function HeaderOffline(){
     const {t} = useTranslation();
     return (
         <header className="common-head d-flex gap-2 p-2">
@@ -16,9 +16,8 @@ function Header(){
                 <Link to="/login" className="btn btn-secondary btn-sm">{t('common.login')}</Link>
                 <Link to="/register" className="btn btn-secondary btn-sm">{t('common.register')}</Link>
                 <Link to="/personalpage" className="btn btn-secondary btn-sm">{t('common.my-page')}</Link>
-                
             </div>
         </header>
     );
 }
-export default Header;
+export default HeaderOffline;

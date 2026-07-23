@@ -17,7 +17,7 @@ interface User {
 }
 
 
-function PersonalHeader() {
+function HeaderOnline() {
     const [user, setUser] = useState<User | null>(null);
     const { t } = useTranslation();
     useEffect(() => {
@@ -56,4 +56,4 @@ function PersonalHeader() {
         </>
     )
 }
-export default PersonalHeader;
+export default HeaderOnline;
