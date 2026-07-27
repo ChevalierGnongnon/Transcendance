@@ -1,4 +1,0 @@
-- [ ] remake exam rank
-- [ ] start coding the back end
-- [ ] make container for mysql
-- [ ] update docker compose.yaml and make script.sh for mysql
