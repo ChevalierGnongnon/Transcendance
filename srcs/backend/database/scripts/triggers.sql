@@ -1,6 +1,6 @@
 USE transcendance;
 DELIMITER //
-
+-- protects admin account 
 CREATE TRIGGER protect_admin_account
 BEFORE DELETE ON account
 FOR EACH ROW
@@ -9,7 +9,7 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete admin account';
     END IF;
 END //
-
+-- gives a random avatar if a default one is deleted
 CREATE TRIGGER reset_defaut_avatar
 BEFORE DELETE ON file
 FOR EACH ROW
