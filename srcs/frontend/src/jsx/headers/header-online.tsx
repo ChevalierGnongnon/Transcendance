@@ -13,6 +13,7 @@ import enFlag from "../../assets/flags/en-flag.png";
 import frFlag from "../../assets/flags/fr-flag.png";
 import ruFlag from "../../assets/flags/ru-flag.png";
 import ukFlag from "../../assets/flags/uk-flag.png";
+import { isCompositeComponent } from "react-dom/test-utils";
 
 
 interface User {
@@ -36,20 +37,20 @@ function HeaderOnline() {
     }, []);
 
     const navigate = useNavigate();
-    const handleLogout = async() => {
-        await fetch('/api/logout',{
+    const handleLogout = async () => {
+        await fetch('/api/logout', {
             method: 'POST',
             credentials: 'include'
         });
         navigate('/login');
     }
-     
+
     if (!user)
         return <p>Chargement...</p>;
     return (
         <>
             <header className="profile-page-header">
-                <section className="d-flex align-items-center gap-3">
+                <section className="header-left d-flex align-items-center gap-3">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
                         <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-profilePage" />
                     </figure>
@@ -58,26 +59,32 @@ function HeaderOnline() {
                         <span>{user.name} {user.last_name}</span>
                     </div>
                 </section>
-                <section className="ms-auto d-flex gap-1">
+                <section className="header-center d-flex align-items-center gap-1">
                     <span className="lang-choice" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }}>Français</span>
                     <span className="lang-choice" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }}>English</span>
                     <span className="lang-choice" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }}>Deutsch</span>
                     <span className="lang-choice" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }}>Русский</span>
                     <span className="lang-choice" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }}>українська</span>
                 </section>
-                <section className="ms-auto d-flex gap-2">
-                    <figure className="m-0 pp-icons-header" data-tooltip={t('common.messages')}>
-                        <img src={messageIcon} alt="message-icon" />
-                    </figure>
-                    <figure className="m-0 pp-icons-header" data-tooltip={t('common.notifications')}>
-                        <img src={notificationIcon} alt="notification-icon" />
-                    </figure>
-                    <figure className="m-0 pp-icons-header" data-tooltip={t('common.parameters')}>
-                        <img src={parametersIcon} alt="parameters-icon" />
-                    </figure>
-                    <figure className="m-0 pp-icons-header" data-tooltip={t('common.logout')} onClick={handleLogout}>
-                        <img src={logoutIcon} alt="logout-icon" />
-                    </figure>
+                <section className="header-right">
+                    <div className="d-flex gap-2">
+                        <figure className="m-0 pp-icons-header">
+                            <img src={messageIcon} alt="message-icon" />
+                            <span>{t('common.messages')}</span>
+                        </figure>
+                        <figure className="m-0 pp-icons-header">
+                            <img src={notificationIcon} alt="notification-icon" />
+                            <span>{t('common.notifications')}</span>
+                        </figure>
+                        <figure className="m-0 pp-icons-header">
+                            <img src={parametersIcon} alt="parameters-icon" />
+                            <span>{t('common.parameters')}</span>
+                        </figure>
+                        <figure className="m-0 pp-icons-header" data-tooltip={t('common.logout')} onClick={handleLogout}>
+                            <img src={logoutIcon} alt="logout-icon" />
+                            <span>{t('common.logout')}</span>
+                        </figure>
+                    </div>
                 </section>
             </header>
         </>
