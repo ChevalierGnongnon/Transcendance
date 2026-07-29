@@ -1,6 +1,7 @@
 {
   "common":{
     "login": "Se connecter",
+    "logout": "Se déconnecter",
     "password": "Mot de passe",
     "password_verify": "Vérification de mot de passe",
     "register": "Inscription",

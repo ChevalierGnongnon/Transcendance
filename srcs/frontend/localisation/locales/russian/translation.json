@@ -1,6 +1,7 @@
 {
   "common":{
     "login": "Вход",
+    "logout": "Выход",
     "password": "Пароль",
     "password_verify": "Подтверждение пароля",
     "register": "Регистрация",

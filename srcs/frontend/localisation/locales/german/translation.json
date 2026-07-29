@@ -1,6 +1,7 @@
 {
   "common":{
     "login": "Anmelden",
+    "logout": "Abmelden",
     "password": "Passwort",
     "password_verify": "Passwort bestätigen",
     "register": "Registrieren",

@@ -2,11 +2,12 @@ import "../../scss/common-classes.scss";
 import "../../scss/profile-page.scss";
 import i18n from '../../../localisation/i18n';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import messageIcon from '../../assets/icons/icon-messages.png';
 import parametersIcon from '../../assets/icons/icon-parameters.png';
 import notificationIcon from '../../assets/icons/icon-notifications.png'
+import logoutIcon from "../../assets/icons/icon-disconnect.png"
 
 interface User {
     name: string;
@@ -27,6 +28,16 @@ function HeaderOnline() {
             .then(res => res.json())
             .then(data => setUser(data))
     }, []);
+
+    const navigate = useNavigate();
+    const handleLogout = async() => {
+        await fetch('/api/logout',{
+            method: 'POST',
+            credentials: 'include'
+        });
+        navigate('/login');
+    }
+     
     if (!user)
         return <p>Chargement...</p>;
     return (
@@ -50,6 +61,9 @@ function HeaderOnline() {
                     </figure>
                     <figure className="m-0 pp-icons-header" data-tooltip={t('common.parameters')}>
                         <img src={parametersIcon} alt="parameters-icon" />
+                    </figure>
+                    <figure className="m-0 pp-icons-header" data-tooltip={t('common.logout')} onClick={handleLogout}>
+                        <img src={logoutIcon} alt="logout-icon" />
                     </figure>
                 </section>
             </header>

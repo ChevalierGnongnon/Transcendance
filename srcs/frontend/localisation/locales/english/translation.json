@@ -1,6 +1,7 @@
 {
   "common":{
     "login": "Login",
+    "logout": "Logout",
     "password": "Password",
     "password_verify": "Password verify",
     "register": "Register",
