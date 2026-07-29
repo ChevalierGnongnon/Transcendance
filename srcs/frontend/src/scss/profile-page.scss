@@ -7,6 +7,31 @@
 	object-fit: cover;
 	border: 3px solid greenyellow;
 	background-color: rgb(92, 156, 185);
+    cursor: pointer;
+    &:hover{
+        transform: scale(1.1,1.1);
+    }
+}
+
+.lang-choice{
+    color: white;
+    position: relative;
+    margin: 5%;
+    cursor: pointer;
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background-color: white;
+        transition: width 0.3s ease;
+    }
+    &:hover::after {
+        width: 100%;
+    }
 }
 
 .profile-page-header{
