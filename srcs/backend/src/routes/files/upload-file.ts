@@ -4,8 +4,8 @@ import jwt  from 'jsonwebtoken';
 import database from '../../config/db-connexion';
 import uploadConfig from '../../config/multer-config';
 import checkAuthToken from '../../middlewares/check-auth-token';
-import fs, { writeFileSync } from 'fs';
-import path, { resolve } from 'path';
+import fs from 'fs';
+import path from 'path';
 import sharp from 'sharp';
 import { randomUUID } from 'crypto';
 const router = express.Router();
@@ -30,7 +30,7 @@ router.post('/upload', checkAuthToken, upload.single('file'), async(req: Request
         if (!type || !['png', 'webp', 'jpg'].includes(type.ext))
             return (res.status(400).json({error: 'WRONG_FILE_TYPE'}));
         const result = await sharp(req.file.buffer).toFormat('webp').toBuffer();
-        const id = crypto.randomUUID();
+        const id = randomUUID();
         const fileName = `${id}.webp`;
         fs.writeFileSync(`/app/uploads/${fileName}`, result);
         const [results] = await database.promise().query(
