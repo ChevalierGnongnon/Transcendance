@@ -45,6 +45,7 @@
     "USER_NOT_FOUND": "Kein Konto mit dieser E-Mail-Adresse oder diesem Passwort gefunden",
     "PASSWORDS_NOT_SAME": "Die Passwörter stimmen nicht überein",
     "TOO_YOUNG": "Sie müssen mindestens 18 Jahre alt sein",
+    "INVALID_BIRTHDATE": "Ungültiges Geburtsdatum",
     "EMAIL_EXISTS": "Diese E-Mail-Adresse wird bereits verwendet",
     "PSEUDO_EXISTS": "Dieses Pseudonym wird bereits verwendet",
     "INVALID_TOKEN": "Ungültige Sitzung",

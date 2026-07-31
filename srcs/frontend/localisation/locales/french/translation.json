@@ -45,6 +45,7 @@
     "USER_NOT_FOUND": "Aucun compte ne correspond avec cet email ou ce mot de passe",
     "PASSWORDS_NOT_SAME": "Les mots de passe ne correspondent pas",
     "TOO_YOUNG": "Vous devez avoir au moins 18 ans",
+    "INVALID_BIRTHDATE": "Date de naissance invalide",
     "EMAIL_EXISTS": "Cette adresse email est déjà utilisée",
     "PSEUDO_EXISTS": "Ce pseudo est déjà utilisé",
     "INVALID_TOKEN": "Session invalide",

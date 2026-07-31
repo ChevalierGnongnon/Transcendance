@@ -37,6 +37,8 @@ router.post('/register', rateLimit, async(req: Request<{}, {}, RegisterBody>, re
         return (res.status(400).json({ error: 'PASSWORDS_NOT_SAME' }));
     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0))
         age--;
+    if (isNaN(birth.getTime()))
+        return res.status(400).json({ error: 'INVALID_BIRTHDATE' });
     if (age < 18)
         return (res.status(400).json({ error: 'TOO_YOUNG' }));
     try{
