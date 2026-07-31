@@ -14,7 +14,7 @@ router.post('/login', rateLimit, async(req: Request , res: Response) =>{
         return (res.status(400).json({ error: 'ALL_FIELDS_REQUIRED'}));
     try{
         const [results] = await database.promise().query<RowDataPacket[]>(
-            'SELECT account_id, password_hash FROM account WHERE email=? OR pseudo=?', [login, login]
+            'SELECT account_id, password_hash FROM account WHERE (email=? OR pseudo=?) AND is_deleted=?', [login, login, false]
         );
         if (!results.length)
             return (res.status(400).json({error: 'INVALID_CREDENTIALS'}));

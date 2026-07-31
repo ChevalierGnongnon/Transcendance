@@ -11,7 +11,7 @@
 - [ ] `file-manager.ts` — nettoyage des fichiers orphelins
 - [X] `my-profile.ts` — gérer le cas où le compte du token n'existe plus en base (retourne actuellement `res.json(undefined)` au lieu d'un 404)
 - [X] `my-profile.ts` — utiliser le middleware `checkAuthToken` au lieu de dupliquer la vérification du JWT à la main
-- [ ] `login.ts` / `my-profile.ts` — filtrer `is_deleted = FALSE` dans les requêtes SQL (un compte soft-deleted peut encore se connecter / être lu)
+- [X] `login.ts` / `my-profile.ts` — filtrer `is_deleted = FALSE` dans les requêtes SQL (un compte soft-deleted peut encore se connecter / être lu)
 - [ ] `registration.ts` — valider que `birthdate` est une date valide (`isNaN(birth.getTime())`) avant de calculer l'âge : une date malformée contourne actuellement le contrôle de majorité (NaN < 18 === false)
 - [ ] `complete-profile.ts` — **[sécu]** vérifier que `avatar` correspond à un fichier `type = 'default_avatar'` avant de l'insérer comme `profile_photo_id` (IDOR : permet actuellement de s'approprier la photo de n'importe quel compte tant que le `file_id` existe en base)
 - [ ] Ajouter un rate-limit sur `/my-profile`, `/upload`, `/complete-profile`, `/logout` (seuls `/login` et `/register` en ont un actuellement)

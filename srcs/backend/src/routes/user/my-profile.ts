@@ -13,7 +13,7 @@ router.get('/my-profile', checkAuthToken, async(req: Request, res: Response)=>{
             'SELECT account.name, account.last_name, account.email, account.pseudo, file.file_name\
             FROM account\
             LEFT JOIN file ON account.profile_photo_id = file.file_id\
-            WHERE account.account_id = ?', [req.account.account_id]
+            WHERE account.account_id = ? AND is_deleted=?', [req.account.account_id, false]
         );
         if (!account_personal_infos[0])
             return res.status(404).json({ error: 'ACCOUNT_NOT_FOUND' })
