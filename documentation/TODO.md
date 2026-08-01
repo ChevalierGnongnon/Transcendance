@@ -35,5 +35,7 @@
 
 ## Infrastructure
 
-- [ ] `nginx/default.conf` — headers de sécurité + redirection HTTP → HTTPS + `auth_request` pour protéger `/uploads/`
-- [ ] `nginx/default.conf` — ajouter `client_max_body_size` (défaut 1 Mo alors que le back accepte jusqu'à 5 Mo d'upload, les gros fichiers sont rejetés par nginx avant d'atteindre l'API)
+- [X] `nginx/default.conf` — HSTS ajouté ; pas de redirection HTTP→HTTPS : décision volontaire de n'exposer aucun port HTTP (sujet = "HTTPS must be used everywhere"), donc rien à rediriger
+- [X] `nginx/default.conf` — headers de sécurité restants (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`)
+- [ ] `nginx/default.conf` — `auth_request` sur `/uploads/` : **différé**, pas pertinent tant qu'il n'y a que des avatars (publics par nature) dedans ; à faire quand la messagerie ajoutera des pièces jointes privées (`file.type = 'message'`), en séparant les chemins (`/uploads/avatars/` public vs `/uploads/messages/` protégé) — sinon ça casse l'aperçu des avatars par défaut pendant l'inscription (`tmp_token` ≠ `token`, pas encore reconnu par `checkAuthToken`)
+- [X] `nginx/default.conf` — ajouter `client_max_body_size` (défaut 1 Mo alors que le back accepte jusqu'à 5 Mo d'upload, les gros fichiers sont rejetés par nginx avant d'atteindre l'API)
