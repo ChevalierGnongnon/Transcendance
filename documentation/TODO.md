@@ -15,8 +15,17 @@
 - [X] `registration.ts` — valider que `birthdate` est une date valide (`isNaN(birth.getTime())`) avant de calculer l'âge : une date malformée contourne actuellement le contrôle de majorité (NaN < 18 === false)
 - [ ] `complete-profile.ts` — **[sécu]** vérifier que `avatar` correspond à un fichier `type = 'default_avatar'` avant de l'insérer comme `profile_photo_id` (IDOR : permet actuellement de s'approprier la photo de n'importe quel compte tant que le `file_id` existe en base)
 - [ ] Ajouter un rate-limit sur `/my-profile`, `/upload`, `/complete-profile`, `/logout` (seuls `/login` et `/register` en ont un actuellement)
+- [ ] implement file manager (24h duration for files that are not profile photo)
+- [ ] fix frontend problems (register and login )
+- [ ] make responsive on login
+- [ ] make responsive on register
+- [ ] make responsive on offline header
+- [ ] make responsive on online header
+- [ ] draw some sketches for profile page and parameters page
+- [ ] settup meating with the others
 
 ## Frontend
+
 
 - [ ] `login.tsx` / `register.tsx` — remplacer les URLs OAuth hardcodées (`https://localhost:8443/api/auth/...`) par des chemins relatifs (`/api/auth/...`)
 - [ ] `personal-page.tsx` — afficher les infos de `user` récupérées via `/api/my-profile` (le `<main>` est actuellement vide, rien n'est rendu après le fetch)
