@@ -16,7 +16,7 @@
 - [ ] `complete-profile.ts` — **[sécu]** vérifier que `avatar` correspond à un fichier `type = 'default_avatar'` avant de l'insérer comme `profile_photo_id` (IDOR : permet actuellement de s'approprier la photo de n'importe quel compte tant que le `file_id` existe en base)
 - [ ] Ajouter un rate-limit sur `/my-profile`, `/upload`, `/complete-profile`, `/logout` (seuls `/login` et `/register` en ont un actuellement)
 - [ ] implement file manager (24h duration for files that are not profile photo)
-- [ ] fix frontend problems (register and login )
+- [X] fix frontend problems (register and login )
 - [ ] make responsive on login
 - [ ] make responsive on register
 - [ ] make responsive on offline header
