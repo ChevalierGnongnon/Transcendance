@@ -1,7 +1,9 @@
 import "../../scss/login.scss" //scss file, for styling
 import "../../scss/common-classes.scss"
+import "../../scss/register.scss"
 import { useState, FormEvent } from "react";
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import ErrorMessage from "../others/error-message";
 
 function Register({ onSuccess }: { onSuccess: () => void }) {
@@ -14,7 +16,7 @@ function Register({ onSuccess }: { onSuccess: () => void }) {
 	const [error, setError] = useState<string | null> (null);
 
 	const { t } = useTranslation();
-
+	const navigate = useNavigate();
 	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setError(null);
@@ -79,6 +81,10 @@ function Register({ onSuccess }: { onSuccess: () => void }) {
 						</a>
 					</div>
 				</div>
+				<p className="login-text">{t('register.already-have-account')}</p>
+				<button type="button" onClick={() => navigate('/login')} className="btn btn-primary form-button">
+					{t('common.login')}
+				</button>
 			</form>
 		</div>
 	);

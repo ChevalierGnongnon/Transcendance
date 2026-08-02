@@ -27,7 +27,8 @@
     "birthdate": "Дата народження",
     "register-google": "Зареєструватися через Google",
     "register-github": "Зареєструватися через GitHub",
-    "register-fourty-two": "Зареєструватися через 42"
+    "register-fourty-two": "Зареєструватися через 42",
+    "already-have-account": "Уже є акаунт?"
   },
   "complete-your-profile": {
       "title": "Заповніть свій профіль",

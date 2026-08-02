@@ -27,7 +27,8 @@
     "birthdate": "Geburtsdatum",
     "register-google": "Mit Google registrieren",
     "register-github": "Mit GitHub registrieren",
-    "register-fourty-two": "Mit 42 registrieren"
+    "register-fourty-two": "Mit 42 registrieren",
+    "already-have-account": "Sie haben bereits ein Konto?"
   },
   "complete-your-profile": {
       "title": "Vervollständigen Sie Ihr Profil",

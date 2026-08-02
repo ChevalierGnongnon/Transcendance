@@ -15,7 +15,6 @@ function HeaderOffline(){
             <div className="ms-auto d-flex gap-2">
                 <Link to="/login" className="btn btn-secondary btn-sm">{t('common.login')}</Link>
                 <Link to="/register" className="btn btn-secondary btn-sm">{t('common.register')}</Link>
-                <Link to="/personalpage" className="btn btn-secondary btn-sm">{t('common.my-page')}</Link>
             </div>
         </header>
     );
