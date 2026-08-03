@@ -18,6 +18,7 @@
 - [ ] implement file manager (24h duration for files that are not profile photo)
 - [X] fix frontend problems (register and login )
 - [ ] make responsive on login
+- [ ] `i18n.ts` — synchroniser `document.documentElement.lang` avec `i18n.language` (au chargement + sur `languageChanged`) pour permettre des règles CSS `:lang(de)` / `:lang(ru)` / etc. ciblant les langues qui cassent le responsive (texte trop long)
 - [ ] make responsive on register
 - [ ] make responsive on offline header
 - [ ] make responsive on online header

@@ -8,11 +8,12 @@ import messageIcon from '../../assets/icons/icon-messages.png';
 import parametersIcon from '../../assets/icons/icon-parameters.png';
 import notificationIcon from '../../assets/icons/icon-notifications.png'
 import logoutIcon from "../../assets/icons/icon-disconnect.png";
-import deFlag from "../../assets/flags/de-flag.png";
-import enFlag from "../../assets/flags/en-flag.png";
-import frFlag from "../../assets/flags/fr-flag.png";
-import ruFlag from "../../assets/flags/ru-flag.png";
-import ukFlag from "../../assets/flags/uk-flag.png";
+import myPageIcon from "../../assets/icons/icone-my-page.png"
+// import deFlag from "../../assets/flags/de-flag.png";
+// import enFlag from "../../assets/flags/en-flag.png";
+// import frFlag from "../../assets/flags/fr-flag.png";
+// import ruFlag from "../../assets/flags/ru-flag.png";
+// import ukFlag from "../../assets/flags/uk-flag.png";
 import { isCompositeComponent } from "react-dom/test-utils";
 
 
@@ -79,6 +80,10 @@ function HeaderOnline() {
                         <figure className="m-0 pp-icons-header">
                             <img src={parametersIcon} alt="parameters-icon" />
                             <span>{t('common.parameters')}</span>
+                        </figure>
+                        <figure className="m-0 pp-icons-header">
+                            <img src={myPageIcon} alt="parameters-icon" />
+                            <span>{t('common.my-page')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header" data-tooltip={t('common.logout')} onClick={handleLogout}>
                             <img src={logoutIcon} alt="logout-icon" />
