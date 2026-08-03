@@ -64,5 +64,15 @@
 	border:				2px solid black;
 }
 .common-head{
-	padding-left: 1%;
+	background-color: $background-common-color;
+}
+
+.header-btn{
+	border: 1px solid white;
+	border-radius: 10px;
+	background-color: $background-common-color;
+	&:hover{
+		background-color: rgb(3, 42, 100);
+		border: 1px solid white;
+	}
 }
