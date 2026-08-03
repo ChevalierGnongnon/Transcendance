@@ -34,7 +34,7 @@ function Login() {
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
 			<form className="login-form d-flex flex-column align-items-center gap-3" onSubmit={manageSubmit}>
 				<h1 className="login-title">{t('common.login')}</h1>
-				<div className="d-flex flex-column flex-md-row gap-3 w-100">
+				<div className="d-flex flex-column flex-xl-row gap-3 w-100">
 					<div className="connect-options-div">
 						<label htmlFor="login" className="login-text">{t('login.mail-or-pseudo')}</label>
 						<input type="text" name="name" value={login} placeholder={t('login.mail-or-pseudo')} className="form-control login-input" id="login" onChange={(e) => setLogin(e.target.value)} />
@@ -44,13 +44,13 @@ function Login() {
 					</div>
 
 
-					<div className="d-flex d-md-none align-items-center w-100 my-2">
+					<div className="d-flex d-xl-none align-items-center w-100 my-2">
 						<hr className="flex-grow-1" />
 						<span className="mx-2 text-white">{t('login.or')}</span>
 						<hr className="flex-grow-1" />
 					</div>
 
-					<div className="d-none d-md-flex position-relative align-items-center mx-2">
+					<div className="d-none d-xl-flex position-relative align-items-center mx-2">
 						<div className="vr h-100"></div>
 						<span className="position-absolute top-50 start-50 translate-middle text-white or-text px-2">{t('login.or')}</span>
 					</div>
