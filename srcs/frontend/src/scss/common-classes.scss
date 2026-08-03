@@ -63,10 +63,17 @@
 	border-radius:		12px;
 	border:				2px solid black;
 }
-.common-head{
+.common-head {
 	background-color: $background-common-color;
+	text-align: center;
+    .dropdown-menu {
+        background-color: transparent;
+        border: none; // optionnel, si tu veux aussi virer la bordure blanche par défaut
+    }
+    .dropdown-menu .btn {
+        width: 100%;
+    }
 }
-
 .header-btn{
 	border: 1px solid white;
 	border-radius: 10px;
