@@ -12,7 +12,8 @@
     "name": "Name",
     "lastname": "Last name",
     "pseudo": "Pseudo",
-    "email": "Email"
+    "email": "Email",
+    "languages": "Languages"
   },
   "login": {
     "mail-or-pseudo": "Mail or pseudo",

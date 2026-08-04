@@ -2,6 +2,7 @@ import "../../scss/common-classes.scss"
 import i18n from '../../../localisation/i18n'
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { isCompositeComponent } from "react-dom/test-utils";
 
 function HeaderOffline() {
     const { t } = useTranslation();
@@ -16,7 +17,7 @@ function HeaderOffline() {
             </div>
             <div className="dropdown d-md-none">
                 <button className="btn btn-secondary btn-sm dropdown-toggle header-btn" type="button" data-bs-toggle="dropdown">
-                    Langue
+                    {t('common.languages')}
                 </button>
                 <ul className="dropdown-menu">
                     <li>
