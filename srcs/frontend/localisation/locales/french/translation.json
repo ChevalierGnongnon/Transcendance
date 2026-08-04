@@ -19,6 +19,7 @@
     "log-google": "Se connecter avec Google",
     "log-github": "Se connecter avec GitHub",
     "log-fourty-two": "Se connecter avec 42",
+    "login-with": "Se connecter avec :",
     "or": "OU",
     "no-account": "Pas encore de compte ?",
     "create-account": "Créez un compte"
