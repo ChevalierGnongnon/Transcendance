@@ -53,7 +53,7 @@ function HeaderOnline() {
             <header className="profile-page-header">
                 <section className="header-left d-flex align-items-center gap-3">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
-                        <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-profilePage" />
+                        <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
                     <div className="d-flex flex-column">
                         <h3>{user.pseudo}</h3>

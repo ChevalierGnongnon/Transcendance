@@ -1,6 +1,6 @@
 @use "./common-variables.scss" as *;
 
-.img-avatar-profilePage{
+.img-avatar-header{
 	width: 80px;
 	height: 80px;
 	border-radius: 50%;
@@ -11,6 +11,16 @@
     &:hover{
         transform: scale(1.1,1.1);
     }
+}
+
+.img-avatar-profile-page{
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+	border: 3px solid greenyellow;
+	background-color: rgb(92, 156, 185);
+    cursor: pointer;
 }
 
 .lang-choice{
@@ -74,4 +84,24 @@
     &:hover{
         transform: scale(1.1,1.1);
     }
+}
+
+.shortcut-icon{
+    border: 1px solid white;
+    color: white;
+    border-radius: 30px;
+    background-color: $background-common-color;
+    width: 40%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+}
+
+.shortcut-grid{
+    width: 70%;
+    margin: auto;
+    padding: 1%;
 }
