@@ -29,9 +29,8 @@ function PersonalPage() {
         return <p>Chargement...</p>;
     return (
         <>
-            
             <main className="d-flex justify-content-center align-items-center min-vh-100">
-
+                
             </main>
         </>
     );

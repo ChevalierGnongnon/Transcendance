@@ -58,7 +58,6 @@ function Register({ onSuccess }: { onSuccess: () => void }) {
 						<ErrorMessage error={error} />
 						<button type="submit" className="btn btn-primary form-button">{t('common.register')}</button>
 					</div>
-					<div className="separator-or">{t('login.or')}</div>
 					<div className="connect-options-div">
 						<a href="https://localhost:8443/api/auth/google" className="btn btn-outline-dark d-flex align-items-center gap-2 google-button">
 							<svg width="18" height="18" viewBox="0 0 48 48">

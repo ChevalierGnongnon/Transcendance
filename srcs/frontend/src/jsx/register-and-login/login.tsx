@@ -31,10 +31,10 @@ function Login() {
 
 	return (
 
-		<div className="d-flex justify-content-center align-items-center min-vh-100">
+		<div className="d-flex justify-content-center align-items-center min-vh-100 mt-4">
 			<form className="login-form d-flex flex-column align-items-center gap-3" onSubmit={manageSubmit}>
 				<h1 className="login-title">{t('common.login')}</h1>
-				<div className="d-flex flex-column flex-xl-row gap-3 w-100">
+				<div className="d-flex flex-column flex-xl-row gap-2 w-100">
 					<div className="connect-options-div">
 						<label htmlFor="login" className="login-text">{t('login.mail-or-pseudo')}</label>
 						<input type="text" name="name" value={login} placeholder={t('login.mail-or-pseudo')} className="form-control login-input" id="login" onChange={(e) => setLogin(e.target.value)} />
@@ -44,19 +44,10 @@ function Login() {
 					</div>
 
 
-					<div className="d-flex d-xl-none align-items-center w-100 my-2">
-						<hr className="flex-grow-1" />
-						<span className="mx-2 text-white">{t('login.or')}</span>
-						<hr className="flex-grow-1" />
+					<div className="d-none d-xl-flex position-relative align-items-center">
 					</div>
 
-					<div className="d-none d-xl-flex position-relative align-items-center mx-2">
-						<div className="vr h-100"></div>
-						<span className="position-absolute top-50 start-50 translate-middle text-white or-text px-2">{t('login.or')}</span>
-					</div>
-
-
-					<div className="connect-options-div d-none d-xl-flex align-items-center w-100 my-2">
+					<div className="connect-options-div d-none d-xl-flex">
 						<a href="https://localhost:8443/api/auth/google" className="btn btn-outline-dark d-flex align-items-center gap-2 google-button">
 							<svg width="18" height="18" viewBox="0 0 48 48">
 								<path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
@@ -77,7 +68,7 @@ function Login() {
 							{t('login.log-fourty-two')}
 						</a>
 					</div>
-					<div className="connect-options-div d-flex d-xl-none position-relative align-items-center mx-2">
+					<div className="connect-options-div d-flex d-xl-none">
 						<p className="login-text">{t('login.login-with')}</p>
 						<div className="d-flex gap-2 justify-content-center flex-wrap">
 							<a href="https://localhost:8443/api/auth/google" className="btn btn-outline-dark d-flex align-items-center gap-2 google-min-button">
