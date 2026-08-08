@@ -92,16 +92,29 @@
     border-radius: 30px;
     background-color: $background-common-color;
     width: 40%;
-    height: 100px;
+    height: 125px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
     text-align: center;
+    cursor: pointer;
+    &:hover{
+        border: 2px solid white;
+        background-color: rgb(3, 42, 100);
+    }
 }
 
 .shortcut-grid{
     width: 70%;
+    margin: 0 auto;
+    padding: 1%;
+}
+
+.profile-page{
+    background-color: $background-common-color;
+    width: 60%;
     margin: auto;
     padding: 1%;
+    color: white;
 }

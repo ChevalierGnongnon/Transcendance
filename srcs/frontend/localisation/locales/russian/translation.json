@@ -13,7 +13,10 @@
     "lastname": "Фамилия",
     "pseudo": "Псевдоним",
     "email": "Электронная почта",
-    "languages": "Языки"
+    "languages": "Языки",
+    "play": "Играть",
+    "update-my-profile": "Редактировать профиль",
+    "loading": "Загрузка..."
   },
   "login": {
     "mail-or-pseudo": "Почта или псевдоним",
@@ -38,6 +41,13 @@
       "confirm": "Подтвердить",
       "upload-avatar": "Загрузить аватар",
       "choose-an-avatar": "Или выберите аватар по умолчанию"
+  },
+  "profile-page": {
+    "game-stats": "Игровая статистика",
+    "go-to": "Перейти к",
+    "games-won": "Выигранные игры",
+    "games-lost": "Проигранные игры",
+    "best-score": "Лучший результат"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Все поля обязательны для заполнения",

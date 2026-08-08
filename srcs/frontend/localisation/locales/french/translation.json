@@ -13,7 +13,10 @@
     "lastname": "Prénom",
     "pseudo": "Pseudo",
     "email": "Email",
-    "languages": "Langues"
+    "languages": "Langues",
+    "play": "Jouer",
+    "update-my-profile": "Modifier mon profil",
+    "loading": "Chargement..."
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",
@@ -38,6 +41,13 @@
       "confirm": "Confirmer",
       "upload-avatar": "Téléchargez un avatar",
       "choose-an-avatar": "Ou choisissez-en un par défaut"
+  },
+  "profile-page": {
+    "game-stats": "Statistiques de jeu",
+    "go-to": "Aller vers",
+    "games-won": "Parties gagnées",
+    "games-lost": "Parties perdues",
+    "best-score": "Meilleur score"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",

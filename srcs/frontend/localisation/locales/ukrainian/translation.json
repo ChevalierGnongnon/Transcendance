@@ -13,7 +13,10 @@
     "lastname": "Прізвище",
     "pseudo": "Псевдонім",
     "email": "Електронна пошта",
-    "languages": "Мови"
+    "languages": "Мови",
+    "play": "Грати",
+    "update-my-profile": "Редагувати профіль",
+    "loading": "Завантаження..."
   },
   "login": {
     "mail-or-pseudo": "Пошта або псевдонім",
@@ -38,6 +41,13 @@
       "confirm": "Підтвердити",
       "upload-avatar": "Завантажити аватар",
       "choose-an-avatar": "Або виберіть стандартний аватар"
+  },
+  "profile-page": {
+    "game-stats": "Ігрова статистика",
+    "go-to": "Перейти до",
+    "games-won": "Виграні ігри",
+    "games-lost": "Програні ігри",
+    "best-score": "Найкращий результат"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Усі поля є обов’язковими",

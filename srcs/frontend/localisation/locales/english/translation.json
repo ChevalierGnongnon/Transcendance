@@ -13,7 +13,10 @@
     "lastname": "Last name",
     "pseudo": "Pseudo",
     "email": "Email",
-    "languages": "Languages"
+    "languages": "Languages",
+    "play": "Play",
+    "update-my-profile": "Update my profile",
+    "loading": "Loading..."
   },
   "login": {
     "mail-or-pseudo": "Mail or pseudo",
@@ -38,6 +41,13 @@
       "confirm": "Confirm",
       "upload-avatar": "Upload an avatar",
       "choose-an-avatar": "Or choose a default one"
+  },
+  "profile-page": {
+    "game-stats": "Game stats",
+    "go-to": "Go to",
+    "games-won": "Games won",
+    "games-lost": "Games lost",
+    "best-score": "Best score"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",
