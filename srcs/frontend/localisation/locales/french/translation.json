@@ -45,6 +45,9 @@
   "profile-page": {
     "game-stats": "Statistiques de jeu",
     "go-to": "Aller vers",
+    "my-friends": "Mes amis",
+    "add-friend": "Ajouter un ami",
+    "friend-list": "Ma liste d'amis",
     "games-won": "Parties gagnées",
     "games-lost": "Parties perdues",
     "best-score": "Meilleur score"

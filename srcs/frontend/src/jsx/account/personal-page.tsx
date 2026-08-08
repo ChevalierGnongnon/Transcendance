@@ -4,9 +4,12 @@ import i18n from '../../../localisation/i18n';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
-import messageShortcut from "../../assets/icons/message-shortcut.png"
-import updateShortcut from "../../assets/icons/update-shortcut.png"
+import messageIcon from "../../assets/icons/icon-messages.png"
+import updateShortcut from "../../assets/icons/icon-update.png"
 import playShortcut from "../../assets/icons/play-shortcut.png"
+import addFriendsIcon from "../../assets/icons/icon-add-friends.png"
+import iconFriendList from "../../assets/icons/icon-friend-list.png"
+
 
 interface User {
     name: string;
@@ -33,11 +36,17 @@ function PersonalPage() {
         <>
             <main className="d-flex flex-column justify-content-center align-items-center">
                 <div className="profile-page d-flex flex-column gap-3 justify-content-center align-items-center min-vh-100">
+
                     <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-profile-page" />
+                    <div className="d-flex flex-column">
+                        <h1>{user.pseudo}</h1>
+                        <span>{user.name} {user.last_name}</span>
+                    </div>
+
                     <span>{t('profile-page.go-to')}</span>
                     <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
                         <figure className="shortcut-icon">
-                            <img src={messageShortcut} alt="message-shortcut" />
+                            <img src={messageIcon} alt="message-shortcut" />
                             <span>{t('common.messages')}</span>
                         </figure>
                         <figure className="shortcut-icon">
@@ -49,6 +58,19 @@ function PersonalPage() {
                             <span>{t('common.play')}</span>
                         </figure>
                     </div>
+
+                    <span>{t('profile-page.my-friends')}</span>
+                    <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
+                        <figure className="shortcut-icon">
+                            <img src={iconFriendList} alt="message-shortcut" />
+                            <span>{t('profile-page.friend-list')}</span>
+                        </figure>
+                        <figure className="shortcut-icon">
+                            <img src={addFriendsIcon} alt="message-shortcut" />
+                            <span>{t('profile-page.add-friend')}</span>
+                        </figure>
+                    </div>
+
                     <span>{t('profile-page.game-stats')}</span>
                     <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
                         <figure className="shortcut-icon">

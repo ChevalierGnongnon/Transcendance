@@ -8,7 +8,7 @@ import messageIcon from '../../assets/icons/icon-messages.png';
 import parametersIcon from '../../assets/icons/icon-parameters.png';
 import notificationIcon from '../../assets/icons/icon-notifications.png'
 import logoutIcon from "../../assets/icons/icon-disconnect.png";
-import myPageIcon from "../../assets/icons/icone-my-page.png"
+import myPageIcon from "../../assets/icons/icon-my-page.png"
 // import deFlag from "../../assets/flags/de-flag.png";
 // import enFlag from "../../assets/flags/en-flag.png";
 // import frFlag from "../../assets/flags/fr-flag.png";
@@ -73,10 +73,10 @@ function HeaderOnline() {
                             <img src={messageIcon} alt="message-icon" />
                             <span>{t('common.messages')}</span>
                         </figure>
-                        <figure className="m-0 pp-icons-header">
+                        {/* <figure className="m-0 pp-icons-header">
                             <img src={notificationIcon} alt="notification-icon" />
                             <span>{t('common.notifications')}</span>
-                        </figure>
+                        </figure> */}
                         <figure className="m-0 pp-icons-header">
                             <img src={parametersIcon} alt="parameters-icon" />
                             <span>{t('common.parameters')}</span>

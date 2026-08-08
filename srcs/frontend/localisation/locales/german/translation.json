@@ -45,6 +45,9 @@
   "profile-page": {
     "game-stats": "Spielstatistiken",
     "go-to": "Gehe zu",
+    "my-friends": "Meine Freunde",
+    "add-friend": "Einen Freund hinzufügen",
+    "friend-list": "Meine Freundesliste",
     "games-won": "Gewonnene Spiele",
     "games-lost": "Verlorene Spiele",
     "best-score": "Bester Punktestand"

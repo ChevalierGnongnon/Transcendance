@@ -45,6 +45,9 @@
   "profile-page": {
     "game-stats": "Ігрова статистика",
     "go-to": "Перейти до",
+    "my-friends": "Мої друзі",
+    "add-friend": "Додати друга",
+    "friend-list": "Мій список друзів",
     "games-won": "Виграні ігри",
     "games-lost": "Програні ігри",
     "best-score": "Найкращий результат"
