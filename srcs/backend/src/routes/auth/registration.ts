@@ -31,7 +31,7 @@ router.post('/register', rateLimit, async(req: Request<{}, {}, RegisterBody>, re
     if (!emailRegex.test(email))
         return (res.status(400).json({ error: 'INVALID_EMAIL' }));
     if (!passwordRegex.test(password))
-        return (res.status(400).json({ error: 'INVALID_PASSWORD' }));
+        return (res.status(400).json({ error: 'INVALID_PASSWORD_REGISTRATION' }));
     
     if (password !== passwordVerify)
         return (res.status(400).json({ error: 'PASSWORDS_NOT_SAME' }));
