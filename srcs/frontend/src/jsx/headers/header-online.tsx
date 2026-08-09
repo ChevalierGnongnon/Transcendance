@@ -9,11 +9,6 @@ import parametersIcon from '../../assets/icons/icon-parameters.png';
 import notificationIcon from '../../assets/icons/icon-notifications.png'
 import logoutIcon from "../../assets/icons/icon-disconnect.png";
 import myPageIcon from "../../assets/icons/icon-my-page.png"
-// import deFlag from "../../assets/flags/de-flag.png";
-// import enFlag from "../../assets/flags/en-flag.png";
-// import frFlag from "../../assets/flags/fr-flag.png";
-// import ruFlag from "../../assets/flags/ru-flag.png";
-// import ukFlag from "../../assets/flags/uk-flag.png";
 import { isCompositeComponent } from "react-dom/test-utils";
 
 
@@ -68,7 +63,7 @@ function HeaderOnline() {
                     <span className="lang-choice" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }}>українська</span>
                 </section>
                 <section className="header-right">
-                    <div className="d-flex gap-2">
+                    <div className="d-flex gap-4">
                         <figure className="m-0 pp-icons-header">
                             <img src={messageIcon} alt="message-icon" />
                             <span>{t('common.messages')}</span>
@@ -77,12 +72,12 @@ function HeaderOnline() {
                             <img src={notificationIcon} alt="notification-icon" />
                             <span>{t('common.notifications')}</span>
                         </figure> */}
-                        <figure className="m-0 pp-icons-header">
+                        <figure className="m-0 pp-icons-header" onClick={() => navigate('/parameters')}>
                             <img src={parametersIcon} alt="parameters-icon" />
                             <span>{t('common.parameters')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header">
-                            <img src={myPageIcon} alt="parameters-icon" />
+                            <img src={myPageIcon} alt="parameters-icon"/>
                             <span>{t('common.my-page')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header" data-tooltip={t('common.logout')} onClick={handleLogout}>
