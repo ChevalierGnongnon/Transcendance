@@ -48,6 +48,7 @@
     "my-friends": "Мої друзі",
     "add-friend": "Додати друга",
     "friend-list": "Мій список друзів",
+    "games-played": "Зіграні ігри",
     "games-won": "Виграні ігри",
     "games-lost": "Програні ігри",
     "best-score": "Найкращий результат"
@@ -64,7 +65,8 @@
     "change-pseudo": "Змінити псевдонім",
     "change-profile-photo": "Змінити фото профілю",
     "danger-zone": "НЕБЕЗПЕЧНА ЗОНА",
-    "delete-my-account": "Видалити мій акаунт"
+    "delete-my-account": "Видалити мій акаунт",
+    "delete-my-game-infos": "Видалити мою ігрову статистику"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Усі поля є обов’язковими",

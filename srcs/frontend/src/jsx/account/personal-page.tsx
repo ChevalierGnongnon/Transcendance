@@ -17,6 +17,10 @@ interface User {
     email: string;
     pseudo: string;
     file_name: string | null;
+    games_won: number;
+    games_lost: number;
+    best_score:number;
+    games_played:number
 }
 
 function PersonalPage() {
@@ -45,15 +49,15 @@ function PersonalPage() {
 
                     <span>{t('profile-page.go-to')}</span>
                     <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
-                        <figure className="shortcut-icon">
+                        <figure className="shortcut-icon justify-content-center">
                             <img src={messageIcon} alt="message-shortcut" />
                             <span>{t('common.messages')}</span>
                         </figure>
-                        <figure className="shortcut-icon">
+                        <figure className="shortcut-icon justify-content-center">
                             <img src={updateShortcut} alt="message-shortcut" />
                             <span>{t('common.update-my-profile')}</span>
                         </figure>
-                        <figure className="shortcut-icon">
+                        <figure className="shortcut-icon justify-content-center">
                             <img src={playShortcut} alt="play-shortcut" />
                             <span>{t('common.play')}</span>
                         </figure>
@@ -61,11 +65,11 @@ function PersonalPage() {
 
                     <span>{t('profile-page.my-friends')}</span>
                     <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
-                        <figure className="shortcut-icon">
+                        <figure className="shortcut-icon justify-content-center">
                             <img src={iconFriendList} alt="message-shortcut" />
                             <span>{t('profile-page.friend-list')}</span>
                         </figure>
-                        <figure className="shortcut-icon">
+                        <figure className="shortcut-icon justify-content-center">
                             <img src={addFriendsIcon} alt="message-shortcut" />
                             <span>{t('profile-page.add-friend')}</span>
                         </figure>
@@ -73,13 +77,20 @@ function PersonalPage() {
 
                     <span>{t('profile-page.game-stats')}</span>
                     <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
-                        <figure className="shortcut-icon">
+                        <figure className="shortcut-icon justify-content-center">
+                            <h1>{user.games_played}</h1>
+                            <span>{t('profile-page.games-played')}</span>
+                        </figure>
+                        <figure className="shortcut-icon justify-content-center">
+                            <h1>{user.games_won}</h1>
                             <span>{t('profile-page.games-won')}</span>
                         </figure>
-                        <figure className="shortcut-icon">
+                        <figure className="shortcut-icon justify-content-center">
+                             <h1>{user.games_lost}</h1>
                             <span>{t('profile-page.games-lost')}</span>
                         </figure>
-                        <figure className="shortcut-icon">
+                        <figure className="shortcut-icon justify-content-center">
+                             <h1>{user.best_score}</h1>
                             <span>{t('profile-page.best-score')}</span>
                         </figure>
                     </div>

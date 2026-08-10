@@ -73,6 +73,7 @@ function Parameters() {
 
                         <form className="danger-zone d-flex flex-column align-items-center justify-content-center gap-3 flex-fill">
                             <h3>{t('update-my-profile.danger-zone')}</h3>
+                            <input type="button" value={t('update-my-profile.delete-my-game-infos')} className="btn btn-primary update-button text-wrap" />
                             <input type="button" value={t('update-my-profile.delete-my-account')} className="btn btn-primary update-button text-wrap" />
                         </form>
                     </div>

@@ -48,6 +48,7 @@
     "my-friends": "My friends",
     "add-friend": "Add a friend",
     "friend-list": "My friend list",
+    "games-played": "Games played",
     "games-won": "Games won",
     "games-lost": "Games lost",
     "best-score": "Best score"
@@ -65,7 +66,8 @@
     "change-pseudo": "Change pseudo",
     "change-profile-photo": "Change profile picture",
     "danger-zone": "DANGER ZONE",
-    "delete-my-account": "Delete my account"
+    "delete-my-account": "Delete my account",
+    "delete-my-game-infos": "Delete my game statistics"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",

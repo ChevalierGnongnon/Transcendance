@@ -10,7 +10,8 @@ router.get('/my-profile', checkAuthToken, async(req: Request, res: Response)=>{
         return (res.status(401).json({ error: 'INVALID_TOKEN' }));
     try{
         const [account_personal_infos] = await database.promise().query<RowDataPacket[]>(
-            'SELECT account.name, account.last_name, account.email, account.pseudo, file.file_name\
+            'SELECT account.name, account.last_name, account.email, account.pseudo, file.file_name,\
+            account.games_played, account.games_won, account.games_lost, account.personal_best AS best_score\
             FROM account\
             LEFT JOIN file ON account.profile_photo_id = file.file_id\
             WHERE account.account_id = ? AND is_deleted=?', [req.account.account_id, false]
