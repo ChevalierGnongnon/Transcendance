@@ -77,7 +77,7 @@ function HeaderOnline() {
                             <span>{t('common.parameters')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header">
-                            <img src={myPageIcon} alt="parameters-icon"/>
+                            <img src={myPageIcon} alt="parameters-icon" onClick={()=> navigate('/personalpage')}/>
                             <span>{t('common.my-page')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header" data-tooltip={t('common.logout')} onClick={handleLogout}>

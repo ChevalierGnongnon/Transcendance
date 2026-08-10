@@ -52,6 +52,20 @@
     "games-lost": "Games lost",
     "best-score": "Best score"
   },
+  "update-my-profile":{
+    "update-my-profile": "Update my profile",
+    "change-my-password": "Change my password",
+    "old-password": "Old password",
+    "new-password": "New password",
+    "confirm-password": "Confirm the new password",
+    "change-account-infos": "Change account information",
+    "change-first-name": "Change first name",
+    "change-last-name": "Change last name",
+    "change-pseudo": "Change pseudo",
+    "change-profile-photo": "Change profile picture",
+    "danger-zone": "DANGER ZONE",
+    "delete-my-account": "Delete my account"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",
     "INVALID_EMAIL": "Invalid email format",

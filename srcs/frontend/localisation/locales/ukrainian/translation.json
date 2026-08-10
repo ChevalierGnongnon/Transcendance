@@ -52,6 +52,20 @@
     "games-lost": "Програні ігри",
     "best-score": "Найкращий результат"
   },
+  "update-my-profile":{
+    "update-my-profile": "Редагувати профіль",
+    "change-my-password": "Змінити пароль",
+    "old-password": "Старий пароль",
+    "new-password": "Новий пароль",
+    "confirm-password": "Підтвердіть новий пароль",
+    "change-account-infos": "Змінити інформацію про акаунт",
+    "change-first-name": "Змінити ім'я",
+    "change-last-name": "Змінити прізвище",
+    "change-pseudo": "Змінити псевдонім",
+    "change-profile-photo": "Змінити фото профілю",
+    "danger-zone": "НЕБЕЗПЕЧНА ЗОНА",
+    "delete-my-account": "Видалити мій акаунт"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Усі поля є обов’язковими",
     "INVALID_EMAIL": "Невірний формат електронної пошти",

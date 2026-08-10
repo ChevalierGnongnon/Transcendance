@@ -52,6 +52,20 @@
     "games-lost": "Verlorene Spiele",
     "best-score": "Bester Punktestand"
   },
+  "update-my-profile":{
+    "update-my-profile": "Mein Profil bearbeiten",
+    "change-my-password": "Mein Passwort ändern",
+    "old-password": "Altes Passwort",
+    "new-password": "Neues Passwort",
+    "confirm-password": "Neues Passwort bestätigen",
+    "change-account-infos": "Kontoinformationen ändern",
+    "change-first-name": "Vorname ändern",
+    "change-last-name": "Nachname ändern",
+    "change-pseudo": "Pseudonym ändern",
+    "change-profile-photo": "Profilbild ändern",
+    "danger-zone": "GEFAHRENZONE",
+    "delete-my-account": "Mein Konto löschen"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",
     "INVALID_EMAIL": "Ungültiges E-Mail-Format",

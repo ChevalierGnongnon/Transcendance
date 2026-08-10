@@ -52,6 +52,20 @@
     "games-lost": "Parties perdues",
     "best-score": "Meilleur score"
   },
+  "update-my-profile":{
+    "update-my-profile": "Mettre à jour mon profil",
+    "change-my-password": "Changer mon mot de passe",
+    "old-password": "Ancien mot de passe",
+    "new-password": "Nouveau mot de passe",
+    "confirm-password": "Confirmez le nouveau mot de passe",
+    "change-account-infos": "Modifier les informations du compte",
+    "change-first-name": "Changer de prénom",
+    "change-last-name": "Changer de nom de famille",
+    "change-pseudo": "Changer de pseudo",
+    "change-profile-photo": "Changer de photo de profil",
+    "danger-zone": "ZONE DANGEREUSE",
+    "delete-my-account": "Supprimer mon compte"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
     "INVALID_EMAIL": "Format d'email invalide",

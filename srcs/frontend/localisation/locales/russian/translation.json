@@ -52,6 +52,20 @@
     "games-lost": "Проигранные игры",
     "best-score": "Лучший результат"
   },
+  "update-my-profile":{
+    "update-my-profile": "Редактировать профиль",
+    "change-my-password": "Изменить пароль",
+    "old-password": "Старый пароль",
+    "new-password": "Новый пароль",
+    "confirm-password": "Подтвердите новый пароль",
+    "change-account-infos": "Изменить информацию об аккаунте",
+    "change-first-name": "Изменить имя",
+    "change-last-name": "Изменить фамилию",
+    "change-pseudo": "Изменить псевдоним",
+    "change-profile-photo": "Изменить фото профиля",
+    "danger-zone": "ОПАСНАЯ ЗОНА",
+    "delete-my-account": "Удалить мой аккаунт"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Все поля обязательны для заполнения",
     "INVALID_EMAIL": "Неверный формат электронной почты",
