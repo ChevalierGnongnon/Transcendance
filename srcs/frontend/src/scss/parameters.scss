@@ -18,10 +18,18 @@
     text-align: center;
     width: 100%;
     background-color: rgb(3, 42, 100);
+
 }
 
 .update-input{
+	background-color:	white;
+	border-radius:		12px;
+	border:				2px solid black;
+}
 
+.update-button{
+    width: 70%;
+    align-items: center;
 }
 
 .danger-zone{
@@ -37,5 +45,13 @@
         background-color: red;
         color: white;
         border: 3px solid white;
+    }
+    .update-button{
+        background-color: red;
+        border:3px solid white;
+        &:hover{
+            background-color: white;
+            color: red;
+        }
     }
 }
