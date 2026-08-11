@@ -76,7 +76,7 @@ function PersonalPage() {
                     </div>
 
                     <span>{t('profile-page.game-stats')}</span>
-                    <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
+                    {/* <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
                         <figure className="shortcut-icon justify-content-center">
                             <h1>{user.games_played}</h1>
                             <span>{t('profile-page.games-played')}</span>
@@ -93,7 +93,7 @@ function PersonalPage() {
                              <h1>{user.best_score}</h1>
                             <span>{t('profile-page.best-score')}</span>
                         </figure>
-                    </div>
+                    </div> */}
                 </div>
             </main>
         </>

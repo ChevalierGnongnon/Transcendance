@@ -61,7 +61,10 @@ function Parameters() {
                     <div className="col-12 col-md-4 d-flex flex-column align-items-center gap-3 h-100">
                         <form className="parameters-form d-flex flex-column align-items-center justify-content-center gap-3">
                             <h3>{t('update-my-profile.change-profile-photo')}</h3>
-                            <input type="file" name="profile_photo" id="profile_photo" />
+                            <label htmlFor="avatar" className="btn btn-secondary btn-sm">
+                                {t('complete-your-profile.upload-avatar')}
+                            </label>
+				            <input type="file" id="avatar" accept="image/*" style={{ display: 'none' }} />
                             <span>{t('complete-your-profile.choose-an-avatar')}</span>
                             <div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
                                 {defaultAvatars.map((item) => (
