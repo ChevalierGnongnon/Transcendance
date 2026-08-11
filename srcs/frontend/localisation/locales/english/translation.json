@@ -26,7 +26,8 @@
     "or": "OR",
     "no-account": "No account yet?",
     "create-account": "Create an account",
-    "login-with": "Login with :"
+    "login-with": "Login with :",
+    "register-with": "Register with :"
   },
   "register": {
     "birthdate": "Birthdate",
