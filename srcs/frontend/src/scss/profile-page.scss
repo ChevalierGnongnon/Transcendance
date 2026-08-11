@@ -14,8 +14,8 @@
 }
 
 .img-avatar-profile-page{
-    width: 300px;
-    height: 300px;
+    width: clamp(120px, 40vw, 300px);
+    height: clamp(120px, 40vw, 300px);
     border-radius: 50%;
     object-fit: cover;
 	border: 3px solid greenyellow;
@@ -91,8 +91,8 @@
     color: white;
     border-radius: 30px;
     background-color: $background-common-color;
-    width: 40%;
-    height: 125px;
+    min-height: 125px;
+    padding: 0.5rem 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -113,7 +113,7 @@
 
 .profile-page{
     background-color: $background-common-color;
-    width: 60%;
+    width: 70%;
     margin: auto;
     padding: 1%;
     color: white;

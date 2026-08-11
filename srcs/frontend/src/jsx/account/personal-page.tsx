@@ -48,31 +48,41 @@ function PersonalPage() {
                     </div>
 
                     <span>{t('profile-page.go-to')}</span>
-                    <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
-                        <figure className="shortcut-icon justify-content-center">
-                            <img src={messageIcon} alt="message-shortcut" />
-                            <span>{t('common.messages')}</span>
-                        </figure>
-                        <figure className="shortcut-icon justify-content-center">
-                            <img src={updateShortcut} alt="message-shortcut" />
-                            <span>{t('common.update-my-profile')}</span>
-                        </figure>
-                        <figure className="shortcut-icon justify-content-center">
-                            <img src={playShortcut} alt="play-shortcut" />
-                            <span>{t('common.play')}</span>
-                        </figure>
+                    <div className="row g-4 justify-content-center shortcut-grid">
+                        <div className="col-12 col-md-6 col-xl-4">
+                            <figure className="shortcut-icon justify-content-center">
+                                <img src={messageIcon} alt="message-shortcut" />
+                                <span>{t('common.messages')}</span>
+                            </figure>
+                        </div>
+                        <div className="col-12 col-md-6 col-xl-4">
+                            <figure className="shortcut-icon justify-content-center">
+                                <img src={updateShortcut} alt="message-shortcut" />
+                                <span>{t('common.update-my-profile')}</span>
+                            </figure>
+                        </div>
+                        <div className="col-12 col-md-6 col-xl-4">
+                            <figure className="shortcut-icon justify-content-center">
+                                <img src={playShortcut} alt="play-shortcut" />
+                                <span>{t('common.play')}</span>
+                            </figure>
+                        </div>
                     </div>
 
                     <span>{t('profile-page.my-friends')}</span>
-                    <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
-                        <figure className="shortcut-icon justify-content-center">
-                            <img src={iconFriendList} alt="message-shortcut" />
-                            <span>{t('profile-page.friend-list')}</span>
-                        </figure>
-                        <figure className="shortcut-icon justify-content-center">
-                            <img src={addFriendsIcon} alt="message-shortcut" />
-                            <span>{t('profile-page.add-friend')}</span>
-                        </figure>
+                    <div className="row g-4 justify-content-center shortcut-grid">
+                        <div className="col-12 col-md-6 col-xl-6">
+                            <figure className="shortcut-icon justify-content-center">
+                                <img src={iconFriendList} alt="message-shortcut" />
+                                <span>{t('profile-page.friend-list')}</span>
+                            </figure>
+                        </div>
+                        <div className="col-12 col-md-6 col-xl-6">
+                            <figure className="shortcut-icon justify-content-center">
+                                <img src={addFriendsIcon} alt="message-shortcut" />
+                                <span>{t('profile-page.add-friend')}</span>
+                            </figure>
+                        </div>
                     </div>
 
                     <span>{t('profile-page.game-stats')}</span>
