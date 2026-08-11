@@ -40,7 +40,7 @@
       "enter-a-pseudo": "Enter a pseudo",
       "confirm": "Confirm",
       "upload-avatar": "Upload an avatar",
-      "choose-an-avatar": "Or choose a default one"
+      "choose-an-avatar": "Or choose a default one :"
   },
   "profile-page": {
     "game-stats": "Game stats",
