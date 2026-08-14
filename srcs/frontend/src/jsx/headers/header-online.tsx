@@ -109,19 +109,19 @@ function HeaderOnline() {
                     </div>
                     <div className="dropdown d-md-none">
                     <button className="btn btn-secondary btn-sm dropdown-toggle header-btn-right" type="button" data-bs-toggle="dropdown">
-                        go to
+                        {t('profile-page.go-to')}
                     </button>
                     <ul className="dropdown-menu">
                         <li>
-                            <input type="button" value="Messages" className="btn btn-secondary header-btn btn-sm" />
+                            <input type="button" value={t('common.messages')} className="btn btn-secondary header-btn btn-sm" />
                         </li>
                         <li>
-                            <input type="button" value="Parameters" className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/Parameters') } />
+                            <input type="button" value={t('common.parameters')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/Parameters') } />
                         </li>
                         <li>
-                            <input type="button" value="My page" className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/MyPage') } /></li>
+                            <input type="button" value={t('common.my-page')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/personalpage') } /></li>
                         <li>
-                            <input type="button" value="Logout" className="btn btn-secondary header-btn btn-sm" onClick={handleLogout} />
+                            <input type="button" value={t('common.logout')} className="btn btn-secondary header-btn btn-sm" onClick={handleLogout} />
                         </li>
                     </ul>
                 </div>
