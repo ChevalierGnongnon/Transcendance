@@ -54,6 +54,13 @@
     align-items: center;
     height: 100px;
     padding: 0 1%;
+    .dropdown-menu {
+        background-color: transparent;
+        border: none;
+    }
+    .dropdown-menu .btn {
+        width: 100%;
+    }
 }
 
 .header-left{

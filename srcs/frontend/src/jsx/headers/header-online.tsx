@@ -45,8 +45,8 @@ function HeaderOnline() {
         return <p>Chargement...</p>;
     return (
         <>
-            <header className="profile-page-header">
-                <section className="header-left d-flex align-items-center gap-3">
+            <header className="profile-page-header py-3 px-4">
+                <section className="d-none d-md-flex header-left d-flex align-items-center gap-3">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
                         <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
@@ -55,29 +55,51 @@ function HeaderOnline() {
                         <span>{user.name} {user.last_name}</span>
                     </div>
                 </section>
-                <section className="header-center d-flex align-items-center gap-1">
-                    <span className="lang-choice" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }}>Français</span>
-                    <span className="lang-choice" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }}>English</span>
-                    <span className="lang-choice" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }}>Deutsch</span>
-                    <span className="lang-choice" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }}>Русский</span>
-                    <span className="lang-choice" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }}>українська</span>
+                <section className="d-md-none">
+                    <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
+                        <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
+                    </figure>
                 </section>
+                <div className="d-none d-md-flex gap-2">
+                    <input type="button" value="Français" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} />
+                    <input type="button" value="English" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} />
+                    <input type="button" value="Deutsch" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} />
+                    <input type="button" value="Русский" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} />
+                    <input type="button" value="українська" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} />
+                </div>
+                <div className="dropdown d-md-none">
+                    <button className="btn btn-secondary btn-sm dropdown-toggle header-btn" type="button" data-bs-toggle="dropdown">
+                        {t('common.languages')}
+                    </button>
+                    <ul className="dropdown-menu">
+                        <li>
+                            <input type="button" value="Français" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} />
+                        </li>
+                        <li>
+                            <input type="button" value="English" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} />
+                        </li>
+                        <li>
+                            <input type="button" value="Deutsch" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
+                        <li>
+                            <input type="button" value="Русский" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} />
+                        </li>
+                        <li>
+                            <input type="button" value="українська" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} />
+                        </li>
+                    </ul>
+                </div>
                 <section className="header-right">
-                    <div className="d-flex gap-4">
+                    <div className="d-none d-md-flex d-flex gap-4">
                         <figure className="m-0 pp-icons-header">
                             <img src={messageIcon} alt="message-icon" />
                             <span>{t('common.messages')}</span>
                         </figure>
-                        {/* <figure className="m-0 pp-icons-header">
-                            <img src={notificationIcon} alt="notification-icon" />
-                            <span>{t('common.notifications')}</span>
-                        </figure> */}
                         <figure className="m-0 pp-icons-header" onClick={() => navigate('/parameters')}>
                             <img src={parametersIcon} alt="parameters-icon" />
                             <span>{t('common.parameters')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header">
-                            <img src={myPageIcon} alt="parameters-icon" onClick={()=> navigate('/personalpage')}/>
+                            <img src={myPageIcon} alt="parameters-icon" onClick={() => navigate('/personalpage')} />
                             <span>{t('common.my-page')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header" data-tooltip={t('common.logout')} onClick={handleLogout}>
@@ -85,6 +107,24 @@ function HeaderOnline() {
                             <span>{t('common.logout')}</span>
                         </figure>
                     </div>
+                    <div className="dropdown d-md-none">
+                    <button className="btn btn-secondary btn-sm dropdown-toggle header-btn-right" type="button" data-bs-toggle="dropdown">
+                        go to
+                    </button>
+                    <ul className="dropdown-menu">
+                        <li>
+                            <input type="button" value="Messages" className="btn btn-secondary header-btn btn-sm" />
+                        </li>
+                        <li>
+                            <input type="button" value="Parameters" className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/Parameters') } />
+                        </li>
+                        <li>
+                            <input type="button" value="My page" className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/MyPage') } /></li>
+                        <li>
+                            <input type="button" value="Logout" className="btn btn-secondary header-btn btn-sm" onClick={handleLogout} />
+                        </li>
+                    </ul>
+                </div>
                 </section>
             </header>
         </>
