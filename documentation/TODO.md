@@ -17,19 +17,17 @@
 - [ ] Ajouter un rate-limit sur `/my-profile`, `/upload`, `/complete-profile`, `/logout` (seuls `/login` et `/register` en ont un actuellement)
 - [ ] implement file manager (24h duration for files that are not profile photo)
 - [X] fix frontend problems (register and login )
-- [ ] make responsive on login
-- [ ] `i18n.ts` — synchroniser `document.documentElement.lang` avec `i18n.language` (au chargement + sur `languageChanged`) pour permettre des règles CSS `:lang(de)` / `:lang(ru)` / etc. ciblant les langues qui cassent le responsive (texte trop long)
-- [ ] make responsive on register
-- [ ] make responsive on offline header
-- [ ] make responsive on online header
-- [ ] draw some sketches for profile page and parameters page
-- [ ] settup meating with the others
+- [X] make responsive on login
+- [X] make responsive on register
+- [X] make responsive on offline header
+- [X] make responsive on online header
+- [X] draw some sketches for profile page and parameters page
 
 ## Frontend
 
 
 - [ ] `login.tsx` / `register.tsx` — remplacer les URLs OAuth hardcodées (`https://localhost:8443/api/auth/...`) par des chemins relatifs (`/api/auth/...`)
-- [ ] `personal-page.tsx` — afficher les infos de `user` récupérées via `/api/my-profile` (le `<main>` est actuellement vide, rien n'est rendu après le fetch)
+- [X] `personal-page.tsx` — afficher les infos de `user` récupérées via `/api/my-profile` (le `<main>` est actuellement vide, rien n'est rendu après le fetch)
 - [ ] `complete-profile.tsx` (register-and-login) — ajouter un `try/catch` autour des `fetch` (`/api/complete-profile` et `/api/upload`) : une exception réseau laisse le formulaire figé sans aucun message d'erreur
 - [ ] `complete-profile.tsx` — ajouter un état `submitting` pour désactiver le bouton pendant la requête et empêcher le double-submit
 - [ ] `complete-profile.tsx` — gérer l'échec de l'upload d'avatar quand le compte a déjà été créé : le `tmp_token` étant déjà supprimé à ce stade, l'utilisateur reste bloqué sans moyen de retry (soit naviguer vers `/personalpage` quand même, soit permettre de relancer uniquement `/api/upload`)
