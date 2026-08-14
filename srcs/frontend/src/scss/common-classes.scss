@@ -92,6 +92,7 @@
 .common-head {
 	background-color: $background-common-color;
 	text-align: center;
+	color: white;
     .dropdown-menu {
         background-color: transparent;
         border: none; // optionnel, si tu veux aussi virer la bordure blanche par défaut
@@ -109,3 +110,37 @@
 		border: 0px solid white;
 	}
 }
+
+.lang-btn {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lang-btn:hover,
+.lang-btn:focus {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.lang-icon {
+    width: 30px !important;
+    height: 30px !important;
+    object-fit: contain;
+	margin: 10px;
+}
+
+.dropdown-toggle {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
