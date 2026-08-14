@@ -60,14 +60,8 @@ function HeaderOnline() {
                         <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
                 </section>
-                <div className="d-none d-md-flex gap-2">
-                    <input type="button" value="Français" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} />
-                    <input type="button" value="English" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} />
-                    <input type="button" value="Deutsch" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} />
-                    <input type="button" value="Русский" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} />
-                    <input type="button" value="українська" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} />
-                </div>
-                <div className="dropdown d-md-none">
+                
+                <div className="dropdown ">
                     <button className="btn btn-secondary btn-sm dropdown-toggle header-btn" type="button" data-bs-toggle="dropdown">
                         {t('common.languages')}
                     </button>
