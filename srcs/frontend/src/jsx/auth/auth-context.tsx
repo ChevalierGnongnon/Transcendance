@@ -6,6 +6,7 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 type AuthContextType = {
     isAuthenticated: true | false | null;
     login: () => void;
+    markDisconnected: () => void;
     logout: () => Promise<void>;
     refresh: () => Promise<void>;
 };
@@ -13,7 +14,7 @@ type AuthContextType = {
 const context = createContext<AuthContextType | undefined>(undefined);
 
 // Auth provider : delivers connection status (is authenticated)
-// and the functions to change the status (login / logout / refresh)
+// and the functions to change the status (login / logout / markdisconnected, refresh)
 // info everywhere inside its tags
 export function AuthProvider({children}:{children:ReactNode}){
     const [isAuthenticated, setIsAuthenticated] = useState<true | false | null>(null)
@@ -38,11 +39,16 @@ export function AuthProvider({children}:{children:ReactNode}){
         setIsAuthenticated(true);
     }
 
+    // When user disconnects himself volontarly (clicks on logout)
     const logout = async() => {
         await fetch('/api/logout', {
             method: 'POST',
             credentials: 'include'
         });
+        setIsAuthenticated(false);
+    }
+    // When user fetch api receives a 401 or 403, like invalid cookie, expired cookie...
+    function markDisconnected(){
         setIsAuthenticated(false);
     }
 
@@ -53,14 +59,14 @@ export function AuthProvider({children}:{children:ReactNode}){
     
     return (
         //returns value + usefull functions
-        <context.Provider value={{ isAuthenticated, login, logout, refresh }}>
+        <context.Provider value={{ isAuthenticated, login, logout, markDisconnected, refresh }}>
             {children}
         </context.Provider>
     )
 }
 
 // useAuth: entry point every other component uses to read and act on the auth state
-// (isAuthenticated, login, logout, refresh) without touching useContext directly,
+// (isAuthenticated, login, logout, markdisconnected, refresh) without touching useContext directly,
 // it throws if called outside AuthProvider, so if it's missing, the  provider fails loudly
 // instead of silently breaking somewhere else.
 export function useAuth(){
