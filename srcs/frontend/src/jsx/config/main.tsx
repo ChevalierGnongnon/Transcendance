@@ -8,18 +8,21 @@ import RegisterFlow from "../register-and-login/register-flow";
 import Parameters from '../account/parameters';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AppHeader from '../headers/app-header'
+import { AuthProvider } from '../auth/auth-context'
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<BrowserRouter>
-			<AppHeader/>
-			<Routes>
-				<Route path="/login" element={<Login/>}/>
-				<Route path="/register" element={<RegisterFlow/>}/>
-				<Route path="/personalpage" element={<PersonalPage/>}/>
-				<Route path="/parameters" element={<Parameters/>}/>
-				<Route path="/" element={<RegisterFlow/>} />
-			</Routes>
+			<AuthProvider>
+				<AppHeader />
+				<Routes>
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<RegisterFlow />} />
+					<Route path="/personalpage" element={<PersonalPage />} />
+					<Route path="/parameters" element={<Parameters />} />
+					<Route path="/" element={<RegisterFlow />} />
+				</Routes>
+			</AuthProvider>
 		</BrowserRouter>
 	</React.StrictMode>
 );
