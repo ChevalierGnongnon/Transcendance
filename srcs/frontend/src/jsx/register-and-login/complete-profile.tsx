@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, FormEvent } from "react"
 import ErrorMessage from "../others/error-message";
+import { useApiFetch } from "../auth/use-api-fetch";
+import { useAuth } from "../auth/auth-context";
 
 interface DefaultAvatar {
 	file_id: string;
@@ -17,6 +19,8 @@ function CompleteYourProfile() {
 	const [avatar, setAvatar] = useState<File | string | null>(null);
 	const [defaultAvatars, setDefaultAvatars] = useState<DefaultAvatar[]>([]);
 	const [error, setError] = useState<string | null>(null);
+	const apiFetch = useApiFetch();
+	const {login} = useAuth();
 
 	useEffect(() => {
 		fetch('/api/default-avatars')
@@ -38,10 +42,11 @@ function CompleteYourProfile() {
 		});
 		const data = await response.json();
 		if (response.ok){
+			login();
 			if (avatar instanceof File) {
 				const formData = new FormData();
 				formData.append('file', avatar);
-				const uploadResponse = await fetch('/api/upload', {
+				const uploadResponse = await apiFetch('/api/upload', {
 					method: 'POST',
 					credentials: 'include',
 					body: formData

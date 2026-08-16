@@ -4,13 +4,14 @@ import ErrorMessage from "../others/error-message";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useState, FormEvent } from "react";
+import { useAuth } from "../auth/auth-context";
 
 function Login() {
 	const [login, setLogin] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState<string | null>(null);
 	const navigate = useNavigate();
-
+	const { login: authLogin } = useAuth();
 	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const response = await fetch('/api/login', {
@@ -21,6 +22,7 @@ function Login() {
 		});
 		const data = await response.json();
 		if (response.ok) {
+			authLogin();
 			navigate('/personalpage');
 		}
 		else if (!response.ok)

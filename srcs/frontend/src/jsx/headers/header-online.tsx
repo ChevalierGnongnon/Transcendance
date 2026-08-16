@@ -10,6 +10,8 @@ import notificationIcon from '../../assets/icons/icon-notifications.png'
 import logoutIcon from "../../assets/icons/icon-disconnect.png";
 import myPageIcon from "../../assets/icons/icon-my-page.png"
 import { isCompositeComponent } from "react-dom/test-utils";
+import { useAuth } from "../auth/auth-context";
+import { useApiFetch } from "../auth/use-api-fetch";
 
 
 interface User {
@@ -24,20 +26,18 @@ interface User {
 function HeaderOnline() {
     const [user, setUser] = useState<User | null>(null);
     const { t } = useTranslation();
+    const { logout } = useAuth();
+    const apiFetch = useApiFetch();
+
     useEffect(() => {
-        fetch('/api/my-profile', {
-            credentials: 'include'
-        })
+        apiFetch('/api/my-profile', {credentials: 'include'})
             .then(res => res.json())
             .then(data => setUser(data))
     }, []);
 
     const navigate = useNavigate();
     const handleLogout = async () => {
-        await fetch('/api/logout', {
-            method: 'POST',
-            credentials: 'include'
-        });
+        await logout();
         navigate('/login');
     }
 
