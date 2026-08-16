@@ -35,7 +35,13 @@ export function AuthProvider({children}:{children:ReactNode}){
         checkAuth();        
     }, []);
 
+    useEffect(() => {
+        window.addEventListener('storage', refresh)
+        return () => window.removeEventListener('storage', refresh);
+    }, [])
+
     function login(){
+        localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(true);
     }
 
@@ -45,11 +51,13 @@ export function AuthProvider({children}:{children:ReactNode}){
             method: 'POST',
             credentials: 'include'
         });
+        localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(false);
     }
     // When user fetch api receives a 401 or 403, like invalid cookie, expired cookie...
     function markDisconnected(){
         setIsAuthenticated(false);
+        localStorage.setItem('auth-sync', Date.now().toString());
     }
 
     const refresh = async() => {
