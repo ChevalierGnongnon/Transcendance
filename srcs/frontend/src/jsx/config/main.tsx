@@ -9,6 +9,8 @@ import Parameters from '../account/parameters';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AppHeader from '../headers/app-header'
 import { AuthProvider } from '../auth/auth-context'
+import { RequireAuth } from "../auth/require-auth";
+import { GuestOnly } from "../auth/guest-only";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -16,11 +18,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 			<AuthProvider>
 				<AppHeader />
 				<Routes>
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<RegisterFlow />} />
-					<Route path="/personalpage" element={<PersonalPage />} />
-					<Route path="/parameters" element={<Parameters />} />
-					<Route path="/" element={<RegisterFlow />} />
+					<Route path="/login" element={<GuestOnly><Login /></GuestOnly>} />
+					<Route path="/register" element={<GuestOnly><RegisterFlow /></GuestOnly>} />
+					<Route path="/personalpage" element={<RequireAuth><PersonalPage /></RequireAuth>} />
+					<Route path="/parameters" element={<RequireAuth><Parameters /></RequireAuth>} />
+					<Route path="/" element={<GuestOnly><RegisterFlow /></GuestOnly>} />
 				</Routes>
 			</AuthProvider>
 		</BrowserRouter>
