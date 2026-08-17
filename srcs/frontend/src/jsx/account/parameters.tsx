@@ -27,7 +27,7 @@ function Parameters() {
         <>
             <main className="d-flex flex-column justify-content-center align-items-center">
                 <div className="row justify-content-center mt-4 g-3 update-main-div">
-                    <h2>{t('update-my-profile.update-my-profile')}</h2>
+                    <h2>{t('common.parameters')}</h2>
                     <div className="col-12 col-md-4 d-flex justify-content-center">
                         <form className="parameters-form d-flex flex-column align-items-center justify-content-center gap-3">
                             <h3>{t('update-my-profile.change-my-password')}</h3>

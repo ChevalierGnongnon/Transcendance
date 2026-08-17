@@ -27,7 +27,7 @@ function PersonalPage() {
     const [user, setUser] = useState<User | null>(null);
     const { t } = useTranslation();
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         fetch('/api/my-profile', {
             credentials: 'include'
@@ -60,7 +60,7 @@ function PersonalPage() {
                         <div className="col-12 col-md-6 col-xl-4">
                             <figure className="shortcut-icon justify-content-center" onClick={() => navigate('/Parameters')}>
                                 <img src={updateShortcut} alt="message-shortcut" />
-                                <span>{t('common.update-my-profile')}</span>
+                                <span>{t('common.parameters')}</span>
                             </figure>
                         </div>
                         <div className="col-12 col-md-6 col-xl-4">
