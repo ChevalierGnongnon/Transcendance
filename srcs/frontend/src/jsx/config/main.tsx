@@ -22,7 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/register" element={<GuestOnly><RegisterFlow /></GuestOnly>} />
 					<Route path="/personalpage" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/parameters" element={<RequireAuth><Parameters /></RequireAuth>} />
-					<Route path="/" element={<GuestOnly><RegisterFlow /></GuestOnly>} />
+					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
 				</Routes>
 			</AuthProvider>
 		</BrowserRouter>

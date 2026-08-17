@@ -2,7 +2,7 @@ import "../../scss/common-classes.scss";
 import "../../scss/profile-page.scss";
 import i18n from '../../../localisation/i18n';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import messageIcon from "../../assets/icons/icon-messages.png"
 import updateShortcut from "../../assets/icons/icon-update.png"
@@ -26,6 +26,8 @@ interface User {
 function PersonalPage() {
     const [user, setUser] = useState<User | null>(null);
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    
     useEffect(() => {
         fetch('/api/my-profile', {
             credentials: 'include'
@@ -56,7 +58,7 @@ function PersonalPage() {
                             </figure>
                         </div>
                         <div className="col-12 col-md-6 col-xl-4">
-                            <figure className="shortcut-icon justify-content-center">
+                            <figure className="shortcut-icon justify-content-center" onClick={() => navigate('/Parameters')}>
                                 <img src={updateShortcut} alt="message-shortcut" />
                                 <span>{t('common.update-my-profile')}</span>
                             </figure>
