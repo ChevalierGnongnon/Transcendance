@@ -1,11 +1,12 @@
 import express from 'express'
-import bcrypt from 'bcrypt';
-import database from '../../config/db-connexion';
 const router = express.Router();
-import rateLimit from '../../middlewares/rate-limiter';
-import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { Request, Response } from 'express';
 import { RowDataPacket } from 'mysql2';
+
+import database from '../../config/db-connexion';
+import rateLimit from '../../middlewares/rate-limiter';
 
 interface RegisterBody{
     name: string;
@@ -16,7 +17,7 @@ interface RegisterBody{
     birthdate: string
 }
 
-router.post('/register', rateLimit, async(req: Request<{}, {}, RegisterBody>, res: Response) =>{
+router.post('/', rateLimit, async(req: Request<{}, {}, RegisterBody>, res: Response) =>{
     const { name, last_name, email, password, passwordVerify, birthdate } = req.body;
     const today = new Date();
     const birth = new Date(birthdate);

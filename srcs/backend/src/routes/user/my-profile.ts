@@ -5,7 +5,7 @@ import { RowDataPacket } from 'mysql2';
 import { Request, Response } from 'express';
 import checkAuthToken from '../../middlewares/check-auth-token';
 
-router.get('/my-profile', checkAuthToken, async(req: Request, res: Response)=>{
+router.get('/', checkAuthToken, async(req: Request, res: Response)=>{
     if (!req.account || typeof req.account === 'string')
         return (res.status(401).json({ error: 'INVALID_TOKEN' }));
     try{

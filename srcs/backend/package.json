@@ -1,38 +1,40 @@
 {
-  "name": "app",
+  "name": "transcendance_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "server.ts",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec tsx server.ts"
+    "dev": "tsx watch src/index.ts",
+    "buil": "tsc",
+    "start": "node dist/index.js",
+    "db:seed": "tsx src/scripts/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "express-rate-limit": "^8.0.0",
-    "file-type": "22.0.1",
-    "helmet": "^8.0.0",
-    "jsonwebtoken": "^9.0.0",
-    "multer": "1.4.5-lts.1",
-    "mysql2": "^3.22.3",
-    "sharp": "^0.35.2"
+    "express-rate-limit": "^8.6.2",
+    "file-type": "^22.0.2",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.2.0",
+    "mysql2": "^3.23.3",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
-    "@types/cors": "^2.8.0",
-    "@types/express": "^5.0.0",
-    "@types/jsonwebtoken": "^9.0.0",
-    "@types/multer": "^1.4.0",
-    "@types/node": "^22.0.0",
-    "nodemon": "^3.0.0",
-    "typescript": "^5.0.0",
-    "tsx": "^4.0.0"
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.2.0",
+    "@types/node": "^26.2.0",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
   }
 }

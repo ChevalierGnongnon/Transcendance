@@ -1,17 +1,17 @@
 import express from 'express';
-import database from '../../config/db-connexion';
+import { Request, Response } from 'express';
 const router = express.Router()
 import {randomUUID} from 'crypto';
-import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { RowDataPacket } from 'mysql2';
+import database from '../../config/db-connexion';
 
 interface completeProfileBody{
     pseudo: string;
     avatar?: string;
 }
 
-router.post('/complete-profile', async(req: Request<{}, {}, completeProfileBody>, res: Response) =>{
+router.post('/', async(req: Request<{}, {}, completeProfileBody>, res: Response) =>{
     const token =  req.cookies.tmp_token;
     const {pseudo, avatar} = req.body;
     const pseudoRegex = /^[a-zA-Z0-9_-]{3,30}$/

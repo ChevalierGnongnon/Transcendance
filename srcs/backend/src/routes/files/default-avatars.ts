@@ -1,9 +1,11 @@
 import express, {Request, Response} from 'express'
-import database from '../../config/db-connexion';
 import { RowDataPacket } from 'mysql2'
+
+import database from '../../config/db-connexion';
+
 const router = express.Router();
 
-router.get('/default-avatars', async(req: Request, res: Response) =>{
+router.get('/', async(req: Request, res: Response) =>{
     
     try{
         const [query] = await database.promise().query<RowDataPacket[]>(

@@ -1,13 +1,14 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import database from '../../config/db-connexion';
 const router = express.Router();
-import rateLimit from '../../middlewares/rate-limiter';
-import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { Request, Response } from 'express';
 import { RowDataPacket } from 'mysql2';
 
-router.post('/login', rateLimit, async(req: Request , res: Response) =>{
+import database from '../../config/db-connexion';
+import rateLimit from '../../middlewares/rate-limiter';
+
+router.post('/', rateLimit, async(req: Request , res: Response) =>{
     const {login, password} = req.body;
 
     if (!login  || !password)
@@ -34,4 +35,5 @@ router.post('/login', rateLimit, async(req: Request , res: Response) =>{
         return (res.status(500).json({error: 'DATABASE_ERROR'}));
     }
 })
+
 export = router;

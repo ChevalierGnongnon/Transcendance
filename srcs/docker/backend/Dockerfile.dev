@@ -1,0 +1,16 @@
+FROM node:24-alpine
+
+RUN apk add --no-cache curl
+
+
+WORKDIR /app
+
+COPY srcs/backend/package*.json ./
+
+RUN npm install
+
+COPY srcs/docker/backend/default-avatars/ /app/uploads/
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

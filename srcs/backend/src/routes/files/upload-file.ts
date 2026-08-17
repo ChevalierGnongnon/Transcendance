@@ -19,7 +19,7 @@ const upload = uploadConfig({
     }
 })
 
-router.post('/upload', checkAuthToken, upload.single('file'), async(req: Request, res: Response) =>{
+router.post('/', checkAuthToken, upload.single('file'), async(req: Request, res: Response) =>{
     try {
         if (!req.file)
             return (res.status(400).json({error: 'NO_FILE_UPLOADED'}));
