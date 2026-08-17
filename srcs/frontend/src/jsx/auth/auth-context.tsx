@@ -64,7 +64,6 @@ export function AuthProvider({children}:{children:ReactNode}){
         await checkAuth();
     }
 
-    
     return (
         //returns value + usefull functions
         <context.Provider value={{ isAuthenticated, login, logout, markDisconnected, refresh }}>
