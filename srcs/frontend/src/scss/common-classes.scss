@@ -92,31 +92,55 @@
 .common-head {
 	background-color: $background-common-color;
 	text-align: center;
-	padding: 2%;
+	color: white;
     .dropdown-menu {
         background-color: transparent;
         border: none; // optionnel, si tu veux aussi virer la bordure blanche par défaut
     }
     .dropdown-menu .btn {
-        width: 100%;
+        width: 30%;
     }
 }
 .header-btn{
-	border: 1px solid white;
+	border: 0px solid white;
 	border-radius: 10px;
 	background-color: $background-common-color;
 	&:hover{
 		background-color: rgb(3, 42, 100);
-		border: 1px solid white;
+		border: 0px solid white;
 	}
 }
 
-.header-btn-right{
-	border: 1px solid white;
-	border-radius: 10px;
-	background-color: $background-common-color;
-	&:hover{
-		background-color: rgb(3, 42, 100);
-		border: 1px solid white;
-	}
+.lang-btn {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.lang-btn:hover,
+.lang-btn:focus {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.lang-icon {
+    width: 30px !important;
+    height: 30px !important;
+    object-fit: contain;
+	margin: 10px;
+}
+
+.dropdown-toggle {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+

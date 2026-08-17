@@ -12,6 +12,8 @@ import myPageIcon from "../../assets/icons/icon-my-page.png"
 import { isCompositeComponent } from "react-dom/test-utils";
 import { useAuth } from "../auth/auth-context";
 import { useApiFetch } from "../auth/use-api-fetch";
+import langIcon from "../../assets/icons/lang_icon.png"
+
 
 
 interface User {
@@ -60,30 +62,27 @@ function HeaderOnline() {
                         <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
                 </section>
-                
-                <div className="dropdown ">
-                    <button className="btn btn-secondary btn-sm dropdown-toggle header-btn" type="button" data-bs-toggle="dropdown">
-                        {t('common.languages')}
-                    </button>
-                    <ul className="dropdown-menu">
-                        <li>
-                            <input type="button" value="Français" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} />
-                        </li>
-                        <li>
-                            <input type="button" value="English" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} />
-                        </li>
-                        <li>
-                            <input type="button" value="Deutsch" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
-                        <li>
-                            <input type="button" value="Русский" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} />
-                        </li>
-                        <li>
-                            <input type="button" value="українська" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} />
-                        </li>
-                    </ul>
-                </div>
                 <section className="header-right">
                     <div className="d-none d-md-flex d-flex gap-4">
+                            <div className="dropdown pp-icons-header">
+                                <button
+                                    className="btn btn-secondary btn-sm dropdown-toggle header-btn"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                >
+                                    <img src={langIcon} alt="language-icon" className="lang-icon" />
+                                </button>
+                                
+                                <span>{t('common.languages')}</span>
+                                
+                                <ul className="dropdown-menu">
+                                    <li><input type="button" value="Fr" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
+                                    <li><input type="button" value="Eng" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
+                                    <li><input type="button" value="De" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
+                                    <li><input type="button" value="Ru" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
+                                    <li><input type="button" value="Ua" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
+                                </ul>
+                            </div>
                         <figure className="m-0 pp-icons-header">
                             <img src={messageIcon} alt="message-icon" />
                             <span>{t('common.messages')}</span>
