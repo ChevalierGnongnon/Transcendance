@@ -1,3 +1,7 @@
 .env
+*.env
 srcs/docker/secrets/*
 node_modules
+srcs/backend/node_modules
+srcs/backend/upload/
+srcs/frontend/node_modules

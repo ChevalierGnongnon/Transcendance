@@ -4,7 +4,7 @@ import checkAuthToken from '../../middlewares/check-auth-token';
 
 const router = express.Router();
 
-router.get('/check-auth', checkAuthToken, (req: Request, res: Response) => {
+router.get('/', checkAuthToken, (req: Request, res: Response) => {
     res.status(200).json({authenticated: true});
 });
 export = router;

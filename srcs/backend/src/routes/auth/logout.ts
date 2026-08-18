@@ -3,7 +3,7 @@ const router = express.Router();
 import { Request, Response } from 'express';
 
 
-router.post('/logout', (req: Request, res: Response) => {
+router.post('/', (req: Request, res: Response) => {
     const   infos = req.cookies.token;
     
     if (!infos)

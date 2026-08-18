@@ -1,44 +1,70 @@
-secrets:
-  OAuth_client_github_id:
-    file: ./secrets/github/OAuth_client_github_id.txt
-  OAuth_client_github_secret:
-    file: ./secrets/github/OAuth_client_github_secret.txt
-  admin_password:
-    file: ./secrets/accounts/admin_password.txt
-  mysql_password: 
-    file: ./secrets/mysql/mysql_password.txt
-  mysql_root_password:
-    file: ./secrets/mysql/mysql_root_password.txt
-
 services:
   nginx:
-    build:
-      context: ../..
-      dockerfile: srcs/docker/nginx/Dockerfile
-    image: nginx:transcendance
+    image: nginx:1.31-alpine
     container_name: nginx
     ports:
       - "8443:443"
     volumes:
-      - file_container:/app/uploads
+      - ./nginx/conf.d:/etc/nginx/conf.d/:ro
+      - uploads:/app/uploads
     networks:
       - transcendance
     env_file:
       - ./secrets/.env
+    secrets:
+      - ssl_certificate
+      - ssl_private_key
     restart: unless-stopped
     depends_on:
-      expressjs: 
+      backend: 
         condition: service_healthy
-      reactjs:
+      frontend:
         condition: service_healthy
       mariadb:
         condition: service_healthy
-  reactjs:
+  mariadb:
+    image: mariadb:12.3
+    container_name: mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./mariadb/initdb:/docker-entrypoint-initdb.d:ro
+    networks:
+      - transcendance
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "healthcheck.sh",
+          "--connect",
+          "--innodb_initialized"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    environment:
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mariadb_root_password
+      MARIADB_PASSWORD_FILE: /run/secrets/mariadb_password
+    env_file: secrets/.env
+    secrets:
+      - mariadb_password
+      - mariadb_root_password
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - transcendance
+
+  frontend:
     build:
       context: ../..
-      dockerfile: srcs/docker/reactjs/Dockerfile
-    image: reactjs:transcendance
-    container_name: reactjs
+      dockerfile: srcs/docker/frontend/Dockerfile
+    image: frontend:transcendance
+    container_name: frontend
     volumes:
       - ../frontend:/app
       - react_node_modules:/app/node_modules
@@ -51,61 +77,61 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
-
-  expressjs:
+  backend:
     build:
       context: ../..
-      dockerfile: srcs/docker/expressjs/Dockerfile
-    image: expressjs:transcendance
-    container_name: expressjs
+      dockerfile: srcs/docker/backend/Dockerfile.dev
+    image: backend:transcendance
+    container_name: backend 
     volumes:
       - ../backend:/app
       - express_node_modules:/app/node_modules
-      - file_container:/app/uploads
+      - uploads:/app/uploads
     networks:
       - transcendance
     restart: unless-stopped
+    environment:
+      MARIADB_PASSWORD_FILE: /run/secrets/mariadb_password
+      ADMIN_PASSWORD_FILE: /run/secrets/admin_password
     env_file: secrets/.env
     secrets:
-      - mysql_password
+      - mariadb_password
       - admin_password
       - OAuth_client_github_secret
       - OAuth_client_github_id
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ["CMD", "node", "/app/src/scripts/healthcheck.js"]
       interval: 5s
       timeout: 3s
       retries: 5
+      start_period: 10s
     depends_on:
       mariadb:
         condition: service_healthy
-  mariadb:
-    build:
-      context: ../..
-      dockerfile: srcs/docker/mariadb/Dockerfile
-    image: mariadb:transcendance
-    container_name: mysql_database
-    volumes:
-      - mariadb_data:/var/lib/mysql
-    networks:
-      - transcendance
-    restart: unless-stopped
-    env_file: secrets/.env
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
-      interval: 8s
-      timeout: 8s
-      retries: 30
-      start_period: 20s
-    secrets:
-      - mysql_password
-      - mysql_root_password
-    
-networks:
-  transcendance:
+
+
+secrets:
+  OAuth_client_github_id:
+    file: ./secrets/github/OAuth_client_github_id.txt
+  OAuth_client_github_secret:
+    file: ./secrets/github/OAuth_client_github_secret.txt
+  admin_password:
+    file: ./secrets/accounts/admin_password.txt
+  mariadb_password:
+    file: ./secrets/mariadb/mariadb_password.txt
+  mariadb_root_password:
+    file: ./secrets/mariadb/mariadb_root_password.txt
+  ssl_private_key:
+    file: ./secrets/certs/transcendance_private.key
+  ssl_certificate:
+    file: ./secrets/certs/transcendance.crt
 
 volumes:
   react_node_modules:
   express_node_modules:
   mariadb_data:
-  file_container:
+  uploads:
+
+networks:
+  transcendance:
+    driver: bridge
