@@ -16,7 +16,8 @@
     "languages": "Мови",
     "play": "Грати",
     "update-my-profile": "Редагувати профіль",
-    "loading": "Завантаження..."
+    "loading": "Завантаження...",
+    "page-not-found": "Сторінку не знайдено"
   },
   "login": {
     "mail-or-pseudo": "Пошта або псевдонім",

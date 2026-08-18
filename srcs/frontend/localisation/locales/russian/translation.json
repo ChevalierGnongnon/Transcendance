@@ -16,7 +16,8 @@
     "languages": "Языки",
     "play": "Играть",
     "update-my-profile": "Редактировать профиль",
-    "loading": "Загрузка..."
+    "loading": "Загрузка...",
+    "page-not-found": "Страница не найдена"
   },
   "login": {
     "mail-or-pseudo": "Почта или псевдоним",

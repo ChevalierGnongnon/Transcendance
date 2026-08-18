@@ -16,7 +16,8 @@
     "languages": "Langues",
     "play": "Jouer",
     "update-my-profile": "Modifier mon profil",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "page-not-found": "Page non trouvée"
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",

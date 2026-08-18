@@ -16,7 +16,8 @@
     "languages": "Sprachen",
     "play": "Spielen",
     "update-my-profile": "Mein Profil bearbeiten",
-    "loading": "Wird geladen..."
+    "loading": "Wird geladen...",
+    "page-not-found": "Seite nicht gefunden"
   },
   "login": {
     "mail-or-pseudo": "E-Mail oder Pseudonym",

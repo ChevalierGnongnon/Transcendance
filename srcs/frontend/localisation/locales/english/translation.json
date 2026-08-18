@@ -16,7 +16,8 @@
     "languages": "Languages",
     "play": "Play",
     "update-my-profile": "Update my profile",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "page-not-found": "Page not found"
   },
   "login": {
     "mail-or-pseudo": "Mail or pseudo",
