@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404</title>
+</head>
+<body>
+    <span class="404">404</span>
+    <span class="page_not_found" id="page-not-found-text">Page not found</span>
+    <script>
+        var translations = {
+            en: "Page not found",
+            fr: "Page non trouvée",
+            de: "Seite nicht gefunden",
+            ru: "Страница не найдена",
+            uk: "Сторінку не знайдено"
+        };
+        var lang = (navigator.language || "en").slice(0, 2);
+        document.getElementById("page-not-found-text").textContent = translations[lang] || translations.en;
+    </script>
+</body>
+</html>
