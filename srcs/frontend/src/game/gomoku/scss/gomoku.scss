@@ -1,0 +1,55 @@
+@use "../../../scss/common-variables.scss" as *;
+
+.gomoku-wrapper {
+    background-color: $background-common-color;
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    width: fit-content;
+    margin: auto;
+    text-align: center;
+}
+
+.gomoku-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.gomoku-info {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.gomoku-reset-btn {
+    background-color: white;
+    color: black;
+    border-radius: 12px;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+        background-color: rgb(200, 200, 200);
+    }
+}
+
+.gomoku-grid {
+    display: grid;
+    gap: 4px;
+}
+
+.gomoku-cell {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    border-radius: 8px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+        background-color: rgb(230, 230, 230);
+    }
+}

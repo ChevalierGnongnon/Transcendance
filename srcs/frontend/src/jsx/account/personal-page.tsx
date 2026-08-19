@@ -10,7 +10,6 @@ import playShortcut from "../../assets/icons/play-shortcut.png"
 import addFriendsIcon from "../../assets/icons/icon-add-friends.png"
 import iconFriendList from "../../assets/icons/icon-friend-list.png"
 
-
 interface User {
     name: string;
     last_name: string;
@@ -63,8 +62,9 @@ function PersonalPage() {
                                 <span>{t('common.parameters')}</span>
                             </figure>
                         </div>
-                        <div className="col-12 col-md-6 col-xl-4">
+                        <div className="col-12 col-md-6 col-xl-4" onClick={() => navigate('/game/gomoku')}>
                             <figure className="shortcut-icon justify-content-center">
+                                
                                 <img src={playShortcut} alt="play-shortcut" />
                                 <span>{t('common.play')}</span>
                             </figure>
