@@ -17,7 +17,9 @@
     "play": "Играть",
     "update-my-profile": "Редактировать профиль",
     "loading": "Загрузка...",
-    "page-not-found": "Страница не найдена"
+    "page-not-found": "Страница не найдена",
+    "chatting-with": "Вы общаетесь с",
+    "send": "Отправить"
   },
   "login": {
     "mail-or-pseudo": "Почта или псевдоним",

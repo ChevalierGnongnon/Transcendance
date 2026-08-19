@@ -17,7 +17,9 @@
     "play": "Jouer",
     "update-my-profile": "Modifier mon profil",
     "loading": "Chargement...",
-    "page-not-found": "Page non trouvée"
+    "page-not-found": "Page non trouvée",
+    "chatting-with": "Vous discutez avec",
+    "send": "Envoyer"
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",

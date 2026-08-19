@@ -11,7 +11,7 @@ import AppHeader from '../headers/app-header'
 import { AuthProvider } from '../auth/auth-context'
 import { RequireAuth } from "../auth/require-auth";
 import { GuestOnly } from "../auth/guest-only";
-import PageNotFound from "../others/404-page-not-found";
+import Messages from "../account/messages-page"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -23,10 +23,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/register" element={<GuestOnly><RegisterFlow /></GuestOnly>} />
 					<Route path="/personalpage" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/parameters" element={<RequireAuth><Parameters /></RequireAuth>} />
+					<Route path="/messages" element={<RequireAuth><Messages /></RequireAuth>} />
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
-
-					//SHOULD ALWAYS BE THE LAST ONE
-					<Route path="*" element={<PageNotFound></PageNotFound>}></Route>
 				</Routes>
 			</AuthProvider>
 		</BrowserRouter>
