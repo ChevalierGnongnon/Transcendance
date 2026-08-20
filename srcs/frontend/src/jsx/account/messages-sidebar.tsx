@@ -4,7 +4,7 @@ import blockIcon from "../../assets/icons/croix.png"
 
 function SideBar(){
     return (
-        <div className="d-flex flex-column align-items-center justify-content-start gap-4 sidebar-nav py-3 m-2 side-bar">
+        <div className="d-flex flex-column align-items-center justify-content-start gap-4 sidebar-nav py-3 m-2 side-bar px-2">
             <div className="icon-message-message m-2"><img src={messageIcon} alt="messagelist" /></div>
             <span>Mes messages</span>
             <div className="icon-message-message m-2"><img src={moreIcon} alt="newone" /></div>
