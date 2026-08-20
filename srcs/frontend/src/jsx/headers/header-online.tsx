@@ -84,7 +84,7 @@ function HeaderOnline() {
                                 </ul>
                             </div>
                         <figure className="m-0 pp-icons-header">
-                            <img src={messageIcon} alt="message-icon" />
+                            <img src={messageIcon} alt="message-icon" onClick={() => navigate('/messages')}/>
                             <span>{t('common.messages')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header" onClick={() => navigate('/parameters')}>
@@ -106,7 +106,7 @@ function HeaderOnline() {
                     </button>
                     <ul className="dropdown-menu">
                         <li>
-                            <input type="button" value={t('common.messages')} className="btn btn-secondary header-btn btn-sm" />
+                            <input type="button" value={t('common.messages')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/messages')}/>
                         </li>
                         <li>
                             <input type="button" value={t('common.parameters')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/Parameters') } />

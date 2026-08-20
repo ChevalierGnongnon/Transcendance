@@ -53,7 +53,7 @@ function PersonalPage() {
                     <div className="row g-4 justify-content-center shortcut-grid">
                         <div className="col-12 col-md-6 col-xl-4">
                             <figure className="shortcut-icon justify-content-center">
-                                <img src={messageIcon} alt="message-shortcut" />
+                                <img src={messageIcon} alt="message-shortcut" onClick={() => navigate('/messages')}/>
                                 <span>{t('common.messages')}</span>
                             </figure>
                         </div>
