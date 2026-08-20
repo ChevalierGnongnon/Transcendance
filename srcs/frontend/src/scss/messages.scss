@@ -1,35 +1,94 @@
-.message-right{
-    border: 1px solid black;
-    margin: 3%;
-    padding: 2%;
-    justify-items: right;
 
-}
-.message-left{
+@use "./common-variables.scss" as *;
+
+.chat-list{
     border: 1px solid black;
-    margin: 3%;
-    padding: 2%;
-    justify-items: left;
+    border-radius: 20px;
+    background-color: $background-common-color;
+    display: flex;
+    flex-direction: column;
+    // min-height: 100vh;
+    
+}
+
+.chat-list ul {
+    list-style: none;
+    padding: 3%;
+    margin: 0;
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+.message-left{
+    border: 3px solid rgb(20, 91, 197);
+    border-radius: 30px;
+    max-width: 80%;
+    color: rgb(20, 91, 197);
+    text-align: left;
+    
+}
+
+.message-right{
+    border: 3px solid white;
+    border-radius: 30px;
+    max-width: 80%;
+    text-align: right;
+    background-color: rgb(20, 91, 197);
+    color: white;
 }
 .chat-header{
     text-align: center;
     width: 100%;
-    border: 1px solid black;
+    color: white;
 }
 
-.send-message{
-    display: block;
+.message-area {
+    border: 3px solid rgb(20, 91, 197);
+    height: 40px;
+    resize: none;
+    box-shadow: none !important;
+
+}
+
+.send-message {
+    background-color: rgb(20, 91, 197);
+    color: white;
+    border: 3px solid rgb(20, 91, 197);
+    height: 40px;
+    &:hover{
+        background-color: white;
+        color:  rgb(20, 91, 197);
+        border: 3px solid rgb(20, 91, 197);
+    }
+}
+
+.input-group{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.avatar-msg img{
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+    object-fit: cover;
+    border: 1px solid white;
+}
+
+.side-bar{
     width: 20%;
+    border-radius: 20px;
+    background-color: rgb(20, 91, 197);
+    margin-left: 1%;
     margin-top: 1%;
-    margin-right: auto;
-    margin-left: auto;
+    margin-bottom: 1%;
+    // min-height: 100vh;
 }
 
-.message-area{
-    display: block;
-    width: 50%;
-    box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
+.icon-message-message{
+    border: 1px solid white;
+    border-radius: 30px;
+    width: 60px;
+    height: 60px;
 }
-
