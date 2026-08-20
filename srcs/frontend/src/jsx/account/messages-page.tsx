@@ -1,7 +1,7 @@
 import "../../scss/common-classes.scss";
 import { useTranslation } from "react-i18next";
 import ChatRoom from "./messages-chat-room"
-import SideBar from "./message-sidebar"
+import SideBar from "./messages-sidebar"
 
 function Messages(){
     return(
