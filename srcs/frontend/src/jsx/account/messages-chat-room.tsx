@@ -1,9 +1,12 @@
 import "../../scss/common-classes.scss";
 import "../../scss/messages.scss"
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import defaultAvatar from "../../../public/default-avatar.png"
+import MoreOptions from "./message-more-options"
 function ChatRoom() {
     const { t } = useTranslation();
+    const [showMoreOptions, setShowMoreOptions] = useState(false);
 
     return (
         <>
@@ -70,7 +73,15 @@ function ChatRoom() {
 
                 </ul>
                 <div className="input-group group-new-message my-3">
-                    <button className="btn fs-2 send-message d-flex align-items-center justify-content-center">+</button>
+                    <div className="position-relative">
+                        <button
+                            className="btn fs-2 send-message d-flex align-items-center justify-content-center"
+                            onClick={() => setShowMoreOptions(prev => !prev)}
+                        >
+                            +
+                        </button>
+                        {showMoreOptions && <MoreOptions></MoreOptions>}
+                    </div>
                     <textarea className="form-control message-area" name="new-message" placeholder="Type your message here"></textarea>
                     <button className="btn send-message">{t('common.send')}</button>
                 </div>

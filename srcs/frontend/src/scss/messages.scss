@@ -57,10 +57,23 @@
     color: white;
     border: 3px solid rgb(20, 91, 197);
     height: 40px;
-    &:hover{
-        background-color: white;
-        color:  rgb(20, 91, 197);
-        border: 3px solid rgb(20, 91, 197);
+    -webkit-tap-highlight-color: transparent;
+
+    &:active,
+    &:focus,
+    &:focus-visible {
+        background-color: rgb(20, 91, 197) !important;
+        color: white !important;
+        border-color: rgb(20, 91, 197) !important;
+        box-shadow: none !important;
+    }
+
+    @media (hover: hover){
+        &:hover{
+            background-color: white;
+            color:  rgb(20, 91, 197);
+            border: 3px solid rgb(20, 91, 197);
+        }
     }
 }
 
@@ -165,9 +178,15 @@
 }
 
 .more-options-div{
-    background-color: white;
-    border: 3px solid white;
-    height: 200px;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 8px;
+    z-index: 10;
+    border-radius: 12px;
+    width: 220px;
+    background-color: transparent;
+    // height: 200px;
 }
 
 .more-options-btn{
