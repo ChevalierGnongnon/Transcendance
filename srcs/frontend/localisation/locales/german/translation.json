@@ -72,6 +72,12 @@
     "delete-my-account": "Mein Konto löschen",
     "delete-my-game-infos": "Meine Spielstatistiken löschen"
   },
+  "message": {
+    "my-messages": "Meine Nachrichten",
+    "new-message": "Neue Nachricht",
+    "block": "Blockieren",
+    "imaginary-friend": "Imaginärer Freund"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",
     "INVALID_EMAIL": "Ungültiges E-Mail-Format",

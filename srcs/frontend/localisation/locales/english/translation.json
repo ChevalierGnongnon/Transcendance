@@ -73,6 +73,12 @@
     "delete-my-account": "Delete my account",
     "delete-my-game-infos": "Delete my game statistics"
   },
+  "message": {
+    "my-messages": "My messages",
+    "new-message": "New message",
+    "block": "Block",
+    "imaginary-friend": "Imaginary friend"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",
     "INVALID_EMAIL": "Invalid email format",

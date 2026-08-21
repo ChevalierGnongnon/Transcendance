@@ -72,6 +72,12 @@
     "delete-my-account": "Удалить мой аккаунт",
     "delete-my-game-infos": "Удалить мою игровую статистику"
   },
+  "message": {
+    "my-messages": "Мои сообщения",
+    "new-message": "Новое сообщение",
+    "block": "Заблокировать",
+    "imaginary-friend": "Воображаемый друг"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Все поля обязательны для заполнения",
     "INVALID_EMAIL": "Неверный формат электронной почты",
