@@ -7,6 +7,7 @@ function GamePage() {
   const { me, opponentId, boardSize } = state;
 
   const [opponent, setOpponent] = useState(null);
+  
 
   useEffect(() => {
     fetch(`/api/user/${opponentId}`)
@@ -14,7 +15,7 @@ function GamePage() {
       .then(data => setOpponent(data));
   }, [opponentId]);
 
-  if (!opponent) return <p>Loading...</p>;
+  if (!opponent) return <p>zhopa</p>;
 
 /////////////////////   mockup data from db
 

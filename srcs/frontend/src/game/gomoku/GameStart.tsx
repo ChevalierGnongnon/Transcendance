@@ -41,19 +41,17 @@ function GameStart() {
     <div className="game-start-wrapper common-head">
       <h1 className="game-start-title">Start Gomoku Game</h1>
 
-      <div className="section">
-        <p className="form-text">{me.pseudo}</p>
-      </div>
+    
 
       <div className="section">
-        <h3 className="form-text">Choose opponent</h3>
+        <h3 className="form-text">add Friend</h3>
 
         <select
           className="form-input select-opponent"
           value={opponentId}
           onChange={e => setOpponentId(e.target.value)}
         >
-          <option value="">-- select opponent --</option>
+          <option value="">-- add friend --</option>
 
           {users.map(u => (
             <option key={u.account_id} value={u.account_id}>
