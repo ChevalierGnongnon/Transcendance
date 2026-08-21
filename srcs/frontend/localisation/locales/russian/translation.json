@@ -83,7 +83,7 @@
     "type-your-message": "Введите ваше сообщение",
     "upload-file": "Загрузить файл",
     "invite-to-game": "Пригласить в игру",
-    "give-reason": "Укажите причину"
+    "give-reason": "Укажите причину:"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Все поля обязательны для заполнения",

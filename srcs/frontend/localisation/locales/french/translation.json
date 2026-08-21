@@ -83,7 +83,7 @@
     "type-your-message": "Écrivez votre message",
     "upload-file": "Envoyer un fichier",
     "invite-to-game": "Inviter à jouer",
-    "give-reason": "Indiquez une raison"
+    "give-reason": "Donnez la raison :"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
