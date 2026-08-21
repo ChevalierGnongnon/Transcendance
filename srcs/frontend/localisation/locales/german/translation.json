@@ -82,7 +82,8 @@
     "chat-with-friend": "Mit einem Freund chatten",
     "type-your-message": "Schreiben Sie Ihre Nachricht",
     "upload-file": "Eine Datei hochladen",
-    "invite-to-game": "Zu einem Spiel einladen"
+    "invite-to-game": "Zu einem Spiel einladen",
+    "give-reason": "Geben Sie einen Grund an"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",

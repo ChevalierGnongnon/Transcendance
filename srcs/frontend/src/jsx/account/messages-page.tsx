@@ -6,15 +6,18 @@ import SideBar from "./messages-sidebar"
 import NewChat from "../account/new-chat";
 import MesageMore from "./message-more-options"
 import MoreOptions from "./message-more-options";
+import Block from "./message-block"
 
 function Messages(){
     return(
         <>
             <div className="d-flex">
                 <SideBar></SideBar>
-                <ChatRoom></ChatRoom>
+                <Block></Block>
+                {/* <ChatRoom></ChatRoom> */}
                 {/* <NewChat></NewChat> */}
-                <MoreOptions></MoreOptions>
+                
+                {/* <MoreOptions></MoreOptions> */}
             </div>
             
         </>
