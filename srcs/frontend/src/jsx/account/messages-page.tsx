@@ -14,9 +14,9 @@ function Messages(){
         <>
             <div className="d-flex">
                 <SideBar></SideBar>
-                <MessageList></MessageList>
+                {/* <MessageList></MessageList> */}
                 {/* <Block></Block> */}
-                {/* <ChatRoom></ChatRoom> */}
+                <ChatRoom></ChatRoom>
                 {/* <NewChat></NewChat> */}
                 
                 {/* <MoreOptions></MoreOptions> */}

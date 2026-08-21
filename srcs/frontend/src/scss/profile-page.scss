@@ -55,7 +55,7 @@
     height: 100px;
     padding: 0 1%;
     .dropdown-menu {
-        background-color: transparent;
+        background-color: $background-common-color;
         border: none;
     }
     .dropdown-menu .btn {
@@ -77,6 +77,18 @@
     }
 
     &:hover{
+        transform: scale(1.1,1.1);
+    }
+}
+
+// the language dropdown's box grows to include the open .dropdown-menu,
+// so scaling the whole .pp-icons-header on hover shifts the menu items
+// far from the cursor and creates a hover in/out flicker loop.
+// scale only the toggle button instead.
+.dropdown.pp-icons-header:hover {
+    transform: none;
+
+    > .dropdown-toggle {
         transform: scale(1.1,1.1);
     }
 }

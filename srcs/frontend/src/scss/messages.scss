@@ -7,6 +7,7 @@
     background-color: $background-common-color;
     display: flex;
     flex-direction: column;
+    width: 83%;
     // min-height: 100vh;
     
 }
@@ -17,6 +18,7 @@
     margin: 0;
     flex: 1 1 auto;
     overflow-y: auto;
+    height: calc(100vh - 140px);
 }
 
 .message-left{
