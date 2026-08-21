@@ -19,7 +19,9 @@
     "loading": "Завантаження...",
     "page-not-found": "Сторінку не знайдено",
     "chatting-with": "Ви спілкуєтеся з",
-    "send": "Надіслати"
+    "send": "Надіслати",
+    "search-user": "Знайти користувача",
+    "search": "Пошук"
   },
   "login": {
     "mail-or-pseudo": "Пошта або псевдонім",
@@ -76,7 +78,9 @@
     "my-messages": "Мої повідомлення",
     "new-message": "Нове повідомлення",
     "block": "Заблокувати",
-    "imaginary-friend": "Уявний друг"
+    "imaginary-friend": "Уявний друг",
+    "chat-with-friend": "Спілкуватися з другом",
+    "type-your-message": "Введіть ваше повідомлення"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Усі поля є обов’язковими",

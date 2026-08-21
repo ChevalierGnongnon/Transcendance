@@ -13,6 +13,7 @@ import { RequireAuth } from "../auth/require-auth";
 import { GuestOnly } from "../auth/guest-only";
 import Messages from "../account/messages-page"
 
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<BrowserRouter>

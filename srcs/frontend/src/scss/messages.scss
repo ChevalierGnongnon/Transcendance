@@ -87,6 +87,16 @@
     // min-height: 100vh;
 }
 
+.form-new-chat{
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: $background-common-color;
+    display: flex;
+    flex-direction: column;
+    width: 84%;
+    color: white;
+}
+
 .icon-message-message{
     display: flex;
     align-items: center;
@@ -108,3 +118,32 @@
         cursor: pointer;
     }
 }
+
+.search-input{
+    width: 70%;
+    border: 3px solid rgb(20, 91, 197);
+    border-radius: 24px;
+    padding-left: 3%;
+    padding-right: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.new-message{
+    width: 70%;
+    border: 3px solid rgb(20, 91, 197);
+    border-radius: 12px;
+    padding-left: 3%;
+    padding-right: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.new-msg-button{
+    border: 3px solid rgb(20, 91, 197);
+    &:hover{
+        // border: 3px solid rgb(20, 91, 197);
+        color: rgb(20, 91, 197);
+        background-color: white;
+    }
+} 

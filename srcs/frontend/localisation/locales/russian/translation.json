@@ -19,7 +19,9 @@
     "loading": "Загрузка...",
     "page-not-found": "Страница не найдена",
     "chatting-with": "Вы общаетесь с",
-    "send": "Отправить"
+    "send": "Отправить",
+    "search-user": "Найти пользователя",
+    "search": "Поиск"
   },
   "login": {
     "mail-or-pseudo": "Почта или псевдоним",
@@ -76,7 +78,9 @@
     "my-messages": "Мои сообщения",
     "new-message": "Новое сообщение",
     "block": "Заблокировать",
-    "imaginary-friend": "Воображаемый друг"
+    "imaginary-friend": "Воображаемый друг",
+    "chat-with-friend": "Пообщаться с другом",
+    "type-your-message": "Введите ваше сообщение"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Все поля обязательны для заполнения",

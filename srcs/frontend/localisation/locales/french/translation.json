@@ -19,7 +19,9 @@
     "loading": "Chargement...",
     "page-not-found": "Page non trouvée",
     "chatting-with": "Vous discutez avec",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "search-user": "Rechercher un utilisateur",
+    "search": "Rechercher"
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",
@@ -76,7 +78,9 @@
     "my-messages": "Mes messages",
     "new-message": "Nouveau message",
     "block": "Bloquer",
-    "imaginary-friend": "Ami imaginaire"
+    "imaginary-friend": "Ami imaginaire",
+    "chat-with-friend": "Discuter avec un ami",
+    "type-your-message": "Écrivez votre message"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
