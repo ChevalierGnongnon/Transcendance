@@ -4,7 +4,7 @@ import React from 'react';
 import useGomoku from './useGomoku';
 
 function Gomoku() {
-  const { board, currentPlayer, winner, handleClick, reset } = useGomoku();
+  const { board, currentPlayer, winner, winningLine, handleClick, reset } = useGomoku();
 
   return (
     <div className="gomoku-wrapper">
@@ -23,15 +23,22 @@ function Gomoku() {
         style={{ gridTemplateColumns: `repeat(${board.length}, 40px)` }}
       >
         {board.map((row, rIdx) =>
-          row.map((cell, cIdx) => (
-            <button
-              key={`${rIdx}-${cIdx}`}
-              className="gomoku-cell"
-              onClick={() => handleClick(rIdx, cIdx)}
-            >
-              {cell}
-            </button>
-          ))
+          row.map((cell, cIdx) => {
+            const isWinningCell = winningLine.some(
+              ([wr, wc]) => wr === rIdx && wc === cIdx
+            );
+
+            return (
+              <button
+                key={`${rIdx}-${cIdx}`}
+                className={`gomoku-cell ${isWinningCell ? 'win-cell' : ''}`}
+                onClick={() => handleClick(rIdx, cIdx)}
+                disabled={!!winner} // блокуємо кліки після перемоги
+              >
+                {cell}
+              </button>
+            );
+          })
         )}
       </div>
     </div>
@@ -39,4 +46,3 @@ function Gomoku() {
 }
 
 export default Gomoku;
-
