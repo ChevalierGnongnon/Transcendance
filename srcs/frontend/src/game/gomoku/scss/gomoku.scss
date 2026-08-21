@@ -8,16 +8,29 @@
     width: fit-content;
     margin: auto;
     text-align: center;
+
+    @media (max-width: 480px) {
+        width: 100%;
+        padding: 10px;
+    }
 }
 
 .gomoku-title {
     font-size: 24px;
     margin-bottom: 10px;
+
+    @media (max-width: 480px) {
+        font-size: 20px;
+    }
 }
 
 .gomoku-info {
     margin-bottom: 15px;
     font-size: 18px;
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+    }
 }
 
 .gomoku-reset-btn {
@@ -32,17 +45,34 @@
     &:hover {
         background-color: rgb(200, 200, 200);
     }
+
+    @media (max-width: 480px) {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
 }
 
+/* ------------------------------
+   GRID — ADAPTIVE
+------------------------------ */
 .gomoku-grid {
     display: grid;
     gap: 4px;
+
+    @media (max-width: 480px) {
+        gap: 2px;
+        width: 100%;
+        justify-content: center;
+    }
 }
 
+/* ------------------------------
+   CELL — ADAPTIVE SIZE
+------------------------------ */
 .gomoku-cell {
-    width: 40px;
-    height: 40px;
-    font-size: 22px;
+    width: min(8vw, 40px);
+    height: min(8vw, 40px);
+    font-size: min(5vw, 22px);
     border-radius: 8px;
     background-color: white;
     color: black;
@@ -52,18 +82,26 @@
     &:hover {
         background-color: rgb(230, 230, 230);
     }
+
+    @media (max-width: 480px) {
+        border-radius: 6px;
+    }
 }
 
 .win-cell {
-  background-color: rgb(146, 215, 239) !important;
-  border: 3px solid rgb(0, 119, 255) !important;
-  color: black !important;
-  font-weight: bold;
-  animation: pulse 0.4s forwards;
+    background-color: rgb(146, 215, 239) !important;
+    border: 3px solid rgb(0, 119, 255) !important;
+    color: black !important;
+    font-weight: bold;
+    animation: pulse 0.4s forwards;
+
+    @media (max-width: 480px) {
+        border-width: 2px !important;
+    }
 }
 
 @keyframes pulse {
-  0%    { transform: scale(1); }
-  30%   { transform: scale(0.95); }
-  100%  { transform: scale(1.15);}
+    0%    { transform: scale(1); }
+    30%   { transform: scale(0.95); }
+    100%  { transform: scale(1.15); }
 }

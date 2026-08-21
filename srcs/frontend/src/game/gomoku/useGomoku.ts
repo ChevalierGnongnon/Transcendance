@@ -1,131 +1,116 @@
 import { useState } from 'react';
 
-type Player = 'X' | 'O' | null;
-type Board = Player[][];
+type Player = {
+  id: string;
+  username: string;
+  symbol: string;
+};
 
-const BOARD_SIZE = 10;
-const WIN_LENGTH = 5;     ///////////////// change back to 5
+type Cell = string | null;
+type Board = Cell[][];
 
-function createEmptyBoard(): Board {
-  return Array.from({ length: BOARD_SIZE }, () =>
-    Array.from({ length: BOARD_SIZE }, () => null)
+const WIN_LENGTH = 5;
+
+function createEmptyBoard(boardSize: number): Board {
+  return Array.from({ length: boardSize }, () =>
+    Array.from({ length: boardSize }, () => null)
   );
 }
 
-function useGomoku() {
-  const [board, setBoard] = useState<Board>(createEmptyBoard());
-  const [currentPlayer, setCurrentPlayer] = useState<Player>('X');
-  const [winner, setWinner] = useState<Player>(null);
+function useGomoku(playersFromSystem: Player[], boardSize: number) {
+  const [players] = useState<Player[]>(playersFromSystem);
+  const [board, setBoard] = useState<Board>(createEmptyBoard(boardSize));
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+  const [winner, setWinner] = useState<Player | null>(null);
   const [winningLine, setWinningLine] = useState<number[][]>([]);
 
-  const getWinningLine = (
-    board: Board,
-    row: number,
-    col: number,
-    dRow: number,
-    dCol: number,
-    player: Player
-  ): number[][] | null => {
-    const line: number[][] = [];
+  const checkWin = (board: Board, row: number, col: number, symbol: string) => {
+    const directions = [
+      [1, 0],   // вниз
+      [0, 1],   // вправо
+      [1, 1],   // діагональ вниз-право
+      [1, -1],  // діагональ вниз-ліво
+    ];
 
-    for (let i = 0; i < WIN_LENGTH; i++) {
-      const r = row + i * dRow;
-      const c = col + i * dCol;
+    for (const [dRow, dCol] of directions) {
+      let line: number[][] = [[row, col]];
 
-      if (
-        r < 0 ||
-        r >= BOARD_SIZE ||
-        c < 0 ||
-        c >= BOARD_SIZE ||
-        board[r][c] !== player
+      // назад
+      let r = row - dRow;
+      let c = col - dCol;
+      while (
+        r >= 0 &&
+        r < boardSize &&
+        c >= 0 &&
+        c < boardSize &&
+        board[r][c] === symbol
       ) {
-        return null;
+        line.unshift([r, c]);
+        r -= dRow;
+        c -= dCol;
       }
 
-      line.push([r, c]);
+      // вперед
+      r = row + dRow;
+      c = col + dCol;
+      while (
+        r >= 0 &&
+        r < boardSize &&
+        c >= 0 &&
+        c < boardSize &&
+        board[r][c] === symbol
+      ) {
+        line.push([r, c]);
+        r += dRow;
+        c += dCol;
+      }
+
+      if (line.length >= WIN_LENGTH) {
+        return line;
+      }
     }
 
-    return line;
+    return null;
   };
-
-const checkWin = (board: Board, row: number, col: number, player: Player) => {
-  const directions = [
-    [1, 0],   
-    [0, 1],   
-    [1, 1],
-    [1, -1],
-  ];
-
-  for (const [dRow, dCol] of directions) {
-    let line: number[][] = [[row, col]];
-
-    let r = row - dRow;
-    let c = col - dCol;
-    while (
-      r >= 0 &&
-      r < BOARD_SIZE &&
-      c >= 0 &&
-      c < BOARD_SIZE &&
-      board[r][c] === player
-    ) {
-      line.unshift([r, c]);
-      r -= dRow;
-      c -= dCol;
-    }
-
-    r = row + dRow;
-    c = col + dCol;
-    while (
-      r >= 0 &&
-      r < BOARD_SIZE &&
-      c >= 0 &&
-      c < BOARD_SIZE &&
-      board[r][c] === player
-    ) {
-      line.push([r, c]);
-      r += dRow;
-      c += dCol;
-    }
-
-    if (line.length >= WIN_LENGTH) {
-      return line;
-    }
-  }
-
-  return null;
-};
-
 
   const handleClick = (row: number, col: number) => {
     if (winner || board[row][col] !== null) return;
 
-    const newBoard = board.map((r) => [...r]);
-    newBoard[row][col] = currentPlayer;
+    const player = players[currentPlayerIndex];
+    const symbol = player.symbol;
 
-    const line = checkWin(newBoard, row, col, currentPlayer);
+    const newBoard = board.map(r => [...r]);
+    newBoard[row][col] = symbol;
+
+    const line = checkWin(newBoard, row, col, symbol);
 
     if (line) {
       setBoard(newBoard);
-      setWinner(currentPlayer);
+      setWinner(player);
       setWinningLine(line);
       return;
     }
 
     setBoard(newBoard);
-    setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
+    setCurrentPlayerIndex((currentPlayerIndex + 1) % players.length);
   };
 
   const reset = () => {
-    setBoard(createEmptyBoard());
-    setCurrentPlayer('X');
+    setBoard(createEmptyBoard(boardSize));
+    setCurrentPlayerIndex(0);
     setWinner(null);
     setWinningLine([]);
   };
 
-  return { board, currentPlayer, winner, winningLine, handleClick, reset };
+  return {
+    board,
+    players,
+    currentPlayerIndex,
+    winner,
+    winningLine,
+    handleClick,
+    reset
+  };
 }
 
 export default useGomoku;
-
-
-//replace X O to variables.arr[]

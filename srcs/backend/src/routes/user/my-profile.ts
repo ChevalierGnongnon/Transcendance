@@ -24,4 +24,5 @@ router.get('/', checkAuthToken, async(req: Request, res: Response)=>{
         return (res.status(500).json({ error: 'DATABASE_ERROR' }));
     }
 })
+
 export = router;

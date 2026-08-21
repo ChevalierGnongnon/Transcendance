@@ -12,7 +12,8 @@ import { AuthProvider } from '../auth/auth-context'
 import { RequireAuth } from "../auth/require-auth";
 import { GuestOnly } from "../auth/guest-only";
 import PageNotFound from "../others/404-page-not-found";
-import GomokuPage from "../../game/gomoku/GomokuPage"
+import GameStart from "../../game/gomoku/GameStart"
+import GamePage from "../../game/gomoku/GamePage";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -24,7 +25,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/register" element={<GuestOnly><RegisterFlow /></GuestOnly>} />
 					<Route path="/personalpage" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/parameters" element={<RequireAuth><Parameters /></RequireAuth>} />
-					<Route path="/game/gomoku" element={<RequireAuth><GomokuPage /></RequireAuth>} />
+					<Route path="/game/gomoku" element={<RequireAuth><GameStart /></RequireAuth>} />
+					<Route path="/game" element={<RequireAuth><GamePage /></RequireAuth>} />
+
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
 
 					//SHOULD ALWAYS BE THE LAST ONE
