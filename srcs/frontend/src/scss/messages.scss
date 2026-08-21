@@ -157,3 +157,17 @@
     height: 40px;
     border: 1px solid white;
 }
+
+.more-options-div{
+    background-color: white;
+    border: 3px solid white;
+    height: 200px;
+}
+
+.more-options-btn{
+    width: 100%;
+    &:hover{
+        color: rgb(20, 91, 197);
+        background-color: white;
+    }
+}

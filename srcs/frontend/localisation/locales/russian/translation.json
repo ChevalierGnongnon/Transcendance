@@ -80,7 +80,9 @@
     "block": "Заблокировать",
     "imaginary-friend": "Воображаемый друг",
     "chat-with-friend": "Пообщаться с другом",
-    "type-your-message": "Введите ваше сообщение"
+    "type-your-message": "Введите ваше сообщение",
+    "upload-file": "Загрузить файл",
+    "invite-to-game": "Пригласить в игру"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Все поля обязательны для заполнения",

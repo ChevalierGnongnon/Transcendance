@@ -80,7 +80,9 @@
     "block": "Bloquer",
     "imaginary-friend": "Ami imaginaire",
     "chat-with-friend": "Discuter avec un ami",
-    "type-your-message": "Écrivez votre message"
+    "type-your-message": "Écrivez votre message",
+    "upload-file": "Envoyer un fichier",
+    "invite-to-game": "Inviter à jouer"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",

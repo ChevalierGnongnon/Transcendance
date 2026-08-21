@@ -81,7 +81,9 @@
     "block": "Block",
     "imaginary-friend": "Imaginary friend",
     "chat-with-friend": "Chat with a friend",
-    "type-your-message": "Type your message"
+    "type-your-message": "Type your message",
+    "upload-file": "Upload a file",
+    "invite-to-game": "Invite to a game"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",
