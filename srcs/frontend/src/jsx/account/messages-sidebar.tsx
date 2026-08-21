@@ -1,6 +1,7 @@
 import messageIcon from "../../assets/icons/message-60.png"
 import moreIcon from "../../assets/icons/plus.png"
 import blockIcon from "../../assets/icons/croix.png"
+import geminiIcon from "../../assets/icons/gemini.png"
 
 function SideBar(){
     return (
@@ -11,7 +12,7 @@ function SideBar(){
             <span>Nouveau message</span>
             <div className="icon-message-message m-2"><img src={blockIcon} alt="block" /></div>
             <span>Bloquer</span>
-            <div className="icon-message-message m-2"><img src={blockIcon} alt="block" /></div>
+            <div className="icon-message-message m-2"><img src={geminiIcon} alt="gemini" /></div>
             <span>Gemini</span>
         </div>
     );
