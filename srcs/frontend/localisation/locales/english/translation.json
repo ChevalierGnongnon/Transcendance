@@ -84,7 +84,8 @@
     "type-your-message": "Type your message",
     "upload-file": "Upload a file",
     "invite-to-game": "Invite to a game",
-    "give-reason": "Give the reason:"
+    "give-reason": "Give the reason:",
+    "search-user": "Search a user"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",

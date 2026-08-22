@@ -83,7 +83,8 @@
     "type-your-message": "Schreiben Sie Ihre Nachricht",
     "upload-file": "Eine Datei hochladen",
     "invite-to-game": "Zu einem Spiel einladen",
-    "give-reason": "Geben Sie den Grund an:"
+    "give-reason": "Geben Sie den Grund an:",
+    "search-user": "Einen Benutzer suchen"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",
