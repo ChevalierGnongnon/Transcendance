@@ -12,7 +12,7 @@ function ChatRoom() {
         <>
 
 
-            <div className="chat-list my-3">
+            <div className="chat-list chat-list-right my-2">
                 <div className="chat-header">
                     {t('common.chatting-with')}
                 </div>
