@@ -11,7 +11,7 @@ import AppHeader from '../headers/app-header'
 import { AuthProvider } from '../auth/auth-context'
 import { RequireAuth } from "../auth/require-auth";
 import { GuestOnly } from "../auth/guest-only";
-import Messages from "../account/messages-page"
+import Messages from "../messages/main-page"
 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

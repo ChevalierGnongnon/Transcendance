@@ -3,7 +3,7 @@ import "../../scss/messages.scss"
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import defaultAvatar from "../../../public/default-avatar.png"
-import MoreOptions from "./message-more-options"
+import MoreOptions from "./options"
 function ChatRoom() {
     const { t } = useTranslation();
     const [showMoreOptions, setShowMoreOptions] = useState(false);
