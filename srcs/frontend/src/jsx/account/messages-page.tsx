@@ -13,10 +13,10 @@ function Messages() {
     return (
         <>
             <NavBar></NavBar>
-            {/* <MessageList></MessageList> */}
-            {/* <Block></Block> */}
+            <MessageList></MessageList>
+            <Block></Block>
             <ChatRoom></ChatRoom>
-            {/* <NewChat></NewChat> */}
+            <NewChat></NewChat>
 
             {/* <MoreOptions></MoreOptions> */}
         </>

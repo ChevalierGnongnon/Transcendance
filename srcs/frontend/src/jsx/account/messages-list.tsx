@@ -7,7 +7,7 @@ import defaultAvatar from "../../../public/default-avatar.png"
 function MessageList() {
     const { t } = useTranslation();
     return (
-        <div className="chat-list m-2">
+        <div className="chat-list mx-auto my-2">
             <div className="list-header pt-4">
                 <h1>{t('message.my-messages')}</h1>
             </div>
