@@ -4,11 +4,11 @@ import blockIcon from "../../assets/icons/croix.png"
 import geminiIcon from "../../assets/icons/gemini.png"
 import { useTranslation } from "react-i18next"
 
-function SideBar(){
+function NavBar(){
     const {t} = useTranslation();
 
     return (
-        <div className="d-flex flex-column align-items-center justify-content-start gap-4 sidebar-nav py-3 m-2 side-bar px-2">
+        <div className="p-1 nav-bar">
             <div className="icon-message-message m-2"><img src={messageIcon} alt="messagelist" /></div>
             <span>{t('message.my-messages')}</span>
             <div className="icon-message-message m-2"><img src={moreIcon} alt="newone" /></div>
@@ -20,4 +20,4 @@ function SideBar(){
         </div>
     );
 }
-export default SideBar;
+export default NavBar;

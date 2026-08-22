@@ -12,12 +12,11 @@ function ChatRoom() {
         <>
 
 
-            <div className="chat-list m-2 p-2">
-
+            <div className="chat-list my-3">
                 <div className="chat-header">
                     {t('common.chatting-with')}
                 </div>
-                <ul>
+                <ul className="px-3">
                     <li className="d-flex justify-content-start">
                         <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
                         <div className="message-left card p-3 m-2">
@@ -69,6 +68,33 @@ function ChatRoom() {
                         <div className="message-left card p-3 m-2">
                             ?
                         </div>
+                    </li>
+
+                    <li className="d-flex justify-content-end">
+                        <div className="message-right card p-3 m-2">
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                            Ratione voluptatibus veritatis suscipit esse laudantium voluptatem,
+                            ipsa laboriosam vel libero hic, nihil at magni mollitia,
+                            quasi aspernatur ea tempora enim. Ex?
+                        </div>
+                        <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
+                    </li>
+                    <li className="d-flex justify-content-end">
+                        <div className="message-right card p-3 m-2">
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                            Ratione voluptatibus veritatis suscipit esse laudantium voluptatem,
+                            ipsa laboriosam vel libero hic, nihil at magni mollitia,
+                            quasi aspernatur ea tempora enim. Ex?
+                        </div>
+                        <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
+                    </li><li className="d-flex justify-content-end">
+                        <div className="message-right card p-3 m-2">
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                            Ratione voluptatibus veritatis suscipit esse laudantium voluptatem,
+                            ipsa laboriosam vel libero hic, nihil at magni mollitia,
+                            quasi aspernatur ea tempora enim. Ex?
+                        </div>
+                        <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
                     </li>
 
                 </ul>
