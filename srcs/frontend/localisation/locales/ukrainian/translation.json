@@ -86,6 +86,9 @@
     "give-reason": "Вкажіть причину:",
     "search-user": "Знайти користувача"
   },
+  "friends": {
+    "send-friend-request": "Надіслати запит у друзі"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Усі поля є обов’язковими",
     "INVALID_EMAIL": "Невірний формат електронної пошти",

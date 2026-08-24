@@ -86,6 +86,9 @@
     "give-reason": "Donnez la raison :",
     "search-user": "Rechercher un utilisateur"
   },
+  "friends": {
+    "send-friend-request": "Envoyer une demande d'ami"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
     "INVALID_EMAIL": "Format d'email invalide",

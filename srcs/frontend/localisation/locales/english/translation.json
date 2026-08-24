@@ -87,6 +87,9 @@
     "give-reason": "Give the reason:",
     "search-user": "Search a user"
   },
+  "friends": {
+    "send-friend-request": "Send a friend request"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",
     "INVALID_EMAIL": "Invalid email format",

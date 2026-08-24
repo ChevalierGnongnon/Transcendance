@@ -86,6 +86,9 @@
     "give-reason": "Geben Sie den Grund an:",
     "search-user": "Einen Benutzer suchen"
   },
+  "friends": {
+    "send-friend-request": "Freundschaftsanfrage senden"
+  },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",
     "INVALID_EMAIL": "Ungültiges E-Mail-Format",
