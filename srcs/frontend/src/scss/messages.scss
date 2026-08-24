@@ -131,6 +131,18 @@
     margin-top: 1%;
     // min-height: 100vh;
 }
+.nav-dropdown{
+    width: 95%;
+    border-radius: 20px;
+    background-color: rgb(20, 91, 197);
+    color: white;
+    border: none;
+    padding: 12px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+    display: block;
+}
 
 .form-new-chat{
     border: 1px solid black;
@@ -242,6 +254,6 @@
     flex: 1 1 0;
     min-width: 0;
     white-space: nowrap;
-     overflow: hidden;
-     text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

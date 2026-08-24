@@ -14,7 +14,7 @@ function Messages() {
     return (
         <>
             <NavBar activeView={activeView} setActiveView={setActiveView}></NavBar>
-           <div className={activeView !== "my messages" ? "d-flex" : ""}>
+            <div className={activeView !== "my messages" ? "d-flex" : ""}>
                 <MessageList align={activeView === "my messages" ? "center" : "left"} setActiveView={setActiveView} />
                 {activeView === "conversation" && <ChatRoom />}
                 {activeView === "new message" && <NewChat />}
@@ -22,7 +22,7 @@ function Messages() {
                 {activeView === "imaginaryfriend" && <MoreOptions />}
             </div>
         </>
- 
+
     )
 }
 

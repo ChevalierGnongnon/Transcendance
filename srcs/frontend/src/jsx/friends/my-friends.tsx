@@ -94,18 +94,19 @@ function MyFriends() {
                         <figure className="friend-card py-2 px-1 justify-content-center">
                             <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
                             <span>Dereck</span>
-                            <input type="button" value={t("friends.disable")} className="delete-button" />
+                            <input type="button" value="Disable" className="delete-button" />
                         </figure>
                     </div>
                     <div className="col-12 col-md-6 col-xl-4">
                         <figure className="friend-card py-2 px-1 justify-content-center">
                             <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
                             <span>Duncan</span>
-                            <input type="button" value={t("friends.disable")} className="delete-button" />
+                            <input type="button" value="Disable" className="delete-button" />
                         </figure>
                     </div>
                 </div>
             </div>
+
 
             <AddFriend></AddFriend>
 

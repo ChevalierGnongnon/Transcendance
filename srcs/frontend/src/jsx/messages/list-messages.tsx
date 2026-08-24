@@ -12,7 +12,7 @@ interface MessageListProps{
 function MessageList({align, setActiveView}: MessageListProps) {
     const { t } = useTranslation();
     return (
-         <div className={align === "center" ? "chat-list mx-auto my-2" : "chat-list chat-list-side my-2"}>
+         <div className={align === "center" ? "chat-list mx-auto my-2" : "chat-list chat-list-side my-2 d-none d-md-block"}>
             <div className="list-header pt-4">
                 <h1>{t('message.my-messages')}</h1>
             </div>
