@@ -82,7 +82,7 @@ function CompleteYourProfile() {
 				</p>
 				<div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
 					{defaultAvatars.map((item) => (
-						<img key={item.file_id} src={`/uploads/${item.file_name}`} alt={item.file_name} className={`img-avatar ${avatar === item.file_id ? 'selected' : ''}`} onClick={() => setAvatar(item.file_id)} />
+						<img key={item.id} src={`/uploads/${item.name}`} alt={item.name} className={`img-avatar ${avatar === item.id ? 'selected' : ''}`} onClick={() => setAvatar(item.id)} />
 					))}
 				</div>
 				<ErrorMessage error={error} />

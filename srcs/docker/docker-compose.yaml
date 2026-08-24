@@ -16,7 +16,7 @@ services:
       - ssl_private_key
     restart: unless-stopped
     depends_on:
-      backend: 
+      backend:
         condition: service_healthy
       frontend:
         condition: service_healthy
@@ -82,7 +82,9 @@ services:
       context: ../..
       dockerfile: srcs/docker/backend/Dockerfile.dev
     image: backend:transcendance
-    container_name: backend 
+    container_name: backend
+    ports:
+      - 3000:3000
     volumes:
       - ../backend:/app
       - express_node_modules:/app/node_modules

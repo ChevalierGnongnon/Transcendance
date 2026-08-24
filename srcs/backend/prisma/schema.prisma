@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum UserRole {
+  admin
+  user
+  moderator
+  guest
+}
+
+model User {
+  id             String   @id @default(uuid()) @db.Char(36)
+  type           UserRole @default(user)
+  email          String   @unique @db.VarChar(255)
+  firstName      String?  @map("first_name") @db.VarChar(50)
+  lastName       String?  @map("last_name") @db.VarChar(50)
+  passwordHash   String   @map("password_hash") @db.VarChar(255)
+  pseudo         String   @unique @db.VarChar(30)
+  profilePhotoId String?  @map("profile_photo_id") @db.Char(36)
+  birthdate      DateTime @db.Date
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  isDeleted      Boolean  @default(false) @map("is_deleted")
+
+  uploadedFiles File[]
+
+  profilePhoto File? @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
+
+  @@map("user")
+}
+
+enum FileType {
+  profile_photo
+  default_avatar
+  message
+}
+
+model File {
+  id         String    @id @default(uuid()) @db.Char(36)
+  name       String    @map("file_name") @db.VarChar(255)
+  type       FileType
+  userId     String    @map("user_id") @db.Char(36)
+  mimeType   String    @map("mime_type") @db.VarChar(100)
+  expiresAt  DateTime? @map("expires_at")
+  uploadedAt DateTime  @default(now()) @map("uploaded_at")
+
+  uploader User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  profileFor User[] @relation("UserProfilePhoto")
+
+  @@unique([name, type])
+  @@map("file")
+}
