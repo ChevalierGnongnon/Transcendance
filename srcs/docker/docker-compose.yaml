@@ -32,13 +32,7 @@ services:
       - transcendance
     restart: unless-stopped
     healthcheck:
-      test:
-        [
-          "CMD",
-          "healthcheck.sh",
-          "--connect",
-          "--innodb_initialized"
-        ]
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -83,8 +77,6 @@ services:
       dockerfile: srcs/docker/backend/Dockerfile.dev
     image: backend:transcendance
     container_name: backend
-    ports:
-      - 3000:3000
     volumes:
       - ../backend:/app
       - express_node_modules:/app/node_modules
@@ -110,7 +102,6 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
-
 
 secrets:
   OAuth_client_github_id:
