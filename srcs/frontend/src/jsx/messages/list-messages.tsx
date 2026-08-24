@@ -19,77 +19,77 @@ function MessageList({align, setActiveView}: MessageListProps) {
             <ul>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum ab voluptate incidunt.
                     </div>
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore obcaecati ullam labore beatae illo,
                     </div>
                     
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium qui labore voluptas quibusdam volupta!
                     </div>
 
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione voluptatibus veritatis suscipit esse laudantium voluptatem,
                     </div>
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni blanditiis cumque explicabo nobis dignissimos non?
                     </div>
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum ab voluptate incidunt.
                     </div>
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore obcaecati ullam labore beatae illo,
                     </div>
                     
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium qui labore voluptas quibusdam volupta!
                     </div>
 
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione voluptatibus veritatis suscipit esse laudantium voluptatem,
                     </div>
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni blanditiis cumque explicabo nobis dignissimos non?
                     </div>
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione voluptatibus veritatis suscipit esse laudantium voluptatem,
                     </div>
                 </li>
                 <li className="message-block d-flex" onClick={() => setActiveView("conversation")}>
                     <figure className="avatar-msg"><img src={defaultAvatar} alt="avatar" /></figure>
-                    <div className="p-2">
+                    <div className="p-2 message-text">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni blanditiis cumque explicabo nobis dignissimos non?
                     </div>
                 </li>

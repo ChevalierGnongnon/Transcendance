@@ -107,7 +107,6 @@ function MyFriends() {
                 </div>
             </div>
 
-
             <AddFriend></AddFriend>
 
         </div>
