@@ -1,6 +1,5 @@
 import { prisma } from '../lib/prisma.js';
 import { UserRole, FileType } from '../generated/prisma/enums.js';
-// import { User } from '../generated/prisma/client';
 import fs from 'fs';
 import bcrypt from 'bcrypt';
 
