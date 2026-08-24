@@ -88,7 +88,18 @@
     "search-user": "Search a user"
   },
   "friends": {
-    "send-friend-request": "Send a friend request"
+    "send-friend-request": "Send a friend request",
+    "my-friends": "My friends",
+    "delete-friend": "Delete friend",
+    "delete-confirm-title": "Delete \"{{name}}\" from friend list",
+    "delete-reason-placeholder": "Explain why you're not friends anymore",
+    "delete": "Delete",
+    "pending-requests": "Pending requests",
+    "accept": "Accept",
+    "refuse": "Refuse",
+    "your-requests": "Your requests",
+    "disable": "Disable",
+    "avatar-alt": "Friend avatar"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",

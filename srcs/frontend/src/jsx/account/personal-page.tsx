@@ -1,5 +1,6 @@
 import "../../scss/common-classes.scss";
 import "../../scss/profile-page.scss";
+
 import i18n from '../../../localisation/i18n';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
@@ -74,7 +75,7 @@ function PersonalPage() {
                     <span>{t('profile-page.my-friends')}</span>
                     <div className="row g-4 justify-content-center shortcut-grid">
                         <div className="col-12 col-md-6 col-xl-6">
-                            <figure className="shortcut-icon justify-content-center">
+                            <figure className="shortcut-icon justify-content-center" onClick={() => navigate('/myfriends')}>
                                 <img src={iconFriendList} alt="message-shortcut" />
                                 <span>{t('profile-page.friend-list')}</span>
                             </figure>

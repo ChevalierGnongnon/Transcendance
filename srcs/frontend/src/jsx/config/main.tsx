@@ -13,6 +13,7 @@ import { RequireAuth } from "../auth/require-auth";
 import { GuestOnly } from "../auth/guest-only";
 import Messages from "../messages/main-page"
 import AddFriend from "../friends/add-friend"
+import MyFriends from "../friends/my-friends";
 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/parameters" element={<RequireAuth><Parameters /></RequireAuth>} />
 					<Route path="/messages" element={<RequireAuth><Messages /></RequireAuth>} />
 					<Route path="/addfriend" element={<RequireAuth><AddFriend /></RequireAuth>} />
+					<Route path="/myfriends" element={<RequireAuth><MyFriends /></RequireAuth>} />
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
 				</Routes>
 			</AuthProvider>

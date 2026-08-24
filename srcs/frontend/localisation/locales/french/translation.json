@@ -87,7 +87,18 @@
     "search-user": "Rechercher un utilisateur"
   },
   "friends": {
-    "send-friend-request": "Envoyer une demande d'ami"
+    "send-friend-request": "Envoyer une demande d'ami",
+    "my-friends": "Mes amis",
+    "delete-friend": "Supprimer l'ami",
+    "delete-confirm-title": "Supprimer \"{{name}}\" de la liste d'amis",
+    "delete-reason-placeholder": "Expliquez pourquoi vous n'êtes plus amis",
+    "delete": "Supprimer",
+    "pending-requests": "Demandes en attente",
+    "accept": "Accepter",
+    "refuse": "Refuser",
+    "your-requests": "Vos demandes",
+    "disable": "Désactiver",
+    "avatar-alt": "Avatar de l'ami"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",

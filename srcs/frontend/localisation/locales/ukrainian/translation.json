@@ -87,7 +87,18 @@
     "search-user": "Знайти користувача"
   },
   "friends": {
-    "send-friend-request": "Надіслати запит у друзі"
+    "send-friend-request": "Надіслати запит у друзі",
+    "my-friends": "Мої друзі",
+    "delete-friend": "Видалити друга",
+    "delete-confirm-title": "Видалити «{{name}}» зі списку друзів",
+    "delete-reason-placeholder": "Поясніть, чому ви більше не друзі",
+    "delete": "Видалити",
+    "pending-requests": "Очікувані запити",
+    "accept": "Прийняти",
+    "refuse": "Відхилити",
+    "your-requests": "Ваші запити",
+    "disable": "Вимкнути",
+    "avatar-alt": "Аватар друга"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Усі поля є обов’язковими",

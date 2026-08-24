@@ -87,7 +87,18 @@
     "search-user": "Найти пользователя"
   },
   "friends": {
-    "send-friend-request": "Отправить запрос в друзья"
+    "send-friend-request": "Отправить запрос в друзья",
+    "my-friends": "Мои друзья",
+    "delete-friend": "Удалить друга",
+    "delete-confirm-title": "Удалить «{{name}}» из списка друзей",
+    "delete-reason-placeholder": "Объясните, почему вы больше не друзья",
+    "delete": "Удалить",
+    "pending-requests": "Ожидающие запросы",
+    "accept": "Принять",
+    "refuse": "Отклонить",
+    "your-requests": "Ваши запросы",
+    "disable": "Отключить",
+    "avatar-alt": "Аватар друга"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Все поля обязательны для заполнения",

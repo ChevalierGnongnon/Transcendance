@@ -87,7 +87,18 @@
     "search-user": "Einen Benutzer suchen"
   },
   "friends": {
-    "send-friend-request": "Freundschaftsanfrage senden"
+    "send-friend-request": "Freundschaftsanfrage senden",
+    "my-friends": "Meine Freunde",
+    "delete-friend": "Freund entfernen",
+    "delete-confirm-title": "\"{{name}}\" aus der Freundesliste entfernen",
+    "delete-reason-placeholder": "Erklären Sie, warum Sie nicht mehr befreundet sind",
+    "delete": "Löschen",
+    "pending-requests": "Ausstehende Anfragen",
+    "accept": "Annehmen",
+    "refuse": "Ablehnen",
+    "your-requests": "Ihre Anfragen",
+    "disable": "Deaktivieren",
+    "avatar-alt": "Freundes-Avatar"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",
