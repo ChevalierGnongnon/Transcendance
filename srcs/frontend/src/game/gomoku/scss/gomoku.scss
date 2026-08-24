@@ -50,8 +50,8 @@
    RESET BUTTON
 ------------------------------ */
 .gomoku-reset-btn {
-    background-color: white;
-    color: black;
+    background-color: rgb(3, 42, 100);
+    color: white;
     border-radius: 12px;
     padding: 8px 16px;
     margin-bottom: 20px;
@@ -59,7 +59,7 @@
     border: none;
 
     &:hover {
-        background-color: rgb(200, 200, 200);
+        background-color: rgb(0, 30, 80);
     }
 
     @media (max-width: 480px) {
