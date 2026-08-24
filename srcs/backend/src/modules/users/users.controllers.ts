@@ -2,9 +2,6 @@ import type { Request, Response } from 'express';
 import UsersService from './users.services.ts';
 import { NotFoundError } from '../../common/errors.js';
 
-
-
-
 export async function getMyProfile(req: Request, res: Response) {
   try {
     const userId = req.userId!;
@@ -17,11 +14,11 @@ export async function getMyProfile(req: Request, res: Response) {
     console.error('Get user by id error:', error);
 
     if (error instanceof NotFoundError) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'USER_NOT_FOUND' });
     }
 
     return res.status(500).json({
-      error: 'Internal Server Error',
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 }

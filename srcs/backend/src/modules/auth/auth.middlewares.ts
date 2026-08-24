@@ -7,7 +7,7 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
 
   if (!token || typeof token !== 'string') {
     return res.status(401).json({
-      error: 'Token missing or invalid',
+      error: 'INVALID_TOKEN',
     });
   }
 
@@ -15,7 +15,7 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
 
   if (!secret) {
     return res.status(500).json({
-      error: 'Internal Server Error',
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 
@@ -24,7 +24,7 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
 
     if (typeof decoded === 'string' || typeof decoded.userId !== 'string') {
       return res.status(403).json({
-        error: 'Unauthorized',
+        error: 'INVALID_TOKEN',
       });
     }
 
@@ -35,18 +35,23 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
   } catch (error) {
     console.error(error);
     return res.status(403).json({
-      error: 'Invalid token',
+      error: 'INVALID_TOKEN',
     });
   }
 };
-
 
 export function validate(req: Request, res: Response, next: NextFunction) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
+    const details = errors.array().map((error) => ({
+      field: error.type === 'field' ? error.path : undefined,
+      code: error.msg,
+    }));
+
     return res.status(400).json({
-      errors: errors.array()
+      error: details[0].code,
+      details,
     });
   }
 

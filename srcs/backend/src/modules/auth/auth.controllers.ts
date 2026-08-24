@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+
 import authService from './auth.services.ts';
-import { prisma } from '../../lib/prisma.ts';
+import { NotFoundError } from '../../common/errors.js';
 
 export async function login(req: Request, res: Response) {
   try {
@@ -17,10 +17,12 @@ export async function login(req: Request, res: Response) {
 
     return res.status(200).json({ success: true });
   } catch (error) {
-    console.error('Login error:', error);
+    if (error instanceof NotFoundError) {
+      return res.status(404).json({ error: 'USER_NOT_FOUND' });
+    }
 
     return res.status(500).json({
-      error: 'Internal Server Error',
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 }
@@ -63,9 +65,9 @@ export async function register(req: Request, res: Response) {
     return res.status(200).json({ success: true });
   } catch (error: any) {
     if (error.message === 'EMAIL_EXISTS') {
-      return res.status(409).json({ error: 'User with this email already exists' });
+      return res.status(409).json({ error: 'EMAIL_EXISTS' });
     }
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
   }
 }
 
@@ -87,8 +89,8 @@ export async function completeProfile(req: Request, res: Response) {
   } catch (error: any) {
     console.error(error);
     if (error.message === 'EMAIL_EXISTS') {
-      return res.status(409).json({ error: 'User with this email already exists' });
+      return res.status(409).json({ error: 'EMAIL_EXISTS' });
     }
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
   }
 }

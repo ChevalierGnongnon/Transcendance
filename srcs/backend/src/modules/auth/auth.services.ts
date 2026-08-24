@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import { prisma } from '../../lib/prisma.js';
-import { decode } from 'querystring';
+import { NotFoundError } from '../../common/errors.js';
 
 class authService {
   async login(login: string, password: string) {
@@ -18,13 +18,13 @@ class authService {
     });
 
     if (!user) {
-      throw new Error('Invalid credentials');
+      throw new NotFoundError('User not found');
     }
 
     const passwordValid = await bcrypt.compare(password, user.passwordHash);
 
     if (!passwordValid) {
-      throw new Error('Invalid credentials');
+      throw new NotFoundError('Passwod not correct');
     }
     const token = jwt.sign(
       {
@@ -60,7 +60,7 @@ class authService {
 
     const secret = process.env.JWT_SECRET;
     if (!secret) {
-      throw new Error('SERVER_MISCONFIGURED');
+      throw new Error('INTERNAL_SERVER_ERROR');
     }
     const token = jwt.sign({ first_name, last_name, email, password_hash, birthdate }, secret, {
       expiresIn: '24h',
@@ -76,7 +76,7 @@ class authService {
 
     const secret = process.env.JWT_SECRET;
     if (!secret) {
-      throw new Error('SERVER_MISCONFIGURED');
+      throw new Error('INTERNAL_SERVER_ERROR');
     }
 
     let decoded: any;
@@ -96,7 +96,6 @@ class authService {
       throw new Error('PSEUDO_EXISTS');
     }
 
-
     const newUser = await prisma.user.create({
       data: {
         firstName: decoded.first_name,
@@ -112,7 +111,6 @@ class authService {
     const accessToken = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET!, {
       expiresIn: '24h',
     });
-
 
     const { passwordHash, ...userWithoutPassword } = newUser;
 

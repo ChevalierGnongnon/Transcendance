@@ -16,6 +16,6 @@ export async function getDefaultAvatars(req: Request, res: Response) {
     }
   }
   return res.status(500).json({
-    error: 'Internal Server Error',
+    error: 'INTERNAL_SERVER_ERROR',
   });
 }

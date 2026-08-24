@@ -4,54 +4,51 @@ export const loginValidator = [
   body('login')
     .trim()
     .notEmpty()
-    .withMessage('Login is required')
+    .withMessage('LOGIN_REQUIRED')
     .isLength({ max: 255 })
-    .withMessage('Login is too logn'),
+    .withMessage('LOGIN_TOO_LONG'),
   body('password')
     .notEmpty()
-    .withMessage('Password is required')
+    .withMessage('PASSWORD_REQUIRED')
     .isLength({ max: 255 })
-    .withMessage('Password is too long'),
+    .withMessage('PASSWORD_TOO_LONG'),
 ];
 
 export const registerValidator = [
   body('name')
     .trim()
     .notEmpty()
-    .withMessage('First name is required')
+    .withMessage('FIRST_NAME_REQUIRED')
     .isLength({ max: 50 })
-    .withMessage('First name is too logn'),
+    .withMessage('FIRST_NAME_TOO_LONG'),
   body('last_name')
     .notEmpty()
-    .withMessage('Last name is required')
+    .withMessage('LAST_NAME_REQUIRED')
     .isLength({ max: 50 })
-    .withMessage('Last name is too long'),
+    .withMessage('LAST_NAME_REQUIRED'),
   body('email')
     .notEmpty()
-    .withMessage('Email is required')
+    .withMessage('EMAIL_REQUIRED')
     .isLength({ max: 255 })
-    .withMessage('Email is too long')
+    .withMessage('EMAIL_TOO_LONG')
     .isEmail()
-    .withMessage('Email is incorrect'),
+    .withMessage('EMAIL_INVALID'),
   body('password')
     .notEmpty()
-    .withMessage('Password is required')
+    .withMessage('PASSWORD_WEAK')
     .isLength({ max: 255 })
-    .withMessage('Password is too long')
+    .withMessage('')
     .matches(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{12,}$/)
-    .withMessage(
-      'Password must be at least 12 characters long and contain at least one uppercase letter, one number, and one special character'
-    ),
-  body('passwordVerify')
-    .isLength({ max: 255 })
-    .withMessage('Password is too long')
-    .custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error('Passwords do not match');
-      }
-      return true;
-    }),
+    .withMessage('PASSWORD_WEAK'),
+  body('passwordVerify').custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error('PASSWORDS_DO_NOT_MATCH');
+    }
+    return true;
+  }),
   body('birthdate')
+    .notEmpty()
+    .withMessage('AGE_REQUIREMENT')
     // .isISO8601()
     // .withMessage('Email is required')
     .toDate()
@@ -64,7 +61,7 @@ export const registerValidator = [
         age--;
       }
       if (age < 18) {
-        throw new Error('You must be at least 18 years old');
+        throw new Error('');
       }
       return true;
     }),
@@ -74,7 +71,7 @@ export const completeProfileValidator = [
   body('pseudo')
     .trim()
     .notEmpty()
-    .withMessage('Pseudo is required')
+    .withMessage('PSEUDO_REQUIRED')
     .matches(/^[a-zA-Z0-9_-]{3,30}$/)
-    .withMessage('Invalid pseudo format'),
+    .withMessage('PSEUDO_INVALID'),
 ];
