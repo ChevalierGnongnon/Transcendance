@@ -101,26 +101,41 @@
     "disable": "Disable",
     "avatar-alt": "Friend avatar"
   },
-  "errors": {
-    "ALL_FIELDS_REQUIRED": "All fields are required",
-    "INVALID_EMAIL": "Invalid email format",
-    "INVALID_PASSWORD_REGISTRATION": "Invalid password (12 characters at least, 1 lowercase, 1 uppercase, 1 digit and 1 special character)",
-    "LOGIN_OR_PASSWORD_INVALID": "Invalid password and / or email",
-    "INVALID_PSEUDO": "Spaces are not allowed in pseudos",
-    "USER_NOT_FOUND": "No account with this email or password",
-    "PASSWORDS_NOT_SAME": "Passwords do not match",
-    "TOO_YOUNG": "You must be at least 18 years old",
-    "INVALID_BIRTHDATE": "Invalid date of birth",
-    "EMAIL_EXISTS": "Email is already used",
-    "PSEUDO_EXISTS": "Pseudo is already used",
-    "INVALID_TOKEN": "Invalid session",
-    "DATABASE_ERROR": "Server error, please try again later",
-    "INVALID_CREDENTIALS": "Invalid credentials",
-    "INVALID_PASSWORD": "Invalid password",
-    "NO_FILE_UPLOADED": "No file has been provided",
-    "SERVER_MISCONFIGURED": "Bad server configuration",
-    "UPLOAD_FAILED": "Upload has failed",
-    "WRONG_FILE_TYPE": "Bad file type (only: png, jpg, jpeg or webp)",
-    "FETCH_DEFAULT_AVATARS_ERROR": "Failed to fetch default avatars"
-  }
+	
+
+	"errors": {
+		"ALL_FIELDS_REQUIRED": "All fields are required",
+		"INVALID_TOKEN": "Invalid session",
+		"DATABASE_ERROR": "Server error, please try again later",
+		"INVALID_CREDENTIALS": "Invalid credentials",
+		"NO_FILE_UPLOADED": "No file has been provided",
+		"SERVER_MISCONFIGURED": "Bad server configuration",
+		"UPLOAD_FAILED": "Upload has failed",
+		"WRONG_FILE_TYPE": "Bad file type (only: png, jpg, jpeg or webp)",
+		"FETCH_DEFAULT_AVATARS_ERROR": "Failed to fetch default avatars",
+
+		"INTERNAL_SERVER_ERROR": "Server error, please try again later",
+		"LOGIN_REQUIRED": "Login is required.",
+		"LOGIN_TOO_LONG": "Login is too long",
+		"USER_NOT_FOUND": "No user found with these credentials",
+		"FIRST_NAME_REQUIRED": "First name is required.",
+		"FIRST_NAME_TOO_LONG": "First name is too long",
+		"PASSWORD_REQUIRED": "Password is required",
+		"PASSWORD_TOO_LONG": "Password is too long",
+		"LAST_NAME_REQUIRED": "Last name is required",
+		"LAST_NAME_TOO_LONG": "Last name is too long",
+		"PASSWORD_WEAK": "Invalid password (12 characters at least, 1 lowercase, 1 uppercase, 1 digit and 1 special character)",
+		"PASSWORD_CONFIRM_REQUIRED": "Password confirmation is required",
+		"PASSWORDS_DO_NOT_MATCH": "Password confirmation must match",
+		"BIRTHDATE_REQUIRED": "Date of birth is required",
+		"DATE_INVALID": "Date is invalid",
+		"AGE_REQUIREMENT": "Must be at least 18 years old",
+		"PSEUDO_REQUIRED": "Username is required",
+		"PSEUDO_INVALID": "Username must be 3–30 characters and use only letters, numbers, underscores, and hyphens",
+		"PSEUDO_EXISTS": "Pseudo is already used",
+		"EMAIL_REQUIRED": "Email is required",
+		"EMAIL_TOO_LONG": "Email is too long",
+		"EMAIL_INVALID": "Email is invalid",
+		"EMAIL_EXISTS": "This email is already in use"
+	}
 }

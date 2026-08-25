@@ -1,48 +1,45 @@
 import "../../scss/common-classes.scss";
 import "../../scss/profile-page.scss";
-import i18n from '../../../localisation/i18n';
-import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import i18n from "../../../localisation/i18n";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import messageIcon from '../../assets/icons/icon-messages.png';
-import parametersIcon from '../../assets/icons/icon-parameters.png';
-import notificationIcon from '../../assets/icons/icon-notifications.png'
+import messageIcon from "../../assets/icons/icon-messages.png";
+import parametersIcon from "../../assets/icons/icon-parameters.png";
+import notificationIcon from "../../assets/icons/icon-notifications.png";
 import logoutIcon from "../../assets/icons/icon-disconnect.png";
-import myPageIcon from "../../assets/icons/icon-my-page.png"
-import { isCompositeComponent } from "react-dom/test-utils";
+import myPageIcon from "../../assets/icons/icon-my-page.png";
 import { useAuth } from "../auth/auth-context";
 import { useApiFetch } from "../auth/use-api-fetch";
-import langIcon from "../../assets/icons/lang_icon.png"
-
-
+import langIcon from "../../assets/icons/lang_icon.png";
 
 interface User {
-    name: string;
-    last_name: string;
-    email: string;
-    pseudo: string;
-    file_name: string | null;
+	firstName: string;
+	lastName: string;
+	email: string;
+	pseudo: string;
+	profilePhoto: {
+		name: string;
+	};
 }
 
-
 function HeaderOnline() {
-    const [user, setUser] = useState<User | null>(null);
-    const { t } = useTranslation();
-    const { logout } = useAuth();
-    const apiFetch = useApiFetch();
+	const [user, setUser] = useState<User | null>(null);
+	const { t } = useTranslation();
+	const { logout } = useAuth();
+	const apiFetch = useApiFetch();
 
-    useEffect(() => {
-        apiFetch('/api/my-profile', {credentials: 'include'})
-            .then(res => res.json())
-            .then(data => setUser(data))
-    }, []);
+	useEffect(() => {
+		apiFetch("/api/my-profile", { credentials: "include" })
+			.then((res) => res.json())
+			.then((data) => setUser(data));
+	}, []);
 
-    const navigate = useNavigate();
-    const handleLogout = async () => {
-        await logout();
-        navigate('/login');
-    }
-
+	const navigate = useNavigate();
+	const handleLogout = async () => {
+		await logout();
+		navigate("/login");
+	};
     if (!user)
         return <p>Chargement...</p>;
     return (
@@ -50,16 +47,16 @@ function HeaderOnline() {
             <header className="profile-page-header py-3 px-4">
                 <section className="d-none d-md-flex header-left d-flex align-items-center gap-3">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
-                        <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
+                        <img src={user.profilePhoto.name ? `/uploads/${user.profilePhoto.name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
                     <div className="d-flex flex-column">
                         <h3>{user.pseudo}</h3>
-                        <span>{user.name} {user.last_name}</span>
+                        <span>{user.firstName} {user.lastName}</span>
                     </div>
                 </section>
                 <section className="d-md-none">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
-                        <img src={user.file_name ? `/uploads/${user.file_name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
+                        <img src={user.profilePhoto.name ? `/uploads/${user.profilePhoto.name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
                 </section>
                 <section className="header-right">

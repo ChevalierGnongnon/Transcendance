@@ -1,5 +1,5 @@
-{
-  "common":{
+ {
+   "common":{
     "login": "Se connecter",
     "logout": "Se déconnecter",
     "password": "Mot de passe",
@@ -102,24 +102,36 @@
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
-    "INVALID_EMAIL": "Format d'email invalide",
-    "INVALID_PASSWORD_REGISTRATION": "Mot de passe invalide (1 majuscule, 1 minuscule, 1 chiffre, 12 caractères minimum)",
-    "LOGIN_OR_PASSWORD_INVALID": "Mot de passe et / ou adresse email invalide",
-    "INVALID_PSEUDO": "Les espaces sont invalides dans les pseudos",
-    "USER_NOT_FOUND": "Aucun compte ne correspond avec cet email ou ce mot de passe",
-    "PASSWORDS_NOT_SAME": "Les mots de passe ne correspondent pas",
-    "TOO_YOUNG": "Vous devez avoir au moins 18 ans",
-    "INVALID_BIRTHDATE": "Date de naissance invalide",
-    "EMAIL_EXISTS": "Cette adresse email est déjà utilisée",
-    "PSEUDO_EXISTS": "Ce pseudo est déjà utilisé",
+    "USER_NOT_FOUND": "Aucun utilisateur trouvé avec ces identifiants",
     "INVALID_TOKEN": "Session invalide",
     "DATABASE_ERROR": "Erreur serveur, merci de réessayer plus tard",
     "INVALID_CREDENTIALS": "Identifiants invalides",
-    "INVALID_PASSWORD": "Mot de passe invalide",
     "NO_FILE_UPLOADED": "Aucun fichier n'a été téléchargé",
     "SERVER_MISCONFIGURED": "Mauvaise configuration serveur",
     "UPLOAD_FAILED": "Le téléchargement a échoué",
     "WRONG_FILE_TYPE": "Mauvais type de fichier (uniquement : png, jpg, jpeg ou webp)",
-    "FETCH_DEFAULT_AVATARS_ERROR": "Les avatars par défaut n'ont pas pu être importés"
+    "FETCH_DEFAULT_AVATARS_ERROR": "Les avatars par défaut n'ont pas pu être importés",
+    "INTERNAL_SERVER_ERROR": "Erreur serveur, veuillez réessayer plus tard",
+    "LOGIN_REQUIRED": "Le nom d'utilisateur est requis.",
+    "LOGIN_TOO_LONG": "Le nom d'utilisateur est trop long",
+    "FIRST_NAME_REQUIRED": "Le prénom est requis.",
+    "FIRST_NAME_TOO_LONG": "Le prénom est trop long",
+    "PASSWORD_REQUIRED": "Le mot de passe est requis",
+    "PASSWORD_TOO_LONG": "Le mot de passe est trop long",
+    "LAST_NAME_REQUIRED": "Le nom est requis",
+    "LAST_NAME_TOO_LONG": "Le nom est trop long",
+    "PASSWORD_WEAK": "Mot de passe invalide (12 caractères minimum, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial)",
+    "PASSWORD_CONFIRM_REQUIRED": "La confirmation du mot de passe est requise",
+    "PASSWORDS_DO_NOT_MATCH": "La confirmation du mot de passe doit correspondre",
+    "BIRTHDATE_REQUIRED": "La date de naissance est requise",
+    "DATE_INVALID": "La date est invalide",
+    "AGE_REQUIREMENT": "Vous devez avoir au moins 18 ans",
+    "PSEUDO_REQUIRED": "Le nom d'utilisateur est requis",
+    "PSEUDO_INVALID": "Le nom d'utilisateur doit contenir 3 à 30 caractères et utiliser uniquement des lettres, chiffres, underscores et tirets",
+    "PSEUDO_EXISTS": "Ce nom d'utilisateur est déjà utilisé",
+    "EMAIL_REQUIRED": "L'email est requis",
+    "EMAIL_TOO_LONG": "L'email est trop long",
+    "EMAIL_INVALID": "L'email est invalide",
+    "EMAIL_EXISTS": "Cet email est déjà utilisé"
   }
 }
