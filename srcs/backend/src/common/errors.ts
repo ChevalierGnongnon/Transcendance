@@ -6,3 +6,21 @@ export class NotFoundError extends Error {
     this.name = 'NotFoundError';
   }
 }
+
+export class ForbiddenRightsError extends Error{
+  readonly statusCode = 403;
+  
+  constructor(message: string = "No rights on this file"){
+    super(message);
+    this.name = 'ForbiddenRightsError';
+  }
+}
+
+export class InvalidAuthentificationError extends Error{
+  readonly statusCode = 401;
+  
+  constructor(message: string = "Invalid authentification"){
+    super(message);
+    this.name = 'InvalidAuthentificationError';
+  }
+}

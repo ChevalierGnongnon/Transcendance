@@ -18,6 +18,9 @@ class FileService {
     }
     return avatars;
   }
+  async addFile() {
+      
+  }
 }
 
 export default new FileService();

@@ -19,3 +19,5 @@ export async function getDefaultAvatars(req: Request, res: Response) {
     error: 'INTERNAL_SERVER_ERROR',
   });
 }
+
+
