@@ -24,3 +24,12 @@ export class InvalidAuthentificationError extends Error{
     this.name = 'InvalidAuthentificationError';
   }
 }
+
+export class UnsupportedFileTypeError extends Error{
+  readonly statusCode = 415;
+  constructor(message: string = "Unsupported file type error"){
+    super(message);
+    this.name = 'UnsupportedFileTypeError';
+  }
+}
+
