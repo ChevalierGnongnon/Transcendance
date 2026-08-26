@@ -9,6 +9,7 @@ import updateShortcut from "../../assets/icons/icon-update.png";
 import playShortcut from "../../assets/icons/play-shortcut.png";
 import addFriendsIcon from "../../assets/icons/icon-add-friends.png";
 import iconFriendList from "../../assets/icons/icon-friend-list.png";
+import { useAuth } from "../auth/auth-context";
 
 interface User {
 	firstName: string;
@@ -21,16 +22,24 @@ interface User {
 }
 
 function PersonalPage() {
+	const {logout} = useAuth();
 	const [user, setUser] = useState<User | null>(null);
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		fetch("/api/my-profile", {
-			credentials: "include",
-		})
-			.then((res) => res.json())
-			.then((data) => setUser(data));
+		async function loadProfile() {
+			const res = await fetch('/api/my-profile', {
+				credentials: "include"
+			});
+			if (!res.ok){
+				await logout();
+				return ;
+			}
+			const data = await res.json();
+			setUser(data);
+		}
+		loadProfile();
 	}, []);
 
 	if (!user) return <p>{t("common.loading")}</p>;
@@ -40,7 +49,7 @@ function PersonalPage() {
 				<div className="profile-page d-flex flex-column gap-3 justify-content-center align-items-center min-vh-100">
 					<img
 						src={
-							user.profilePhoto.name
+							user.profilePhoto?.name
 								? `/uploads/${user.profilePhoto.name}`
 								: "/default-avatar.png"
 						}

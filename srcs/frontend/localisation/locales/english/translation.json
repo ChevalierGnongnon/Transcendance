@@ -113,6 +113,7 @@
 		"UPLOAD_FAILED": "Upload has failed",
 		"WRONG_FILE_TYPE": "Bad file type (only: png, jpg, jpeg or webp)",
 		"FETCH_DEFAULT_AVATARS_ERROR": "Failed to fetch default avatars",
+		"AVATAR_REQUIRED": "Please choose or upload an avatar",
 
 		"INTERNAL_SERVER_ERROR": "Server error, please try again later",
 		"LOGIN_REQUIRED": "Login is required.",
