@@ -58,4 +58,33 @@ export function validate(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
-// export default requireAuth;
+//Only for files since we can download (default_avatar) files when register, don't use it anywhere else then in this situation
+export function attachUserIfPresent(req: Request, res: Response, next:NextFunction){
+  const token = req.cookies.token;
+
+  if (!token || typeof token !== 'string') {
+    return (next());
+  }
+
+  const secret = process.env.JWT_SECRET;
+
+  if (!secret) {
+    return (next());
+  }
+
+  try {
+    const decoded = jwt.verify(token, secret);
+
+    if (typeof decoded === 'string' || typeof decoded.userId !== 'string') {
+      return (next());
+    }
+
+    req.jwtPayload = decoded;
+    req.userId = decoded.userId;
+
+    next();
+  } catch (error) {
+    console.error(error);
+    return (next());
+  }
+}
