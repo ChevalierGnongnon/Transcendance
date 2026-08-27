@@ -9,8 +9,8 @@ import { useApiFetch } from "../auth/use-api-fetch";
 import { useAuth } from "../auth/auth-context";
 
 interface DefaultAvatar {
-	file_id: string;
-	file_name: string;
+	id: string;
+	name: string;
 }
 
 function CompleteYourProfile() {

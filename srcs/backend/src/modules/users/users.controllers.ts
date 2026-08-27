@@ -7,8 +7,6 @@ export async function getMyProfile(req: Request, res: Response) {
     const userId = req.userId!;
     const user = await UsersService.getUserById(userId);
 
-    console.log(user);
-
     return res.status(200).json(user);
   } catch (error) {
     console.error('Get user by id error:', error);
