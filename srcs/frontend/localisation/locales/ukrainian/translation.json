@@ -115,6 +115,7 @@
 		"UPLOAD_FAILED": "Завантаження не вдалося",
 		"WRONG_FILE_TYPE": "Неправильний тип файлу (лише: png, jpg, jpeg або webp)",
 		"FETCH_DEFAULT_AVATARS_ERROR": "Не вдалося завантажити стандартні аватари",
+		"AVATAR_REQUIRED": "Будь ласка, оберіть або завантажте аватар",
 
 		"INTERNAL_SERVER_ERROR": "Помилка сервера, будь ласка, спробуйте пізніше",
 		"LOGIN_REQUIRED": "Логін є обов'язковим.",

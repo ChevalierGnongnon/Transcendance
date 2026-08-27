@@ -29,11 +29,19 @@ function HeaderOnline() {
 	const { logout } = useAuth();
 	const apiFetch = useApiFetch();
 
-	useEffect(() => {
-		apiFetch("/api/my-profile", { credentials: "include" })
-			.then((res) => res.json())
-			.then((data) => setUser(data));
-	}, []);
+    useEffect(() => {
+        apiFetch("/api/my-profile", { credentials: "include" })
+            .then((res) => {
+                if (!res.ok) {
+                logout();
+                return;
+                }
+                return res.json();
+            })
+            .then((data) => {
+                if (data) setUser(data);
+        });
+    }, []);
 
 	const navigate = useNavigate();
 	const handleLogout = async () => {
@@ -47,7 +55,7 @@ function HeaderOnline() {
             <header className="profile-page-header py-3 px-4">
                 <section className="d-none d-md-flex header-left d-flex align-items-center gap-3">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
-                        <img src={user.profilePhoto.name ? `/uploads/${user.profilePhoto.name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
+                        <img src={user.profilePhoto?.name ? `/uploads/${user.profilePhoto.name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
                     <div className="d-flex flex-column">
                         <h3>{user.pseudo}</h3>
@@ -56,7 +64,7 @@ function HeaderOnline() {
                 </section>
                 <section className="d-md-none">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
-                        <img src={user.profilePhoto.name ? `/uploads/${user.profilePhoto.name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
+                        <img src={user.profilePhoto?.name ? `/uploads/${user.profilePhoto?.name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
                 </section>
                 <section className="header-right">

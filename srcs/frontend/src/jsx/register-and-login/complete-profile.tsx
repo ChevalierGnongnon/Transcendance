@@ -34,11 +34,15 @@ function CompleteYourProfile() {
 		let avatarId: string | null = avatar instanceof File ? null : avatar;
 
 		e.preventDefault();
+		if (avatar === null){
+			setError('AVATAR_REQUIRED');
+			return ;
+		}
 		const response = await fetch('/api/complete-profile', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			credentials: 'include',
-			body: JSON.stringify({ pseudo, avatar: avatarId })
+			body: JSON.stringify({ pseudo, avatar: avatarId, avatarPending: avatar instanceof File })
 		});
 		const data = await response.json();
 		if (response.ok){
@@ -64,9 +68,8 @@ function CompleteYourProfile() {
 			return ;
 		}
 			navigate('/personalpage');
-		}
+	}
 	return (
-
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
 			<form className="login-form d-flex flex-column align-items-center gap-3" encType="multipart/form-data" onSubmit={manageSubmit}>
 				<h1 className="login-title">{t('complete-your-profile.title')}</h1>
