@@ -9,6 +9,7 @@ function GameStart() {
   const [users, setUsers] = useState([]);
   const [opponentId, setOpponentId] = useState("");   // додано
   const [boardSize, setBoardSize] = useState(10);
+  const [error, setError] = useState(false);
 
   // --- Завантаження мого профілю ---
   useEffect(() => {
@@ -26,21 +27,32 @@ function GameStart() {
       .catch(err => console.error("users error:", err));
   }, []);
 
+  // const startGame = () => {
+  //   // if (!opponentId) {
+  //   //   alert("Оберіть друга для гри");
+  //   //   return;
+  //   // }
+
+  //   navigate("/game", {
+  //     state: {
+  //       me,
+  //       opponentId,
+  //       boardSize,
+  //     },
+  //   });
+  // };
+
   const startGame = () => {
     if (!opponentId) {
-      alert("Оберіть друга для гри");
+      setError(true);   // показуємо червону рамку
       return;
     }
-
+  
+    setError(false);    // очищаємо помилку
     navigate("/game", {
-      state: {
-        me,
-        opponentId,
-        boardSize,
-      },
+      state: { me, opponentId, boardSize }
     });
   };
-
   if (!me) return <p>Loading...</p>;
 
   return (
@@ -49,15 +61,18 @@ function GameStart() {
 
       {/* Вибір друга */}
       <div className="section">
-        <h3 className="form-text">Додати друга</h3>
+        <h3 className="form-text">add Friend</h3>
 
         <select
-          className="form-input select-opponent"
+          className={`form-input select-opponent ${error ? "error-frame" : ""}`}
           value={opponentId}
-          onChange={e => setOpponentId(e.target.value)}
+          onChange={e => {
+            setOpponentId(e.target.value);
+            setError(false);
+          }}
         >
-          <option value="">-- оберіть друга --</option>
-
+          <option value="">-- add friend --</option>
+        
           {users.map(u => (
             <option key={u.id} value={u.id}>
               {u.pseudo} {u.id === me.id ? "(ви)" : ""}
@@ -66,9 +81,10 @@ function GameStart() {
         </select>
       </div>
 
+
       {/* Розмір дошки */}
       <div className="section">
-        <h3 className="form-text">
+        <h3 className="form-text"> 
           Розмір дошки: <b>{boardSize} × {boardSize}</b>
         </h3>
 
@@ -84,7 +100,7 @@ function GameStart() {
       </div>
 
       <button className="form-button start-btn" onClick={startGame}>
-        Start Game
+        Send invite
       </button>
     </div>
   );
