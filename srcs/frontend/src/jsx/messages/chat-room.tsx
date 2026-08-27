@@ -5,6 +5,7 @@ import "../../scss/common-classes.scss";
 import "../../scss/messages.scss";
 import defaultAvatar from "../../../public/default-avatar.png";
 import MoreOptions from "./options";
+import Message, { MessageProps } from "./Message";
 
 import { socket } from "./socket";
 
@@ -13,34 +14,40 @@ function ChatRoom() {
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
 
 	const [messageText, setMessageText] = useState<string>("");
+	const [messages, setMessages] = useState<MessageProps[]>([
+		{
+			message: "Hello",
+			avatar: defaultAvatar,
+			sender: "other",
+		},
+		{ message: "how are you?", sender: "other" },
+		{ message: "hello, fine. how are you", sender: "me" },
+	]);
 
-	// 🔥 Обработчик отправки сообщения
 	const handleSendMessage = () => {
 		// Проверяем, что сообщение не пустое и сокет подключен
 		if (messageText.trim() && socket?.connected) {
 			// Отправляем сообщение на сервер
-			console.log("send message")
+			console.log("send message");
 			socket.emit("sendMessage", {
 				text: messageText.trim(),
 				timestamp: new Date().toISOString(),
 			});
 
-			// 🔥 Если хотите сразу добавить сообщение в локальный список
-			// if (setMessages) {
-			// 	setMessages((prev) => [
-			// 		...prev,
-			// 		{
-			// 			id: Date.now(),
-			// 			text: messageText.trim(),
-			// 			sender: "me",
-			// 			timestamp: new Date().toISOString(),
-			// 		},
-			// 	]);
+			if (setMessages) {
+				setMessages((prev) => [
+					...prev,
+					{
+						message: messageText.trim(),
+						sender: "me",
+						avatar: defaultAvatar // нужно добавить автакр текущего
+						// timestamp: new Date().toISOString(),
+					},
+				]);
 			}
 
-			// Очищаем поле ввода
 			setMessageText("");
-		// }
+		}
 	};
 
 	return (
@@ -48,13 +55,15 @@ function ChatRoom() {
 			<div className="chat-list chat-list-right my-2">
 				<div className="chat-header">{t("common.chatting-with")}</div>
 				<ul className="px-3">
-					<li className="d-flex justify-content-start">
-						<figure className="avatar-msg">
-							<img src={defaultAvatar} alt="avatar" />
-						</figure>
-						<div className="message-left card p-3 m-2">?</div>
-					</li>
+					{messages.map((msg) => (
+						<Message
+							message={msg.message}
+							avatar={msg.avatar}
+							sender={msg.sender}
+						/>
+					))}
 				</ul>
+
 				<div className="input-group group-new-message my-3">
 					<div className="position-relative">
 						<button
@@ -65,12 +74,24 @@ function ChatRoom() {
 						</button>
 						{showMoreOptions && <MoreOptions></MoreOptions>}
 					</div>
+
 					<textarea
 						className="form-control message-area"
 						name="new-message"
 						placeholder="Type your message here"
+						value={messageText}
+
+						onChange={(e) => setMessageText(e.target.value)}
+						onKeyDown={(e) => {
+							if (e.key === "Enter" && !e.shiftKey) {
+								e.preventDefault();
+								handleSendMessage();
+							}
+						}}
 					></textarea>
-					<button className="btn send-message"> {t("common.send")}</button>
+					<button className="btn send-message" onClick={handleSendMessage}>
+						{t("common.send")}
+					</button>
 				</div>
 			</div>
 		</>
