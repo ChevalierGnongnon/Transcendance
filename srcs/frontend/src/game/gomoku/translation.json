@@ -1,0 +1,48 @@
+  "game": {
+    "turn":"turn",
+    "gomoku":"Gomoku",
+    "add_friend":"add friend",
+    "board_size":"Board size",
+    "new_game":" new game"
+  }
+
+
+  {
+  "game": {
+    "turn": "Zug",
+    "gomoku": "Gomoku",
+    "add_friend": "Freund hinzufügen",
+    "board_size": "Brettgröße",
+    "new_game": "Neues Spiel"
+  }
+}
+
+{
+  "game": {
+    "turn": "tour",
+    "gomoku": "Gomoku",
+    "add_friend": "ajouter un ami",
+    "board_size": "Taille du plateau",
+    "new_game": "nouvelle partie"
+  }
+}
+
+{
+  "game": {
+    "turn": "хід",
+    "gomoku": "Гомоку",
+    "add_friend": "додати друга",
+    "board_size": "Розмір дошки",
+    "new_game": "нова гра"
+  }
+}
+
+{
+  "game": {
+    "turn": "ход",
+    "gomoku": "Гомоку",
+    "add_friend": "добавить друга",
+    "board_size": "Размер доски",
+    "new_game": "новая игра"
+  }
+}

@@ -9,6 +9,7 @@ class UsersService {
         isDeleted: false,
       },
       select: {
+        id: true,
         firstName: true,
         lastName: true,
         email: true,
@@ -21,11 +22,32 @@ class UsersService {
         },
       },
     });
+    
 
     if (!user) {
       throw new NotFoundError('User not found');
     }
     return user;
+  }
+
+  async getAllUsers() {
+    const users = prisma.user.findMany({
+      where: {
+        isDeleted: false,
+      },
+      select: {
+        id: true,
+        pseudo: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+      },
+    });
+
+    if (!users) {
+      throw new NotFoundError('User not found');
+    }
+    return users;
   }
 }
 

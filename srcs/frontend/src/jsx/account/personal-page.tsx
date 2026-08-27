@@ -80,7 +80,7 @@ function PersonalPage() {
 								<span>{t("common.parameters")}</span>
 							</figure>
 						</div>
-						<div className="col-12 col-md-6 col-xl-4">
+						<div className="col-12 col-md-6 col-xl-4" onClick={() => navigate('/game/gomoku')}>
 							<figure className="shortcut-icon justify-content-center">
 								<img src={playShortcut} alt="play-shortcut" />
 								<span>{t("common.play")}</span>

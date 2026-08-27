@@ -14,7 +14,8 @@ import { GuestOnly } from "../auth/guest-only";
 import Messages from "../messages/main-page"
 import AddFriend from "../friends/add-friend"
 import MyFriends from "../friends/my-friends";
-
+import GameStart from "../../game/gomoku/GameStart"
+import GamePage from "../../game/gomoku/GamePage";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -30,6 +31,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/addfriend" element={<RequireAuth><AddFriend /></RequireAuth>} />
 					<Route path="/myfriends" element={<RequireAuth><MyFriends /></RequireAuth>} />
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
+					<Route path="/game/gomoku" element={<RequireAuth><GameStart /></RequireAuth>} />
+					<Route path="/game" element={<RequireAuth><GamePage /></RequireAuth>} />
 				</Routes>
 			</AuthProvider>
 		</BrowserRouter>
