@@ -34,14 +34,47 @@ class FileService {
         const result = await sharp(fileBuffer).toFormat('webp').toBuffer();
         const id = randomUUID();
         const fileName = `${id}.webp`;
-        fs.writeFileSync(`/app/uploads/${fileName}`, result)
+      
+        fs.writeFileSync(`/app/uploads/${fileName}`, result);
+
+        await prisma.$transaction([
+          prisma.file.create({
+            data:{
+              id : id,
+              name: fileName,
+              type: type,
+              userId: userId,
+              mimeType: 'image/webp', 
+              expiresAt: null,
+            }
+          }),
+          prisma.user.update({
+            where:{
+              id: userId,
+            },
+            data:{
+              profilePhotoId: id,
+            }
+          })
+        ])
       }
       else if (type === 'message' && messageFileWhiteList.includes(fileType.mime)){
-        
+        let bufferToWrite = fileBuffer;
+        let extension = fileType.ext;
+
+        if (avatarWhiteList.includes(fileType.mime) || fileType.mime === 'image/gif') {
+          bufferToWrite = await sharp(fileBuffer).toFormat('webp').toBuffer();
+          extension = 'webp';
+        }
+
+        const id = randomUUID();
+        const fileName = `${id}.${extension}`;
+        fs.writeFileSync(`/app/uploads/${fileName}`, bufferToWrite);
       }
       else {
         throw new UnsupportedFileTypeError('File type is not in whitelist');
       }
+      
     }
   }
 }
