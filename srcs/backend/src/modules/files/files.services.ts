@@ -18,7 +18,7 @@ class FileService {
     }
     return avatars;
   }
-  async addFile() {
+  async createFile() {
       
   }
 }
