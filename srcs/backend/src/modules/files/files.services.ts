@@ -61,6 +61,7 @@ class FileService {
       else if (type === 'message' && messageFileWhiteList.includes(fileType.mime)){
         let bufferToWrite = fileBuffer;
         let extension = fileType.ext;
+        const expiredDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
         if (avatarWhiteList.includes(fileType.mime) || fileType.mime === 'image/gif') {
           bufferToWrite = await sharp(fileBuffer).toFormat('webp').toBuffer();
@@ -70,6 +71,17 @@ class FileService {
         const id = randomUUID();
         const fileName = `${id}.${extension}`;
         fs.writeFileSync(`/app/uploads/${fileName}`, bufferToWrite);
+        
+        await prisma.file.create({
+          data:{
+            id : id,
+            name: fileName,
+            type: type,
+            userId: userId,
+            mimeType: extension === 'webp' ? 'image/webp' : fileType.mime,
+            expiresAt: expiredDate,
+          }
+        })
       }
       else {
         throw new UnsupportedFileTypeError('File type is not in whitelist');
