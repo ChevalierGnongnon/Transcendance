@@ -9,8 +9,6 @@ export async function getMyProfile(req: Request, res: Response) {
 
     return res.status(200).json(user);
   } catch (error) {
-    console.error('Get user by id error:', error);
-
     if (error instanceof NotFoundError) {
       return res.status(404).json({ error: 'USER_NOT_FOUND' });
     }
