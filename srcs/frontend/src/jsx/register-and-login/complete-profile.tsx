@@ -46,11 +46,10 @@ function CompleteYourProfile() {
 		});
 		const data = await response.json();
 		if (response.ok){
-			login();
 			if (avatar instanceof File) {
 				const formData = new FormData();
 				formData.append('file', avatar);
-				const uploadResponse = await apiFetch('/api/upload', {
+				const uploadResponse = await apiFetch('/api/avatar', {
 					method: 'POST',
 					credentials: 'include',
 					body: formData
@@ -67,6 +66,7 @@ function CompleteYourProfile() {
 			setError(data.error);
 			return ;
 		}
+		login();
 			navigate('/personalpage');
 	}
 	return (

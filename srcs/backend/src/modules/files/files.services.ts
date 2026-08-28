@@ -57,6 +57,7 @@ class FileService {
             }
           })
         ])
+        return(id);
       }
       else if (type === 'message' && messageFileWhiteList.includes(fileType.mime)){
         let bufferToWrite = fileBuffer;
@@ -82,6 +83,7 @@ class FileService {
             expiresAt: expiredDate,
           }
         })
+        return(id);
       }
       else {
         throw new UnsupportedFileTypeError('File type is not in whitelist');

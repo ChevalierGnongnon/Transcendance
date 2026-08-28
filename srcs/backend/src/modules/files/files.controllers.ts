@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 
 import FileService from './files.services.js';
 import { NotFoundError } from '../../common/errors.js';
+import { UnsupportedFileTypeError } from '../../common/errors.js';
 
 export async function getDefaultAvatars(req: Request, res: Response) {
   try {
@@ -18,6 +19,25 @@ export async function getDefaultAvatars(req: Request, res: Response) {
   return res.status(500).json({
     error: 'INTERNAL_SERVER_ERROR',
   });
+}
+
+export async function uploadAvatar(req: Request, res: Response){
+  try{
+    if (!req.file)
+      return (res.status(400).json({error: 'NO_FILE_PROVIDED'}));
+    if (!req.userId)
+      return (res.status(401).json({error: 'USER_NOT_FOUND'}));
+    const id = await FileService.createFile(req.file.buffer, req.userId, 'profile_photo');
+    return (res.status(201).json({ file_id: id }));
+
+  }catch(error){
+    console.error('Upload avatar error:', error);
+
+    if (error instanceof UnsupportedFileTypeError) {
+      return res.status(415).json({ error: 'WRONG_FILE_TYPE' });
+    }
+    return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
+  }
 }
 
 
