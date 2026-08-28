@@ -1,5 +1,5 @@
 import { prisma } from '../../lib/prisma.ts';
-import { NotFoundError } from '../../common/errors.js';
+import { ForbiddenRightsError, NotFoundError } from '../../common/errors.js';
 import { UnsupportedFileTypeError } from '../../common/errors.js';
 import { avatarWhiteList, messageFileWhiteList } from './files.middlewares.ts';
 import { fileTypeFromBuffer } from 'file-type';
@@ -71,6 +71,7 @@ class FileService {
 
         const id = randomUUID();
         const fileName = `${id}.${extension}`;
+        
         fs.writeFileSync(`/app/uploads/${fileName}`, bufferToWrite);
         
         await prisma.file.create({
@@ -90,6 +91,19 @@ class FileService {
       }
       
     }
+  }
+  async deleteFile(fileId: string, requesterId: string){
+    const file = await prisma.file.findUnique({
+      where:{
+        id: fileId,
+      }
+    });
+    if (file === null)
+      throw new NotFoundError('File not found');
+    if (file.userId !== requesterId)
+      throw new ForbiddenRightsError('User doesn\'t have the rights for this file');
+    if (file.type === 'default_avatar')
+      throw new ForbiddenRightsError('Default avatars can\'t be deleted');
   }
 }
 
