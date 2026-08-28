@@ -1,5 +1,5 @@
 import { prisma } from '../../lib/prisma.ts';
-import { ForbiddenRightsError, NotFoundError } from '../../common/errors.js';
+import { ForbiddenRightsError, InvalidAuthentificationError, NotFoundError } from '../../common/errors.js';
 import { UnsupportedFileTypeError } from '../../common/errors.js';
 import { avatarWhiteList, messageFileWhiteList } from './files.middlewares.ts';
 import { fileTypeFromBuffer } from 'file-type';
@@ -116,7 +116,26 @@ class FileService {
         throw err;
       }
     }
-        
+  }
+  async getFileDownload(fileId: string, requesterId?: string){
+    const file = await prisma.file.findUnique({
+      where:{
+        id: fileId, 
+      }
+    });
+    if (file === null)
+      throw new NotFoundError('File not found');
+    if (file.type === 'default_avatar')
+      return (file);
+    if (requesterId === undefined)
+      throw new InvalidAuthentificationError('Invalid user id');
+    if (file.type === 'profile_photo')
+      return (file);
+    if (file.type === 'message'){
+      if (file.userId !== requesterId)
+        throw new ForbiddenRightsError('User doesn\'t have the rights for this file');
+    }
+    return (file);
   }
 }
 
