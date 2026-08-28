@@ -104,6 +104,19 @@ class FileService {
       throw new ForbiddenRightsError('User doesn\'t have the rights for this file');
     if (file.type === 'default_avatar')
       throw new ForbiddenRightsError('Default avatars can\'t be deleted');
+      await prisma.file.delete({
+        where:{
+          id: fileId,
+      }
+    })
+    try {
+      fs.unlinkSync(`/app/uploads/${file.name}`);
+    } catch (err) {
+      if (err instanceof Error && 'code' in err && err.code !== 'ENOENT') {
+        throw err;
+      }
+    }
+        
   }
 }
 
