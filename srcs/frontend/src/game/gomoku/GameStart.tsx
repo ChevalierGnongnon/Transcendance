@@ -59,7 +59,7 @@ function GameStart() {
     <div className="game-start-wrapper common-head">
       <h1 className="game-start-title">Start Gomoku Game</h1>
 
-      {/* Вибір друга */}
+  
       <div className="section">
         <h3 className="form-text">add Friend</h3>
 
@@ -75,17 +75,16 @@ function GameStart() {
         
           {users.map(u => (
             <option key={u.id} value={u.id}>
-              {u.pseudo} {u.id === me.id ? "(ви)" : ""}
+              {u.pseudo} {u.id === me.id ? "(you)" : ""}
             </option>
           ))}
         </select>
       </div>
 
 
-      {/* Розмір дошки */}
       <div className="section">
         <h3 className="form-text"> 
-          Розмір дошки: <b>{boardSize} × {boardSize}</b>
+          Table size: <b>{boardSize} × {boardSize}</b>
         </h3>
 
         <input
@@ -94,7 +93,9 @@ function GameStart() {
           max="20"
           step="1"
           value={boardSize}
-          onChange={e => setBoardSize(Number(e.target.value))}
+          onChange={e => {
+            setBoardSize(Number(e.target.value));
+          }}
           className="form-input board-slider"
         />
       </div>

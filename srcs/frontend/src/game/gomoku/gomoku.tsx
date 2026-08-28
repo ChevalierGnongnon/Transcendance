@@ -23,11 +23,40 @@ function Gomoku({ playersData, boardSize }) {
     <div className="gomoku-wrapper">
       <div className="gomoku-title">Gomoku</div>
 
-      <div className="gomoku-info">
-        {winner
-          ? `Winner: ${winner.username}`
-          : `Turn: ${currentPlayer.username}`}
+    <div className="gomoku-info-bar">
+
+      <div className={`player-box ${currentPlayer.id === players[0].id ? "active-turn" : ""}`}>
+        <img
+          src={players[0].avatar ? `/uploads/${players[0].avatar}` : "/default-avatar.png"}
+          alt="me avatar"
+          className="player-avatar"
+        />
+        <span className="player-name">{players[0].username}</span>
       </div>
+
+      <div className="turn-info">
+        {winner ? (
+          <>
+            Winner:<br />{winner.username}
+          </>
+        ) : currentPlayer.id === players[0].id
+            ? "Your turn"
+            : (<>
+              Waiting<br />opponent
+              </>
+              )}
+      </div>
+                
+      <div className={`player-box ${currentPlayer.id === players[1].id ? "active-turn" : ""}`}>
+        <img
+          src={players[1].avatar ? `/uploads/${players[1].avatar}` : "/default-avatar.png"}
+          alt="opponent avatar"
+          className="player-avatar"
+        />
+        <span className="player-name">{players[1].username}</span>
+      </div>
+        
+    </div>
 
       <button className="gomoku-reset-btn" onClick={reset}>
         new game
