@@ -16,6 +16,7 @@ class UsersService {
 
         profilePhoto: {
           select: {
+            id: true,
             name: true,
           },
         },

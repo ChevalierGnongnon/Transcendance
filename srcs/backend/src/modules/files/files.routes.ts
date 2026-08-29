@@ -12,7 +12,9 @@ import { getDefaultAvatars } from './files.controllers.js';
 
 router.get('/default-avatars', getDefaultAvatars);
 router.get('/:id/download', attachUserIfPresent, downloadFile)
+
 router.post('/avatar', requireAuth, uploadImageConfig.single('file'), uploadAvatar);
+
 router.delete('/:id', requireAuth, deleteFile); 
 
 export default router;

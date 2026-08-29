@@ -9,8 +9,8 @@ import { useApiFetch } from "../auth/use-api-fetch";
 import { useAuth } from "../auth/auth-context";
 
 interface DefaultAvatar {
-	file_id: string;
-	file_name: string;
+	id: string;
+	name: string;
 }
 
 function CompleteYourProfile() {
@@ -85,7 +85,7 @@ function CompleteYourProfile() {
 				</p>
 				<div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
 					{defaultAvatars.map((item) => (
-						<img key={item.file_id} src={`/uploads/${item.file_name}`} alt={item.file_name} className={`img-avatar ${avatar === item.id ? 'selected' : ''}`} onClick={() => setAvatar(item.id)} />
+						<img key={item.id} src={`/api/${item.id}/download`} alt={item.name} className={`img-avatar ${avatar === item.id ? 'selected' : ''}`} onClick={() => setAvatar(item.id)} />
 					))}
 				</div>
 				<ErrorMessage error={error} />

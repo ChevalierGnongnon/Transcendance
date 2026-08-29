@@ -17,6 +17,7 @@ interface User {
 	email: string;
 	pseudo: string;
 	profilePhoto: {
+		id: string;
 		name: string;
 	};
 }
@@ -49,8 +50,8 @@ function PersonalPage() {
 				<div className="profile-page d-flex flex-column gap-3 justify-content-center align-items-center min-vh-100">
 					<img
 						src={
-							user.profilePhoto?.name
-								? `/uploads/${user.profilePhoto.name}`
+							user.profilePhoto?.id
+								? `/api/${user.profilePhoto.id}/download`
 								: "/default-avatar.png"
 						}
 						alt="avatar"

@@ -118,7 +118,7 @@ function Parameters() {
 								{defaultAvatars.map((item) => (
 									<img
 										key={item.id}
-										src={`/uploads/${item.name}`}
+										src={`/api/${item.id}/download`}
 										alt={item.name}
 										className={`img-avatar ${avatar === item.id ? "selected" : ""}`}
 										onClick={() => setAvatar(item.id)}
