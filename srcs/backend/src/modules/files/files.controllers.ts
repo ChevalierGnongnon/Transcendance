@@ -92,4 +92,23 @@ export async function downloadFile(req: Request, res: Response){
   }
 }
 
+export async function uploadMessageFile(req: Request, res: Response){
+  try{
+    if (!req.file)
+      return (res.status(400).json({error: 'NO_FILE_PROVIDED'}));
+    if (!req.userId)
+      return (res.status(401).json({error: 'USER_NOT_FOUND'}));
+    const id = await FileService.createFile(req.file.buffer, req.userId, 'message');
+    return (res.status(201).json({ file_id: id }));
+
+  }catch(error){
+    console.error('Upload file error:', error);
+
+    if (error instanceof UnsupportedFileTypeError) {
+      return res.status(415).json({ error: 'WRONG_FILE_TYPE' });
+    }
+    return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
+  }
+}
+
 
