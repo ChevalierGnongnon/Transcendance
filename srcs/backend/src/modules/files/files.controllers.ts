@@ -4,6 +4,9 @@ import FileService from './files.services.js';
 import { NotFoundError } from '../../common/errors.js';
 import { UnsupportedFileTypeError } from '../../common/errors.js';
 import { ForbiddenRightsError } from '../../common/errors.js';
+import { InvalidAuthentificationError } from '../../common/errors.js';
+import fs from 'fs';
+import { avatarWhiteList, messageFileWhiteList } from './files.middlewares.ts';
 
 export async function getDefaultAvatars(req: Request, res: Response) {
   try {
@@ -62,5 +65,31 @@ export async function deleteFile(req: Request, res: Response){
   }
 }
 
+export async function downloadFile(req: Request, res: Response){
+  try {
+    if (typeof req.params.id !== 'string')
+      return (res.status(400).json({ error: 'INVALID_FILE_ID' }));
+    const file = await FileService.getFileDownload(req.params.id, req.userId);
+    
+    if (avatarWhiteList.includes(file.mimeType))
+      res.set('Content-Disposition', 'inline');
+    else 
+      res.set('Content-Disposition', `attachment; filename="${file.name}"`);
+    res.set('Content-Type', file.mimeType);
+    res.send(fs.readFileSync(`/app/uploads/${file.name}`))
+  } catch (error) {
+    console.error('Download file error:', error);
+    if (error instanceof NotFoundError) {
+      return res.status(404).json({ error: 'FILE_NOT_FOUND' });
+    }
+    if (error instanceof InvalidAuthentificationError) {
+      return res.status(401).json({ error: 'INVALID_TOKEN' });
+    }
+    if (error instanceof ForbiddenRightsError) {
+      return res.status(403).json({ error: 'FORBIDDEN' });
+    }
+    return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
+  }
+}
 
 
