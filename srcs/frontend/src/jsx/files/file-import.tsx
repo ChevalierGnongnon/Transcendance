@@ -1,7 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 
-function FileImport(){
+interface FileImportComponent{
+    mode: 'avatar' | 'message';
+    onUploaded: (fileId: string) => void;
+    initialPreviewUrl?: string; 
+}
+
+function FileImport(fileImportComponent: FileImportComponent){
     const {t} = useTranslation();
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -30,9 +36,35 @@ function FileImport(){
                     }
                 }/>
             <figure className="file_preview_frame">
-                <img src="" alt="file-preview" />
+                <img src={previewURL ?? ''} alt="file-preview" />
             </figure>
-            <input type="button" value={t('common.confirm')} className="confirm_button" />
+            <input
+                type="button"
+                value={t('common.confirm')}
+                className="confirm_button" 
+                onClick={()=>{
+                    let url ;
+                    if (selectedFile === null)
+                        return ;
+                    let form = new FormData();
+                    form.append('file', selectedFile);
+                    let request = new XMLHttpRequest();
+                    if (fileImportComponent.mode === 'avatar')
+                        url = '/api/avatar';
+                    else if (fileImportComponent.mode === 'message')
+                        url = '/api/message';
+                    else
+                        return ;
+                    request.open('POST', url);
+                    request.onload = () =>{
+                        if (request.status === 201){
+                            const id = JSON.parse(request.responseText);
+                            fileImportComponent.onUploaded(id.file_id);
+                        }
+                    }
+                    request.send(form);
+                }
+            }/>
             <input type="button" value={t('common.undo')} className="undo_button" />
         </div>
     );
