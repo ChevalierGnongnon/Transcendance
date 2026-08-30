@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, FormEvent } from "react"
 import ErrorMessage from "../others/error-message";
-import { useApiFetch } from "../auth/use-api-fetch";
 import { useAuth } from "../auth/auth-context";
+import FileImport from "../files/file-import";
 
 interface DefaultAvatar {
 	id: string;
@@ -16,10 +16,9 @@ interface DefaultAvatar {
 function CompleteYourProfile() {
 	const { t } = useTranslation();
 	const [pseudo, setPseudo] = useState("");
-	const [avatar, setAvatar] = useState<File | string | null>(null);
+	const [avatar, setAvatar] = useState<string | null>(null);
 	const [defaultAvatars, setDefaultAvatars] = useState<DefaultAvatar[]>([]);
 	const [error, setError] = useState<string | null>(null);
-	const apiFetch = useApiFetch();
 	const {login} = useAuth();
 
 	useEffect(() => {
@@ -31,8 +30,6 @@ function CompleteYourProfile() {
 	const navigate = useNavigate();
 
 	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		let avatarId: string | null = avatar instanceof File ? null : avatar;
-
 		e.preventDefault();
 		if (avatar === null){
 			setError('AVATAR_REQUIRED');
@@ -42,32 +39,15 @@ function CompleteYourProfile() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			credentials: 'include',
-			body: JSON.stringify({ pseudo, avatar: avatarId, avatarPending: avatar instanceof File })
+			body: JSON.stringify({ pseudo, avatar })
 		});
 		const data = await response.json();
-		if (response.ok){
-			if (avatar instanceof File) {
-				const formData = new FormData();
-				formData.append('file', avatar);
-				const uploadResponse = await apiFetch('/api/avatar', {
-					method: 'POST',
-					credentials: 'include',
-					body: formData
-				});
-				const uploadData = await uploadResponse.json();
-				if (!uploadResponse.ok) {
-					setError(uploadData.error);
-					return;
-				}
-				avatarId = uploadData.file_id;
-			}
-		}
-		else {
+		if (!response.ok){
 			setError(data.error);
 			return ;
 		}
 		login();
-			navigate('/personalpage');
+		navigate('/personalpage');
 	}
 	return (
 		<div className="d-flex justify-content-center align-items-center min-vh-100">
@@ -75,11 +55,7 @@ function CompleteYourProfile() {
 				<h1 className="login-title">{t('complete-your-profile.title')}</h1>
 				<label htmlFor="pseudo" className="form-text">{t('complete-your-profile.enter-a-pseudo')}</label>
 				<input type="text" name="name" value={pseudo} placeholder={t('complete-your-profile.enter-a-pseudo')} className="form-control form-input" id="pseudo" onChange={(e) => setPseudo(e.target.value)} />
-				<label htmlFor="upload" className="form-text">{t('complete-your-profile.upload-avatar')}</label>
-				<label htmlFor="avatar" className="btn btn-secondary btn-sm">
-					{t('complete-your-profile.upload-avatar')}
-				</label>
-				<input type="file" id="avatar" accept="image/*" style={{ display: 'none' }} onChange={(e) => setAvatar(e.target.files?.[0] ?? null)} />
+				<FileImport mode="avatar" onUploaded={(fileId) => setAvatar(fileId)}/>
 				<p className="form-text">
 					{t('complete-your-profile.choose-an-avatar')}
 				</p>
