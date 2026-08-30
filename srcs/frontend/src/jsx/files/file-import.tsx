@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
-
+import ErrorMessage from "../others/error-message";
 interface FileImportComponent{
     mode: 'avatar' | 'message';
     onUploaded: (fileId: string) => void;
@@ -59,7 +59,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                                     setPreviewURL(view); 
                             }
                             else {
-                                setErrorMessage('BAD_FILE_TYPE');
+                                setErrorMessage('WRONG_FILE_TYPE');
                                 setSelectedFile(null);
                                 setPreviewURL(null);
                             }
@@ -101,6 +101,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                     request.send(form);
                 }
             }/>
+            <ErrorMessage error={errorMessage} />
             <input type="button" value={t('common.undo')} className="undo_button" />
         </div>
     );
