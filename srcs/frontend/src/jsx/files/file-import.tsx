@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ErrorMessage from "../others/error-message";
 interface FileImportComponent{
     mode: 'avatar' | 'message';
@@ -31,6 +31,7 @@ function FileImport(fileImportComponent: FileImportComponent){
     const [previewURL, setPreviewURL] = useState<string | null>(fileImportComponent.initialPreviewUrl ?? null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [uploadProgress, setUploadProgress] = useState<number>(0)
+    const fileInputRef = useRef<HTMLInputElement>(null);
     return (
         <div className="file_component">
             <input
@@ -38,6 +39,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                 name="file_input" 
                 id="file_input"
                 className="upload_file"
+                ref={fileInputRef}
                 onChange={
                     (e)=>{
                         setUploadProgress(0);
@@ -109,7 +111,21 @@ function FileImport(fileImportComponent: FileImportComponent){
                 }
             }/>
             <ErrorMessage error={errorMessage} />
-            <input type="button" value={t('common.undo')} className="undo_button" />
+            <input 
+                type="button"
+                value={t('common.undo')}
+                className="undo_button"
+                onClick={()=>{
+                    if (fileInputRef.current)
+                        fileInputRef.current.value = '';
+                    setSelectedFile(null);
+                    if (previewURL)
+                        URL.revokeObjectURL(previewURL)
+                    setPreviewURL(null);
+                    setErrorMessage(null);
+                    setUploadProgress(0);
+
+                }}/>
         </div>
     );
 }
