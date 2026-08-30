@@ -9,7 +9,26 @@ function FileImport(){
 
     return (
         <div className="file_component">
-            <input type="file" name="file_input" id="file_input" className="upload_file" onChange={}/>
+            <input
+                type="file"
+                name="file_input" 
+                id="file_input"
+                className="upload_file"
+                onChange={
+                    (e)=>{
+                        const file = e.target.files?.[0];
+                        if (file){
+                            setSelectedFile(file);
+                            const view = URL.createObjectURL(file);
+                            setPreviewURL(view);
+                        }
+                        else {
+                            setSelectedFile(null);
+                            setPreviewURL(null);
+                        }
+                        
+                    }
+                }/>
             <figure className="file_preview_frame">
                 <img src="" alt="file-preview" />
             </figure>

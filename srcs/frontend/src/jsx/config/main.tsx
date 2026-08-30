@@ -14,7 +14,7 @@ import { GuestOnly } from "../auth/guest-only";
 import Messages from "../messages/main-page"
 import AddFriend from "../friends/add-friend"
 import MyFriends from "../friends/my-friends";
-
+import FileImport from "../files/file-import";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -29,6 +29,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/messages" element={<RequireAuth><Messages /></RequireAuth>} />
 					<Route path="/addfriend" element={<RequireAuth><AddFriend /></RequireAuth>} />
 					<Route path="/myfriends" element={<RequireAuth><MyFriends /></RequireAuth>} />
+					
+					<Route path="/fileimport" element={<RequireAuth><FileImport /></RequireAuth>} />
+
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
 				</Routes>
 			</AuthProvider>
