@@ -30,7 +30,7 @@ function FileImport(fileImportComponent: FileImportComponent){
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewURL, setPreviewURL] = useState<string | null>(fileImportComponent.initialPreviewUrl ?? null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+    const [uploadProgress, setUploadProgress] = useState<number>(0)
     return (
         <div className="file_component">
             <input
@@ -40,6 +40,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                 className="upload_file"
                 onChange={
                     (e)=>{
+                        setUploadProgress(0);
                         const file = e.target.files?.[0];
                         if (file){
                             if (fileImportComponent.mode === 'avatar'
@@ -74,11 +75,13 @@ function FileImport(fileImportComponent: FileImportComponent){
             <figure className="file_preview_frame">
                 <img src={previewURL ?? ''} alt="file-preview" />
             </figure>
+            <progress value={uploadProgress} max={100}></progress>
             <input
                 type="button"
                 value={t('common.confirm')}
                 className="confirm_button" 
                 onClick={()=>{
+                    setUploadProgress(0);
                     let url ;
                     if (selectedFile === null)
                         return ;
@@ -97,6 +100,10 @@ function FileImport(fileImportComponent: FileImportComponent){
                             const id = JSON.parse(request.responseText);
                             fileImportComponent.onUploaded(id.file_id);
                         }
+                    }
+                    request.upload.onprogress = (event) =>{
+                        let progress = (event.loaded / event.total) * 100;
+                        setUploadProgress(progress);
                     }
                     request.send(form);
                 }
