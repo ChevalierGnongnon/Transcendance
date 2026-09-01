@@ -5,6 +5,7 @@ import "../../scss/files.scss"
 interface FileImportComponent{
     mode: 'avatar' | 'message';
     onUploaded: (fileId: string) => void;
+    onSelectedChange?:(hasFile: boolean)=> void;
     initialPreviewUrl?: string; 
 }
 
@@ -52,7 +53,9 @@ function FileImport(fileImportComponent: FileImportComponent){
                                     setErrorMessage(null);
                                     setSelectedFile(file);
                                     const view = URL.createObjectURL(file);
-                                    setPreviewURL(view);   
+                                    setPreviewURL(view);
+                                    if (fileImportComponent.onSelectedChange)
+                                        fileImportComponent.onSelectedChange(true);
                             }
                             else if (fileImportComponent.mode === 'message'
                                 && file.size <= (10 * 1024 * 1024)
@@ -60,18 +63,24 @@ function FileImport(fileImportComponent: FileImportComponent){
                                     setErrorMessage(null);
                                     setSelectedFile(file);
                                     const view = URL.createObjectURL(file);
-                                    setPreviewURL(view); 
+                                    setPreviewURL(view);
+                                    if (fileImportComponent.onSelectedChange)
+                                        fileImportComponent.onSelectedChange(true);
                             }
                             else {
                                 setErrorMessage('WRONG_FILE_TYPE');
                                 setSelectedFile(null);
                                 setPreviewURL(null);
+                                if (fileImportComponent.onSelectedChange)
+                                    fileImportComponent.onSelectedChange(false);
                             }
                         }
                         else {
                             setErrorMessage(null);
                             setSelectedFile(null);
                             setPreviewURL(null);
+                            if (fileImportComponent.onSelectedChange)
+                                fileImportComponent.onSelectedChange(false);
                         }
                     }
                 }/>
@@ -113,11 +122,13 @@ function FileImport(fileImportComponent: FileImportComponent){
                 }
             }/>
             <ErrorMessage error={errorMessage} />
-            <input 
+            <input
                 type="button"
                 value={t('common.undo')}
                 className="undo_button"
                 onClick={()=>{
+                    if (fileImportComponent.onSelectedChange)
+                        fileImportComponent.onSelectedChange(false);
                     if (fileInputRef.current)
                         fileInputRef.current.value = '';
                     setSelectedFile(null);

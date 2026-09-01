@@ -19,7 +19,10 @@ function CompleteYourProfile() {
 	const [avatar, setAvatar] = useState<string | null>(null);
 	const [defaultAvatars, setDefaultAvatars] = useState<DefaultAvatar[]>([]);
 	const [error, setError] = useState<string | null>(null);
+	const [hasCustomFile, setHasCustomFile] = useState<boolean>(false);
+	const [pickedDefault, setPickedDefault] = useState<boolean>(false);
 	const {login} = useAuth();
+	
 
 	useEffect(() => {
 		fetch('/api/default-avatars')
@@ -55,15 +58,46 @@ function CompleteYourProfile() {
 				<h1 className="login-title">{t('complete-your-profile.title')}</h1>
 				<label htmlFor="pseudo" className="form-text">{t('complete-your-profile.enter-a-pseudo')}</label>
 				<input type="text" name="name" value={pseudo} placeholder={t('complete-your-profile.enter-a-pseudo')} className="form-control form-input" id="pseudo" onChange={(e) => setPseudo(e.target.value)} />
-				<FileImport mode="avatar" onUploaded={(fileId) => setAvatar(fileId)}/>
-				<p className="form-text">
-					{t('complete-your-profile.choose-an-avatar')}
-				</p>
-				<div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
-					{defaultAvatars.map((item) => (
-						<img key={item.id} src={`/api/${item.id}/download`} alt={item.name} className={`img-avatar ${avatar === item.id ? 'selected' : ''}`} onClick={() => setAvatar(item.id)} />
-					))}
-				</div>
+				{!pickedDefault && (
+					<FileImport
+						mode="avatar"
+						onUploaded={(fileId) => setAvatar(fileId)}
+						onSelectedChange={setHasCustomFile}
+					/>
+				)}
+				
+				
+				
+				{!hasCustomFile && (
+					<>
+						<p className="form-text">
+							{t('complete-your-profile.choose-an-avatar')}
+						</p>
+						<div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
+							{defaultAvatars.map((item) => (
+								<img
+									key={item.id}
+									src={`/api/${item.id}/download`}
+									alt={item.name}
+									className={`img-avatar ${avatar === item.id ? 'selected' : ''}`}
+									onClick={() => { setAvatar(item.id); setPickedDefault(true); }}
+								/>
+							))}
+						</div>
+						
+					</>
+				)}
+
+				{pickedDefault && (
+					<input
+						type="button"
+						value={t('common.import-file-instead')}
+						onClick={()=>(setPickedDefault(false))}
+						className="undo_button"
+					/>
+				)}
+				
+				
 				<ErrorMessage error={error} />
 				<button type="submit" className="btn btn-primary btn-sm align-self-center">
 					{t('complete-your-profile.confirm')}

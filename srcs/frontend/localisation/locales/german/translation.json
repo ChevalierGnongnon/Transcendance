@@ -23,7 +23,8 @@
     "search-user": "Einen Benutzer suchen",
     "search": "Suchen",
     "confirm": "Bestätigen",
-    "undo": "Rückgängig machen"
+    "undo": "Rückgängig machen",
+    "import-file-instead": "Stattdessen eine Datei importieren"
   },
   "login": {
     "mail-or-pseudo": "E-Mail oder Pseudonym",

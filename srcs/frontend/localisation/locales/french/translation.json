@@ -23,7 +23,8 @@
     "search-user": "Rechercher un utilisateur",
     "search": "Rechercher",
     "confirm": "Confirmer",
-    "undo": "Annuler"
+    "undo": "Annuler",
+    "import-file-instead": "Importer un fichier à la place"
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",
