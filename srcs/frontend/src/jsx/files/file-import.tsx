@@ -88,7 +88,7 @@ function FileImport(fileImportComponent: FileImportComponent){
             <figure className="file_preview_frame">
                 <img className="avatar-preview" src={previewURL ?? ''} alt="file-preview" />
             </figure>
-            <progress value={uploadProgress} max={100}></progress>
+            <progress className="w-25 mx-auto" value={uploadProgress} max={100}></progress>
             <input
                 type="button"
                 value={t('common.confirm')}
