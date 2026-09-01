@@ -1,29 +1,19 @@
-import defaultAvatar from "../../../public/default-avatar.png"; // TMP
+import defaultAvatar from '../../../public/default-avatar.png'; // TMP
+import type { MessageProps } from './types.js';
 
-interface MessageProps {
-	message: string;
-	avatar?: string;
-	sender?: "me" | "other";
-}
-
-const Message = ({ message, avatar = defaultAvatar, sender }: MessageProps) => {
-	return (
-		<>
-			<li
-				className={`d-flex ${sender === "me" ? "justify-content-end" : "justify-content-start"}`}
-			>
-				<figure className="avatar-msg">
-					<img src={avatar} alt="avatar" />
-				</figure>
-				<div
-					className={`${sender === "me" ? "message-right" : "message-left"} card p-3 m-2`}
-				>
-					{message}
-				</div>
-			</li>
-		</>
-	);
+export const Message = ({ userId, senderId, profilePhoto, content }: MessageProps) => {
+  return (
+    <>
+      <li
+        className={`d-flex ${senderId === userId ? 'justify-content-end' : 'justify-content-start'}`}
+      >
+        <figure className="avatar-msg">
+          <img src={`/uploads/${profilePhoto}`} alt="avatar" />
+        </figure>
+        <div className={`${senderId === userId ? 'message-right' : 'message-left'} card p-3 m-2`}>
+          {content}
+        </div>
+      </li>
+    </>
+  );
 };
-
-export default Message;
-export type { MessageProps };

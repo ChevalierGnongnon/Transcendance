@@ -1,8 +1,25 @@
 import { Server, Socket } from 'socket.io';
+import { prisma } from '../../lib/prisma.ts';
 
 export const handleMessages = (io: Server, socket: Socket) => {
-  socket.on('sendMessage', (data) => {
-    console.log('Получено сообщение:', data);
+  socket.on('chat message', async (message) => {
+    console.log('Получено сообщение:', message);
+    // console.log('Получено сообщение form user:', socket.user.id);
+    try {
+      // socket.emit('chat message', `answer ${data}`);
+      // socket.emit('chat message', message);
+      const savedMessage = await prisma.message.create({
+        data: {
+          chatId: message.chatId,
+          senderId: message.sender.id,
+          content: message.content,
+        },
+      });
+      console.error('message saved in DB');
+    } catch (error) {
+      console.error('Error save message');
+    }
+    io.emit('chat message', message);
   });
 };
 

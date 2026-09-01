@@ -1,37 +1,127 @@
-interface ChatRoomProps {
-	avatar?: string;
-	name?: number;
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import '../../scss/common-classes.scss';
+import '../../scss/messages.scss';
+import defaultAvatar from '../../../public/default-avatar.png';
+import MoreOptions from './options';
+import { Message } from './Message';
+import { socket } from './socket';
+import type { User, IMessage, ChatRoomProps } from './types.js';
+import { getMessages } from './utils/api.js';
+
+function ChatRoom(roomProps: ChatRoomProps) {
+  const { t } = useTranslation();
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
+
+  const [messageText, setMessageText] = useState<string>('');
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState<Error | null>(null);
+  const me = roomProps.me;
+
+  useEffect(() => {
+    async function loadMessages() {
+      try {
+        setLoading(true);
+        const messages = await getMessages(roomProps.chatId);
+
+        setMessages(messages);
+      } catch (error) {
+        console.log('Error loading messages:', error);
+        // setError(error instanceof Error ? error : new Error('Unknown error'));
+        // await logout();
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadMessages();
+    console.log('loadMessages');
+  }, [roomProps.chatId]);
+
+  // socket.on('message', (data) => {
+  //         console.log(data);
+  // });
+
+  const handleSendMessage = () => {
+    if (messageText.trim() && socket?.connected) {
+      const messageToSend: IMessage = {
+        chatId: roomProps.chatId,
+        sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },
+        content: messageText,
+      };
+      socket.emit('chat message', messageToSend);
+
+      setMessages((prev) => [...prev, messageToSend]);
+
+      setMessageText('');
+    }
+  };
+
+  useEffect(() => {
+    const handleNewMessage = (message: IMessage) => {
+      setMessages((prev) => [...prev, message]);
+    };
+
+    socket.on('chat message', handleNewMessage);
+
+    return () => {
+      socket.off('chat message', handleNewMessage);
+    };
+  }, []);
+
+  return (
+    <>
+      <div className="chat-list chat-list-right my-2">
+        <div className="chat-header">
+          {t('common.chatting-with')} {`chatId: ${roomProps.chatId}`}
+        </div>
+        (
+        <ul className="px-3">
+          {messages.map((msg, index) => (
+            <Message
+              key={index}
+              userId={me.id}
+              profilePhoto={msg.sender.profilePhoto.name}
+              senderId={msg.sender.id}
+              content={msg.content}
+            />
+          ))}
+        </ul>
+        )
+        <div className="input-group group-new-message my-3">
+          <div className="position-relative">
+            <button
+              className="btn fs-2 send-message d-flex align-items-center justify-content-center"
+              onClick={() => setShowMoreOptions((prev) => !prev)}
+            >
+              +
+            </button>
+            {showMoreOptions && <MoreOptions></MoreOptions>}
+          </div>
+
+          <textarea
+            className="form-control message-area"
+            name="new-message"
+            placeholder="Type your message here"
+            value={messageText}
+
+            onChange={(e) => setMessageText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
+          ></textarea>
+          <button className="btn send-message" onClick={handleSendMessage}>
+            {t('common.send')}
+          </button>
+        </div>
+      </div>
+    </>
+  );
 }
 
-const ChatRoom = ({ avatar, name }: ChatRoomProps) => {
-	const { t } = useTranslation();
-	const [showMoreOptions, setShowMoreOptions] = useState(false);
-	const [messages, setMessages] = useState<Message[]>([]);
-	const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
-
-
-	// 🔥 Создаем дочерние компоненты в зависимости от количества чатов
-	const renderChatRooms = () => {
-		// Если есть чаты - рендерим все
-		if (chatRooms.length > 0) {
-			return chatRooms.map((room) => (
-				<ChatRoomItem key={room.id} room={room} socket={socket} />
-			));
-		}
-
-		// Или один чат по умолчанию
-		return <ChatRoomItem roomId={roomId || "default"} socket={socket} />;
-	};
-
-	return (
-		<div className="chat-list chat-list-right my-2">
-			<div className="chat-header">
-				{t("common.chatting-with")}{" "}
-				{chatRooms.length > 0 && `(${chatRooms.length} чатов)`}
-			</div>
-
-			{/* Рендерим все чаты */}
-			{renderChatRooms()}
-		</div>
-	);
-};
+export default ChatRoom;
