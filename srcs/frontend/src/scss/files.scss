@@ -1,0 +1,61 @@
+.avatar-preview{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.upload_file{
+    background-color: rgb(205, 205, 205);
+    border: 2px solid white;
+    border-radius: 12px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
+
+.confirm_button{
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: green;
+    color: white;
+    border: 2px solid white;
+    border-radius: 25px;
+    padding: 8px 12px;
+    width: 60%;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1%;
+    &:hover{
+        color: green;
+        background-color: white;
+        border: 2px solid  green;
+    }
+}
+.undo_button{
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: red;
+    color: white;
+    border: 2px solid white;
+    border-radius: 25px;
+    padding: 8px 12px;
+    width: 60%;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+    &:hover{
+        color: red;
+        background-color: white;
+        border: 2px solid red;
+    }
+}
+

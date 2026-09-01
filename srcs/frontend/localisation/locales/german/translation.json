@@ -21,7 +21,9 @@
     "chatting-with": "Sie chatten mit",
     "send": "Senden",
     "search-user": "Einen Benutzer suchen",
-    "search": "Suchen"
+    "search": "Suchen",
+    "confirm": "Bestätigen",
+    "undo": "Rückgängig machen"
   },
   "login": {
     "mail-or-pseudo": "E-Mail oder Pseudonym",

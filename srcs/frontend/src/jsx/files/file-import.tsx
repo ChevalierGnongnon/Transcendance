@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useRef } from "react";
 import ErrorMessage from "../others/error-message";
+import "../../scss/files.scss"
 interface FileImportComponent{
     mode: 'avatar' | 'message';
     onUploaded: (fileId: string) => void;
@@ -33,7 +34,7 @@ function FileImport(fileImportComponent: FileImportComponent){
     const [uploadProgress, setUploadProgress] = useState<number>(0)
     const fileInputRef = useRef<HTMLInputElement>(null);
     return (
-        <div className="file_component">
+        <div className="file_component d-flex flex-column">
             <input
                 type="file"
                 name="file_input" 
@@ -74,8 +75,9 @@ function FileImport(fileImportComponent: FileImportComponent){
                         }
                     }
                 }/>
+            
             <figure className="file_preview_frame">
-                <img src={previewURL ?? ''} alt="file-preview" />
+                <img className="avatar-preview" src={previewURL ?? ''} alt="file-preview" />
             </figure>
             <progress value={uploadProgress} max={100}></progress>
             <input

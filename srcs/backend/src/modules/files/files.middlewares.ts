@@ -1,9 +1,9 @@
 import multer from 'multer';
 
 export const avatarWhiteList = [
-        'image/png',
-        'image/webp',
-        'image/jpeg'
+    'image/png',
+    'image/webp',
+    'image/jpeg'
 ];
 
 export const messageFileWhiteList = [

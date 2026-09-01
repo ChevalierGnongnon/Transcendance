@@ -32,4 +32,3 @@ export class UnsupportedFileTypeError extends Error{
     this.name = 'UnsupportedFileTypeError';
   }
 }
-

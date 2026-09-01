@@ -29,9 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/messages" element={<RequireAuth><Messages /></RequireAuth>} />
 					<Route path="/addfriend" element={<RequireAuth><AddFriend /></RequireAuth>} />
 					<Route path="/myfriends" element={<RequireAuth><MyFriends /></RequireAuth>} />
-					
-					<Route path="/fileimport" element={<RequireAuth><FileImport /></RequireAuth>} />
-
+				
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
 				</Routes>
 			</AuthProvider>
