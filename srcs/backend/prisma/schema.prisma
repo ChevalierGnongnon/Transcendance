@@ -35,7 +35,9 @@ model User {
 
   uploadedFiles File[]
 
-  profilePhoto File? @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
+  profilePhoto File?        @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
+  messages     Message[]    @relation("MessageSender")
+  chatMembers  ChatMember[]
 
   @@map("user")
 }
@@ -61,4 +63,45 @@ model File {
 
   @@unique([name, type])
   @@map("file")
+}
+
+model Chat {
+  id        String   @id @default(uuid()) @db.Char(36)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  members  ChatMember[]
+  messages Message[]
+
+  @@map("chats")
+}
+
+model ChatMember {
+  chatId   String   @map("chat_id") @db.Char(36)
+  userId   String   @map("user_id") @db.Char(36)
+  joinedAt DateTime @default(now()) @map("joined_at")
+
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([chatId, userId])
+  @@map("chat_members")
+}
+
+model Message {
+  id        String   @id @default(uuid()) @db.Char(36)
+  chatId    String   @map("chat_id") @db.Char(36)
+  senderId  String   @map("sender_id") @db.Char(36)
+  content   String   @db.Text
+  // replyToId String?  @map("reply_to_id") @db.Char(36)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  chat   Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  sender User @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  // replyTo Message? @relation("MessageReplies", fields: [replyToId], references: [id], onDelete: SetNull)
+
+  // replies Message[] @relation("MessageReplies")
+
+  @@index([chatId, createdAt])
+  @@map("messages")
 }
