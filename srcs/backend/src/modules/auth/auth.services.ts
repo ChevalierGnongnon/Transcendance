@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import { prisma } from '../../lib/prisma.js';
 import { NotFoundError } from '../../common/errors.js';
+import FileService from '../files/files.services.ts'
 
 class authService {
   async login(login: string, password: string) {
@@ -40,14 +41,17 @@ class authService {
       userId: user.id,
     };
   }
-  async prepareRegistration(userData: {
+  async registration(userData: {
     first_name: string;
     last_name: string;
     email: string;
     password: string;
-    birthdate: string;
-  }) {
-    const { first_name, last_name, email, password, birthdate } = userData;
+    birthdate: string | Date;
+    pseudo: string;
+    avatar: string | null;
+    fileBuffer?: Buffer
+  }){
+    const { first_name, last_name, email, password, birthdate, pseudo, avatar } = userData;
 
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -56,57 +60,29 @@ class authService {
     if (existingUser) {
       throw new Error('EMAIL_EXISTS');
     }
-    const password_hash = await bcrypt.hash(password, 12);
 
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-      throw new Error('INTERNAL_SERVER_ERROR');
-    }
-    const token = jwt.sign({ first_name, last_name, email, password_hash, birthdate }, secret, {
-      expiresIn: '24h',
-    });
-
-    return token;
-  }
-
-  async completeProfile(pseudo: string, avatar: string | null, tmpToken: string) {
-    if (!tmpToken) {
-      throw new Error('TOKEN_MISSING');
-    }
-
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-      throw new Error('INTERNAL_SERVER_ERROR');
-    }
-
-    let decoded: any;
-
-    try {
-      decoded = jwt.verify(tmpToken, secret);
-
-      if (typeof decoded === 'string' || !decoded.email) {
-        throw new Error('INVALID_TOKEN');
-      }
-    } catch (err) {
-      throw new Error('INVALID_TOKEN');
-    }
-
-    const existingPseudo = await prisma.user.findUnique({ where: { pseudo } });
+    const existingPseudo = await prisma.user.findUnique({
+      where: { pseudo }
+    })
     if (existingPseudo) {
       throw new Error('PSEUDO_EXISTS');
     }
-
-    const newUser = await prisma.user.create({
+    const password_hash = await bcrypt.hash(password, 12);
+     const newUser = await prisma.user.create({
       data: {
-        firstName: decoded.first_name,
-        lastName: decoded.last_name,
-        email: decoded.email,
-        passwordHash: decoded.password_hash,
-        birthdate: decoded.birthdate,
+        firstName: first_name,
+        lastName: last_name,
+        email: email,
+        passwordHash: password_hash,
+        birthdate: new Date(birthdate),
         pseudo: pseudo,
-        profilePhotoId: avatar ?? null,
+        profilePhotoId: avatar,
       },
     });
+
+    if (userData.fileBuffer){
+      await FileService.createFile(userData.fileBuffer, newUser.id, 'profile_photo');
+    }
 
     const accessToken = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET!, {
       expiresIn: '24h',
