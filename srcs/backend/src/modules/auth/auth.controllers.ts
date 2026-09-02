@@ -45,47 +45,43 @@ export function checkAuth(_req: Request, res: Response) {
 
 export async function register(req: Request, res: Response) {
   try {
-    const { name, last_name, email, password, birthdate } = req.body;
+    const { name, last_name, email, password, birthdate, pseudo, avatar } = req.body;
 
-    const token = await authService.prepareRegistration({
+    const token = await authService.registration({
       first_name: name,
       last_name,
       email,
       password,
       birthdate,
+      pseudo,
+      avatar,
+      fileBuffer: req.file?.buffer,
     });
-
-    res.cookie('tmp_token', token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-    });
-
-    return res.status(200).json({ success: true });
-  } catch (error: any) {
-    if (error.message === 'EMAIL_EXISTS') {
-      return res.status(409).json({ error: 'EMAIL_EXISTS' });
-    }
-    return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
-  }
-}
-
-export async function completeProfile(req: Request, res: Response) {
-  try {
-    const { pseudo, avatar } = req.body;
-    const tmpToken = req.cookies.tmp_token;
-
-    const AuthResult = await authService.completeProfile(pseudo, avatar, tmpToken);
-
-    res.clearCookie('tmp_token');
-    res.cookie('token', AuthResult.accessToken, {
+    res.cookie('token', token.accessToken, {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
     });
 
     return res.status(201).json({ success: true });
+  } catch (error: any) {
+    if (error.message === 'EMAIL_EXISTS') {
+      return res.status(409).json({ error: 'EMAIL_EXISTS' });
+    }
+    if (error.message === 'PSEUDO_EXISTS'){
+      return res.status(409).json({ error: 'PSEUDO_EXISTS' });
+    }
+    else {
+      return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
+    }
+  }
+}
+
+export async function completeProfile(req: Request, res: Response) {
+  try {
+    
+
+    
   } catch (error: any) {
     console.error(error);
     if (error.message === 'EMAIL_EXISTS') {
