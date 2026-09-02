@@ -6,7 +6,7 @@ import app from './app.ts';
 import { setupSocketConnection } from './socket.js';
 
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, { connectionStateRecovery: {} });
 
 setupSocketConnection(io);
 

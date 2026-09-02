@@ -8,9 +8,10 @@ import { ChatItem } from './ChatItem';
 import { ChatListProps, IChatPreview } from './types';
 import { getChats } from './utils/api.js';
 
-function ChatList({ align, setActiveView, setActiveChatId }: ChatListProps) {
+function ChatList({ align, setActiveView, setActiveChat }: ChatListProps) {
   const { t } = useTranslation();
   const [chatList, setChatList] = useState<IChatPreview[]>([]);
+  // const [unread, setUnread] = useState<[{ chatId: string; count: string }]>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -21,6 +22,7 @@ function ChatList({ align, setActiveView, setActiveChatId }: ChatListProps) {
         setError(null);
 
         const chats = await getChats();
+        console.log(chats);
 
         setChatList(chats);
       } catch (error) {
@@ -54,11 +56,9 @@ function ChatList({ align, setActiveView, setActiveChatId }: ChatListProps) {
             {chatList.map((chat) => (
               <ChatItem
                 key={chat.chatId}
-                chatId={chat.chatId}
-                pseudo={chat.pseudo}
-                profilePhoto={chat.profilePhoto}
+                chat={chat}
                 setActiveView={setActiveView}
-                setActiveChatId={setActiveChatId}
+                setActiveChat={setActiveChat}
               />
             ))}
           </ul>

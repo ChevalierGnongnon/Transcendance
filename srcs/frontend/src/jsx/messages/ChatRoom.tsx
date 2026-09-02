@@ -24,7 +24,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
     async function loadMessages() {
       try {
         setLoading(true);
-        const messages = await getMessages(roomProps.chatId);
+        const messages = await getMessages(roomProps.chat.chatId);
 
         setMessages(messages);
       } catch (error) {
@@ -36,22 +36,52 @@ function ChatRoom(roomProps: ChatRoomProps) {
       }
     }
 
-    loadMessages();
-    console.log('loadMessages');
-  }, [roomProps.chatId]);
+    let b = false;
+    const handleChatJoined = (answer: { chatId: string; userId: string }) => {
+      // if (b) console.log(`on: ${answer}`);
+      // else console.log(`off: ${answer}`);
 
-  // socket.on('message', (data) => {
-  //         console.log(data);
-  // });
+      b = !b;
+    };
+
+    // send request to join chat
+    socket.emit('join-chat-request', { chatId: roomProps.chat.chatId, userId: me.id });
+    // socket.on('chat-room-joined', handleChatJoined);
+
+    loadMessages();
+
+    // if dont have errors
+    roomProps.chat.unreadCount = '0';
+    for (const msg of messages) {
+      console.log(msg);
+    }
+    if (messages.length !== 0) {
+      const lastReadMessage = messages.reduce((latest, current) => {
+        const currentDate = new Date(current.createdAt || 0);
+        const latestDate = new Date(latest.createdAt || 0);
+        return currentDate > latestDate ? current : latest;
+      });
+      console.log(lastReadMessage);
+    }
+
+    roomProps.setActiveChat({ ...roomProps.chat });
+    // const lastReadChatId =
+    // send put to update last_read_chats_id
+    return () => {
+      console.log('Cleanup: removing handler for chatId', roomProps.chat.chatId);
+      socket.off('chat-room-joined', handleChatJoined); // ←  Remove joind ...
+      // socket.emit('leave-chat-request', { chatId: roomProps.chatId });
+    };
+  }, [roomProps.chat.chatId]);
 
   const handleSendMessage = () => {
     if (messageText.trim() && socket?.connected) {
       const messageToSend: IMessage = {
-        chatId: roomProps.chatId,
+        chatId: roomProps.chat.chatId,
         sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },
         content: messageText,
       };
-      socket.emit('chat message', messageToSend);
+      socket.emit('new-chat-message', messageToSend);
 
       setMessages((prev) => [...prev, messageToSend]);
 
@@ -64,10 +94,10 @@ function ChatRoom(roomProps: ChatRoomProps) {
       setMessages((prev) => [...prev, message]);
     };
 
-    socket.on('chat message', handleNewMessage);
+    socket.on('new-chat-message', handleNewMessage);
 
     return () => {
-      socket.off('chat message', handleNewMessage);
+      socket.off('new-chat-message', handleNewMessage);
     };
   }, []);
 
@@ -75,7 +105,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
     <>
       <div className="chat-list chat-list-right my-2">
         <div className="chat-header">
-          {t('common.chatting-with')} {`chatId: ${roomProps.chatId}`}
+          {t('common.chatting-with')} {`chatId: ${roomProps.chat.chatId}`}
         </div>
         (
         <ul className="px-3">

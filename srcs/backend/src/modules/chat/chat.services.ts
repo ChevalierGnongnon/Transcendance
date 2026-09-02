@@ -30,6 +30,7 @@ class chatService {
         chatId: true,
         user: {
           select: {
+            id: true,
             pseudo: true,
             profilePhoto: {
               select: {
@@ -38,18 +39,44 @@ class chatService {
             },
           },
         },
+        message: {
+          select: {
+            createdAt: true,
+          },
+        },
       },
     });
 
     if (!others) throw new NotFoundError('Do not found conversations in chats');
 
+    const result = await Promise.all(
+      others.map(async (member) => {
+        const unreadCount = await prisma.message.count({
+          where: {
+            chatId: member.chatId,
+            senderId: member.user.id,
+            createdAt: {
+              gt: member.message?.createdAt || new Date(0),
+            },
+          },
+        });
+        return {
+          chatId: member.chatId,
+          pseudo: member.user.pseudo,
+          profilePhoto: member.user.profilePhoto?.name,
+          unreadCount: unreadCount,
+        };
+      })
+    );
+
+    console.log(result);
     const chats = others.map((other) => ({
       chatId: other.chatId,
       pseudo: other.user.pseudo,
       profilePhoto: other.user.profilePhoto?.name,
     }));
 
-    return chats;
+    return result;
   }
 
   //  {

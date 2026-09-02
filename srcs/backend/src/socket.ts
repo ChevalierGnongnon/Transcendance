@@ -1,7 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
 
-import { handleMessages } from './modules/chat/chat.js';
+import { handleChatRoom, handleMessages } from './modules/chat/chat.js';
 
 export const setupSocketConnection = (io: Server) => {
   // chack auth
@@ -31,15 +31,19 @@ export const setupSocketConnection = (io: Server) => {
   io.on('connection', (socket: Socket) => {
     console.log('User connected:', socket.id);
 
+    handleChatRoom(io, socket);
     handleMessages(io, socket);
 
     // Регистрируем все обработчики
     // registerAuthHandlers(io, socket);
     // registerChatHandlers(io, socket);
     // registerNotificationHandlers(io, socket);
+    //
+    // DEBUG
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (reason) => {
       console.log('User disconnected:', socket.id);
+      console.log(`reason: ${reason}`);
     });
   });
 };

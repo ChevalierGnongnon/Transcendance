@@ -1,9 +1,44 @@
 import { Server, Socket } from 'socket.io';
 import { prisma } from '../../lib/prisma.ts';
+import chatServices from './chat.services.ts';
+import { NotFoundError } from '../../common/errors.ts';
+
+export const handleChatRoom = async (io: Server, socket: Socket) => {
+  socket.on('join-chat-request', async (req) => {
+    console.log(`Recieve request to join chat: {chatId: ${req.chatId}, userId: ${req.userId}}`);
+    // TODO: validate data
+    try {
+      const chat = await prisma.chat.findUnique({
+        where: { id: req.chatId },
+        select: {
+          id: true,
+        },
+      });
+      if (!chat) throw new NotFoundError(`Can not find chat, chatId: ${req.chatId}`);
+
+      socket.join(`chat-${chat.id}`);
+      console.log(`socket ${socket.id} is joined to room chat-${chat.id}`);
+      socket.emit('chat-room-joined', { success: true });
+
+      const rooms = io.sockets.adapter.rooms;
+
+      for (const [roomName, sockets] of rooms) {
+        if (!io.sockets.sockets.has(roomName)) {
+          console.log(`Room: ${roomName}`);
+          console.log(`sockets: ${sockets.size}`);
+          console.log(`ID of sockets:`, Array.from(sockets));
+        }
+      }
+    } catch (error) {
+      console.error(`Error join, ${error}`);
+      socket.emit('chat-room-joined', { success: false });
+    }
+  });
+};
 
 export const handleMessages = (io: Server, socket: Socket) => {
-  socket.on('chat message', async (message) => {
-    console.log('Получено сообщение:', message);
+  socket.on('new-chat-message', async (message) => {
+    console.log(`Recieve message from: ${socket.id}`);
     // console.log('Получено сообщение form user:', socket.user.id);
     try {
       // socket.emit('chat message', `answer ${data}`);
@@ -15,17 +50,18 @@ export const handleMessages = (io: Server, socket: Socket) => {
           content: message.content,
         },
       });
-      console.error('message saved in DB');
+      console.log('message saved in DB');
+      socket.to(`chat-${message.chatId}`).emit('new-chat-message', message);
+      console.log('message send to room');
     } catch (error) {
       console.error('Error save message');
     }
-    io.emit('chat message', message);
   });
 };
 
 // // 1. Слушать новые подключения
 // io.on('connection', (socket) => {
-//   // ...
+//   // ...``
 // });
 
 // // 2. Отправлять сообщения ВСЕМ подключенным клиентам

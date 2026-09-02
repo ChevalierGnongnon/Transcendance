@@ -39,21 +39,21 @@ export interface IChatPreview {
   chatId: string;
   pseudo: string;
   profilePhoto: string;
+  unreadCount: string;
 }
 
 export interface ChatRoomProps {
   me: User;
-  chatId: string;
+  chat: IChatPreview;
+  setActiveChat: (chat: IChatPreview | null) => void;
 }
 
 export interface ChatProps {
-  chatId: string;
-  pseudo: string;
-  profilePhoto: string;
+  chat: IChatPreview;
   setActiveView: (
     view: 'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation'
   ) => void;
-  setActiveChatId: (chatId: string | null) => void;
+  setActiveChat: (chat: IChatPreview | null) => void;
 }
 
 export interface ChatListProps {
@@ -61,5 +61,5 @@ export interface ChatListProps {
   setActiveView: (
     view: 'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation'
   ) => void;
-  setActiveChatId: (chatId: string | null) => void;
+  setActiveChat: (chat: IChatPreview | null) => void;
 }

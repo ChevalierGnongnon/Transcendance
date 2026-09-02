@@ -11,6 +11,7 @@ import Block from './block';
 import ChatList from './ChatList';
 import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
+import { IChatPreview } from './types';
 
 // import { io } from "socket.io-client";
 
@@ -19,7 +20,7 @@ function Messages() {
     'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation'
   >('my messages');
 
-  const [activeChatId, setActiveChatId] = useState<string | null>(null);
+  const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
 
   const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
   const [fooEvents, setFooEvents] = useState<any[]>([]);
@@ -45,7 +46,7 @@ function Messages() {
     }
 
     socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
+    // socket.on('disconnect', onDisconnect);
     socket.on('foo', onFooEvent);
 
     return () => {
@@ -69,11 +70,9 @@ function Messages() {
         <ChatList
           align={activeView === 'my messages' ? 'center' : 'left'}
           setActiveView={setActiveView}
-          setActiveChatId={setActiveChatId}
+          setActiveChat={setActiveChat}
         />
-        {activeView === 'conversation' && activeChatId && (
-          <ChatRoom me={me} chatId={activeChatId} />
-        )}
+        {activeView === 'conversation' && activeChat && <ChatRoom me={me} chat={activeChat} setActiveChat={setActiveChat} />}
         {activeView === 'new message' && <NewChat />}
         {activeView === 'block' && <Block />}
         {activeView === 'imaginaryfriend' && <MoreOptions />}
