@@ -61,7 +61,7 @@ export const registrationValidator = [
         age--;
       }
       if (age < 18) {
-        throw new Error('');
+        throw new Error('AGE_REQUIREMENT');
       }
       return true;
     }),

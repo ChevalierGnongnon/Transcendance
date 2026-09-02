@@ -24,7 +24,8 @@
     "search": "Search",
     "confirm": "Confirm",
     "undo": "Undo",
-    "import-file-instead": "Import a file instead"
+    "import-file-instead": "Import a file instead",
+    "ready": "Ready"
   },
   "login": {
     "mail-or-pseudo": "Mail or pseudo",

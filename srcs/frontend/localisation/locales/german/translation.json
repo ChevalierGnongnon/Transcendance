@@ -24,7 +24,8 @@
     "search": "Suchen",
     "confirm": "Bestätigen",
     "undo": "Rückgängig machen",
-    "import-file-instead": "Stattdessen eine Datei importieren"
+    "import-file-instead": "Stattdessen eine Datei importieren",
+    "ready": "Bereit"
   },
   "login": {
     "mail-or-pseudo": "E-Mail oder Pseudonym",

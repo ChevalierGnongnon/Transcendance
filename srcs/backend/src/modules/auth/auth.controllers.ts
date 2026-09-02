@@ -76,17 +76,3 @@ export async function register(req: Request, res: Response) {
     }
   }
 }
-
-export async function completeProfile(req: Request, res: Response) {
-  try {
-    
-
-    
-  } catch (error: any) {
-    console.error(error);
-    if (error.message === 'EMAIL_EXISTS') {
-      return res.status(409).json({ error: 'EMAIL_EXISTS' });
-    }
-    return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
-  }
-}

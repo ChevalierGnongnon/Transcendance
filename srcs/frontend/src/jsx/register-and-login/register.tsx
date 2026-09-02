@@ -13,7 +13,7 @@ interface DefaultAvatar {
     name: string;
 }
 
-function Register({ onSuccess }: { onSuccess: () => void }) {
+function Register() {
 	const [name, setName] = useState("");
 	const [last_name, setLastName] = useState("");
 	const [email, setEmail] = useState("");
@@ -28,23 +28,47 @@ function Register({ onSuccess }: { onSuccess: () => void }) {
 	// const [error, setError] = useState<string | null>(null);
 	const [hasCustomFile, setHasCustomFile] = useState<boolean>(false);
 	const [pickedDefault, setPickedDefault] = useState<boolean>(false);
+	const [avatarFile, setAvatarFile] = useState<File | null>(null)
 	const {login} = useAuth();
 	const navigate = useNavigate();
+	const [uploadProgress, setUploadProgress] = useState<number>(0);
 	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setError(null);
 		try {
-			const response = await fetch('/api/register', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				credentials: 'include',
-				body: JSON.stringify({ name, last_name, email, password, passwordVerify, birthdate })
-			});
-			const data = await response.json();
-			if (response.ok)
-				onSuccess();
-			else
-				setError(data.error);
+			const formData = new FormData();
+			formData.append('name', name);
+			formData.append('last_name', last_name);
+			formData.append('email', email);
+			formData.append('password', password);
+			formData.append('passwordVerify', passwordVerify);
+			formData.append('birthdate', birthdate);
+			formData.append('pseudo', pseudo);
+			
+			if (avatarFile){
+				formData.append('avatar', avatarFile);
+			}
+			else {
+				if (avatar)
+					formData.append('avatar', avatar);
+			}
+			const response = new XMLHttpRequest();
+			response.open('POST', '/api/register');
+			response.onload = () =>{
+				if (response.status === 201){
+					login();
+					navigate('/personalpage')
+				}
+				else {
+					const error = JSON.parse(response.responseText);
+					setError(error.error);
+				}
+			}
+			response.upload.onprogress = (event)=>{
+				const progress = (event.loaded / event.total) * 100;
+				setUploadProgress(progress);
+			}
+			response.send(formData);
 		} catch (err) {
 			setError('DATABASE_ERROR');
 		}
@@ -74,8 +98,7 @@ function Register({ onSuccess }: { onSuccess: () => void }) {
 						<input type="password" name="password_verify" value={passwordVerify} placeholder={t('common.password_verify')} className="form-control login-input" id="password_verify" onChange={(e) => setPasswordVerify(e.target.value)} />
 						<label htmlFor="birthdate" className="login-text">{t('register.birthdate')}</label>
 						<input type="date" name="birthdate" value={birthdate} className="form-control login-input" id="birthdate" onChange={(e) => setBirthDate(e.target.value)} />
-						<ErrorMessage error={error} />
-						<button type="submit" className="btn btn-primary register-button">{t('common.register')}</button>
+						
 					</div>
 					<div className="connect-options-div d-none d-xl-flex">
 						<a href="https://localhost:8443/api/auth/google" className="btn btn-outline-dark d-flex align-items-center gap-2 google-button">
@@ -130,6 +153,9 @@ function Register({ onSuccess }: { onSuccess: () => void }) {
 							mode="avatar"
 							onUploaded={(fileId) => setAvatar(fileId)}
 							onSelectedChange={setHasCustomFile}
+							deferUpload={true}
+							externalProgress={uploadProgress}
+							onFileReady={setAvatarFile}
 						/>
 					)}
 					
@@ -146,7 +172,7 @@ function Register({ onSuccess }: { onSuccess: () => void }) {
 										key={item.id}
 										src={`/api/${item.id}/download`}
 										alt={item.name}
-										className={`img-avatar ${avatar === item.id ? 'selected' : ''}`}
+										className={`img-avatar-completeProfile ${avatar === item.id ? 'selected' : ''}`}
 										onClick={() => { setAvatar(item.id); setPickedDefault(true); }}
 									/>
 								))}
@@ -159,23 +185,18 @@ function Register({ onSuccess }: { onSuccess: () => void }) {
 						<input
 							type="button"
 							value={t('common.import-file-instead')}
-							onClick={()=>(setPickedDefault(false))}
+							onClick={()=>{ setPickedDefault(false); setAvatar(null); }}
 							className="undo_button"
 						/>
 					)}
+					<ErrorMessage error={error} />
+					<button type="submit" className="btn btn-primary register-button">{t('common.register')}</button>
 					
-					
-					{/* <ErrorMessage error={error} />
-					<button type="submit" className="btn btn-primary btn-sm align-self-center">
-						{t('complete-your-profile.confirm')}
-					</button>
-					*/}
-					<p className="login-text">{t('register.already-have-account')}</p>
-					<button type="button" onClick={() => navigate('/login')} className="btn btn-primary register-button">
-						{t('common.login')}
-					</button>
 				</div>
-				
+				<p className="login-text">{t('register.already-have-account')}</p>
+				<button type="button" onClick={() => navigate('/login')} className="btn btn-primary register-button">
+					{t('common.login')}
+				</button>
 			</form>
 		</div>
 	);

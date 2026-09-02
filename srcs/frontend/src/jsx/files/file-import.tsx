@@ -7,6 +7,9 @@ interface FileImportComponent{
     onUploaded: (fileId: string) => void;
     onSelectedChange?:(hasFile: boolean)=> void;
     initialPreviewUrl?: string; 
+    deferUpload?: boolean;
+    onFileReady?: (file: File | null) => void;
+    externalProgress?: number;
 }
 
 const avatarWhiteList = [
@@ -28,12 +31,13 @@ const messageFileWhiteList = [
 
 function FileImport(fileImportComponent: FileImportComponent){
     const {t} = useTranslation();
-
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewURL, setPreviewURL] = useState<string | null>(fileImportComponent.initialPreviewUrl ?? null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [uploadProgress, setUploadProgress] = useState<number>(0)
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [confirmed, setConfirmed] = useState(false);
+
     return (
         <div className="file_component d-flex flex-column">
             <input
@@ -45,6 +49,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                 onChange={
                     (e)=>{
                         setUploadProgress(0);
+                        setConfirmed(false);
                         const file = e.target.files?.[0];
                         if (file){
                             if (fileImportComponent.mode === 'avatar'
@@ -88,7 +93,7 @@ function FileImport(fileImportComponent: FileImportComponent){
             <figure className="file_preview_frame">
                 <img className="avatar-preview" src={previewURL ?? ''} alt="file-preview" />
             </figure>
-            <progress className="w-25 mx-auto" value={uploadProgress} max={100}></progress>
+            <progress className="w-25 mx-auto" value={fileImportComponent.externalProgress ?? uploadProgress} max={100}></progress>
             <input
                 type="button"
                 value={t('common.confirm')}
@@ -98,6 +103,12 @@ function FileImport(fileImportComponent: FileImportComponent){
                     let url ;
                     if (selectedFile === null)
                         return ;
+                    if (fileImportComponent.deferUpload){
+                        if (fileImportComponent.onFileReady)
+                            fileImportComponent.onFileReady(selectedFile);
+                        setConfirmed(true);
+                        return;
+                    }
                     let form = new FormData();
                     form.append('file', selectedFile);
                     let request = new XMLHttpRequest();
@@ -121,6 +132,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                     request.send(form);
                 }
             }/>
+            {confirmed && <span className="d-block text-center text-white">✓ {t('common.ready')}</span>}
             <ErrorMessage error={errorMessage} />
             <input
                 type="button"
@@ -137,8 +149,11 @@ function FileImport(fileImportComponent: FileImportComponent){
                     setPreviewURL(null);
                     setErrorMessage(null);
                     setUploadProgress(0);
-
-                }}/>
+                    setConfirmed(false);
+                    if (fileImportComponent.onFileReady)
+                        fileImportComponent.onFileReady(null)
+                }}
+            />
         </div>
     );
 }
