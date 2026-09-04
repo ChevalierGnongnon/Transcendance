@@ -25,7 +25,8 @@
     "confirm": "Confirm",
     "undo": "Undo",
     "import-file-instead": "Import a file instead",
-    "ready": "Ready"
+    "ready": "Ready",
+    "updated": "Updated"
   },
   "login": {
     "mail-or-pseudo": "Mail or pseudo",

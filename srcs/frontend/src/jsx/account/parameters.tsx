@@ -4,6 +4,7 @@ import i18n from "../../../localisation/i18n";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import FileImport from "../files/file-import";
+import ErrorMessage from "../others/error-message";
 import { useState, useEffect } from "react";
 
 interface DefaultAvatar {
@@ -19,6 +20,26 @@ function Parameters() {
 	const [avatar, setAvatar] = useState<string | null>(null);
 	const [hasCustomFile, setHasCustomFile] = useState<boolean>(false);
 	const [pickedDefault, setPickedDefault] = useState<boolean>(false);
+	const [updated, setUpdated] = useState<boolean>(false);
+
+	const manageAvatarUpdate = async () => {
+		try {
+			const response = await fetch("/api/my-profile/avatar", {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				credentials: "include",
+				body: JSON.stringify({ avatar }),
+			});
+			const data = await response.json();
+			if (response.ok) {
+				setUpdated(true);
+			} else {
+				setError(data.error);
+			}
+		} catch (err) {
+			setError("DATABASE_ERROR");
+		}
+	};
 
 	useEffect(() => {
 		fetch("/api/default-avatars")
@@ -126,7 +147,7 @@ function Parameters() {
 												src={`/api/${item.id}/download`}
 												alt={item.name}
 												className={`img-avatar-completeProfile ${avatar === item.id ? "selected" : ""}`}
-												onClick={() => { setAvatar(item.id); setPickedDefault(true)}}
+												onClick={() => { setAvatar(item.id); setPickedDefault(true); setUpdated(false); }}
 											/>
 										))}
 									</div>
@@ -134,19 +155,25 @@ function Parameters() {
 								</>
 							}
 							{	pickedDefault && (
-								<input
-									type="button"
-									value={t('common.import-file-instead')}
-									onClick={()=>{ setPickedDefault(false); setAvatar(null); }}
-									className="undo_button"
-								/>
+								<>
+									<input
+										type="button"
+										value={t('common.import-file-instead')}
+										onClick={()=>{ setPickedDefault(false); setAvatar(null); setUpdated(false); }}
+										className="undo_button"
+									/>
+									<input
+										type="button"
+										value={t("update-my-profile.change-profile-photo")}
+										className="btn btn-primary update-button text-wrap"
+										onClick={manageAvatarUpdate}
+									/>
+									{updated && <span className="d-block text-center text-white">✓ {t('common.updated')}</span>}
+								</>
 							)}
+							<ErrorMessage error={error} />
 							
-							<input
-								type="button"
-								value={t("update-my-profile.change-profile-photo")}
-								className="btn btn-primary update-button text-wrap"
-							/>
+							
 						</form>
 
 						<form className="danger-zone d-flex flex-column align-items-center justify-content-center gap-3 flex-fill">
@@ -162,7 +189,7 @@ function Parameters() {
 								className="btn btn-primary update-button text-wrap"
 							/>
 						</form>
-					</div>
+					</div>``
 				</div>
 			</main>
 		</>

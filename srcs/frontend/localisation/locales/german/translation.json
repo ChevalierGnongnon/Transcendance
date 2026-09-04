@@ -25,7 +25,8 @@
     "confirm": "Bestätigen",
     "undo": "Rückgängig machen",
     "import-file-instead": "Stattdessen eine Datei importieren",
-    "ready": "Bereit"
+    "ready": "Bereit",
+    "updated": "Aktualisiert"
   },
   "login": {
     "mail-or-pseudo": "E-Mail oder Pseudonym",
