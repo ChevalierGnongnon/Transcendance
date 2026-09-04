@@ -31,10 +31,19 @@ class FileService {
       throw new UnsupportedFileTypeError('Unsupported file type by fileTypeFromBuffer()');
     else {
       if (type === 'profile_photo' && avatarWhiteList.includes(fileType.mime)){
+        const previousUser = await prisma.user.findUnique({ 
+          where: {
+            id: userId
+          },
+          select: {
+            profilePhotoId: true
+          }
+        });
         const result = await sharp(fileBuffer).toFormat('webp').toBuffer();
         const id = randomUUID();
         const fileName = `${id}.webp`;
       
+        
         fs.writeFileSync(`/app/uploads/${fileName}`, result);
 
         await prisma.$transaction([
@@ -57,8 +66,16 @@ class FileService {
             }
           })
         ])
+        if (previousUser?.profilePhotoId) {
+            try {
+                await this.deleteFile(previousUser.profilePhotoId, userId);
+            } catch (err) {
+                // best-effort: ignore (ex: ancien avatar par défaut)
+            }
+        }
         return(id);
       }
+      
       else if (type === 'message' && messageFileWhiteList.includes(fileType.mime)){
         let bufferToWrite = fileBuffer;
         let extension = fileType.ext;

@@ -94,7 +94,9 @@ class authService {
       accessToken,
       userWithoutPassword,
     };
+    
   }
+  
 }
 
 export default new authService();
