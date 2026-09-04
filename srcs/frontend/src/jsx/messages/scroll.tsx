@@ -32,7 +32,6 @@ function Chat() {
   );
 }
 
-
 import { useEffect, useRef, useState } from 'react';
 
 function SmartChat() {
@@ -77,17 +76,17 @@ function SmartChat() {
       </div>
       <button onClick={sendMessage}>Отправить</button>
       {!isUserAtBottom && (
-        <button onClick={() => {
-          containerRef.current.scrollTop = containerRef.current.scrollHeight;
-        }}>
+        <button
+          onClick={() => {
+            containerRef.current.scrollTop = containerRef.current.scrollHeight;
+          }}
+        >
           ⬇ Новые сообщения
         </button>
       )}
     </div>
   );
 }
-
-
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -130,7 +129,7 @@ function RealtimeChat() {
           height: '400px',
           overflowY: 'auto',
           border: '1px solid #ccc',
-          padding: '10px'
+          padding: '10px',
         }}
       >
         {messages.map((msg) => (
@@ -164,3 +163,12 @@ function RealtimeChat() {
     </div>
   );
 }
+
+// if (messages.length !== 0) {
+//   const lastReadMessage = messages.reduce((latest, current) => {
+//     const currentDate = new Date(current.createdAt || 0);
+//     const latestDate = new Date(latest.createdAt || 0);
+//     return currentDate > latestDate ? current : latest;
+//   });
+//   console.log(lastReadMessage);
+// }

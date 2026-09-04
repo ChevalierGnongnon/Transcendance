@@ -1,45 +1,22 @@
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 // import defaultAvatar from '../../../public/default-avatar.png';
 import { ChatItem } from './ChatItem';
-import { ChatListProps, IChatPreview } from './types';
-import { getChats } from './utils/api.js';
+import { ChatListProps, IChatPreview, IMessage } from './types';
+import { getChats, fetchMessages } from './utils/api.js';
 
-function ChatList({ align, setActiveView, setActiveChat }: ChatListProps) {
+function ChatList(props: ChatListProps) {
   const { t } = useTranslation();
-  const [chatList, setChatList] = useState<IChatPreview[]>([]);
   // const [unread, setUnread] = useState<[{ chatId: string; count: string }]>();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    const loadChats = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const chats = await getChats();
-        console.log(chats);
-
-        setChatList(chats);
-      } catch (error) {
-        setError(error instanceof Error ? error : new Error('Unknown error'));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadChats();
-  }, []);
 
   return (
     <>
       <div
         className={
-          align === 'center'
+          props.align === 'center'
             ? 'chat-list mx-auto my-2'
             : 'chat-list chat-list-side my-2 d-none d-md-block'
         }
@@ -47,18 +24,18 @@ function ChatList({ align, setActiveView, setActiveChat }: ChatListProps) {
         <div className="list-header pt-4">
           <h1>{t('message.my-messages')}</h1>
         </div>
-        {error ? (
+        {props.error ? (
           <div className="list-header pt-4">{'Failed to load chats'}</div>
-        ) : loading ? (
+        ) : props.loading ? (
           <div className="list-header pt-4">{'Loading...'}</div>
         ) : (
           <ul>
-            {chatList.map((chat) => (
+            {props.chatList.map((chat) => (
               <ChatItem
                 key={chat.chatId}
                 chat={chat}
-                setActiveView={setActiveView}
-                setActiveChat={setActiveChat}
+                setActiveView={props.setActiveView}
+                setActiveChat={props.setActiveChat}
               />
             ))}
           </ul>

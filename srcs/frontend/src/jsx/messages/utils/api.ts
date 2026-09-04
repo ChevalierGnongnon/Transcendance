@@ -14,7 +14,7 @@ export const getChats = async () => {
   return chats;
 };
 
-export const getMessages = async (chatId: string) => {
+export const fetchMessages = async (chatId: string) => {
   const res = await fetch(`/api/messages/${chatId}`, {
     credentials: 'include',
   });

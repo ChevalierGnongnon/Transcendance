@@ -46,6 +46,11 @@ export interface ChatRoomProps {
   me: User;
   chat: IChatPreview;
   setActiveChat: (chat: IChatPreview | null) => void;
+  messages: Map<string, IMessage[]>;
+  // setMessages: (messages: IMessage[]) => void;
+  onAddMessage: (message: IMessage) => void;
+  // onLoadMessages: (chatId: string) => void;
+  onGetMessages: (chatId: string) => Promise<IMessage[]>;
 }
 
 export interface ChatProps {
@@ -62,4 +67,7 @@ export interface ChatListProps {
     view: 'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation'
   ) => void;
   setActiveChat: (chat: IChatPreview | null) => void;
+  chatList: IChatPreview[];
+  loading: boolean;
+  error: Error | null;
 }

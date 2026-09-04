@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import '../../scss/common-classes.scss';
@@ -8,7 +8,7 @@ import MoreOptions from './options';
 import { Message } from './Message';
 import { socket } from './socket';
 import type { User, IMessage, ChatRoomProps } from './types.js';
-import { getMessages } from './utils/api.js';
+import { fetchMessages } from './utils/api.js';
 
 function ChatRoom(roomProps: ChatRoomProps) {
   const { t } = useTranslation();
@@ -16,56 +16,50 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
   const [messageText, setMessageText] = useState<string>('');
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   // const [error, setError] = useState<Error | null>(null);
   const me = roomProps.me;
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [roomProps.chat.chatId]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, []);
+
   useEffect(() => {
     async function loadMessages() {
-      try {
-        setLoading(true);
-        const messages = await getMessages(roomProps.chat.chatId);
-
-        setMessages(messages);
-      } catch (error) {
-        console.log('Error loading messages:', error);
-        // setError(error instanceof Error ? error : new Error('Unknown error'));
-        // await logout();
-      } finally {
-        setLoading(false);
+      if (roomProps.chat?.chatId) {
+        const imessages = await roomProps.onGetMessages(roomProps.chat.chatId);
+        setMessages(imessages);
       }
     }
+    loadMessages();
+  }, [roomProps.chat?.chatId, roomProps.messages]);
 
-    let b = false;
-    const handleChatJoined = (answer: { chatId: string; userId: string }) => {
-      // if (b) console.log(`on: ${answer}`);
-      // else console.log(`off: ${answer}`);
-
-      b = !b;
-    };
+  useEffect(() => {
+    // async function loadMessages() {
+    //   const messages = await roomProps.getMessages(roomProps.chat.chatId);
+    //   console.log(messages);
+    //   setMessages(messages);
+    // }
+    const handleChatJoined = (answer: { chatId: string; userId: string }) => {};
 
     // send request to join chat
     socket.emit('join-chat-request', { chatId: roomProps.chat.chatId, userId: me.id });
     // socket.on('chat-room-joined', handleChatJoined);
 
-    loadMessages();
-
     // if dont have errors
     roomProps.chat.unreadCount = '0';
-    for (const msg of messages) {
-      console.log(msg);
-    }
-    if (messages.length !== 0) {
-      const lastReadMessage = messages.reduce((latest, current) => {
-        const currentDate = new Date(current.createdAt || 0);
-        const latestDate = new Date(latest.createdAt || 0);
-        return currentDate > latestDate ? current : latest;
-      });
-      console.log(lastReadMessage);
-    }
-
     roomProps.setActiveChat({ ...roomProps.chat });
-    // const lastReadChatId =
+
+    scrollToBottom();
     // send put to update last_read_chats_id
     return () => {
       console.log('Cleanup: removing handler for chatId', roomProps.chat.chatId);
@@ -83,29 +77,35 @@ function ChatRoom(roomProps: ChatRoomProps) {
       };
       socket.emit('new-chat-message', messageToSend);
 
-      setMessages((prev) => [...prev, messageToSend]);
+      // setMessages((prev) => [...prev, messageToSend]);
+      roomProps.onAddMessage(messageToSend);
 
       setMessageText('');
     }
   };
 
-  useEffect(() => {
-    const handleNewMessage = (message: IMessage) => {
-      setMessages((prev) => [...prev, message]);
-    };
+  // useEffect(() => {
+  //   const handleNewMessage = (message: IMessage) => {
+  //     setMessages((prev) => [...prev, message]);
+  //   };
 
-    socket.on('new-chat-message', handleNewMessage);
+  //   socket.on('new-chat-message', handleNewMessage);
 
-    return () => {
-      socket.off('new-chat-message', handleNewMessage);
-    };
-  }, []);
+  //   return () => {
+  //     socket.off('new-chat-message', handleNewMessage);
+  //   };
+  // }, []);
+
+  if (!messages) {
+    return <div> Open chat</div>;
+  }
 
   return (
     <>
       <div className="chat-list chat-list-right my-2">
-        <div className="chat-header">
-          {t('common.chatting-with')} {`chatId: ${roomProps.chat.chatId}`}
+        <div className="chat-header fs-1">
+          {/*{t('common.chatting-with')} {`${roomProps.chat.pseudo}`}*/}
+          {roomProps.chat.pseudo}
         </div>
         (
         <ul className="px-3">
@@ -120,6 +120,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
           ))}
         </ul>
         )
+        <div ref={messagesEndRef} />
         <div className="input-group group-new-message my-3">
           <div className="position-relative">
             <button
