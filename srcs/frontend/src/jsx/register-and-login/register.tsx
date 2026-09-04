@@ -68,6 +68,9 @@ function Register() {
 				const progress = (event.loaded / event.total) * 100;
 				setUploadProgress(progress);
 			}
+			response.onerror = () => {
+				setError('DATABASE_ERROR');
+			};
 			response.send(formData);
 		} catch (err) {
 			setError('DATABASE_ERROR');
