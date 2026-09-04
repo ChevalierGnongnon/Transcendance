@@ -204,9 +204,9 @@ function Messages() {
   return (
     <>
       <NavBar activeView={activeView} setActiveView={setActiveView}></NavBar>
-      <div className="socket-status justify-content-center">
+      {/*<div className="socket-status justify-content-center">
         {`Status: ${isConnected ? '🟢 Connected' : '🔴 Disconnect'}`}
-      </div>
+      </div>*/}
       <div className={activeView !== 'my messages' ? 'd-flex' : ''}>
         <ChatList
           align={activeView === 'my messages' ? 'center' : 'left'}

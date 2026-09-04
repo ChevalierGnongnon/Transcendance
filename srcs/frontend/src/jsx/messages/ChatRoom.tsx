@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
-import defaultAvatar from '../../../public/default-avatar.png';
 import MoreOptions from './options';
 import { Message } from './Message';
 import { socket } from './socket';
@@ -16,22 +15,48 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
   const [messageText, setMessageText] = useState<string>('');
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   // const [error, setError] = useState<Error | null>(null);
   const me = roomProps.me;
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isAtBottom, setIsAtBottom] = useState(true);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [roomProps.chat.chatId]);
-
-  useEffect(() => {
-    scrollToBottom();
+  const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior,
+      block: 'end',
+    });
   }, []);
+
+  const checkIfAtBottom = useCallback(() => {
+    if (!containerRef.current) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+    const atBottom = scrollHeight - scrollTop <= clientHeight + 10; // +10 для погрешности
+    setIsAtBottom(atBottom);
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    checkIfAtBottom();
+  }, [checkIfAtBottom]);
+
+  // scroll if changed chat
+  // useEffect(() => {
+  //   if (roomProps.chat?.chatId) {
+  //     setTimeout(() => {
+  //       scrollToBottom('auto');
+  //     }, 100);
+  //   }
+  // }, [roomProps.chat?.chatId, scrollToBottom]);
+
+  // scroll if new message
+  useEffect(() => {
+    if (isAtBottom) {
+      scrollToBottom('smooth');
+    }
+  }, [messages, isAtBottom, scrollToBottom]);
 
   useEffect(() => {
     async function loadMessages() {
@@ -44,11 +69,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
   }, [roomProps.chat?.chatId, roomProps.messages]);
 
   useEffect(() => {
-    // async function loadMessages() {
-    //   const messages = await roomProps.getMessages(roomProps.chat.chatId);
-    //   console.log(messages);
-    //   setMessages(messages);
-    // }
+
     const handleChatJoined = (answer: { chatId: string; userId: string }) => {};
 
     // send request to join chat
@@ -56,15 +77,17 @@ function ChatRoom(roomProps: ChatRoomProps) {
     // socket.on('chat-room-joined', handleChatJoined);
 
     // if dont have errors
-    roomProps.chat.unreadCount = '0';
-    roomProps.setActiveChat({ ...roomProps.chat });
+    if (isAtBottom) {
+      roomProps.chat.unreadCount = '0';
+      roomProps.setActiveChat({ ...roomProps.chat });
+    }
 
     scrollToBottom();
     // send put to update last_read_chats_id
     return () => {
       console.log('Cleanup: removing handler for chatId', roomProps.chat.chatId);
       socket.off('chat-room-joined', handleChatJoined); // ←  Remove joind ...
-      // socket.emit('leave-chat-request', { chatId: roomProps.chatId });
+      socket.emit('leave-chat-request', { chatId: roomProps.chat.chatId });
     };
   }, [roomProps.chat.chatId]);
 
@@ -79,25 +102,13 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
       // setMessages((prev) => [...prev, messageToSend]);
       roomProps.onAddMessage(messageToSend);
-
+      scrollToBottom();
       setMessageText('');
     }
   };
 
-  // useEffect(() => {
-  //   const handleNewMessage = (message: IMessage) => {
-  //     setMessages((prev) => [...prev, message]);
-  //   };
-
-  //   socket.on('new-chat-message', handleNewMessage);
-
-  //   return () => {
-  //     socket.off('new-chat-message', handleNewMessage);
-  //   };
-  // }, []);
-
   if (!messages) {
-    return <div> Open chat</div>;
+    return <div className="chat-placeholder">Open chat</div>;
   }
 
   return (
@@ -107,21 +118,32 @@ function ChatRoom(roomProps: ChatRoomProps) {
           {/*{t('common.chatting-with')} {`${roomProps.chat.pseudo}`}*/}
           {roomProps.chat.pseudo}
         </div>
-        (
-        <ul className="px-3">
-          {messages.map((msg, index) => (
-            <Message
-              key={index}
-              userId={me.id}
-              profilePhoto={msg.sender.profilePhoto.name}
-              senderId={msg.sender.id}
-              content={msg.content}
-            />
-          ))}
-        </ul>
-        )
-        <div ref={messagesEndRef} />
-        <div className="input-group group-new-message my-3">
+        <div
+          ref={containerRef}
+          onScroll={handleScroll}
+          className="chat-messages-container"
+          style={{
+            maxHeight: '60vh',
+            overflowY: 'auto',
+            position: 'relative',
+          }}
+        >
+          (
+          <ul className="px-3">
+            {messages.map((msg, index) => (
+              <Message
+                key={index}
+                userId={me.id}
+                profilePhoto={msg.sender.profilePhoto.name}
+                senderId={msg.sender.id}
+                content={msg.content}
+              />
+            ))}
+          </ul>
+          )
+          <div ref={messagesEndRef} style={{ height: '2px' }} />
+        </div>
+        <div className="input-group group-new-message my-3 mt-auto">
           <div className="position-relative">
             <button
               className="btn fs-2 send-message d-flex align-items-center justify-content-center"

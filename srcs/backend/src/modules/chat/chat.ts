@@ -34,6 +34,11 @@ export const handleChatRoom = async (io: Server, socket: Socket) => {
       socket.emit('chat-room-joined', { success: false });
     }
   });
+
+  socket.on('leave-chat-request', async (req) => {
+    const chatId = req.chatId;
+    socket.leave(`chat-${chatId}`);
+  });
 };
 
 export const handleMessages = (io: Server, socket: Socket) => {
@@ -51,7 +56,7 @@ export const handleMessages = (io: Server, socket: Socket) => {
         },
       });
       console.log('message saved in DB');
-      socket.to(`chat-${message.chatId}`).emit('new-chat-message', message);
+      socket.to(`chat-${message.chatId}a`).emit('new-chat-message', message);
       console.log('message send to room');
     } catch (error) {
       console.error('Error save message');
