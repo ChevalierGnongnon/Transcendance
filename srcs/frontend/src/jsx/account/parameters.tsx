@@ -3,6 +3,7 @@ import "../../scss/parameters.scss";
 import i18n from "../../../localisation/i18n";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import FileImport from "../files/file-import";
 import { useState, useEffect } from "react";
 
 interface DefaultAvatar {
@@ -16,6 +17,8 @@ function Parameters() {
 
 	const [defaultAvatars, setDefaultAvatars] = useState<DefaultAvatar[]>([]);
 	const [avatar, setAvatar] = useState<string | null>(null);
+	const [hasCustomFile, setHasCustomFile] = useState<boolean>(false);
+	const [pickedDefault, setPickedDefault] = useState<boolean>(false);
 
 	useEffect(() => {
 		fetch("/api/default-avatars")
@@ -104,27 +107,41 @@ function Parameters() {
 					<div className="col-12 col-lg-4 d-flex flex-column align-items-center gap-3 h-100">
 						<form className="parameters-form d-flex flex-column align-items-center justify-content-center gap-3">
 							<h3>{t("update-my-profile.change-profile-photo")}</h3>
-							<label htmlFor="avatar" className="btn btn-secondary btn-sm">
-								{t("complete-your-profile.upload-avatar")}
-							</label>
-							<input
-								type="file"
-								id="avatar"
-								accept="image/*"
-								style={{ display: "none" }}
-							/>
-							<span>{t("complete-your-profile.choose-an-avatar")}</span>
-							<div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
-								{defaultAvatars.map((item) => (
-									<img
-										key={item.id}
-										src={`/api/${item.id}/download`}
-										alt={item.name}
-										className={`img-avatar ${avatar === item.id ? "selected" : ""}`}
-										onClick={() => setAvatar(item.id)}
-									/>
-								))}
-							</div>
+							
+							{ !pickedDefault && 
+								<FileImport
+									mode="avatar"
+									onUploaded={(fileId) => setAvatar(fileId)}
+									onSelectedChange={setHasCustomFile}
+								/>
+							}
+
+							{	!hasCustomFile &&
+								<>
+									<span>{t("complete-your-profile.choose-an-avatar")}</span>
+									<div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
+										{ defaultAvatars.map((item) => (
+											<img
+												key={item.id}
+												src={`/api/${item.id}/download`}
+												alt={item.name}
+												className={`img-avatar-completeProfile ${avatar === item.id ? "selected" : ""}`}
+												onClick={() => { setAvatar(item.id); setPickedDefault(true)}}
+											/>
+										))}
+									</div>
+									
+								</>
+							}
+							{	pickedDefault && (
+								<input
+									type="button"
+									value={t('common.import-file-instead')}
+									onClick={()=>{ setPickedDefault(false); setAvatar(null); }}
+									className="undo_button"
+								/>
+							)}
+							
 							<input
 								type="button"
 								value={t("update-my-profile.change-profile-photo")}

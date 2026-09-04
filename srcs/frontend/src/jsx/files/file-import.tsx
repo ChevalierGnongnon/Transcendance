@@ -91,7 +91,9 @@ function FileImport(fileImportComponent: FileImportComponent){
                 }/>
             
             <figure className="file_preview_frame">
-                <img className="avatar-preview" src={previewURL ?? ''} alt="file-preview" />
+                {   previewURL &&
+                    <img className="avatar-preview" src={previewURL ?? ''} alt="file-preview" />
+                }
             </figure>
             <progress className="w-25 mx-auto" value={fileImportComponent.externalProgress ?? uploadProgress} max={100}></progress>
             <input
