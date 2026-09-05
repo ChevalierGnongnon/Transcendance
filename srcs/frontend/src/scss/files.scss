@@ -14,6 +14,7 @@
     border: 2px solid white;
     border-radius: 12px;
     display: block;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 1%;
@@ -28,10 +29,11 @@
     border: 2px solid white;
     border-radius: 25px;
     padding: 8px 12px;
-    width: 60%;
+    width: 15%;
     display:block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 1%;
     margin-bottom: 1%;
     &:hover{
         color: green;
@@ -47,11 +49,11 @@
     border: 2px solid white;
     border-radius: 25px;
     padding: 8px 12px;
-    width: 60%;
+    width: 15%;
     display:block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 1%;
+    // margin-top: 1%;
     &:hover{
         color: red;
         background-color: white;

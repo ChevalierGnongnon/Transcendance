@@ -91,7 +91,28 @@
 	background-color:	white;
 	border-radius:		12px;
 	border:				2px solid black;
+	width:				50%;
+	margin-left: 		auto;
+	margin-right: 		auto;
 }
+
+@media (max-width: 767px) {
+    .form-input {
+        width: 95%;
+    }
+	.login-form {
+		width: 90%;
+	}
+	.confirm_button {
+		width: 90% !important;
+		margin-bottom: 2% !important;
+	}
+	.undo_button {
+		width: 90% !important;
+		margin-top: 2% !important;
+	}
+}
+
 .common-head {
 	background-color: $background-common-color;
 	text-align: center;

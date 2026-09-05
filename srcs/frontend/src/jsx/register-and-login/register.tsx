@@ -90,20 +90,20 @@ function Register() {
 					<div className="d-flex flex-column flex-xl-row gap-2 w-100">
 						<div className="connect-options-div">
 						<label htmlFor="name" className="login-text">{t('common.name')}</label>
-						<input type="text" name="name" value={name} placeholder={t('common.name')} className="form-control login-input" id="name" onChange={(e) => setName(e.target.value)} />
+						<input type="text" name="name" value={name} placeholder={t('common.name')} className="form-control form-input" id="name" onChange={(e) => setName(e.target.value)} />
 						<label htmlFor="last_name" className="login-text">{t('common.lastname')}</label>
-						<input type="text" name="last_name" value={last_name} placeholder={t('common.lastname')} className="form-control login-input" id="last_name" onChange={(e) => setLastName(e.target.value)} />
+						<input type="text" name="last_name" value={last_name} placeholder={t('common.lastname')} className="form-control form-input" id="last_name" onChange={(e) => setLastName(e.target.value)} />
 						<label htmlFor="email" className="login-text">{t('common.email')}</label>
-						<input type="email" name="email" value={email} placeholder="example@example.com" className="form-control login-input" id="email" onChange={(e) => setEmail(e.target.value)} />
+						<input type="email" name="email" value={email} placeholder="example@example.com" className="form-control form-input" id="email" onChange={(e) => setEmail(e.target.value)} />
 						<label htmlFor="password" className="login-text">{t('common.password')}</label>
-						<input type="password" name="password" value={password} placeholder={t('common.password')} className="form-control login-input" id="password" onChange={(e) => setPassword(e.target.value)} />
+						<input type="password" name="password" value={password} placeholder={t('common.password')} className="form-control form-input" id="password" onChange={(e) => setPassword(e.target.value)} />
 						<label htmlFor="password_verify" className="login-text">{t('common.password_verify')}</label>
-						<input type="password" name="password_verify" value={passwordVerify} placeholder={t('common.password_verify')} className="form-control login-input" id="password_verify" onChange={(e) => setPasswordVerify(e.target.value)} />
+						<input type="password" name="password_verify" value={passwordVerify} placeholder={t('common.password_verify')} className="form-control form-input" id="password_verify" onChange={(e) => setPasswordVerify(e.target.value)} />
 						<label htmlFor="birthdate" className="login-text">{t('register.birthdate')}</label>
-						<input type="date" name="birthdate" value={birthdate} className="form-control login-input" id="birthdate" onChange={(e) => setBirthDate(e.target.value)} />
+						<input type="date" name="birthdate" value={birthdate} className="form-control form-input" id="birthdate" onChange={(e) => setBirthDate(e.target.value)} />
 						
-						<h1 className="login-title">{t('complete-your-profile.title')}</h1>
-						<label htmlFor="pseudo" className="form-text text-center">{t('complete-your-profile.enter-a-pseudo')}</label>
+						<h1 className="login-title">{t('complete-your-profile.title')} :</h1>
+						<label htmlFor="pseudo" className="login-text">{t('complete-your-profile.enter-a-pseudo')}</label>
 						<input type="text" name="name" value={pseudo} placeholder={t('complete-your-profile.enter-a-pseudo')} className="form-control form-input" id="pseudo" onChange={(e) => setPseudo(e.target.value)} />
 						{!pickedDefault && (
 							<FileImport
@@ -112,7 +112,7 @@ function Register() {
 								onSelectedChange={setHasCustomFile}
 								deferUpload={true}
 								externalProgress={uploadProgress}
-								onFileReady={setAvatarFile}
+								onFileReady={(file) => { setAvatarFile(file); if (file === null) setUploadProgress(0); }}
 							/>
 						)}
 						
@@ -120,9 +120,9 @@ function Register() {
 						
 						{!hasCustomFile && (
 							<>
-								<p className="form-text text-center">
+								<label className="login-text">
 									{t('complete-your-profile.choose-an-avatar')}
-								</p>
+								</label>
 								<div className="d-flex gap-2 justify-content-center flex-wrap avatar-grid">
 									{defaultAvatars.map((item) => (
 										<img
