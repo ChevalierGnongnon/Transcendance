@@ -151,11 +151,6 @@ function Parameters() {
 								value={t("update-my-profile.delete-my-game-infos")}
 								className="btn btn-primary update-button text-wrap"
 							/>
-							<input
-								type="button"
-								value={t("update-my-profile.delete-my-account")}
-								className="btn btn-primary update-button text-wrap"
-							/>
 						</form>
 					</div>
 				</div>
