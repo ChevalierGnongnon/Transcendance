@@ -52,39 +52,7 @@ function Parameters() {
 			<main className="d-flex flex-column justify-content-center align-items-center">
 				<div className="row justify-content-center mt-4 g-3 update-main-div">
 					<h2>{t("common.parameters")}</h2>
-					<div className="col-12 col-lg-4 d-flex justify-content-center">
-						<form className="parameters-form d-flex flex-column align-items-center justify-content-center gap-3">
-							<h3>{t("update-my-profile.change-my-password")}</h3>
-							<span>{t("update-my-profile.old-password")}:</span>
-							<input
-								type="password"
-								name="old_password"
-								id="old_password"
-								className="update-input form-control"
-							/>
-							<span>{t("update-my-profile.new-password")}:</span>
-							<input
-								type="password"
-								name="new_password"
-								id="new_password"
-								className="update-input form-control"
-							/>
-							<span>{t("update-my-profile.confirm-password")}:</span>
-							<input
-								type="password"
-								name="password_verify"
-								id="password_verify"
-								className="update-input form-control"
-							/>
-							<input
-								type="button"
-								value={t("update-my-profile.change-my-password")}
-								className="btn btn-primary update-button text-wrap"
-							/>
-						</form>
-					</div>
-
-					<div className="col-12 col-lg-4 d-flex justify-content-center">
+					<div className="col-12 col-lg-6 d-flex justify-content-center">
 						<form className="parameters-form d-flex flex-column align-items-center justify-content-center gap-3">
 							<h3>{t("update-my-profile.change-account-infos")}</h3>
 							<span>{t("update-my-profile.change-first-name")}:</span>
@@ -189,7 +157,7 @@ function Parameters() {
 								className="btn btn-primary update-button text-wrap"
 							/>
 						</form>
-					</div>``
+					</div>
 				</div>
 			</main>
 		</>
