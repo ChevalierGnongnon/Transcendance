@@ -29,8 +29,8 @@
 }
 .error-message{
 	background-color: $background-common-color;
-	color:$background-red-button;
-	border: 2px solid $background-red-button;
+	color:$red-color;
+	border: 2px solid $red-color;
 	text-align: center;
 	width: 80%;
 	margin: auto;
@@ -121,5 +121,19 @@
 	border: 1px solid white;
 	width: 100%;
 	border-radius: 12px;
+}
+
+
+@mixin bordered-btn($border-color, $background-color, $padding){
+	border: 2px solid $border-color;
+	border-radius: $radius-pill;
+	padding: $padding;
+	background-color: $background-color;
+	color: $border-color;
+	&:hover{
+		border: 2px solid $background-color;
+		background-color: $border-color;
+		color: $background-color;
+	}
 }
 

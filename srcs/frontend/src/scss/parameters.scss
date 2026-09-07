@@ -33,8 +33,8 @@
 }
 
 .danger-zone{
-    border: 3px solid $background-red-button;
-    color: $background-red-button;
+    border: 3px solid $red-color;
+    color: $red-color;
     background-color: $background-common-color;
     border-radius: 20px;
     text-align: center;
@@ -43,17 +43,17 @@
     padding: 1rem 0;
     align-items: center;
     &:hover{
-        background-color: $background-red-button;
+        background-color: $red-color;
         color: white;
         border: 3px solid white;
     }
     .update-button{
-        background-color: $background-red-button;
+        background-color: $red-color;
         border: 3px solid white;
         margin: 1%;
         &:hover{
             background-color: white;
-            color: $background-red-button;
+            color: $red-color;
         }
     }
 }

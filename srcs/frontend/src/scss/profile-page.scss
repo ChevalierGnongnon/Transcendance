@@ -5,7 +5,7 @@
 	height: 80px;
 	border-radius: 50%;
 	object-fit: cover;
-	border: 3px solid greenyellow;
+	border: 3px solid $connected-user-color;
 	background-color: rgb(92, 156, 185);
     cursor: pointer;
     &:hover{
@@ -18,7 +18,7 @@
     height: clamp(120px, 40vw, 300px);
     border-radius: 50%;
     object-fit: cover;
-	border: 3px solid greenyellow;
+	border: 3px solid $connected-user-color;
 	background-color: rgb(92, 156, 185);
     cursor: pointer;
 }
