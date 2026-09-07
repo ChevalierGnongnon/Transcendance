@@ -143,7 +143,7 @@ function Register() {
 								type="button"
 								value={t('common.import-file-instead')}
 								onClick={()=>{ setPickedDefault(false); setAvatar(null); }}
-								className="undo_button"
+								className="file-delete-button"
 							/>
 						)}
 						<ErrorMessage error={error} />

@@ -47,13 +47,4 @@
         color: white;
         border: 3px solid white;
     }
-    .update-button{
-        background-color: $red-color;
-        border: 3px solid white;
-        margin: 1%;
-        &:hover{
-            background-color: white;
-            color: $red-color;
-        }
-    }
 }

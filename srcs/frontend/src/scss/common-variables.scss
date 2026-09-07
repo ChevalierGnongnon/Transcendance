@@ -13,11 +13,12 @@ $radius-md: 20px;
 $radius-pill: 25px;
 $radius-lg: 30px;
 
-@mixin bordered-btn($border-color, $background-color){
+@mixin bordered-btn($border-color, $background-color, $width: 80%){
 	border: 2px solid $border-color;
 	border-radius: $radius-pill;
 	background-color: $background-color;
 	color: $border-color;
+	width: $width;
 	&:hover{
 		border: 2px solid $background-color;
 		background-color: $border-color;

@@ -31,8 +31,7 @@
     appearance: none;
     -webkit-appearance: none;
     padding: 8px 12px;
-    width: 80%;
-    margin: 1%;
+    margin: 1% auto;
 }
 .delete-friend-button{
     @extend .delete-button;
@@ -49,8 +48,7 @@
     appearance: none;
     -webkit-appearance: none;
     padding: 8px 12px;
-    width: 80%;
-    margin: 1%;
+    margin: 1% auto;
 }
 .orange-border{
     border: 3px solid orange;

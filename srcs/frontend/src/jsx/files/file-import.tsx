@@ -99,7 +99,7 @@ function FileImport(fileImportComponent: FileImportComponent){
             <input
                 type="button"
                 value={t('common.confirm')}
-                className="confirm_button" 
+                className="file-accept-button"
                 onClick={()=>{
                     setUploadProgress(0);
                     let url ;
@@ -139,7 +139,7 @@ function FileImport(fileImportComponent: FileImportComponent){
             <input
                 type="button"
                 value={t('common.undo')}
-                className="undo_button"
+                className="file-delete-button"
                 onClick={()=>{
                     if (fileImportComponent.onSelectedChange)
                         fileImportComponent.onSelectedChange(false);

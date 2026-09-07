@@ -128,7 +128,7 @@ function Parameters() {
 										type="button"
 										value={t('common.import-file-instead')}
 										onClick={()=>{ setPickedDefault(false); setAvatar(null); setUpdated(false); }}
-										className="undo_button"
+										className="file-delete-button"
 									/>
 									<input
 										type="button"
@@ -149,7 +149,7 @@ function Parameters() {
 							<input
 								type="button"
 								value={t("update-my-profile.delete-my-game-infos")}
-								className="btn btn-primary update-button text-wrap"
+								className="delete-button"
 							/>
 						</form>
 					</div>
