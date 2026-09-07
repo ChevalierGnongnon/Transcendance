@@ -123,17 +123,3 @@
 	border-radius: 12px;
 }
 
-
-@mixin bordered-btn($border-color, $background-color, $padding){
-	border: 2px solid $border-color;
-	border-radius: $radius-pill;
-	padding: $padding;
-	background-color: $background-color;
-	color: $border-color;
-	&:hover{
-		border: 2px solid $background-color;
-		background-color: $border-color;
-		color: $background-color;
-	}
-}
-
