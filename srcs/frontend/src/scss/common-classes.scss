@@ -19,7 +19,7 @@
 	object-fit: cover;
 	cursor: pointer;
 	border: 3px solid transparent;
-	background-color: rgb(92, 156, 185);
+	background-color:$avatar-bg;
 	&:hover{
 		border: 3px solid white;
 	}
@@ -29,62 +29,11 @@
 }
 .error-message{
 	background-color: $background-common-color;
-	color:red;
-	border: 2px solid red;
+	color:$background-red-button;
+	border: 2px solid $background-red-button;
 	text-align: center;
 	width: 80%;
 	margin: auto;
-}
-.google-button{
-	background-color: white;
-	border-radius: 20px;
-	width: 45%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.github-button {
-    background-color: #24292e;
-    color: white;
-    border-radius: 20px;
-	width: 45%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.fourty-two-button{
-	background-color: #24292e;
-    color: white;
-    border-radius: 20px;
-	width: 45%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.google-min-button{
-	background-color: white;
-	border-radius: 20px;
-	width: 40px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.github-min-button {
-    background-color: #24292e;
-    color: white;
-    border-radius: 20px;
-	width: 40px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.fourty-two-min-button{
-	background-color: #24292e;
-    color: white;
-    border-radius: 20px;
-	width: 40px;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .form-input{
@@ -130,7 +79,7 @@
 	border-radius: 10px;
 	background-color: $background-common-color;
 	&:hover{
-		background-color: rgb(3, 42, 100);
+		background-color: $navy-hover;
 		border: 0px solid white;
 	}
 }

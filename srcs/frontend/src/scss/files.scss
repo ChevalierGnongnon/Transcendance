@@ -24,7 +24,7 @@
 .confirm_button{
     appearance: none;
     -webkit-appearance: none;
-    background-color: green;
+    background-color: $background-green-button;
     color: white;
     border: 2px solid white;
     border-radius: 25px;
@@ -36,15 +36,15 @@
     margin-top: 1%;
     margin-bottom: 1%;
     &:hover{
-        color: green;
+        color: $background-green-button;
         background-color: white;
-        border: 2px solid  green;
+        border: 2px solid  $background-green-button;
     }
 }
 .undo_button{
     appearance: none;
     -webkit-appearance: none;
-    background-color: red;
+    background-color: $background-red-button;
     color: white;
     border: 2px solid white;
     border-radius: 25px;
@@ -55,9 +55,9 @@
     margin-right: auto;
     // margin-top: 1%;
     &:hover{
-        color: red;
+        color: $background-red-button;
         background-color: white;
-        border: 2px solid red;
+        border: 2px solid $background-red-button;
     }
 }
 
