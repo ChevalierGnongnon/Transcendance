@@ -11,10 +11,10 @@ export const ChatItem = ({ chat, setActiveView, setActiveChat }: ChatProps) => {
         }}
       >
         <figure className="avatar-msg">
-          <img src={`/uploads/${chat.profilePhoto}`} alt="avatar" />
+          <img src={`/uploads/${chat.user.profilePhoto.name}`} alt="avatar" />
         </figure>
-        <div className="p-2 message-text fw-semibold fs-3">{chat.pseudo}</div>
-        {chat.unreadCount !== '0' && (
+        <div className="p-2 message-text fw-semibold fs-3">{chat.user.pseudo}</div>
+        {chat.unreadCount > 0 && (
           <span className="badge rounded-pill bg-success me-2 text-start ">{chat.unreadCount}</span>
         )}
       </li>

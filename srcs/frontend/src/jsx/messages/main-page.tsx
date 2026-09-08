@@ -12,7 +12,9 @@ import ChatList from './ChatList';
 import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
 import { IChatPreview, IMessage } from './types';
-import { fetchMessages, getChats as fetchChats } from './utils/api';
+import { fetchMessages } from './utils/api';
+import { useSocketConnection } from './hooks/useSocketConnection';
+import { useChatList } from './hooks/useChatList';
 
 // import { io } from "socket.io-client";
 
@@ -23,80 +25,71 @@ function Messages() {
 
   const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
 
-  const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
-  const [fooEvents, setFooEvents] = useState<any[]>([]);
   const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
   // const [messages, setMessages] = useState<IMessage[]>([]);
   // const messages = activeChat ? (allMessages.get(activeChat.chatId) ?? []) : [];
-  const [loadingChats, setLoadingChats] = useState(false);
-  const [chatList, setChatList] = useState<IChatPreview[]>([]);
-  const [error, setError] = useState<Error | null>(null);
+  const [loadingMessages, setLoadingMessages] = useState(false);
   const me = useUser();
+  const isConnected = useSocketConnection();
+  const { chatList, setChatList, loadingChats, error } = useChatList();
 
   useEffect(() => {
-    if (!socket.connected) {
-      socket.connect();
-      console.log('🔄 Attempting to connect...');
-    }
-    function onConnect() {
-      setIsConnected(true);
-      console.log('✅ Socket is connected');
-    }
-
-    function onDisconnect() {
-      setIsConnected(false);
-      console.log('❌ Socket disconnected');
-    }
-
-    function onFooEvent(value: any) {
-      setFooEvents((previous) => [...previous, value]);
-    }
-
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
-    socket.on('foo', onFooEvent);
-
-    return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
-      socket.off('foo', onFooEvent);
-    };
-  }, []);
-
-  useEffect(() => {
-    const loadChats = async () => {
-      try {
-        setLoadingChats(true);
-        setError(null);
-
-        if (chatList.length === 0) {
-          const chats = await fetchChats();
-          console.log(chats);
-          setChatList(chats);
-        }
-      } catch (error) {
-        setError(error instanceof Error ? error : new Error('Unknown error'));
-      } finally {
-        setLoadingChats(false);
+    const loadMessagesForAllChats = async () => {
+      if (chatList.length === 0) {
+        return;
       }
-    };
 
-    loadChats();
-  }, []);
+      const chatsWithoutMessages = chatList.filter((chat) => !allMessages.has(chat.chatId));
+      if (chatsWithoutMessages.length === 0) {
+        return;
+      }
+      setLoadingMessages(true);
+
+      const promises = chatsWithoutMessages.map(async (chat) => {
+        try {
+          const messages = await getMessages(chat.chatId);
+          console.log(`loading messages for chat: ${chat.chatId}`);
+          return { chatId: chat.chatId, messages };
+        } catch (error) {
+          console.error(`Error loading messages for chat: ${chat.chatId}`, error);
+          return { chat: chat.chatId, messages: [] };
+        }
+      });
+
+      const result = await Promise.all(promises);
+
+      setAllMessages((prev) => {
+        const newMap = new Map(prev);
+        result.forEach(({ chatId, messages }) => {
+          newMap.set(chatId, messages);
+        });
+        return newMap;
+      });
+
+      setLoadingMessages(false);
+    };
+    loadMessagesForAllChats();
+  }, [chatList]);
 
   useEffect(() => {
-    const handleNewMessage = async (newMessage: IMessage) => {
-      const chatId = newMessage.chatId;
+    const handleNewMessage = async (message) => {
+      const chatId = message.chatId;
 
-      console.log(`recive: ${newMessage}`);
+      console.log(message);
       console.log(`chatId: ${chatId}`);
+      const newMessage: IMessage = {
+        id: message.id,
+        chatId: message.chatId,
+        sender: message.sender,
+        content: message.content,
+      };
 
       try {
         let existingMessages = allMessages.get(chatId);
 
-        if (!existingMessages) {
-          existingMessages = await getMessages(chatId);
-        }
+        // if (!existingMessages) {
+        //   existingMessages = await getMessages(chatId);
+        // }
 
         setAllMessages((prev) => {
           const newMap = new Map(prev);
@@ -106,18 +99,26 @@ function Messages() {
           return newMap;
         });
 
-        if (activeChat && chatId !== activeChat.chatId) {
-          setChatList((prev) =>
-            prev.map((chat) =>
-              chat.chatId === chatId
-                ? {
-                    ...chat,
-                    unreadCount: String((parseInt(chat.unreadCount) || 0) + 1),
-                  }
-                : chat
-            )
-          );
-        }
+        // if (activeChat && chatId !== activeChat.chatId) {
+        //   setChatList((prev) =>
+        //     prev.map((chat) =>
+        //       chat.chatId === chatId
+        //         ? {
+        //             ...chat,
+        //             unreadCount: chat.unreadCount + 1,
+        //           }
+        //         : chat
+        //     )
+        //   );
+        // } else {
+        //   console.log(`message ID: ${newMessage.id}`);
+        //   console.log(message);
+        //   socket.emit('last-read-message', {
+        //     chatId: newMessage.chatId,
+        //     userId: me?.id,
+        //     messageId: newMessage.id,
+        //   });
+        // }
       } catch (error) {
         console.error('Failed to handle new messages', error);
       }
@@ -128,24 +129,11 @@ function Messages() {
     return () => {
       socket.off('new-chat-message', handleNewMessage);
     };
-  }, [chatList, allMessages, activeChat]);
-
-  const updateMessages = async (newMessage: IMessage) => {
-    setAllMessages((prev) => {
-      const next = new Map(prev);
-
-      const currentMessages = next.get(newMessage.chatId) ?? [];
-      console.log(currentMessages);
-
-      next.set(newMessage.chatId, [...currentMessages, newMessage]);
-
-      console.log(next.get(newMessage.chatId));
-      return next;
-    });
-  };
+  }, [chatList, allMessages]);
 
   const getMessages = useCallback(
     async (chatId: string) => {
+      console.log('CALL getMessages');
       if (allMessages.has(chatId)) {
         return allMessages.get(chatId);
       }
@@ -168,34 +156,91 @@ function Messages() {
   );
 
   const addMessage = useCallback((newMessage: IMessage) => {
-    console.log(newMessage.chatId);
-    console.log(allMessages);
-    console.log(allMessages.get(newMessage.chatId));
+    console.log('CALL addMessage');
     setAllMessages((prev) => {
       const next = new Map(prev);
 
       const currentMessages = next.get(newMessage.chatId) ?? [];
-      console.log(currentMessages);
-
       next.set(newMessage.chatId, [...currentMessages, newMessage]);
 
-      console.log(next.get(newMessage.chatId));
       return next;
     });
   }, []);
 
-  // const loadMessages = (chatId: string) => {
-  //   try {
-  //     // const loadedMessages = await getMessages(chatId);
-  //     // setMessages(loadedMessages);
+  const calculateUnreadCount = (chatId: string): number => {
+    console.log('CALL calculateUnreadCount');
+    const messages = allMessages.get(chatId) || [];
+    if (messages.length === 0) return 0;
 
-  //     const messages = activeChat ? (allMessages.get(activeChat.chatId) ?? []) : [];
-  //     console.log(messages);
-  //     return messages;
-  //   } catch (error) {
-  //     console.error('Error loadMessages:', error);
-  //   }
-  // };
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage.sender.id === me?.id) return 0;
+
+    const chat = chatList.find((c) => c.chatId === chatId);
+    if (!chat) return 0;
+
+    if (activeChat && chatId === activeChat.chatId) return 0;
+
+    const lastReadId = chat.lastReadMessagesId;
+    console.log(`lastReadId: ${lastReadId}`);
+    if (!lastReadId) {
+      return messages.length;
+    }
+
+    const lastReadIndex = messages.findIndex((msg) => msg.id === lastReadId);
+    console.log(`lastReadIndex: ${lastReadIndex}`);
+
+    if (lastReadIndex === -1) {
+      return messages.length;
+    }
+    return messages.length - lastReadIndex - 1;
+  };
+
+  useEffect(() => {
+    if (chatList.length === 0) return;
+    console.log(`Chat Room changed`);
+    // TODO
+    // find actual chat, change lastReadId local if not changed, and send
+    // server to update, set new chat in chatList
+    //
+    // socket.emit('last-read-message', {
+    //   chatId: lastMessage.chatId,
+    //   userId: me?.id,
+    //   messageId: lastMessage.id,
+    // });
+
+    const messages = allMessages.get('1fcc6b6f-0655-403f-97e2-d74d41ec6699');
+    console.log(`last Message: ${messages[messages?.length - 1].id}`);
+    chatList.map((c) => {
+      if (c.chatId === '1fcc6b6f-0655-403f-97e2-d74d41ec6699') {
+        console.log(`chatId: ${c.chatId}`);
+        console.log(`last: ${c.lastReadMessagesId}`);
+      }
+    });
+    setChatList((prev) =>
+      prev.map((chat) =>
+        chat.chatId === '1fcc6b6f-0655-403f-97e2-d74d41ec6699'
+          ? {
+              ...chat,
+              lastReadMessagesId: messages[messages?.length - 1].id ?? null,
+            }
+          : chat
+      )
+    );
+
+    chatList.map((c) => {
+      if (c.chatId === '1fcc6b6f-0655-403f-97e2-d74d41ec6699') {
+        console.log(`chatId: ${c.chatId}`);
+        console.log(`new: ${c.lastReadMessagesId}`);
+      }
+    });
+
+    setChatList((prev) =>
+      prev.map((chat) => ({
+        ...chat,
+        unreadCount: calculateUnreadCount(chat.chatId),
+      }))
+    );
+  }, [allMessages, activeChat]);
 
   if (!me) {
     return <div>Something went wrong. Please try again later.</div>;

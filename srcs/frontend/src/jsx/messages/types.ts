@@ -12,7 +12,9 @@ export interface User {
 }
 
 export interface IMessage {
+  id?: string;
   chatId: string;
+  to?: string;
   sender: {
     id: string;
     profilePhoto: { name: string };
@@ -29,17 +31,30 @@ export interface MessageProps {
 }
 
 export interface IChat {
-  chat_id: string;
-  user_id: string;
-  pseudo: string;
-  profilePhoto: string;
+  chatId: string;
+  userId: string;
+  user: {
+    id: string;
+    pseudo: string;
+    profilePhoto: {
+      name: string;
+    };
+  };
+  lastReadMessagesId: string | null;
 }
 
 export interface IChatPreview {
   chatId: string;
-  pseudo: string;
-  profilePhoto: string;
-  unreadCount: string;
+  // userId: string;
+  user: {
+    id: string;
+    pseudo: string;
+    profilePhoto: {
+      name: string;
+    };
+  };
+  lastReadMessagesId: string | null;
+  unreadCount: number;
 }
 
 export interface ChatRoomProps {

@@ -2,6 +2,7 @@ import { Server, Socket } from 'socket.io';
 import { prisma } from '../../lib/prisma.ts';
 import chatServices from './chat.services.ts';
 import { NotFoundError } from '../../common/errors.ts';
+import { error } from 'console';
 
 export const handleChatRoom = async (io: Server, socket: Socket) => {
   socket.on('join-chat-request', async (req) => {
@@ -44,10 +45,9 @@ export const handleChatRoom = async (io: Server, socket: Socket) => {
 export const handleMessages = (io: Server, socket: Socket) => {
   socket.on('new-chat-message', async (message) => {
     console.log(`Recieve message from: ${socket.id}`);
-    // console.log('Получено сообщение form user:', socket.user.id);
     try {
-      // socket.emit('chat message', `answer ${data}`);
-      // socket.emit('chat message', message);
+      console.log(message);
+      // validate messages date with zod
       const savedMessage = await prisma.message.create({
         data: {
           chatId: message.chatId,
@@ -55,13 +55,48 @@ export const handleMessages = (io: Server, socket: Socket) => {
           content: message.content,
         },
       });
-      console.log('message saved in DB');
-      socket.to(`chat-${message.chatId}a`).emit('new-chat-message', message);
-      console.log('message send to room');
+
+      if (!savedMessage) {
+        throw new Error('Error save message');
+      }
+      console.log({ ...message, id: savedMessage.id });
+
+      socket.to(`user-${message.to}`).emit('new-chat-message', { ...message, id: savedMessage.id });
     } catch (error) {
-      console.error('Error save message');
+      console.error('Error save message', error);
     }
   });
+};
+
+export const handleMessageRead = (io: Server, Socket: Socket) => {
+  Socket.on('last-read-message', async (data) => {
+    try {
+      // validate data
+      //
+      const lastReadMessage = await prisma.chatMember.update({
+        where: {
+          chatId_userId: {
+            chatId: data.chatId,
+            userId: data.userId,
+          },
+        },
+        data: {
+          lastReadMessagesId: data.messageId,
+        },
+      });
+      console.log(`last read message updated: ${data.messageId}`);
+    } catch (error) {
+      console.error(`Error update last read message`, error);
+      return;
+    }
+  });
+};
+
+export const setupUser = (io: Server, socket: Socket) => {
+  const userRoom = `user-${socket.userId}`;
+
+  socket.join(userRoom);
+  console.log(`User '${socket.userId}' connected`);
 };
 
 // // 1. Слушать новые подключения

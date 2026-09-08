@@ -61,15 +61,15 @@ function ChatRoom(roomProps: ChatRoomProps) {
   useEffect(() => {
     async function loadMessages() {
       if (roomProps.chat?.chatId) {
-        const imessages = await roomProps.onGetMessages(roomProps.chat.chatId);
-        setMessages(imessages);
+        const messagesCurrentRoom = await roomProps.onGetMessages(roomProps.chat.chatId);
+
+        setMessages(messagesCurrentRoom);
       }
     }
     loadMessages();
   }, [roomProps.chat?.chatId, roomProps.messages]);
 
   useEffect(() => {
-
     const handleChatJoined = (answer: { chatId: string; userId: string }) => {};
 
     // send request to join chat
@@ -77,10 +77,10 @@ function ChatRoom(roomProps: ChatRoomProps) {
     // socket.on('chat-room-joined', handleChatJoined);
 
     // if dont have errors
-    if (isAtBottom) {
-      roomProps.chat.unreadCount = '0';
-      roomProps.setActiveChat({ ...roomProps.chat });
-    }
+    // if (isAtBottom) {
+    //   roomProps.chat.unreadCount = '0';
+    //   roomProps.setActiveChat({ ...roomProps.chat });
+    // }
 
     scrollToBottom();
     // send put to update last_read_chats_id
@@ -95,6 +95,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
     if (messageText.trim() && socket?.connected) {
       const messageToSend: IMessage = {
         chatId: roomProps.chat.chatId,
+        to: roomProps.chat.user.id,
         sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },
         content: messageText,
       };
@@ -116,14 +117,14 @@ function ChatRoom(roomProps: ChatRoomProps) {
       <div className="chat-list chat-list-right my-2">
         <div className="chat-header fs-1">
           {/*{t('common.chatting-with')} {`${roomProps.chat.pseudo}`}*/}
-          {roomProps.chat.pseudo}
+          {roomProps.chat.user.pseudo}
         </div>
         <div
           ref={containerRef}
           onScroll={handleScroll}
           className="chat-messages-container"
           style={{
-            maxHeight: '60vh',
+            maxHeight: '65vh',
             overflowY: 'auto',
             position: 'relative',
           }}

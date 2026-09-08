@@ -6,14 +6,46 @@ import { NotFoundError } from '../../common/errors.js';
 
 class chatService {
   async getChatsByUser(currentUserId: string) {
+    // TODO add try catch
     const myChats = await prisma.chatMember.findMany({
       where: { userId: currentUserId },
       select: {
         chatId: true,
+        lastReadMessagesId: true,
+        chat: {
+          select: {
+            members: {
+              where: {
+                userId: {
+                  not: currentUserId,
+                },
+              },
+              select: {
+                user: {
+                  select: {
+                    id: true,
+                    pseudo: true,
+                    profilePhoto: {
+                      select: {
+                        name: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
     if (!myChats) throw new NotFoundError('Do not found chats');
+
+    const ret = myChats.map((chat) => ({
+      chatId: chat.chatId,
+      user: chat.chat.members[0]?.user,
+      lastReadMessagesId: chat.lastReadMessagesId,
+    }));
 
     const chatIds = myChats.map((chat) => chat.chatId);
 
@@ -39,44 +71,13 @@ class chatService {
             },
           },
         },
-        message: {
-          select: {
-            createdAt: true,
-          },
-        },
+        lastReadMessagesId: true,
       },
     });
 
     if (!others) throw new NotFoundError('Do not found conversations in chats');
 
-    const result = await Promise.all(
-      others.map(async (member) => {
-        const unreadCount = await prisma.message.count({
-          where: {
-            chatId: member.chatId,
-            senderId: member.user.id,
-            createdAt: {
-              gt: member.message?.createdAt || new Date(0),
-            },
-          },
-        });
-        return {
-          chatId: member.chatId,
-          pseudo: member.user.pseudo,
-          profilePhoto: member.user.profilePhoto?.name,
-          unreadCount: unreadCount,
-        };
-      })
-    );
-
-    console.log(result);
-    const chats = others.map((other) => ({
-      chatId: other.chatId,
-      pseudo: other.user.pseudo,
-      profilePhoto: other.user.profilePhoto?.name,
-    }));
-
-    return result;
+    return ret;
   }
 
   //  {
@@ -93,6 +94,7 @@ class chatService {
         createdAt: 'asc',
       },
       select: {
+        id: true,
         chatId: true,
         sender: {
           select: {
@@ -112,6 +114,7 @@ class chatService {
     if (!messages) {
       throw new NotFoundError('Dont have messages in this chat');
     }
+    console.log(messages);
     return messages;
   }
 }

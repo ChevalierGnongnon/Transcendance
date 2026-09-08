@@ -1,24 +1,35 @@
 import { useState, useEffect } from 'react';
 
 import type { IChatPreview } from '../types';
-import { useUser } from './useUser';
+import { fetchChats } from '../utils/api';
 
 export const useChatList = () => {
-  const [ChatList, setChatList] = useState<IChatPreview[]>([]);
+  const [loadingChats, setLoading] = useState(false);
+  const [chatList, setChatList] = useState<IChatPreview[]>([]);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    async function loadChats() {
+    const loadChats = async () => {
       try {
+        setLoading(true);
+        setError(null);
+
+        const chats = await fetchChats();
+        setChatList(chats);
       } catch (error) {
-        console.log('Error loading chats:', error);
-        // await logout();
+        setError(error instanceof Error ? error : new Error('Unknown error'));
+      } finally {
+        setLoading(false);
       }
-    }
+    };
 
     loadChats();
   }, []);
 
   return {
-    ChatList,
+    chatList,
+    setChatList,
+    loadingChats,
+    error,
   };
 };

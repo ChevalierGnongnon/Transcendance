@@ -1,4 +1,4 @@
-export const getChats = async () => {
+export const fetchChats = async () => {
   const res = await fetch(`/api/me/chats/`, {
     credentials: 'include',
   });
@@ -29,4 +29,20 @@ export const fetchMessages = async (chatId: string) => {
 
   const data = await res.json();
   return data;
+};
+
+export const fetchUsers = async () => {
+  try {
+    const response = await fetch('/api/users', { credentials: 'include' });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('users error:', error);
+    throw error;
+  }
 };
