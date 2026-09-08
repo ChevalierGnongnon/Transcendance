@@ -30,22 +30,21 @@ export interface MessageProps {
   senderId: string;
 }
 
-export interface IChat {
-  chatId: string;
-  userId: string;
-  user: {
-    id: string;
-    pseudo: string;
-    profilePhoto: {
-      name: string;
-    };
-  };
-  lastReadMessagesId: string | null;
-}
+// export interface IChat {
+//   chatId: string;
+//   userId: string;
+//   user: {
+//     id: string;
+//     pseudo: string;
+//     profilePhoto: {
+//       name: string;
+//     };
+//   };
+//   lastReadMessagesId: string | null;
+// }
 
 export interface IChatPreview {
   chatId: string;
-  // userId: string;
   user: {
     id: string;
     pseudo: string;
@@ -62,10 +61,9 @@ export interface ChatRoomProps {
   chat: IChatPreview;
   setActiveChat: (chat: IChatPreview | null) => void;
   messages: Map<string, IMessage[]>;
-  // setMessages: (messages: IMessage[]) => void;
   onAddMessage: (message: IMessage) => void;
-  // onLoadMessages: (chatId: string) => void;
   onGetMessages: (chatId: string) => Promise<IMessage[]>;
+  updateLastReadMessageId: (chatId: string, messageId: string | null) => void;
 }
 
 export interface ChatProps {

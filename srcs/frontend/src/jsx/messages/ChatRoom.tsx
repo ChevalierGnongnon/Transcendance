@@ -63,6 +63,11 @@ function ChatRoom(roomProps: ChatRoomProps) {
       if (roomProps.chat?.chatId) {
         const messagesCurrentRoom = await roomProps.onGetMessages(roomProps.chat.chatId);
 
+        if (messagesCurrentRoom) {
+          const lastMessageId = messagesCurrentRoom[messagesCurrentRoom.length - 1].id ?? null;
+          roomProps.updateLastReadMessageId(roomProps.chat.chatId, lastMessageId);
+        }
+
         setMessages(messagesCurrentRoom);
       }
     }

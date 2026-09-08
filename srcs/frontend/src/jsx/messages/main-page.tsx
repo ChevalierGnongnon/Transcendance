@@ -26,8 +26,6 @@ function Messages() {
   const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
 
   const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
-  // const [messages, setMessages] = useState<IMessage[]>([]);
-  // const messages = activeChat ? (allMessages.get(activeChat.chatId) ?? []) : [];
   const [loadingMessages, setLoadingMessages] = useState(false);
   const me = useUser();
   const isConnected = useSocketConnection();
@@ -75,8 +73,6 @@ function Messages() {
     const handleNewMessage = async (message) => {
       const chatId = message.chatId;
 
-      console.log(message);
-      console.log(`chatId: ${chatId}`);
       const newMessage: IMessage = {
         id: message.id,
         chatId: message.chatId,
@@ -99,26 +95,14 @@ function Messages() {
           return newMap;
         });
 
-        // if (activeChat && chatId !== activeChat.chatId) {
-        //   setChatList((prev) =>
-        //     prev.map((chat) =>
-        //       chat.chatId === chatId
-        //         ? {
-        //             ...chat,
-        //             unreadCount: chat.unreadCount + 1,
-        //           }
-        //         : chat
-        //     )
-        //   );
-        // } else {
-        //   console.log(`message ID: ${newMessage.id}`);
-        //   console.log(message);
-        //   socket.emit('last-read-message', {
-        //     chatId: newMessage.chatId,
-        //     userId: me?.id,
-        //     messageId: newMessage.id,
-        //   });
-        // }
+        if (activeChat && chatId === activeChat.chatId) {
+          updateLastReadMessageId(chatId, newMessage.id);
+          socket.emit('last-read-message', {
+            chatId: newMessage.chatId,
+            userId: me?.id,
+            messageId: newMessage.id,
+          });
+        }
       } catch (error) {
         console.error('Failed to handle new messages', error);
       }
@@ -195,6 +179,26 @@ function Messages() {
     return messages.length - lastReadIndex - 1;
   };
 
+  const updateLastReadMessageId = (chatId: string, messageId: string | null) => {
+    console.log(`CALL updateLastReadMessageId`);
+    setChatList((prev) =>
+      prev.map((chat) =>
+        chat.chatId === chatId
+          ? {
+              ...chat,
+              lastReadMessagesId: messageId,
+            }
+          : chat
+      )
+    );
+
+    socket.emit('last-read-message', {
+      chatId: chatId,
+      userId: me?.id,
+      messageId: messageId,
+    });
+  };
+
   useEffect(() => {
     if (chatList.length === 0) return;
     console.log(`Chat Room changed`);
@@ -207,32 +211,6 @@ function Messages() {
     //   userId: me?.id,
     //   messageId: lastMessage.id,
     // });
-
-    const messages = allMessages.get('1fcc6b6f-0655-403f-97e2-d74d41ec6699');
-    console.log(`last Message: ${messages[messages?.length - 1].id}`);
-    chatList.map((c) => {
-      if (c.chatId === '1fcc6b6f-0655-403f-97e2-d74d41ec6699') {
-        console.log(`chatId: ${c.chatId}`);
-        console.log(`last: ${c.lastReadMessagesId}`);
-      }
-    });
-    setChatList((prev) =>
-      prev.map((chat) =>
-        chat.chatId === '1fcc6b6f-0655-403f-97e2-d74d41ec6699'
-          ? {
-              ...chat,
-              lastReadMessagesId: messages[messages?.length - 1].id ?? null,
-            }
-          : chat
-      )
-    );
-
-    chatList.map((c) => {
-      if (c.chatId === '1fcc6b6f-0655-403f-97e2-d74d41ec6699') {
-        console.log(`chatId: ${c.chatId}`);
-        console.log(`new: ${c.lastReadMessagesId}`);
-      }
-    });
 
     setChatList((prev) =>
       prev.map((chat) => ({
@@ -267,10 +245,9 @@ function Messages() {
             chat={activeChat}
             setActiveChat={setActiveChat}
             messages={allMessages}
-            // setMessages={setMessages}
             onAddMessage={addMessage}
             onGetMessages={getMessages}
-            // onLoadMessages={loadMessages}
+            updateLastReadMessageId={updateLastReadMessageId}
           />
         )}
         {activeView === 'new message' && <NewChat />}
