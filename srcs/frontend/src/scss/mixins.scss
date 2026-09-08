@@ -1,0 +1,14 @@
+@use "./common-variables.scss" as *;
+
+@mixin bordered-btn($border-color, $background-color, $width: 80%){
+	border: 2px solid $border-color;
+	border-radius: $radius-pill;
+	background-color: $background-color;
+	color: $border-color;
+	width: $width;
+	&:hover{
+		border: 2px solid $background-color;
+		background-color: $border-color;
+		color: $background-color;
+	}
+}
