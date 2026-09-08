@@ -63,6 +63,50 @@ class UsersService {
       }
     }
   }
+  async searchUsers(input: string, currentUserId: string){
+    const res = await prisma.user.findMany({
+      where:{
+        isDeleted: false,
+        id: {
+          not: currentUserId,
+        },
+        OR:[{
+            lastName : {
+              contains: input,
+              mode: "insensitive"
+            }
+          },
+          {
+            firstName:{
+              contains: input,
+              mode: "insensitive"
+
+            } 
+          },
+          {
+            pseudo: {
+              contains: input,
+              mode: "insensitive"
+            }
+          }
+        ]
+      },
+      select:{
+        id: true,
+        pseudo: true,
+        firstName: true, 
+        lastName: true,
+        profilePhoto: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+      take: 20,
+    })
+    return (res);
+  }
 }
 
 export default new UsersService();
