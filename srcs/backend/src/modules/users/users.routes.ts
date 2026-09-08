@@ -8,6 +8,6 @@ import { getMyProfile } from './users.controllers.js';
 
 // routers.post('/register', );
 router.get('/my-profile', requireAuth, getMyProfile);
-router.get('/user/:pseudo"', requireAuth);
+// router.get('/user/:pseudo', requireAuth);
 router.patch('/my-profile/avatar', requireAuth, updateProfilePhoto);
 export default router;
