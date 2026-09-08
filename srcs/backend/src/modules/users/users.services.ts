@@ -103,7 +103,11 @@ class UsersService {
           },
         },
       },
+      orderBy: {
+        pseudo: "asc", 
+      },
       take: 20,
+      
     })
     return (res);
   }
