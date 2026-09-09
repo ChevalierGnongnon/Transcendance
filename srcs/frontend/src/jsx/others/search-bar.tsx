@@ -1,4 +1,6 @@
 import "../../scss/common-classes.scss"
+import "../../scss/common-variables.scss";
+import "../../scss/headers.scss";
 import { useState , useEffect} from "react";
 import { useApiFetch } from "../auth/use-api-fetch";
 import { useTranslation } from 'react-i18next';
@@ -59,6 +61,7 @@ function SearchBar(props: SearchBarProps){
                     id="search-bar"
                     className={props.ClassName}
                     value={input}
+                    placeholder="Search a user ..."
                     onChange={
                         function startResearch(event){
                             setResearchStarted(true);
@@ -71,14 +74,20 @@ function SearchBar(props: SearchBarProps){
                     <li className="search-no-result">Aucun profil avec ce nom, pseudo ou prénom</li>
                     ) : (
                         result.map((user)=>
-                            <li key={user.id} onClick={(()=> props.onSelectUser(user))}>
+                            <li className="d-flex align-items-center justify-content-center gap-5 px-3" key={user.id} onClick={(()=> props.onSelectUser(user))}>
                                 <figure>
                                     <img
                                         src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'}
                                         alt="avatar"
                                     />
-                                    <span>{user.lastName} | {user.firstName} | {user.pseudo} </span>
                                 </figure>
+                                <span className="d-flex gap-2">
+                                    <span>{user.lastName}</span>
+                                    <span>|</span>
+                                    <span>{user.firstName}</span>
+                                    <span>|</span>
+                                    <span>{user.pseudo}</span>
+                                </span>
                             </li>
                         )
                     )

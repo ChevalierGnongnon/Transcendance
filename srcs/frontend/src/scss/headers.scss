@@ -1,14 +1,53 @@
 @use "./common-variables.scss" as *;
 
-.search-bar{
+.search{
     width: 90%;
-    display: block;
     margin-left: auto;
     margin-right: auto;
-    border-radius: $radius-md;
+}
+
+.search-bar{
+    width: 100%;
+    display: block;
+    border-top-left-radius: $radius-md;
+    border-top-right-radius: $radius-md;
     padding: 1%;
 }
 
 .header-middle{
-    width: 50%;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.header-search-results {
+    background-color: $navy-hover;
+    color: white;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    cursor: pointer;
+}
+
+.header-search-results li {
+    border-bottom: 1px solid white;
+    padding: 1%;
+}
+
+.header-search-results li figure {
+    margin: 0;
+}
+
+
+.header-search-results li img {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+.header-search-results li span {
+}
+
+.search-no-result {
 }

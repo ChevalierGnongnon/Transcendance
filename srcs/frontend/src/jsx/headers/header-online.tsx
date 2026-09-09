@@ -72,7 +72,7 @@ function HeaderOnline() {
                 </section>
                 <section className="header-middle">
                     <SearchBar
-                        ClassName="header-search"
+                        ClassName="search-bar"
                         ListClassName="header-search-results"
                         BreakPoint={768}
                         onSelectUser={(user) => console.log(user)}
