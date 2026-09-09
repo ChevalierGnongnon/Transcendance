@@ -12,6 +12,8 @@ import myPageIcon from "../../assets/icons/icon-my-page.png";
 import { useAuth } from "../auth/auth-context";
 import { useApiFetch } from "../auth/use-api-fetch";
 import langIcon from "../../assets/icons/lang_icon.png";
+import SearchBar from "../others/search-bar";
+import '../../scss/headers.scss'
 
 interface User {
 	firstName: string;
@@ -67,6 +69,14 @@ function HeaderOnline() {
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
                         <img src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
+                </section>
+                <section className="header-middle">
+                    <SearchBar
+                        ClassName="header-search"
+                        ListClassName="header-search-results"
+                        BreakPoint={768}
+                        onSelectUser={(user) => console.log(user)}
+                    ></SearchBar>
                 </section>
                 <section className="header-right">
                     <div className="d-none d-md-flex d-flex gap-4">

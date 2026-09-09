@@ -72,17 +72,17 @@ class UsersService {
         },
         OR:[{
             lastName : {
-              contains: input
+              startsWith: input
             }
           },
           {
             firstName:{
-              contains: input
+              startsWith: input
             }
           },
           {
             pseudo: {
-              contains: input
+              startsWith: input
             }
           }
         ]
