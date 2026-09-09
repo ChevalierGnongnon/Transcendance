@@ -24,9 +24,55 @@ export const getMessages = async (chatId: string) => {
   }
 
   if (!res.ok) {
-    throw new Error('Failed t ofetch messages');
+    throw new Error('Failed to fetch messages');
   }
 
   const data = await res.json();
   return data;
+};
+
+export const sendAiMessage = async (
+  conversationId: string,
+  message: string
+) => {
+  const res = await fetch('/api/chatbot', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      conversation_id: conversationId,
+      message,
+    }),
+  });
+
+  if (res.status === 401) {
+    throw new Error('Unauthorized, logging out...');
+  }
+
+  if (!res.ok) {
+    throw new Error('Failed to send AI message');
+  }
+
+  return res;
+};
+
+export const createAiConversation = async () => {
+  const res = await fetch('/api/ai/conversations', {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (res.status == 401) {
+    throw new Error('Unauthorized, logging out...');
+  }
+
+  if (!res.ok) {
+    throw new Error('Failed to create AI conversation');
+  }
+
+  const data = await res.json();
+
+  return data.conversationId;
 };

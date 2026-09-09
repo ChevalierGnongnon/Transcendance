@@ -38,6 +38,9 @@ model User {
   profilePhoto File?        @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
   messages     Message[]    @relation("MessageSender")
   chatMembers  ChatMember[]
+  aiConversations AiConversation[]
+  aiUsage AiUsage[]
+  games Game[]
 
   @@map("user")
 }
@@ -104,4 +107,77 @@ model Message {
 
   @@index([chatId, createdAt])
   @@map("messages")
+}
+
+
+enum GameResult {
+    won
+    lost
+}
+
+enum AiMessageRole {
+  user
+  assistant
+}
+
+model AiConversation {
+  id        String   @id @default(uuid()) @db.Char(36)
+  userId    String   @map("user_id") @db.Char(36)
+  title     String?  @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages AiMessage[]
+  usage AiUsage[]
+
+  @@index([userId])
+  @@map("ai_conversations")
+}
+
+model AiMessage {
+  id             String         @id @default(uuid()) @db.Char(36)
+  role           AiMessageRole
+  conversationId String         @map("conversations_id") @db.Char(36)
+  content        String         @db.Text
+  createdAt      DateTime       @default(now()) @map("created_at")
+
+  conversation AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@map("ai_messages")
+}
+
+model AiUsage {
+  id String @id @default(uuid()) @db.Char(36)
+
+  userId         String @map("user_id") @db.Char(36)
+  conversationId String @map("conversation_id") @db.Char(36)
+
+  inputTokens    Int
+  outputTokens   Int
+  totalTokens    Int
+  thinkingTokens Int
+
+  createdAt      DateTime @default(now())
+
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation   AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([conversationId])
+  @@index([createdAt])
+  @@map("ai_usage")
+}
+
+model Game {
+    id        String     @id @default(uuid()) @db.Char(36)
+    userId    String     @map("user_id") @db.Char(36)
+    result    GameResult
+    createdAt DateTime   @default(now()) @map("created_at")
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([createdAt])
+    @@map("games")
 }

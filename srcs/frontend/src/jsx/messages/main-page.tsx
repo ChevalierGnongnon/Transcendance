@@ -11,6 +11,7 @@ import Block from './block';
 import ChatList from './ChatList';
 import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
+import ImaginaryFriend from './ImaginaryFriend';
 
 // import { io } from "socket.io-client";
 
@@ -20,7 +21,6 @@ function Messages() {
   >('my messages');
 
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
-
   const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
   const [fooEvents, setFooEvents] = useState<any[]>([]);
   const me = useUser();
@@ -76,7 +76,7 @@ function Messages() {
         )}
         {activeView === 'new message' && <NewChat />}
         {activeView === 'block' && <Block />}
-        {activeView === 'imaginaryfriend' && <MoreOptions />}
+        {activeView === 'imaginaryfriend' && <ImaginaryFriend />}
       </div>
     </>
   );

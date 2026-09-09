@@ -12,7 +12,7 @@ if (!passwordFile || !DATABASE_HOST || !DATABASE_PORT || !DATABASE_NAME || !DATA
   throw new Error('Mariadb envariment variables are not set');
 }
 
-const DATABASE_PASSWORD = fs.readFileSync(passwordFile, 'utf8').trim() || '123';
+const DATABASE_PASSWORD = '123';
 
 const adapter = new PrismaMariaDb({
   host: DATABASE_HOST,
