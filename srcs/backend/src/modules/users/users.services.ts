@@ -72,21 +72,17 @@ class UsersService {
         },
         OR:[{
             lastName : {
-              contains: input,
-              mode: "insensitive"
+              contains: input
             }
           },
           {
             firstName:{
-              contains: input,
-              mode: "insensitive"
-
-            } 
+              contains: input
+            }
           },
           {
             pseudo: {
-              contains: input,
-              mode: "insensitive"
+              contains: input
             }
           }
         ]
