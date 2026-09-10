@@ -66,17 +66,23 @@ function Messages() {
         {`Status: ${isConnected ? '🟢 Connected' : '🔴 Disconnect'}`}
       </div>
       <div className={activeView !== 'my messages' ? 'd-flex' : ''}>
-        <ChatList
-          align={activeView === 'my messages' ? 'center' : 'left'}
-          setActiveView={setActiveView}
-          setActiveChatId={setActiveChatId}
-        />
+        {activeView !== 'imaginaryfriend' && (
+          <ChatList
+            align={activeView === 'my messages' ? 'center' : 'left'}
+            setActiveView={setActiveView}
+            setActiveChatId={setActiveChatId}
+          />
+        )}
+
         {activeView === 'conversation' && activeChatId && (
           <ChatRoom me={me} chatId={activeChatId} />
         )}
         {activeView === 'new message' && <NewChat />}
         {activeView === 'block' && <Block />}
-        {activeView === 'imaginaryfriend' && <ImaginaryFriend />}
+        <div className={activeView === 'imaginaryfriend' ? 
+          'd-flex justify-content-center w-100' : 'd-none'}>
+        <ImaginaryFriend />
+        </div>
       </div>
     </>
   );

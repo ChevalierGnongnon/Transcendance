@@ -42,14 +42,21 @@ export async function chatbot(req: Request, res: Response) {
         res.end();
     } 
     catch (error)
+{
+    console.error("Streaming error:", error);
+
+    if (error instanceof AppError && error.statusCode === 429)
     {
-        console.error("Streaming error:", error);
-        // Cannot change HTTP Status after, first resulr was send
-        if (res.headersSent) 
+        if (res.headersSent)
         {
             res.end();
             return;
         }
-        throw error;
+        res.status(503).json({
+            error: "AI provider rate limit exceeded."
+        });
+        return;
     }
+    throw error;
+}
 }

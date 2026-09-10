@@ -35,7 +35,7 @@ export async function *generateResponseStream(history: ChatMessage[], message: s
             model: "gemini-3.6-flash",
             config: {
                 systemInstruction: `
-                Pretend to be my Imaginary friend
+                Pretend to be my Imaginary friend.
                 Always respond in plain text.
                 Do not use Markdown.
                 Do not use bold, italic, headings, bullet points, numbered lists,

@@ -51,6 +51,7 @@ export function AuthProvider({children}:{children:ReactNode}){
             method: 'POST',
             credentials: 'include'
         });
+        sessionStorage.removeItem('aiConversationId');
         localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(false);
     }

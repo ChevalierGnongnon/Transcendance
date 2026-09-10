@@ -1,12 +1,14 @@
-import { rateLimit } from "express-rate-limit";
+import rateLimit, { type RateLimitInfo } from "express-rate-limit";
 import type { Request,Response, NextFunction} from "express";
 import { prisma } from '../../lib/prisma.js';
 import { AppError } from "../../error/AppError.ts";
 
-
+type RateLimitRequest = Request & {
+    rateLimit: RateLimitInfo;
+};
 // --------------------------------------------------
 // Rate Limiter
-// 3 Requests per minute per authenticated user
+// 3 Requests per hour per authenticated user
 // --------------------------------------------------
 
 export const aiRateLimiter = rateLimit({
@@ -17,7 +19,6 @@ export const aiRateLimiter = rateLimit({
         if (!req.userId) {
             throw new Error("req.userId is missing");
         }
-
         return req.userId;
     },
 
@@ -26,6 +27,25 @@ export const aiRateLimiter = rateLimit({
 
     message: {
         error: "Too many AI requests. Please try again later."
+    },
+
+    handler: (req, res) => {
+        const rateLimitInfo = (req as RateLimitRequest).rateLimit;
+        const resetTime = rateLimitInfo.resetTime;
+
+        if (resetTime) {
+        const retryAfterSeconds = Math.max(
+            0,
+            Math.ceil(
+                (resetTime.getTime() - Date.now()) / 1000
+            )
+        );
+
+        res.setHeader("Retry-After", retryAfterSeconds);
+    }
+        res.status(429).json({
+            error: "Too many Ai requests. Please try again later."
+        });
     }
 });
 

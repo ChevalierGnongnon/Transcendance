@@ -1,6 +1,8 @@
 import { body, validationResult } from "express-validator";
 import type { Request, Response, NextFunction } from "express";
 
+const MAX_MESSAGE_LENGTH = 200;
+
 // validator to verify correct request for the ai chatbot
 export const validateChatRequest = [
     body("conversation_id")
@@ -15,9 +17,9 @@ export const validateChatRequest = [
         .trim()
         .notEmpty()
         .withMessage("message cannot be empty")
-        .isLength({ max: 5000 })
+        .isLength({ max: MAX_MESSAGE_LENGTH })
         .withMessage(
-            "message must not exceed 5000 characters"
+            `message must not exceed ${MAX_MESSAGE_LENGTH} characters`
         ),
 
     (req: Request, res: Response, next: NextFunction) => {

@@ -51,7 +51,16 @@ export const sendAiMessage = async (
     throw new Error('Unauthorized, logging out...');
   }
 
+  if (res.status === 429) {
+    const retryAfter = res.headers.get('Retry-After');
+
+    throw new Error(
+      `AI_RATE_LIMIT:${retryAfter ?? '60'}`
+    );
+  }
+
   if (!res.ok) {
+    console.log("TEST");
     throw new Error('Failed to send AI message');
   }
 
