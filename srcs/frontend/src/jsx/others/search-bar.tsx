@@ -1,7 +1,7 @@
 import "../../scss/common-classes.scss"
 import "../../scss/common-variables.scss";
 import "../../scss/headers.scss";
-import { useState , useEffect} from "react";
+import { useState , useEffect, useRef} from "react";
 import { useApiFetch } from "../auth/use-api-fetch";
 import { useTranslation } from 'react-i18next';
 
@@ -27,6 +27,7 @@ function SearchBar(props: SearchBarProps){
     const [input, setInput] = useState<string>("");
     const [result, setResult] = useState<SearchResult[] | null>(null)
     const [researchStarted, setResearchStarted] = useState<boolean>(false);
+    const ref = useRef<HTMLDivElement>(null);
     const apiFetch = useApiFetch();
 
     useEffect(() => {
@@ -51,10 +52,27 @@ function SearchBar(props: SearchBarProps){
     
     }, [input]);
     
+    function hideList(event: MouseEvent){
+        if (!ref.current)
+            return ;
+        if (!ref.current.contains(event.target as Node)){
+            setResult(null);
+        }
+    }
+
+    function removeListener(){
+        window.removeEventListener("click", hideList)
+    }
+
+    useEffect(() => {
+        window.addEventListener("click", hideList);
+        return (removeListener)
+    }, []);
     
     return(
         <>
-            <div className="search position-relative">
+            <div className="search position-relative" ref={ref}>
+            
                 <input 
                     type="search"
                     name="search-bar"
@@ -89,8 +107,10 @@ function SearchBar(props: SearchBarProps){
                                             const end = field.slice(len, field.length)
                                             return (
                                                     <span key={index}>
-                                                        {index > 0 && <span className="mx-4"> | </span>}
-                                                        {boldPart.toLowerCase() === input.toLowerCase() &&
+                                                        { index > 0 && 
+                                                            <span className="mx-4"> | </span> 
+                                                        }
+                                                        { boldPart.toLowerCase() === input.toLowerCase() &&
                                                             <>
                                                                 <span>
                                                                     <strong>{boldPart}</strong>
