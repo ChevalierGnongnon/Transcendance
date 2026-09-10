@@ -81,12 +81,34 @@ function SearchBar(props: SearchBarProps){
                                         alt="avatar"
                                     />
                                 </figure>
-                                <span className="d-flex gap-2">
-                                    <span>{user.lastName}</span>
-                                    <span>|</span>
-                                    <span>{user.firstName}</span>
-                                    <span>|</span>
-                                    <span>{user.pseudo}</span>
+                                <span className="d-flex">
+                                    {
+                                        [user.lastName, user.firstName, user.pseudo].map((field, index) => {
+                                            const len = input.length;
+                                            const boldPart = field.slice(0, len);
+                                            const end = field.slice(len, field.length)
+                                            return (
+                                                    <span key={index}>
+                                                        {index > 0 && <span className="mx-4"> | </span>}
+                                                        {boldPart.toLowerCase() === input.toLowerCase() &&
+                                                            <>
+                                                                <span>
+                                                                    <strong>{boldPart}</strong>
+                                                                </span>
+                                                                <span>
+                                                                    {end}
+                                                                </span>
+                                                            </>
+                                                        }
+                                                        { boldPart !== input &&
+                                                            <span>{field}</span>
+                                                        }
+                                                        
+                                                    </span>
+                                                )
+                                            }   
+                                        )
+                                    }
                                 </span>
                             </li>
                         )
