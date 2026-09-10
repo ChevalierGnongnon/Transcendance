@@ -6,6 +6,7 @@ import {
   handleChatRoom,
   handleMessageRead,
   handleMessages,
+  handleStartChat,
   setupUser,
 } from './modules/chat/chat.js';
 
@@ -50,6 +51,7 @@ export const setupSocketConnection = (io: Server) => {
     setupUser(io, socket);
     handleMessages(io, socket);
     handleMessageRead(io, socket);
+    handleStartChat(io, socket);
 
     // Регистрируем все обработчики
     // registerAuthHandlers(io, socket);

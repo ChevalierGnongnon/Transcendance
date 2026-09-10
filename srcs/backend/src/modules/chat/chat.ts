@@ -3,6 +3,7 @@ import { prisma } from '../../lib/prisma.ts';
 import chatServices from './chat.services.ts';
 import { NotFoundError } from '../../common/errors.ts';
 import { error } from 'console';
+import { messages } from './chat.controllers.ts';
 
 export const handleChatRoom = async (io: Server, socket: Socket) => {
   socket.on('join-chat-request', async (req) => {
@@ -46,7 +47,7 @@ export const handleMessages = (io: Server, socket: Socket) => {
   socket.on('new-chat-message', async (message) => {
     console.log(`Recieve message from: ${socket.id}`);
     try {
-      console.log(message);
+      // console.log(message);
       // validate messages date with zod
       const savedMessage = await prisma.message.create({
         data: {
@@ -59,7 +60,7 @@ export const handleMessages = (io: Server, socket: Socket) => {
       if (!savedMessage) {
         throw new Error('Error save message');
       }
-      console.log({ ...message, id: savedMessage.id });
+      // console.log({ ...message, id: savedMessage.id });
 
       socket.to(`user-${message.to}`).emit('new-chat-message', { ...message, id: savedMessage.id });
     } catch (error) {
@@ -68,8 +69,8 @@ export const handleMessages = (io: Server, socket: Socket) => {
   });
 };
 
-export const handleMessageRead = (io: Server, Socket: Socket) => {
-  Socket.on('last-read-message', async (data) => {
+export const handleMessageRead = (io: Server, socket: Socket) => {
+  socket.on('last-read-message', async (data) => {
     try {
       // validate data
       //
@@ -84,9 +85,83 @@ export const handleMessageRead = (io: Server, Socket: Socket) => {
           lastReadMessagesId: data.messageId,
         },
       });
-      console.log(`last read message updated: ${data.messageId}`);
+      // console.log(`last read message updated: ${data.messageId}`);
     } catch (error) {
       console.error(`Error update last read message`, error);
+      return;
+    }
+  });
+};
+
+export const handleStartChat = (io: Server, socket: Socket) => {
+  socket.on('start-new-chat', async (data, callback) => {
+    try {
+      // validate data
+      //
+
+      const currUserId = socket.userId;
+      const otherUserId = data.userId;
+
+      const chatId = await prisma.chatMember.groupBy({
+        by: ['chatId'],
+        where: {
+          userId: { in: [currUserId, otherUserId] },
+        },
+        having: {
+          userId: { _count: { equals: 2 } },
+        },
+      });
+
+      if (chatId.length === 0) {
+        const chat = await prisma.chat.create({
+          data: {
+            members: {
+              create: [{ userId: currUserId }, { userId: otherUserId }],
+            },
+          },
+					select: {
+						id: true,
+						members: {
+							where: {
+								userId: otherUserId
+							},
+							select: {
+								user: {
+									select: {
+										id: true,
+										pseudo: true,
+										profilePhoto: {
+											select: {
+												name: true,
+											}
+									}}
+								}
+							}
+						}
+          }
+        });
+				const otherUser = chat.members[0];
+
+        console.log({chatId: chat.id, user:otherUser.user});
+				callback({
+					status: 'ok',
+					message: 'chat created',
+					chat: {chatId: chat.id, user: otherUser.user}
+        })
+			} else {
+				callback({
+					status: 'ok',
+					message: 'Chat alredy have',
+					chatId: chatId[0].chatId,
+				})
+      }
+    } catch (error) {
+      console.error(`Error start new Chat`, error);
+			callback({
+				status: 'error',
+				message: 'Error when create new chat',
+				typeError: error,
+      })
       return;
     }
   });

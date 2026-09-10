@@ -76,6 +76,7 @@ class chatService {
     });
 
     if (!others) throw new NotFoundError('Do not found conversations in chats');
+    console.log(ret[0])
 
     return ret;
   }
@@ -114,7 +115,6 @@ class chatService {
     if (!messages) {
       throw new NotFoundError('Dont have messages in this chat');
     }
-    console.log(messages);
     return messages;
   }
 }

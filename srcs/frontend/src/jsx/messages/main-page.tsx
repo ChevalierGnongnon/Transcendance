@@ -23,6 +23,9 @@ function Messages() {
     'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation'
   >('my messages');
 
+  const [userId, setUserId] = useState('');
+  const [users, setUsers] = useState([]);
+
   const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
 
   const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
@@ -202,16 +205,6 @@ function Messages() {
   useEffect(() => {
     if (chatList.length === 0) return;
     console.log(`Chat Room changed`);
-    // TODO
-    // find actual chat, change lastReadId local if not changed, and send
-    // server to update, set new chat in chatList
-    //
-    // socket.emit('last-read-message', {
-    //   chatId: lastMessage.chatId,
-    //   userId: me?.id,
-    //   messageId: lastMessage.id,
-    // });
-
     setChatList((prev) =>
       prev.map((chat) => ({
         ...chat,
@@ -219,6 +212,30 @@ function Messages() {
       }))
     );
   }, [allMessages, activeChat]);
+
+  useEffect(() => {
+    fetch('/api/users', { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data) => setUsers(data))
+      .catch((err) => console.error('users error:', err));
+  }, []);
+
+  const startChat = () => {
+    console.log(`Chat start with: ${userId}`);
+    console.log(userId);
+
+    socket.emit('start-new-chat', { userId: userId }, (response) => {
+    if (response.status === 'ok')
+		{
+			const newChat = response.chat;
+      console.log('answer from server', newChat);
+      console.log('user: ', newChat.user);
+			setChatList((prev) => [newChat, ...prev])
+			setActiveChat(newChat)
+			setActiveView('conversation')
+    }
+    });
+  };
 
   if (!me) {
     return <div>Something went wrong. Please try again later.</div>;
@@ -230,6 +247,35 @@ function Messages() {
       {/*<div className="socket-status justify-content-center">
         {`Status: ${isConnected ? '🟢 Connected' : '🔴 Disconnect'}`}
       </div>*/}
+
+      {/*start test start chat*/}
+      <div className="game-start-wrapper common-head">
+        <h1 className="game-start-title">Start Chat</h1>
+
+        <div className="section">
+          <h3 className="form-text">Choose partner</h3>
+
+          <select
+            className="form-input select-opponent"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          >
+            <option value="">-- choose partner --</option>
+
+            {users.map((u) => (
+              <option key={u.id} value={u.id}>
+                {u.pseudo} {u.id === me?.id ? '(you)' : ''}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button className="form-button start-btn" onClick={startChat}>
+          Start Chat
+        </button>
+      </div>
+      {/*end test start chat*/}
+
       <div className={activeView !== 'my messages' ? 'd-flex' : ''}>
         <ChatList
           align={activeView === 'my messages' ? 'center' : 'left'}
