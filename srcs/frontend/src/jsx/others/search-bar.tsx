@@ -100,7 +100,7 @@ function SearchBar(props: SearchBarProps){
                                                                 </span>
                                                             </>
                                                         }
-                                                        { boldPart !== input &&
+                                                        { boldPart.toLowerCase() !== input.toLowerCase() &&
                                                             <span>{field}</span>
                                                         }
                                                         
