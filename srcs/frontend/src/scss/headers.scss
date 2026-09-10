@@ -26,11 +26,17 @@
     margin: 0;
     list-style: none;
     cursor: pointer;
+    max-height: 480px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .header-search-results li {
     border-bottom: 1px solid white;
     padding: 1%;
+    &:hover{
+        background-color: $background-common-color;
+    }
 }
 
 .header-search-results li figure {
@@ -44,9 +50,13 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid white;
+    &:hover{
+        transform: scale(1.1, 1.1);
+    }
 }
 
 .header-search-results li span {
+    
 }
 
 .search-no-result {
