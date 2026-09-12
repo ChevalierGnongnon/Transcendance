@@ -7,10 +7,10 @@ export function GuestOnly({children}: {children:ReactNode}){
 
     if (isAuthenticated === null)
         return (null)
-    else if (isAuthenticated === true){
-        return (<Navigate to="/personalpage" replace />)
-    }
     else if (isAuthenticated === false){
         return (children);
+    }
+    else{
+        return (<Navigate to="/personalpage" replace />)
     }
 }

@@ -7,7 +7,7 @@ import PersonalPage from "../account/personal-page";
 import Register from "../register-and-login/register";
 import Parameters from '../account/parameters';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import AppHeader from '../headers/app-header'
+import AppHeader from '../headers-and-footers/app-header'
 import { AuthProvider } from '../auth/auth-context'
 import { RequireAuth } from "../auth/require-auth";
 import { GuestOnly } from "../auth/guest-only";
@@ -16,6 +16,7 @@ import AddFriend from "../friends/add-friend"
 import MyFriends from "../friends/my-friends";
 import FileImport from "../files/file-import";
 import MyStats from "../stats/my-stats";
+import Footer from "../headers-and-footers/footer";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -32,6 +33,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/mystats" element={<RequireAuth><MyStats /></RequireAuth>} />
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
 				</Routes>
+				<Footer />
 			</AuthProvider>
 		</BrowserRouter>
 	</React.StrictMode>

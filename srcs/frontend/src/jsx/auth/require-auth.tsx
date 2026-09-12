@@ -8,12 +8,12 @@ export function RequireAuth({children}: {children:ReactNode}){
     // waiting
     if (isAuthenticated === null)
         return (null);
-    // if false, redirect to login
-    else if (isAuthenticated === false){
-        return <Navigate to="/login" replace />
-    }
     // if connected, return the page asked
     else if (isAuthenticated === true){
         return children;
+    }
+    // else redirect to login
+    else {
+        return <Navigate to="/login" replace />
     }
 }
