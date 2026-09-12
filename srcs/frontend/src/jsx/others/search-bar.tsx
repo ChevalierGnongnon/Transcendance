@@ -24,6 +24,7 @@ interface SearchBarProps {
 }
 
 function SearchBar(props: SearchBarProps){
+    const { t } = useTranslation();
     const [input, setInput] = useState<string>("");
     const [result, setResult] = useState<SearchResult[] | null>(null)
     const [researchStarted, setResearchStarted] = useState<boolean>(false);
@@ -79,7 +80,7 @@ function SearchBar(props: SearchBarProps){
                     id="search-bar"
                     className={props.ClassName}
                     value={input}
-                    placeholder="Search a user ..."
+                    placeholder={t('common.search-user')}
                     onChange={
                         function startResearch(event){
                             setResearchStarted(true);
@@ -89,7 +90,7 @@ function SearchBar(props: SearchBarProps){
                 />
                 <ul className={`${props.ListClassName} position-absolute top-100 w-100 z-3`}>
                 {   result === null ? null : result.length === 0 ? (
-                    <li className="search-no-result">Aucun profil avec ce nom, pseudo ou prénom</li>
+                    <li className="search-no-result">{t('common.no-search-results')}</li>
                     ) : (
                         result.map((user)=>
                             <li className="d-flex align-items-center justify-content-center gap-5 px-3" key={user.id} onClick={(()=> props.onSelectUser(user))}>

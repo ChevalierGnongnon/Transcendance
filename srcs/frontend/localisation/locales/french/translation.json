@@ -7,6 +7,8 @@
     "register": "Inscription",
     "my-page": "Ma page",
     "messages": "Messages",
+    "my-messages": "Mes messages",
+    "my-friends": "Mes amis",
     "notifications": "Notifications",
     "parameters": "Paramètres",
     "name": "Nom",
@@ -26,7 +28,11 @@
     "undo": "Annuler",
     "import-file-instead": "Importer un fichier à la place",
     "ready": "Prêt",
-    "updated": "Mis à jour"
+    "updated": "Mis à jour",
+    "my-stats": "Mes statistiques",
+    "terms-of-service": "Conditions d'utilisation",
+    "privacy-policy": "Politique de confidentialité",
+    "no-search-results": "Aucun profil avec ce nom, pseudo ou prénom"
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",
@@ -62,7 +68,8 @@
     "games-played": "Parties jouées",
     "games-won": "Parties gagnées",
     "games-lost": "Parties perdues",
-    "best-score": "Meilleur score"
+    "best-score": "Meilleur score",
+    "my-stats": "Mes statistiques"
   },
   "update-my-profile":{
     "update-my-profile": "Mettre à jour mon profil",
@@ -75,6 +82,7 @@
     "change-last-name": "Changer de nom de famille",
     "change-pseudo": "Changer de pseudo",
     "change-profile-photo": "Changer de photo de profil",
+    "display-name-and-last-name": "Afficher le nom et le prénom",
     "danger-zone": "ZONE DANGEREUSE",
     "delete-my-account": "Supprimer mon compte",
     "delete-my-game-infos": "Supprimer mes statistiques de jeu"

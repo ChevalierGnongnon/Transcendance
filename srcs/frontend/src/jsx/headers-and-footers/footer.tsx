@@ -2,6 +2,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import i18n from "../../../localisation/i18n";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../auth/auth-context";
+import "../../scss/footer.scss"
 
 function Footer() {
   const { logout } = useAuth();
@@ -13,8 +14,8 @@ function Footer() {
     navigate("/login");
   };
   return (
-    <footer className="footer">
-      <div>
+    <footer className="common-footer d-flex flex-column align-items-center gap-3">
+      <div className="d-flex">
         <input
           type="button"
           value="Fr"
@@ -61,62 +62,62 @@ function Footer() {
           }}
         />
       </div>
-      <div>
-        <span onClick={() => navigate("/termsofservice")}>
+      <div className="d-flex gap-2">
+        <a className="link" onClick={() => navigate("/termsofservice")}>
           {t("common.terms-of-service")}
-        </span>
-        <span onClick={() => navigate("/privacypolicy")}>
+        </a>
+        <a className="link" onClick={() => navigate("/privacypolicy")}>
           {t("common.privacy-policy")}
-        </span>
+        </a>
       </div>
 
       {isAuthenticated && (
-        <div className="div-connected-only">
+        <div className="div-connected-only d-flex gap-2">
           <input
             type="button"
             value={t("common.my-page")}
-            className="shortcut-button"
+            className="btn btn-primary"
             onClick={() => navigate("/personalpage")}
           />
           <input
             type="button"
             value={t("common.parameters")}
-            className="shortcut-button"
+            className="btn btn-primary"
             onClick={() => navigate("/parameters")}
           />
           <input
             type="button"
             value={t("common.my-friends")}
-            className="shortcut-button"
+            className="btn btn-primary"
             onClick={() => navigate("/myfriends")}
           />
           <input
             type="button"
             value={t("common.my-messages")}
-            className="shortcut-button"
+            className="btn btn-primary"
             onClick={() => navigate("/messages")}
           />
           <input
             type="button"
             value={t("common.logout")}
-            className="shortcut-button"
+            className="btn btn-primary"
             onClick={handleLogout}
           />
         </div>
       )}
 
     {!isAuthenticated &&
-        <div>
+        <div className="d-flex">
             <input
                 type="button"
                 value={t("common.login")}
-                className="shortcut-button"
+                className="btn btn-primary"
                 onClick={() => navigate("/login")}
             />
             <input
                 type="button"
                 value={t("common.register")}
-                className="shortcut-button"
+                className="btn btn-primary"
                 onClick={() => navigate("/register")}
             />
         </div>

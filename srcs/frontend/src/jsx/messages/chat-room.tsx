@@ -108,7 +108,7 @@ function ChatRoom() {
                         </button>
                         {showMoreOptions && <MoreOptions></MoreOptions>}
                     </div>
-                    <textarea className="form-control message-area" name="new-message" placeholder="Type your message here"></textarea>
+                    <textarea className="form-control message-area" name="new-message" placeholder={t('message.type-your-message')}></textarea>
                     <button className="btn send-message">{t('common.send')}</button>
                 </div>
             </div>

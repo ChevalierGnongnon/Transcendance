@@ -1,5 +1,9 @@
 @use "./common-variables.scss" as *;
 
+body{
+	padding-bottom: 140px;
+}
+
 .form-text{
 	color: $text-form-color;
 }

@@ -83,7 +83,7 @@ function Parameters() {
 									id=""
 									className="form-check-input mt-0"
 								/>
-								<span>Display name and last name</span>
+								<span>{t("update-my-profile.display-name-and-last-name")}</span>
 							</div>
 							<input
 								type="button"

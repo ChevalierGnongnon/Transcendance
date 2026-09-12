@@ -7,6 +7,8 @@
     "register": "Register",
     "my-page": "My page",
     "messages": "Messages",
+    "my-messages": "My messages",
+    "my-friends": "My friends",
     "notifications": "Notifications",
     "parameters": "Parameters",
     "name": "Name",
@@ -26,7 +28,11 @@
     "undo": "Undo",
     "import-file-instead": "Import a file instead",
     "ready": "Ready",
-    "updated": "Updated"
+    "updated": "Updated",
+    "my-stats": "My stats",
+    "terms-of-service": "Terms of service",
+    "privacy-policy": "Privacy policy",
+    "no-search-results": "No profile matches this name, pseudo or first name"
   },
   "login": {
     "mail-or-pseudo": "Mail or pseudo",
@@ -62,7 +68,8 @@
     "games-played": "Games played",
     "games-won": "Games won",
     "games-lost": "Games lost",
-    "best-score": "Best score"
+    "best-score": "Best score",
+    "my-stats": "My stats"
   },
   
   "update-my-profile":{
@@ -76,6 +83,7 @@
     "change-last-name": "Change last name",
     "change-pseudo": "Change pseudo",
     "change-profile-photo": "Change profile picture",
+    "display-name-and-last-name": "Display name and last name",
     "danger-zone": "DANGER ZONE",
     "delete-my-account": "Delete my account",
     "delete-my-game-infos": "Delete my game statistics"

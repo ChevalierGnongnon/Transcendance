@@ -52,7 +52,7 @@ function HeaderOnline() {
 		navigate("/login");
 	};
     if (!user)
-        return <p>Chargement...</p>;
+        return <p>{t('common.loading')}</p>;
     return (
         <>
             <header className="profile-page-header py-3 px-4">
