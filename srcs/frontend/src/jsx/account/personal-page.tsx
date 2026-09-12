@@ -9,6 +9,7 @@ import updateShortcut from "../../assets/icons/icon-update.png";
 import playShortcut from "../../assets/icons/play-shortcut.png";
 import addFriendsIcon from "../../assets/icons/icon-add-friends.png";
 import iconFriendList from "../../assets/icons/icon-friend-list.png";
+import statsShortcut from "../../assets/icons/stats.png"
 import { useAuth } from "../auth/auth-context";
 
 interface User {
@@ -106,24 +107,12 @@ function PersonalPage() {
 					</div>
 
 					<span>{t("profile-page.game-stats")}</span>
-					{/* <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
-                        <figure className="shortcut-icon justify-content-center">
-                            <h1>{user.games_played}</h1>
-                            <span>{t('profile-page.games-played')}</span>
-                        </figure>
-                        <figure className="shortcut-icon justify-content-center">
-                            <h1>{user.games_won}</h1>
-                            <span>{t('profile-page.games-won')}</span>
-                        </figure>
-                        <figure className="shortcut-icon justify-content-center">
-                             <h1>{user.games_lost}</h1>
-                            <span>{t('profile-page.games-lost')}</span>
-                        </figure>
-                        <figure className="shortcut-icon justify-content-center">
-                             <h1>{user.best_score}</h1>
-                            <span>{t('profile-page.best-score')}</span>
-                        </figure>
-                    </div> */}
+					<div className="col-12 col-md-6 col-xl-6">
+						<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/mystats")}>
+							<img src={statsShortcut} alt="message-shortcut" />
+							<span>{t("profile-page.my-stats")}</span>
+						</figure>
+					</div>
 				</div>
 			</main>
 		</>
