@@ -75,7 +75,7 @@ function HeaderOnline() {
                         ClassName="search-bar"
                         ListClassName="header-search-results"
                         BreakPoint={768}
-                        onSelectUser={(user) => console.log(user)}
+                        onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
                     ></SearchBar>
                 </section>
                 <section className="header-right">

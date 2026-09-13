@@ -69,7 +69,6 @@ class UsersService {
         isDeleted: false,
         id: {
           not: currentUserId,
-          isdeleted: false,
         },
         OR:[{
             lastName : {

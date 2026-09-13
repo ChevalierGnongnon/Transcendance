@@ -97,50 +97,62 @@ function PersonalPage() {
 						</span>
 					</div>
 
-					<span>{t("profile-page.go-to")}</span>
+					
 
 					{ !isMine &&
-						<div className="row g-4 justify-content-center shortcut-grid">
-							<div className="col-12 col-md-6 col-xl-6">
-								<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/addfriend")}>
-									<img src={addFriendsIcon} alt="message-shortcut" />
-									<span>{t("profile-page.send-friendship-invitation")}</span>
-								</figure>
-							</div>
+						<>
+							
+							<div className="row g-4 justify-content-center shortcut-grid">
+								<div className="col-12 col-md-6 col-xl-6">
+									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/addfriend")}>
+										<img src={addFriendsIcon} alt="message-shortcut" />
+										<span>{t("profile-page.send-friendship-invitation")}</span>
+									</figure>
+								</div>
 
-							<div className="col-12 col-md-6 col-xl-4">
-								<figure className="shortcut-icon justify-content-center">
-									<img src={playShortcut} alt="play-shortcut" />
-									<span>{t("common.send-game-invitation")}</span>
-								</figure>
+								<div className="col-12 col-md-6 col-xl-6">
+									<figure className="shortcut-icon justify-content-center">
+										<img src={playShortcut} alt="play-shortcut" />
+										<span>{t("common.send-game-invitation")}</span>
+									</figure>
+								</div>
+								<div className="col-12 col-md-6 col-xl-4">
+									<figure className="shortcut-icon justify-content-center">
+										<img src={messageIcon} alt="message-shortcut" onClick={() => navigate("/messages")} />
+										<span>{t("common.send-message")}</span>
+									</figure>
+								</div>
 							</div>
-						</div>
+						</>
 					}
 
 					{isMine &&
-						<div className="row g-4 justify-content-center shortcut-grid">
-							<div className="col-12 col-md-6 col-xl-4">
-								<figure className="shortcut-icon justify-content-center">
-									<img src={messageIcon} alt="message-shortcut" onClick={() => navigate("/messages")} />
-									<span>{t("common.messages")}</span>
-								</figure>
+						<>
+							<span>{t("profile-page.go-to")}</span>
+							<div className="row g-4 justify-content-center shortcut-grid">
+								<div className="col-12 col-md-6 col-xl-4">
+									<figure className="shortcut-icon justify-content-center">
+										<img src={messageIcon} alt="message-shortcut" onClick={() => navigate("/messages")} />
+										<span>{t("common.messages")}</span>
+									</figure>
+								</div>
+								<div className="col-12 col-md-6 col-xl-4">
+									<figure
+										className="shortcut-icon justify-content-center"
+										onClick={() => navigate("/Parameters")}
+									>
+										<img src={updateShortcut} alt="message-shortcut" />
+										<span>{t("common.parameters")}</span>
+									</figure>
+								</div>
+								<div className="col-12 col-md-6 col-xl-4">
+									<figure className="shortcut-icon justify-content-center">
+										<img src={playShortcut} alt="play-shortcut" />
+										<span>{t("common.play")}</span>
+									</figure>
+								</div>
 							</div>
-							<div className="col-12 col-md-6 col-xl-4">
-								<figure
-									className="shortcut-icon justify-content-center"
-									onClick={() => navigate("/Parameters")}
-								>
-									<img src={updateShortcut} alt="message-shortcut" />
-									<span>{t("common.parameters")}</span>
-								</figure>
-							</div>
-							<div className="col-12 col-md-6 col-xl-4">
-								<figure className="shortcut-icon justify-content-center">
-									<img src={playShortcut} alt="play-shortcut" />
-									<span>{t("common.play")}</span>
-								</figure>
-							</div>
-						</div>
+						</>
 					}
 					
 					{isMine && 
