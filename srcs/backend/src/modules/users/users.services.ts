@@ -69,6 +69,7 @@ class UsersService {
         isDeleted: false,
         id: {
           not: currentUserId,
+          isdeleted: false,
         },
         OR:[{
             lastName : {
@@ -105,6 +106,27 @@ class UsersService {
       take: 20,
       
     })
+    return (res);
+  }
+  async getUserInfo(pseudo: string){
+    const res = await prisma.user.findUnique({
+      where: {
+        pseudo: pseudo,
+      }, 
+      select: {
+        pseudo: true,
+        firstName: true, 
+        lastName: true,
+        profilePhoto: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      }
+    })
+    if (!res)
+      throw new NotFoundError('USER_NOT_FOUND')
     return (res);
   }
 }

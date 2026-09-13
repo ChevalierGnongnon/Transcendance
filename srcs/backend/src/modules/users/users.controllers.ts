@@ -24,9 +24,7 @@ export async function getMyProfile(req: Request, res: Response) {
   }
 }
 
-export function getUserByPseudo(req: Request, res: Response) {
-  // const { pseudo } = req.params;
-}
+
 
 export async function updateProfilePhoto(req: Request, res: Response) {
   const userId = req.userId!;
@@ -55,4 +53,19 @@ export async function searchUsers(req: Request, res: Response){
     return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
   }
   
+}
+
+export async  function getUserByPseudo(req: Request, res: Response) {
+  try{
+    const pseudo = req.params.pseudo;
+    if (typeof pseudo !== 'string')
+      return (res.status(400).json({error: 'INVALID_PSEUDO'}))
+    const infos = await usersServices.getUserInfo(pseudo);
+    return (res.status(200).json(infos))
+  }catch (error){
+    if (error instanceof NotFoundError)
+      return (res.status(404).json({ error: 'USER_NOT_FOUND' }));
+    return (res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' }));
+
+  }
 }

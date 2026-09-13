@@ -19,10 +19,7 @@
     - [X] scss
 
 - [ ] backend
-    - [X] controller 
-    - [X] service
-    - [X] security
-
+    - [ ] delete isdeleted row in user table
 - [ ] scss refacto
 
 - [ ] bootstrap cleaning

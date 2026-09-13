@@ -1,6 +1,6 @@
 import express from 'express';
 import type { Request, Response } from 'express';
-import { searchUsers, updateProfilePhoto } from './users.controllers.js';
+import { getUserByPseudo, searchUsers, updateProfilePhoto } from './users.controllers.js';
 const router = express.Router();
 
 import { requireAuth, validate } from '../auth/auth.middlewares.js';
@@ -11,6 +11,7 @@ import { searchValidator } from './users.validators.ts';
 
 router.get('/my-profile', requireAuth, getMyProfile);
 router.get('/users/search', requireAuth, RateLimiter(1, 20, 'TOO_MANY_REQUESTS'), searchValidator, validate, searchUsers);
+router.get('/users/:pseudo', requireAuth, RateLimiter(1, 20, 'TOO_MANY_REQUESTS'), getUserByPseudo);
 router.patch('/my-profile/avatar', requireAuth, updateProfilePhoto);
 
 export default router;
