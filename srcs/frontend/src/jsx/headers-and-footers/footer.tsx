@@ -107,7 +107,7 @@ function Footer() {
       )}
 
     {!isAuthenticated &&
-        <div className="d-flex">
+        <div className="d-flex gap-2">
             <input
                 type="button"
                 value={t("common.login")}

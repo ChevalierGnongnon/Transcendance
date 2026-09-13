@@ -3,28 +3,30 @@
 - [ ] fixes
     - [ ] onclick sur les icones 
     - [ ] boutons de langue dans le header en mode mobile
-    - [ ] boutons confirmer / anuler trop larges dans register
+    - [X] boutons confirmer / anuler trop larges dans register
 
 - [ ] footer 
-    - terms of service 
-    - ugc
-    - langage switch
+    - [ ] terms of service 
+    - [ ] ugc
+    - [X] langage switch
 
 - [ ] make search bar
-    - [ ] add list
-    - [ ] make result
+    - [X] add list
+    - [X] make result
     - [ ] other users profile page
-    - [ ] debounce
-    - [ ] fetch
-    - [ ] scss
+    - [X] debounce
+    - [X] fetch
+    - [X] scss
 
 - [ ] backend
-    - [ ] controller 
-    - [ ] service
-    - [ ] security
+    - [X] controller 
+    - [X] service
+    - [X] security
 
 - [ ] scss refacto
 
 - [ ] bootstrap cleaning
 
 - [ ] check all responsive
+
+- [ ] security check
