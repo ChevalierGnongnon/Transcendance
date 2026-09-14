@@ -3,7 +3,7 @@ import { Server } from 'socket.io';
 import { createServer } from 'node:http';
 
 import app from './app.ts';
-import { setupSocketConnection } from './socket.js';
+import { setupSocketConnection } from './modules/socket/socket.ts';
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {

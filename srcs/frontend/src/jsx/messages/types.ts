@@ -1,4 +1,5 @@
-type ActiveView = 'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
+export type ActiveView =
+  'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
 
 export interface User {
   id: string;
@@ -14,7 +15,7 @@ export interface User {
 export interface IMessage {
   id?: string;
   chatId: string;
-  to?: string;
+  recipientId?: string;
   sender: {
     id: string;
     profilePhoto: { name: string };
@@ -62,7 +63,7 @@ export interface ChatRoomProps {
   setActiveChat: (chat: IChatPreview | null) => void;
   messages: Map<string, IMessage[]>;
   onAddMessage: (message: IMessage) => void;
-  onGetMessages: (chatId: string) => Promise<IMessage[]>;
+  // onGetMessages: (chatId: string) => Promise<IMessage[]>;
   updateLastReadMessageId: (chatId: string, messageId: string | null) => void;
 }
 

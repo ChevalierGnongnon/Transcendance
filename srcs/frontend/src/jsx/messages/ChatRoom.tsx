@@ -14,10 +14,12 @@ function ChatRoom(roomProps: ChatRoomProps) {
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
   const [messageText, setMessageText] = useState<string>('');
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  // const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState(false);
   // const [error, setError] = useState<Error | null>(null);
   const me = roomProps.me;
+  const chatId = roomProps.chat.chatId;
+  const messages = chatId ? (roomProps.messages.get(chatId) ?? []) : [];
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -59,19 +61,11 @@ function ChatRoom(roomProps: ChatRoomProps) {
   }, [messages, isAtBottom, scrollToBottom]);
 
   useEffect(() => {
-    async function loadMessages() {
-      if (roomProps.chat?.chatId) {
-        const messagesCurrentRoom = await roomProps.onGetMessages(roomProps.chat.chatId);
-
-        if (messagesCurrentRoom) {
-          const lastMessageId = messagesCurrentRoom[messagesCurrentRoom.length - 1].id ?? null;
-          roomProps.updateLastReadMessageId(roomProps.chat.chatId, lastMessageId);
-        }
-
-        setMessages(messagesCurrentRoom);
-      }
+    if (messages.length > 0) {
+      const lastMessageId = messages[messages.length - 1].id ?? null;
+      roomProps.updateLastReadMessageId(roomProps.chat.chatId, lastMessageId);
     }
-    loadMessages();
+    scrollToBottom();
   }, [roomProps.chat?.chatId, roomProps.messages]);
 
   useEffect(() => {
@@ -87,7 +81,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
     //   roomProps.setActiveChat({ ...roomProps.chat });
     // }
 
-    scrollToBottom();
+    // scrollToBottom();
     // send put to update last_read_chats_id
     return () => {
       console.log('Cleanup: removing handler for chatId', roomProps.chat.chatId);
@@ -100,7 +94,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
     if (messageText.trim() && socket?.connected) {
       const messageToSend: IMessage = {
         chatId: roomProps.chat.chatId,
-        to: roomProps.chat.user.id,
+        recipientId: roomProps.chat.user.id,
         sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },
         content: messageText,
       };
@@ -108,7 +102,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
       // setMessages((prev) => [...prev, messageToSend]);
       roomProps.onAddMessage(messageToSend);
-      scrollToBottom();
+      // scrollToBottom();
       setMessageText('');
     }
   };

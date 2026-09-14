@@ -4,26 +4,40 @@ import '../../scss/messages.scss';
 import { useEffect, useState } from 'react';
 import { useUser } from './hooks/useUser';
 import { socket } from './socket';
+import { IChatPreview, ActiveView } from './types';
 
-function NewChat() {
+export interface nProps {
+  ausers: [];
+  setActiveView: (view: ActiveView) => void;
+  setActiveChat: (chat: IChatPreview | null) => void;
+  setChatList: (chatList: IChatPreview[]) => void;
+}
+
+function NewChat({ ausers, setActiveChat, setActiveView, setChatList }: nProps) {
   const { t } = useTranslation();
+
   // const [searchTerm, setSearchTerm] = useState('');
   // const [searchResults, setSearchResults] = useState('');
   const [userId, setUserId] = useState('');
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    fetch('/api/users', { credentials: 'include' })
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error('users error:', err));
-  }, []);
+  const users = ausers;
+  const me = useUser();
 
   const startChat = () => {
-    console.log(`Chat start with: ${userId}`);
-    console.log(userId);
+    socket.emit('start-new-chat', { recipientId: userId }, (res: any) => {
+      if (res.ok) {
+        const newChat = res.data;
 
-    socket.emit('start-new-chat', { userId: userId });
+        setChatList((prev) => {
+          const exists = prev.some((chat) => chat.chatId === newChat.chatId);
+          return exists ? prev : [newChat, ...prev];
+        });
+        setActiveChat(newChat);
+        setActiveView('conversation');
+      } else {
+        console.log(res);
+        console.log(res);
+      }
+    });
   };
 
   return (
