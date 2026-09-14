@@ -1,4 +1,5 @@
-type ActiveView = 'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
+export type ActiveView =
+  'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
 
 export interface User {
   id: string;
@@ -12,7 +13,9 @@ export interface User {
 }
 
 export interface IMessage {
+  id?: string;
   chatId: string;
+  recipientId?: string;
   sender: {
     id: string;
     profilePhoto: { name: string };
@@ -28,32 +31,48 @@ export interface MessageProps {
   senderId: string;
 }
 
-export interface IChat {
-  chat_id: string;
-  user_id: string;
-  pseudo: string;
-  profilePhoto: string;
-}
+// export interface IChat {
+//   chatId: string;
+//   userId: string;
+//   user: {
+//     id: string;
+//     pseudo: string;
+//     profilePhoto: {
+//       name: string;
+//     };
+//   };
+//   lastReadMessagesId: string | null;
+// }
 
 export interface IChatPreview {
   chatId: string;
-  pseudo: string;
-  profilePhoto: string;
+  user: {
+    id: string;
+    pseudo: string;
+    profilePhoto: {
+      name: string;
+    };
+  };
+  lastReadMessagesId: string | null;
+  unreadCount: number;
 }
 
 export interface ChatRoomProps {
   me: User;
-  chatId: string;
+  chat: IChatPreview;
+  setActiveChat: (chat: IChatPreview | null) => void;
+  messages: Map<string, IMessage[]>;
+  onAddMessage: (message: IMessage) => void;
+  // onGetMessages: (chatId: string) => Promise<IMessage[]>;
+  updateLastReadMessageId: (chatId: string, messageId: string | null) => void;
 }
 
 export interface ChatProps {
-  chatId: string;
-  pseudo: string;
-  profilePhoto: string;
+  chat: IChatPreview;
   setActiveView: (
     view: 'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation'
   ) => void;
-  setActiveChatId: (chatId: string | null) => void;
+  setActiveChat: (chat: IChatPreview | null) => void;
 }
 
 export interface ChatListProps {
@@ -61,5 +80,8 @@ export interface ChatListProps {
   setActiveView: (
     view: 'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation'
   ) => void;
-  setActiveChatId: (chatId: string | null) => void;
+  setActiveChat: (chat: IChatPreview | null) => void;
+  chatList: IChatPreview[];
+  loading: boolean;
+  error: Error | null;
 }

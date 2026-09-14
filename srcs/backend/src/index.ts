@@ -1,15 +1,23 @@
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
-
-import app from './app.js';
 import { prisma } from './lib/prisma.js';
 import cron from 'node-cron'
+
+import app from './app.js';
 import { fileManager } from './scripts/file-manager.ts';
+import { setupSocketConnection } from './modules/socket/socket.ts';
 
 cron.schedule('0 * * * *', fileManager);
 
+
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+  connectionStateRecovery: {},
+  cors: {
+    // origin: 'https://transcendance.fr',
+    credentials: true,
+  },
+});
 
 
 const PORT = Number(process.env.EXPRESS_PORT) || 3000;

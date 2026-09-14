@@ -5,12 +5,14 @@ export const Message = ({ userId, senderId, profilePhoto, content }: MessageProp
   return (
     <>
       <li
-        className={`d-flex ${senderId === userId ? 'justify-content-end' : 'justify-content-start'}`}
+        className={`d-flex align-items-start ${senderId === userId ? 'flex-row-reverse justify-content-start' : 'justify-content-start'}`}
       >
         <figure className="avatar-msg">
-          <img src={`/uploads/${profilePhoto}`} alt="avatar" />
+          <img src={`/uploads/${profilePhoto}` || defaultAvatar} alt="avatar" />
         </figure>
-        <div className={`${senderId === userId ? 'message-right' : 'message-left'} card p-3 m-2`}>
+        <div
+          className={`${senderId === userId ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
+        >
           {content}
         </div>
       </li>

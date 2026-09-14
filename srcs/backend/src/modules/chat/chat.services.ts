@@ -1,7 +1,5 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-
 import { prisma } from '../../lib/prisma.js';
+
 import { NotFoundError } from '../../common/errors.js';
 
 class chatService {
@@ -10,30 +8,27 @@ class chatService {
       where: { userId: currentUserId },
       select: {
         chatId: true,
-      },
-    });
-
-    if (!myChats) throw new NotFoundError('Do not found chats');
-
-    const chatIds = myChats.map((chat) => chat.chatId);
-
-    const others = await prisma.chatMember.findMany({
-      where: {
-        chatId: {
-          in: chatIds,
-        },
-        userId: {
-          not: currentUserId,
-        },
-      },
-      select: {
-        chatId: true,
-        user: {
+        lastReadMessagesId: true,
+        chat: {
           select: {
-            pseudo: true,
-            profilePhoto: {
+            members: {
+              where: {
+                userId: {
+                  not: currentUserId,
+                },
+              },
               select: {
-                name: true,
+                user: {
+                  select: {
+                    id: true,
+                    pseudo: true,
+                    profilePhoto: {
+                      select: {
+                        name: true,
+                      },
+                    },
+                  },
+                },
               },
             },
           },
@@ -41,23 +36,18 @@ class chatService {
       },
     });
 
-    if (!others) throw new NotFoundError('Do not found conversations in chats');
+    if (!myChats) throw new NotFoundError('Do not found chats');
 
-    const chats = others.map((other) => ({
-      chatId: other.chatId,
-      pseudo: other.user.pseudo,
-      profilePhoto: other.user.profilePhoto?.name,
+    const ret = myChats.map((chat) => ({
+      chatId: chat.chatId,
+      user: chat.chat.members[0]?.user,
+      lastReadMessagesId: chat.lastReadMessagesId,
     }));
 
-    return chats;
-  }
+    console.log(ret[0]);
 
-  //  {
-  //   chatId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-  //   senderId: '11111111-1111-1111-1111-111111111111',
-  //   profilePhoto: 'virtue.png',
-  //   content: 'sfdasdfasf'
-  // }
+    return ret;
+  }
 
   async getMessagesByChatId(chatId: string) {
     const messages = await prisma.message.findMany({
@@ -66,6 +56,7 @@ class chatService {
         createdAt: 'asc',
       },
       select: {
+        id: true,
         chatId: true,
         sender: {
           select: {

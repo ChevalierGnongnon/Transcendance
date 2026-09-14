@@ -77,12 +77,14 @@ model Chat {
 }
 
 model ChatMember {
-  chatId   String   @map("chat_id") @db.Char(36)
-  userId   String   @map("user_id") @db.Char(36)
-  joinedAt DateTime @default(now()) @map("joined_at")
+  chatId             String   @map("chat_id") @db.Char(36)
+  userId             String   @map("user_id") @db.Char(36)
+  joinedAt           DateTime @default(now()) @map("joined_at")
+  lastReadMessagesId String?  @map("last_read_message_id")
 
-  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat    Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message Message? @relation(fields: [lastReadMessagesId], references: [id])
 
   @@id([chatId, userId])
   @@map("chat_members")
@@ -101,6 +103,7 @@ model Message {
   // replyTo Message? @relation("MessageReplies", fields: [replyToId], references: [id], onDelete: SetNull)
 
   // replies Message[] @relation("MessageReplies")
+  chatMembers ChatMember[]
 
   @@index([chatId, createdAt])
   @@map("messages")
