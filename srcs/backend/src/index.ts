@@ -19,6 +19,7 @@ const io = new Server(httpServer, {
   },
 });
 
+setupSocketConnection(io);
 
 const PORT = Number(process.env.EXPRESS_PORT) || 3000;
 
