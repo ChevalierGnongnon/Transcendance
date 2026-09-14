@@ -7,6 +7,10 @@
     "register": "Регистрация",
     "my-page": "Моя страница",
     "messages": "Сообщения",
+    "my-messages": "Мои сообщения",
+    "my-friends": "Мои друзья",
+    "send-game-invitation": "Отправить приглашение в игру",
+    "send-message": "Отправить сообщение",
     "notifications": "Уведомления",
     "parameters": "Настройки",
     "name": "Имя",
@@ -21,7 +25,16 @@
     "chatting-with": "Вы общаетесь с",
     "send": "Отправить",
     "search-user": "Найти пользователя",
-    "search": "Поиск"
+    "search": "Поиск",
+    "confirm": "Подтвердить",
+    "undo": "Отменить",
+    "import-file-instead": "Импортировать файл вместо этого",
+    "ready": "Готово",
+    "updated": "Обновлено",
+    "my-stats": "Моя статистика",
+    "terms-of-service": "Условия использования",
+    "privacy-policy": "Политика конфиденциальности",
+    "no-search-results": "Нет профиля с таким именем, псевдонимом или фамилией"
   },
   "login": {
     "mail-or-pseudo": "Почта или псевдоним",
@@ -53,11 +66,13 @@
     "go-to": "Перейти к",
     "my-friends": "Мои друзья",
     "add-friend": "Добавить друга",
+    "send-friendship-invitation": "Отправить заявку в друзья",
     "friend-list": "Мой список друзей",
     "games-played": "Сыгранные игры",
     "games-won": "Выигранные игры",
     "games-lost": "Проигранные игры",
-    "best-score": "Лучший результат"
+    "best-score": "Лучший результат",
+    "my-stats": "Моя статистика"
   },
   "update-my-profile":{
     "update-my-profile": "Редактировать профиль",
@@ -70,6 +85,7 @@
     "change-last-name": "Изменить фамилию",
     "change-pseudo": "Изменить псевдоним",
     "change-profile-photo": "Изменить фото профиля",
+    "display-name-and-last-name": "Показывать имя и фамилию",
     "danger-zone": "ОПАСНАЯ ЗОНА",
     "delete-my-account": "Удалить мой аккаунт",
     "delete-my-game-infos": "Удалить мою игровую статистику"

@@ -1,6 +1,6 @@
 import { prisma } from '../../lib/prisma.js';
 import { NotFoundError } from '../../common/errors.js';
-
+import FileService  from '../files/files.services.ts';
 class UsersService {
   async getUserById(userId: string) {
     const user = await prisma.user.findUnique({
@@ -17,6 +17,7 @@ class UsersService {
 
         profilePhoto: {
           select: {
+            id: true,
             name: true,
           },
         },
@@ -30,8 +31,9 @@ class UsersService {
     return user;
   }
 
+
   async getAllUsers() {
-    const users = prisma.user.findMany({
+    const users = await prisma.user.findMany({
       where: {
         isDeleted: false,
       },
@@ -48,6 +50,106 @@ class UsersService {
       throw new NotFoundError('User not found');
     }
     return users;
+  }
+  async updateProfilePhoto(UserId: string, FileId: string){
+    const oldPpId = await prisma.user.findUnique({
+      where:{
+        id: UserId,
+      },
+      select: {
+        profilePhotoId: true,
+      }
+    })
+    const checkNewFileId = await prisma.file.findUnique({
+      where:{
+        id: FileId,
+      }
+    });
+    if (!checkNewFileId || checkNewFileId.type !== 'default_avatar') {
+      throw new Error('INVALID_AVATAR');
+    }
+    
+    await prisma.user.update({ 
+      where: { 
+        id: UserId
+      },
+      data: { 
+        profilePhotoId: FileId
+      }
+    })
+  
+    if (oldPpId?.profilePhotoId){
+      try {
+        await FileService.deleteFile(oldPpId.profilePhotoId, UserId);
+      } catch (err) {
+
+      }
+    }
+  }
+  async searchUsers(input: string, currentUserId: string){
+    const res = await prisma.user.findMany({
+      where:{
+        isDeleted: false,
+        id: {
+          not: currentUserId,
+        },
+        OR:[{
+            lastName : {
+              startsWith: input
+            }
+          },
+          {
+            firstName:{
+              startsWith: input
+            }
+          },
+          {
+            pseudo: {
+              startsWith: input
+            }
+          }
+        ]
+      },
+      select:{
+        id: true,
+        pseudo: true,
+        firstName: true, 
+        lastName: true,
+        profilePhoto: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        pseudo: "asc", 
+      },
+      take: 20,
+      
+    })
+    return (res);
+  }
+  async getUserInfo(pseudo: string){
+    const res = await prisma.user.findUnique({
+      where: {
+        pseudo: pseudo,
+      }, 
+      select: {
+        pseudo: true,
+        firstName: true, 
+        lastName: true,
+        profilePhoto: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      }
+    })
+    if (!res)
+      throw new NotFoundError('USER_NOT_FOUND')
+    return (res);
   }
 }
 

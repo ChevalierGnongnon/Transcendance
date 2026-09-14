@@ -1,0 +1,34 @@
+@use "./common-variables.scss" as *;
+
+.common-footer{
+    background-color: $background-common-color;
+    position: fixed;
+    // padding-top: 1%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: white;
+}
+
+.link {
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0%;
+        height: 1px;
+        background-color: white;
+        transition: width 0.3s ease;
+    }
+
+    &:hover::after {
+        width: 100%;
+    }
+}

@@ -4,10 +4,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Login from "../register-and-login/login";
 import PersonalPage from "../account/personal-page";
-import RegisterFlow from "../register-and-login/register-flow";
+import Register from "../register-and-login/register";
 import Parameters from '../account/parameters';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import AppHeader from '../headers/app-header'
+import AppHeader from '../headers-and-footers/app-header'
 import { AuthProvider } from '../auth/auth-context'
 import { RequireAuth } from "../auth/require-auth";
 import { GuestOnly } from "../auth/guest-only";
@@ -16,6 +16,9 @@ import AddFriend from "../friends/add-friend"
 import MyFriends from "../friends/my-friends";
 import GameStart from "../../game/gomoku/GameStart"
 import GamePage from "../../game/gomoku/GamePage";
+import FileImport from "../files/file-import";
+import MyStats from "../stats/my-stats";
+import Footer from "../headers-and-footers/footer";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -24,16 +27,19 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 				<AppHeader />
 				<Routes>
 					<Route path="/login" element={<GuestOnly><Login /></GuestOnly>} />
-					<Route path="/register" element={<GuestOnly><RegisterFlow /></GuestOnly>} />
+					<Route path="/register" element={<GuestOnly><Register /></GuestOnly>} />
 					<Route path="/personalpage" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/parameters" element={<RequireAuth><Parameters /></RequireAuth>} />
 					<Route path="/messages" element={<RequireAuth><Messages /></RequireAuth>} />
 					<Route path="/addfriend" element={<RequireAuth><AddFriend /></RequireAuth>} />
+					<Route path="/mystats" element={<RequireAuth><MyStats /></RequireAuth>} />
 					<Route path="/myfriends" element={<RequireAuth><MyFriends /></RequireAuth>} />
+					<Route path="/profile/:pseudo" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
 					<Route path="/game/gomoku" element={<RequireAuth><GameStart /></RequireAuth>} />
 					<Route path="/game" element={<RequireAuth><GamePage /></RequireAuth>} />
 				</Routes>
+				<Footer />
 			</AuthProvider>
 		</BrowserRouter>
 	</React.StrictMode>

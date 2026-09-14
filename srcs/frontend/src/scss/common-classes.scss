@@ -1,5 +1,9 @@
 @use "./common-variables.scss" as *;
 
+body{
+	padding-bottom: 140px;
+}
+
 .form-text{
 	color: $text-form-color;
 }
@@ -19,76 +23,49 @@
 	object-fit: cover;
 	cursor: pointer;
 	border: 3px solid transparent;
-	background-color: rgb(92, 156, 185);
+	background-color:$avatar-bg;
+	&:hover{
+		border: 3px solid white;
+	}
 	&.selected{
 		border: 4px solid white;
 	}
 }
 .error-message{
 	background-color: $background-common-color;
-	color:red;
-	border: 2px solid red;
+	color:$red-color;
+	border: 2px solid $red-color;
 	text-align: center;
 	width: 80%;
 	margin: auto;
-}
-.google-button{
-	background-color: white;
-	border-radius: 20px;
-	width: 45%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.github-button {
-    background-color: #24292e;
-    color: white;
-    border-radius: 20px;
-	width: 45%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.fourty-two-button{
-	background-color: #24292e;
-    color: white;
-    border-radius: 20px;
-	width: 45%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.google-min-button{
-	background-color: white;
-	border-radius: 20px;
-	width: 40px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.github-min-button {
-    background-color: #24292e;
-    color: white;
-    border-radius: 20px;
-	width: 40px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.fourty-two-min-button{
-	background-color: #24292e;
-    color: white;
-    border-radius: 20px;
-	width: 40px;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .form-input{
 	background-color:	white;
 	border-radius:		12px;
 	border:				2px solid black;
+	width:				50%;
+	margin-left: 		auto;
+	margin-right: 		auto;
 }
+
+@media (max-width: 767px) {
+    .form-input {
+        width: 90%;
+    }
+	.login-form {
+		width: 90%;
+	}
+	.confirm_button {
+		width: 90% !important;
+		margin-bottom: 2% !important;
+	}
+	.undo_button {
+		width: 90% !important;
+		margin-top: 2% !important;
+	}
+}
+
 .common-head {
 	background-color: $background-common-color;
 	text-align: center;
@@ -106,7 +83,7 @@
 	border-radius: 10px;
 	background-color: $background-common-color;
 	&:hover{
-		background-color: rgb(3, 42, 100);
+		background-color: $navy-hover;
 		border: 0px solid white;
 	}
 }
@@ -142,5 +119,11 @@
     border: none !important;
     box-shadow: none !important;
     padding: 0 !important;
+}
+
+.complete-profile-div{
+	border: 1px solid white;
+	width: 100%;
+	border-radius: 12px;
 }
 

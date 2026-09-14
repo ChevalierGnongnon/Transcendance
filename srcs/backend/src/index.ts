@@ -1,6 +1,9 @@
 import app from './app.js';
 import { prisma } from './lib/prisma.js';
+import cron from 'node-cron'
+import { fileManager } from './scripts/file-manager.ts';
 
+cron.schedule('0 * * * *', fileManager);
 const PORT = Number(process.env.EXPRESS_PORT) || 3000;
 
 const server = app.listen(PORT, '0.0.0.0', () => {
