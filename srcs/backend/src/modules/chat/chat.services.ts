@@ -25,6 +25,7 @@ class chatService {
                     profilePhoto: {
                       select: {
                         name: true,
+                        id:true,
                       },
                     },
                   },
@@ -64,6 +65,7 @@ class chatService {
             profilePhoto: {
               select: {
                 name: true,
+                id: true,
               },
             },
           },

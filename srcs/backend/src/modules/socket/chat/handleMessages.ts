@@ -34,6 +34,7 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
             profilePhoto: {
               select: {
                 name: true,
+                id: true,
               },
             },
           },

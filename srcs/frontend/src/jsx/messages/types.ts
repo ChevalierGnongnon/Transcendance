@@ -9,6 +9,7 @@ export interface User {
   pseudo: string;
   profilePhoto: {
     name: string;
+    id: string;
   };
 }
 
@@ -18,7 +19,7 @@ export interface IMessage {
   recipientId?: string;
   sender: {
     id: string;
-    profilePhoto: { name: string };
+    profilePhoto: { name: string, id: string};
   };
   content: string;
   createdAt?: string;
@@ -27,7 +28,7 @@ export interface IMessage {
 export interface MessageProps {
   userId: string;
   content: string;
-  profilePhoto: string;
+  profilePhoto: {name: string, id: string};
   senderId: string;
 }
 
@@ -51,6 +52,7 @@ export interface IChatPreview {
     pseudo: string;
     profilePhoto: {
       name: string;
+      id: string;
     };
   };
   lastReadMessagesId: string | null;

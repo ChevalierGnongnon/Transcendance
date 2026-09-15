@@ -11,7 +11,7 @@ export const ChatItem = ({ chat, setActiveView, setActiveChat }: ChatProps) => {
         }}
       >
         <figure className="avatar-msg">
-          <img src={`/uploads/${chat.user.profilePhoto.name}`} alt="avatar" />
+          <img src={`/api/${chat.user.profilePhoto.id}/download`} alt="avatar" />
         </figure>
         <div className="p-2 message-text fw-semibold fs-3">{chat.user.pseudo}</div>
         {chat.unreadCount > 0 && (

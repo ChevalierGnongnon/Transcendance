@@ -8,7 +8,7 @@ export const Message = ({ userId, senderId, profilePhoto, content }: MessageProp
         className={`d-flex align-items-start ${senderId === userId ? 'flex-row-reverse justify-content-start' : 'justify-content-start'}`}
       >
         <figure className="avatar-msg">
-          <img src={`/uploads/${profilePhoto}` || defaultAvatar} alt="avatar" />
+          <img src={`/api/${profilePhoto.id}/download` || defaultAvatar} alt="avatar" />
         </figure>
         <div
           className={`${senderId === userId ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}

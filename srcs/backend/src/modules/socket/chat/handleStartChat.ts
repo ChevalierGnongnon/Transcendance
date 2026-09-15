@@ -35,7 +35,7 @@ export async function handleStartChat(socket: Socket, payload: startNewChat) {
               select: {
                 id: true,
                 pseudo: true,
-                profilePhoto: { select: { name: true } },
+                profilePhoto: { select: { name: true, id: true } },
               },
             },
           },
@@ -74,6 +74,7 @@ export async function handleStartChat(socket: Socket, payload: startNewChat) {
                 profilePhoto: {
                   select: {
                     name: true,
+                    id: true,
                   },
                 },
               },
