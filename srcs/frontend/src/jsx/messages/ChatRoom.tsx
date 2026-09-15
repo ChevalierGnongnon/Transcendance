@@ -95,7 +95,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
       const messageToSend: IMessage = {
         chatId: roomProps.chat.chatId,
         recipientId: roomProps.chat.user.id,
-        sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },
+        sender: { id: me.id, profilePhoto: me.profilePhoto },
         content: messageText,
       };
       socket.emit('new-chat-message', messageToSend);
@@ -134,7 +134,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
               <Message
                 key={index}
                 userId={me.id}
-                profilePhoto={msg.sender.profilePhoto.name}
+                profilePhoto={msg.sender.profilePhoto}
                 senderId={msg.sender.id}
                 content={msg.content}
               />
