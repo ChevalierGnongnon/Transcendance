@@ -1,6 +1,7 @@
 import { prisma } from '../../lib/prisma.js';
 import { NotFoundError } from '../../common/errors.js';
 import FileService  from '../files/files.services.ts';
+import { updateProfilePhoto } from './users.controllers.ts';
 class UsersService {
   async getUserById(userId: string) {
     const user = await prisma.user.findUnique({
@@ -151,6 +152,48 @@ class UsersService {
       throw new NotFoundError('USER_NOT_FOUND')
     return (res);
   }
+  async updateLastName(userId: string, newLastName: string){
+    await prisma.user.update({ 
+      where: { 
+        id: userId,
+      },
+      data: { 
+        lastName: newLastName,
+      },
+    })
+  }
+
+  async updateFirstName(userId: string, newFirstName: string){
+    await prisma.user.update({ 
+      where: { 
+        id: userId,
+      },
+      data: { 
+        firstName: newFirstName,
+      },
+    })
+  }
+  async updatePseudo(userId: string, newPseudo: string){
+    const res = await prisma.user.findUnique({
+      where:{
+        pseudo: newPseudo,
+      }
+    })
+    if (!res){
+      await prisma.user.update({ 
+        where: { 
+          id: userId,
+        },
+        data: { 
+          pseudo: newPseudo,
+        },
+      })
+    }
+    else
+      throw new Error('PSEUDO_EXISTS');
+  }
 }
+
+
 
 export default new UsersService();

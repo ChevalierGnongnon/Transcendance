@@ -9,7 +9,8 @@ import { getUser } from './users.controllers.js';
 
 import { RateLimiter } from '../../common/common-middlewares.ts';
 import { searchValidator } from './users.validators.ts';
-
+import { updateUser } from './users.controllers.ts';
+import { updateValidator } from './users.validators.ts';
 const router = express.Router();
 
 router.get('/my-profile', requireAuth, getMyProfile);
@@ -19,5 +20,6 @@ router.get("/users", requireAuth, getAllUsers);
 router.get('/users/search', requireAuth, RateLimiter(1, 20, 'TOO_MANY_REQUESTS'), searchValidator, validate, searchUsers);
 router.get('/users/:pseudo', requireAuth, RateLimiter(1, 20, 'TOO_MANY_REQUESTS'), getUserByPseudo);
 router.patch('/my-profile/avatar', requireAuth, updateProfilePhoto);
+router.patch('/my-profile', requireAuth, updateValidator, validate, updateUser);
 
 export default router;
