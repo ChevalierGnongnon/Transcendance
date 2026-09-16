@@ -14,8 +14,8 @@ function Footer() {
     navigate("/login");
   };
   return (
-    <footer className="common-footer d-flex flex-column align-items-center gap-3">
-      <div className="d-flex">
+    <footer className="fixed-bottom common-footer d-flex flex-column align-items-center gap-3 p-2">
+      {/* <div className="d-flex">
         <input
           type="button"
           value="Fr"
@@ -61,7 +61,7 @@ function Footer() {
             localStorage.setItem("lang", "uk");
           }}
         />
-      </div>
+      </div> */}
       <div className="d-flex gap-2">
         <a className="link" onClick={() => navigate("/termsofservice")}>
           {t("common.terms-of-service")}
