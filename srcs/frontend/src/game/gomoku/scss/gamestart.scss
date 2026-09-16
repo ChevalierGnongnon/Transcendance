@@ -115,3 +115,10 @@
         padding: 10px;
     }
 }
+
+.error-frame {
+  border: 1px solid #ff4d4d !important;
+  border-radius: 10px;
+  box-shadow: inset 1px 0 10px rgba(255, 0, 0, 0.9);
+  transition: 0.3s;
+}

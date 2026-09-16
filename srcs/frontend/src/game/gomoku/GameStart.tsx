@@ -7,10 +7,12 @@ function GameStart() {
 
   const [me, setMe] = useState(null);
   const [users, setUsers] = useState([]);
-  const [opponentId, setOpponentId] = useState("");   // додано
+  const [opponentId, setOpponentId] = useState("");
   const [boardSize, setBoardSize] = useState(10);
+  const [error, setError] = useState(false);
 
-  // --- Завантаження мого профілю ---
+
+  // --- homeUser profile ---
   useEffect(() => {
     fetch("/api/my-profile", { credentials: "include" })
       .then(res => res.json())
@@ -18,7 +20,7 @@ function GameStart() {
       .catch(err => console.error("my-profile error:", err));
   }, []);
 
-  // --- Завантаження всіх користувачів ---
+  // --- guestUser profile ---
   useEffect(() => {
     fetch("/api/users", { credentials: "include" })
       .then(res => res.json())
@@ -28,48 +30,47 @@ function GameStart() {
 
   const startGame = () => {
     if (!opponentId) {
-      alert("Оберіть друга для гри");
+      setError(true);
       return;
     }
-
+  
+    setError(false);
     navigate("/game", {
-      state: {
-        me,
-        opponentId,
-        boardSize,
-      },
+      state: { me, opponentId, boardSize }
     });
   };
-
   if (!me) return <p>Loading...</p>;
 
   return (
     <div className="game-start-wrapper common-head">
       <h1 className="game-start-title">Start Gomoku Game</h1>
 
-      {/* Вибір друга */}
+  
       <div className="section">
-        <h3 className="form-text">Додати друга</h3>
+        <h3 className="form-text">add player</h3>
 
         <select
-          className="form-input select-opponent"
+          className={`form-input select-opponent ${error ? "error-frame" : ""}`}
           value={opponentId}
-          onChange={e => setOpponentId(e.target.value)}
+          onChange={e => {
+            setOpponentId(e.target.value);
+            setError(false);
+          }}
         >
-          <option value="">-- оберіть друга --</option>
-
+          <option value="">-- add player --</option>
+        
           {users.map(u => (
             <option key={u.id} value={u.id}>
-              {u.pseudo} {u.id === me.id ? "(ви)" : ""}
+              {u.pseudo} {u.id === me.id ? "(you)" : ""}
             </option>
           ))}
         </select>
       </div>
 
-      {/* Розмір дошки */}
+
       <div className="section">
-        <h3 className="form-text">
-          Розмір дошки: <b>{boardSize} × {boardSize}</b>
+        <h3 className="form-text"> 
+          Table size: <b>{boardSize} × {boardSize}</b>
         </h3>
 
         <input
@@ -78,13 +79,15 @@ function GameStart() {
           max="20"
           step="1"
           value={boardSize}
-          onChange={e => setBoardSize(Number(e.target.value))}
+          onChange={e => {
+            setBoardSize(Number(e.target.value));
+          }}
           className="form-input board-slider"
         />
       </div>
 
       <button className="form-button start-btn" onClick={startGame}>
-        Start Game
+        Send invite
       </button>
     </div>
   );
