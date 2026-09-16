@@ -38,20 +38,12 @@
   },
   "login": {
     "mail-or-pseudo": "Mail or pseudo",
-    "log-google": "Login with Google",
-    "log-github": "Login with GitHub",
-    "log-fourty-two": "Login with 42",
     "or": "OR",
     "no-account": "No account yet?",
-    "create-account": "Create an account",
-    "login-with": "Login with :",
-    "register-with": "Register with :"
+    "create-account": "Create an account"
   },
   "register": {
     "birthdate": "Birthdate",
-    "register-google": "Register with Google",
-    "register-github": "Register with GitHub",
-    "register-fourty-two": "Register with 42",
     "already-have-account": "Already have an account ?"
   },
   "complete-your-profile": {
@@ -68,18 +60,11 @@
     "add-friend": "Add a friend",
     "send-friendship-invitation": "Send friend request",
     "friend-list": "My friend list",
-    "games-played": "Games played",
-    "games-won": "Games won",
-    "games-lost": "Games lost",
-    "best-score": "Best score",
     "my-stats": "My stats"
   },
-  
+
   "update-my-profile":{
     "update-my-profile": "Update my profile",
-    "change-my-password": "Change my password",
-    "old-password": "Old password",
-    "new-password": "New password",
     "confirm-password": "Confirm the new password",
     "change-account-infos": "Change account information",
     "change-first-name": "Change first name",
@@ -88,7 +73,6 @@
     "change-profile-photo": "Change profile picture",
     "display-name-and-last-name": "Display name and last name",
     "danger-zone": "DANGER ZONE",
-    "delete-my-account": "Delete my account",
     "delete-my-game-infos": "Delete my game statistics"
   },
   "message": {

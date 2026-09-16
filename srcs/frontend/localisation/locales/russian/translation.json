@@ -38,20 +38,12 @@
   },
   "login": {
     "mail-or-pseudo": "Почта или псевдоним",
-    "log-google": "Войти через Google",
-    "log-github": "Войти через GitHub",
-    "log-fourty-two": "Войти через 42",
-    "login-with": "Войти через :",
-    "register-with": "Зарегистрироваться через :",
     "or": "ИЛИ",
     "no-account": "Ещё нет аккаунта?",
     "create-account": "Создать аккаунт"
   },
   "register": {
     "birthdate": "Дата рождения",
-    "register-google": "Зарегистрироваться через Google",
-    "register-github": "Зарегистрироваться через GitHub",
-    "register-fourty-two": "Зарегистрироваться через 42",
     "already-have-account": "Уже есть аккаунт?"
   },
   "complete-your-profile": {
@@ -68,17 +60,10 @@
     "add-friend": "Добавить друга",
     "send-friendship-invitation": "Отправить заявку в друзья",
     "friend-list": "Мой список друзей",
-    "games-played": "Сыгранные игры",
-    "games-won": "Выигранные игры",
-    "games-lost": "Проигранные игры",
-    "best-score": "Лучший результат",
     "my-stats": "Моя статистика"
   },
   "update-my-profile":{
     "update-my-profile": "Редактировать профиль",
-    "change-my-password": "Изменить пароль",
-    "old-password": "Старый пароль",
-    "new-password": "Новый пароль",
     "confirm-password": "Подтвердите новый пароль",
     "change-account-infos": "Изменить информацию об аккаунте",
     "change-first-name": "Изменить имя",
@@ -87,7 +72,6 @@
     "change-profile-photo": "Изменить фото профиля",
     "display-name-and-last-name": "Показывать имя и фамилию",
     "danger-zone": "ОПАСНАЯ ЗОНА",
-    "delete-my-account": "Удалить мой аккаунт",
     "delete-my-game-infos": "Удалить мою игровую статистику"
   },
   "message": {

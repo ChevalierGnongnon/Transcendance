@@ -38,20 +38,12 @@
   },
   "login": {
     "mail-or-pseudo": "Пошта або псевдонім",
-    "log-google": "Увійти через Google",
-    "log-github": "Увійти через GitHub",
-    "log-fourty-two": "Увійти через 42",
-    "login-with": "Увійти через :",
-    "register-with": "Зареєструватися через :",
     "or": "АБО",
     "no-account": "Ще немає акаунта?",
     "create-account": "Створити акаунт"
   },
   "register": {
     "birthdate": "Дата народження",
-    "register-google": "Зареєструватися через Google",
-    "register-github": "Зареєструватися через GitHub",
-    "register-fourty-two": "Зареєструватися через 42",
     "already-have-account": "Уже є акаунт?"
   },
   "complete-your-profile": {
@@ -68,17 +60,10 @@
     "add-friend": "Додати друга",
     "send-friendship-invitation": "Надіслати запит у друзі",
     "friend-list": "Мій список друзів",
-    "games-played": "Зіграні ігри",
-    "games-won": "Виграні ігри",
-    "games-lost": "Програні ігри",
-    "best-score": "Найкращий результат",
     "my-stats": "Моя статистика"
   },
   "update-my-profile":{
     "update-my-profile": "Редагувати профіль",
-    "change-my-password": "Змінити пароль",
-    "old-password": "Старий пароль",
-    "new-password": "Новий пароль",
     "confirm-password": "Підтвердіть новий пароль",
     "change-account-infos": "Змінити інформацію про акаунт",
     "change-first-name": "Змінити ім'я",
@@ -87,7 +72,6 @@
     "change-profile-photo": "Змінити фото профілю",
     "display-name-and-last-name": "Показувати ім'я та прізвище",
     "danger-zone": "НЕБЕЗПЕЧНА ЗОНА",
-    "delete-my-account": "Видалити мій акаунт",
     "delete-my-game-infos": "Видалити мою ігрову статистику"
   },
   "message": {
