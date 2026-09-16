@@ -99,16 +99,16 @@ function HeaderOnline() {
                                     <li><input type="button" value="Ua" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
                                 </ul>
                             </div>
-                        <figure className="m-0 pp-icons-header">
-                            <img src={messageIcon} alt="message-icon" onClick={() => navigate('/messages')}/>
+                        <figure className="m-0 pp-icons-header" onClick={() => navigate('/messages')}>
+                            <img src={messageIcon} alt="message-icon"/>
                             <span>{t('common.messages')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header" onClick={() => navigate('/parameters')}>
                             <img src={parametersIcon} alt="parameters-icon" />
                             <span>{t('common.parameters')}</span>
                         </figure>
-                        <figure className="m-0 pp-icons-header">
-                            <img src={myPageIcon} alt="parameters-icon" onClick={() => navigate('/personalpage')} />
+                        <figure className="m-0 pp-icons-header" onClick={() => navigate('/personalpage')}>
+                            <img src={myPageIcon} alt="parameters-icon" />
                             <span>{t('common.my-page')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header" data-tooltip={t('common.logout')} onClick={handleLogout}>
