@@ -29,7 +29,7 @@ function Gomoku({ playersData, boardSize }) {
           
           <div className={`player-box ${currentPlayer.id === players[0].id ? "active-turn" : ""}`}>
             <img
-              src={players[0].avatar ? `/uploads/${players[0].avatar}` : "/default-avatar.png"}
+              src={players[0].profilePhoto ? `/uploads/${players[0].profilePhoto}` : "/default-avatar.png"}
               alt="me avatar"
               className="player-avatar"
             />
@@ -52,7 +52,7 @@ function Gomoku({ playersData, boardSize }) {
 
           <div className={`player-box ${currentPlayer.id === players[1].id ? "active-turn" : ""}`}>
             <img
-              src={players[1].avatar ? `/uploads/${players[1].avatar}` : "/default-avatar.png"}
+              src={players[1].profilePhoto ? `/uploads/${players[1].profilePhoto}` : "/default-avatar.png"}
               alt="opponent avatar"
               className="player-avatar"
             />
