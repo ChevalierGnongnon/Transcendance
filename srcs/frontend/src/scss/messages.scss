@@ -73,6 +73,9 @@
 }
 
 .send-message {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background-color: rgb(20, 91, 197);
     color: white;
     border: 3px solid rgb(20, 91, 197);
@@ -82,10 +85,11 @@
     &:active,
     &:focus,
     &:focus-visible {
-        background-color: rgb(20, 91, 197) !important;
-        color: white !important;
-        border-color: rgb(20, 91, 197) !important;
-        box-shadow: none !important;
+        background-color: rgb(20, 91, 197);
+        color: white;
+        border-color: rgb(20, 91, 197);
+        box-shadow: none;
+        outline: none;
     }
 
     @media (hover: hover){

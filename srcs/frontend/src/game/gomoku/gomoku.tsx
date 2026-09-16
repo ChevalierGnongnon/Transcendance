@@ -3,7 +3,7 @@ import './scss/gomoku.scss';
 import React from 'react';
 import useGomoku from './useGomoku';
 
-function Gomoku({ playersData, boardSize }) {
+function Gomoku({ playersData, boardSize, mode }) {
   const {
     board,
     players,
@@ -12,7 +12,7 @@ function Gomoku({ playersData, boardSize }) {
     winningLine,
     handleClick,
     reset
-  } = useGomoku(playersData, boardSize);
+  } = useGomoku(playersData, boardSize, mode);
 
   const currentPlayer = players[currentPlayerIndex];
 

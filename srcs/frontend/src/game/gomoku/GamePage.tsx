@@ -4,7 +4,7 @@ import Gomoku from "./gomoku";
 
 function GamePage() {
   const { state } = useLocation();
-  const { me, opponentId, boardSize } = state;
+  const { me, opponentId, boardSize, mode } = state;
 
   const [opponent, setOpponent] = useState(null);
   
@@ -34,7 +34,7 @@ function GamePage() {
     }
   ];
 
-  return <Gomoku playersData={playersData} boardSize={boardSize} />;
+  return <Gomoku playersData={playersData} boardSize={boardSize} mode={mode} />;
 }
 
 export default GamePage;

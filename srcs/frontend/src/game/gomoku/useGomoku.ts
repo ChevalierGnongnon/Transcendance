@@ -17,7 +17,7 @@ function createEmptyBoard(boardSize: number): Board {
   );
 }
 
-function useGomoku(playersFromSystem: Player[], boardSize: number) {
+function useGomoku(playersFromSystem: Player[], boardSize: number, mode: string) {
   const [players] = useState<Player[]>(playersFromSystem);
   const [board, setBoard] = useState<Board>(createEmptyBoard(boardSize));
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
@@ -73,7 +73,13 @@ function useGomoku(playersFromSystem: Player[], boardSize: number) {
   };
 
   const handleClick = (row: number, col: number) => {
-    if (winner || board[row][col] !== null) return;
+  if (winner || board[row][col] !== null) return;
+
+  if (mode === "online") {
+    // тут буде socket.emit("move", { row, col })
+    // але зараз просто return
+    return;
+  }
 
     const player = players[currentPlayerIndex];
     const symbol = player.symbol;
