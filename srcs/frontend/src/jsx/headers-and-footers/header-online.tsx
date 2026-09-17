@@ -70,13 +70,24 @@ function HeaderOnline() {
                         <img src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
                 </section>
-                <section className="header-middle">
-                    <SearchBar
+                <section className="header-middle d-none d-md-flex">
+                    <SearchBar 
                         ClassName="search-bar"
+                        PlaceHolder={t('common.search-user')}
                         ListClassName="header-search-results"
                         BreakPoint={768}
                         onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
-                    ></SearchBar>
+                    ></SearchBar>   
+                </section>
+                <section className="d-md-none header-middle">
+                    <SearchBar
+                        ClassName="mini-search-bar"
+                        PlaceHolder={t('common.search')}
+                        ListClassName="mini-search-list"
+                        BreakPoint={null}
+                        onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
+                    >
+                    </SearchBar>
                 </section>
                 <section className="header-right">
                     <div className="d-none d-md-flex d-flex gap-4">

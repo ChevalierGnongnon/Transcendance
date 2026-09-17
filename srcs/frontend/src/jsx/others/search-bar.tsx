@@ -19,7 +19,8 @@ interface SearchResult{
 interface SearchBarProps {
     ClassName: string, 
     ListClassName: string, 
-    BreakPoint : number
+    BreakPoint : number | null,
+    PlaceHolder: string | undefined,
     onSelectUser: (result: SearchResult) => void;
 }
 
@@ -80,7 +81,7 @@ function SearchBar(props: SearchBarProps){
                     id="search-bar"
                     className={props.ClassName}
                     value={input}
-                    placeholder={t('common.search-user')}
+                    placeholder={props.PlaceHolder}
                     onChange={
                         function startResearch(event){
                             setResearchStarted(true);
