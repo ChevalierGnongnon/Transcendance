@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./scss/gamestart.scss";
+import { socket } from "../../jsx/messages/socket";
 
 function GameStart() {
   const navigate = useNavigate();
@@ -8,20 +9,23 @@ function GameStart() {
 
   // --- incoming opponentId from Chat / Personal page ---
   const incomingOpponentId = location.state?.opponentId || null;
-
+  const incomingChatId = location.state?.chatId || null;
+ 
   const [me, setMe] = useState(null);
   const [users, setUsers] = useState([]);
   const [opponentId, setOpponentId] = useState("");
+  const [chatId, setChatId] = useState("");
   const [boardSize, setBoardSize] = useState(10);
   const [error, setError] = useState(false);
   const [mode, setMode] = useState("local"); // "local" | "online"
 
   // If StartGame was opened from Chat or Personal page → opponentId is preselected
   useEffect(() => {
-    if (incomingOpponentId) {
+    if (incomingOpponentId && incomingChatId) {
       setOpponentId(incomingOpponentId);
+      setChatId(incomingChatId);
     }
-  }, [incomingOpponentId]);
+  }, [incomingOpponentId, incomingChatId]);
 
   // --- homeUser profile ---
   useEffect(() => {
@@ -39,6 +43,19 @@ function GameStart() {
       .catch(err => console.error("users error:", err));
   }, []);
 
+  const handleSendMessage = () => {
+  
+      const msg: IMessage = {
+        chatId: chatId,
+        recipientId: opponentId,
+        sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },
+        type: "invitation",
+        content: ''
+      };
+  
+      socket.emit("new-chat-message", msg);
+    };
+
   const startGame = () => {
     if (!opponentId) {
       setError(true);
@@ -50,7 +67,7 @@ function GameStart() {
     // LOCAL MODE → go directly to game
     if (mode === "local") {
       navigate("/game", {
-        state: { me, opponentId, boardSize, mode }
+        state: { me, opponentId, boardSize, mode,  }
       });
       return;
     }
@@ -59,7 +76,7 @@ function GameStart() {
     if (mode === "online") {
       // here later you will emit socket.io event:
       // socket.emit("game:invite", { fromUserId: me.id, toUserId: opponentId, boardSize, mode });
-
+      handleSendMessage();
       // For now just redirect to chat where opponent will accept invite
       navigate("/chat", {
         state: {

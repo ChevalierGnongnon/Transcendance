@@ -14,7 +14,7 @@ import { useUser } from './hooks/useUser';
 import { IChatPreview, IMessage } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
 import { useSocketConnection } from './hooks/useSocketConnection';
-import { exists } from 'i18next';
+import { exists } from 'i18 next';
 
 function Messages() {
   const [activeView, setActiveView] = useState<
@@ -107,7 +107,7 @@ function Messages() {
   useEffect(() => {
     const handleNewMessage = async (newMessage: IMessage) => {
       const chatId = newMessage.chatId;
-      const messageId = newMessage.chatId;
+      const messageId = newMessage.id;
       if (!chatId || !messageId) throw new Error('Bad message');
 
       try {
@@ -167,7 +167,6 @@ function Messages() {
       chatId: chatId,
       userId: me?.id,
       messageId: messageId,
-      content: '',
     });
   };
 

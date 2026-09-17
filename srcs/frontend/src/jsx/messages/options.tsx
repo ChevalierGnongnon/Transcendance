@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import "../../scss/messages.scss";
 
-function MoreOptions({ opponentId, navigate }) {
+function MoreOptions({ opponentId, navigate, chatId }) {
   const { t } = useTranslation();
 
   return (
@@ -19,7 +19,7 @@ function MoreOptions({ opponentId, navigate }) {
         className="btn btn-primary more-options-btn"
         onClick={() => {
           navigate('/game/gomoku', {
-            state: { opponentId }
+            state: { opponentId, chatId }
           });
         }}
       />

@@ -143,84 +143,75 @@ function ChatRoom(roomProps: ChatRoomProps) {
   }, [location.state]);
 
   return (
-    <div className="chat-list chat-list-right my-2">
-      <div className="chat-header fs-1">{roomProps.chat.user.pseudo}</div>
-
-      <div
-        ref={containerRef}
-        onScroll={handleScroll}
-        className="chat-messages-container"
-        style={{ maxHeight: "65vh", overflowY: "auto", position: "relative" }}
-      >
-        <ul className="px-3">
-          {messages.map((msg, index) => {
-            if (msg.type === "game_invite") {
-              return (
-                <GameInviteMessage
-                  key={index}
-                  invite={msg.content}
-                  me={me}
-                />
-              );
-            }
-
-            if (msg.type === "system") {
-              return (
-                <li key={index} className="system-message">
-                  {msg.content}
-                </li>
-              );
-            }
-
-            return (
+    <>
+      <div className="chat-list chat-list-right my-2">
+        <div className="chat-header fs-1">
+          {/*{t('common.chatting-with')} {`${roomProps.chat.pseudo}`}*/}
+          {roomProps.chat.user.pseudo}
+        </div>
+        <div
+          ref={containerRef}
+          onScroll={handleScroll}
+          className="chat-messages-container"
+          style={{
+            maxHeight: '65vh',
+            overflowY: 'auto',
+            position: 'relative',
+          }}
+        >
+          (
+          <ul className="px-3">
+            {messages.map((msg, index) => (
               <Message
                 key={index}
                 userId={me.id}
-                profilePhoto={msg.sender.profilePhoto.name}
+                profilePhoto={msg.sender.profilePhoto}
                 senderId={msg.sender.id}
                 content={msg.content}
+                type={"file"}
               />
-            );
-          })}
-        </ul>
-
-        <div ref={messagesEndRef} style={{ height: "2px" }} />
-      </div>
-
-      <div className="input-group group-new-message my-3 mt-auto">
-        <div className="position-relative">
-          <button
-            className="btn fs-2 send-message "
-            onClick={() => setShowMoreOptions((prev) => !prev)}
-          >
-            +
-          </button>
-          {showMoreOptions && (
+            ))}
+          </ul>
+          )
+          <div ref={messagesEndRef} style={{ height: '2px' }} />
+        </div>
+        <div className="input-group group-new-message my-3 mt-auto">
+          <div className="position-relative">
+            <button
+              className="btn fs-2 send-message d-flex align-items-center justify-content-center"
+              onClick={() => setShowMoreOptions((prev) => !prev)}
+            >
+              +
+            </button>
+            {showMoreOptions && (
             <MoreOptions
               opponentId={roomProps.chat.user.id}
+              chatId={roomProps.chat.chatId}
               navigate={navigate}
             />
           )}
+          </div>
+
+          <textarea
+            className="form-control message-area"
+            name="new-message"
+            placeholder="Type your message here"
+            value={messageText}
+
+            onChange={(e) => setMessageText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
+          ></textarea>
+          <button className="btn send-message" onClick={handleSendMessage}>
+            {t('common.send')}
+          </button>
         </div>
-
-        <textarea
-          className="form-control message-area"
-          placeholder="Type your message here"
-          value={messageText}
-          onChange={(e) => setMessageText(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSendMessage();
-            }
-          }}
-        />
-
-        <button className="btn send-message" onClick={handleSendMessage}>
-          {t("common.send")}
-        </button>
       </div>
-    </div>
+    </>
   );
 }
 

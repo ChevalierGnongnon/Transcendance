@@ -30,6 +30,7 @@ export interface MessageProps {
   content: string;
   profilePhoto: {name: string, id: string};
   senderId: string;
+  type: "text" | "invitation" | "file"
 }
 
 // export interface IChat {
