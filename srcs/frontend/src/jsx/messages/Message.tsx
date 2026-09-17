@@ -8,7 +8,7 @@ export const Message = (props: MessageProps) => {
 
   return (
     <>
-     
+
     <li
         className={`d-flex align-items-start ${props.senderId === props.userId ? 'flex-row-reverse justify-content-start' : 'justify-content-start'}`}
       >
@@ -17,7 +17,7 @@ export const Message = (props: MessageProps) => {
       </figure>
     {props.type === "text" &&
       <>
-       
+
         <div
           className={`${props.senderId === props.userId ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
         >
@@ -27,27 +27,27 @@ export const Message = (props: MessageProps) => {
     }
     { props.type === "invitation" &&
       <div className="game-invite-box">
-            <p>
+            {/*<p>
               {isMe
                 ? "You invited opponent to play Gomoku"
                 : `${invite.fromUserName} invites you to play Gomoku`}
             </p>
-      
+
             <p>Board size: {invite.boardSize}</p>
-            <p>Mode: {invite.mode}</p>
-      
+            <p>Mode: {invite.mode}</p>*/}
+
             {!isMe && (
               <div className="invite-actions">
                 <button
                   className="btn btn-success"
-                  onClick={() => socket.emit("game:accept", invite)}
+                  onClick={() => socket.emit("game:ans-invite", 'yes'); 'naviagete game page'}
                 >
                   Accept
                 </button>
-      
+
                 <button
                   className="btn btn-danger"
-                  onClick={() => socket.emit("game:decline", invite)}
+                  onClick={() => socket.emit("game:ans-invite", 'no')}
                 >
                   Decline
                 </button>
@@ -72,7 +72,7 @@ export const Message = (props: MessageProps) => {
     </li>
 
 
-      
+
     </>
   );
 };

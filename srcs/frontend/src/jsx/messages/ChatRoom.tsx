@@ -168,7 +168,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
                 profilePhoto={msg.sender.profilePhoto}
                 senderId={msg.sender.id}
                 content={msg.content}
-                type={"file"}
+                type={"invitation"}
               />
             ))}
           </ul>
@@ -398,5 +398,3 @@ export default ChatRoom;
 // }
 
 // export default ChatRoom;
-
-

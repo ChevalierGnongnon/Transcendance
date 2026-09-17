@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./scss/gamestart.scss";
 import { socket } from "../../jsx/messages/socket";
+import { useSocketConnection } from "../../jsx/messages/hooks/useSocketConnection";
 
 function GameStart() {
   const navigate = useNavigate();
@@ -10,7 +11,8 @@ function GameStart() {
   // --- incoming opponentId from Chat / Personal page ---
   const incomingOpponentId = location.state?.opponentId || null;
   const incomingChatId = location.state?.chatId || null;
- 
+	const isConnected = useSocketConnection();
+
   const [me, setMe] = useState(null);
   const [users, setUsers] = useState([]);
   const [opponentId, setOpponentId] = useState("");
@@ -44,15 +46,15 @@ function GameStart() {
   }, []);
 
   const handleSendMessage = () => {
-  
-      const msg: IMessage = {
-        chatId: chatId,
-        recipientId: opponentId,
+
+      const msg = {
+        chatId: '8cbad2be-da73-47f0-b39a-8d7f41b65ab4',
+        recipientId: '28a4dbd9-50e0-4fe6-bef3-dc4a08071300',
         sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },
-        type: "invitation",
+        type: "text",
         content: ''
       };
-  
+
       socket.emit("new-chat-message", msg);
     };
 
@@ -78,16 +80,16 @@ function GameStart() {
       // socket.emit("game:invite", { fromUserId: me.id, toUserId: opponentId, boardSize, mode });
       handleSendMessage();
       // For now just redirect to chat where opponent will accept invite
-      navigate("/chat", {
-        state: {
-          invite: {
-            fromUserId: me.id,
-            toUserId: opponentId,
-            boardSize,
-            mode
-          }
-        }
-      });
+      // navigate("/chat", {
+      //   state: {
+      //     invite: {
+      //       fromUserId: me.id,
+      //       toUserId: opponentId,
+      //       boardSize,
+      //       mode
+      //     }
+      //   }
+      // });
     }
   };
 
