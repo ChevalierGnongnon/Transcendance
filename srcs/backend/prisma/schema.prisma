@@ -35,9 +35,11 @@ model User {
 
   uploadedFiles File[]
 
-  profilePhoto File?        @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
-  messages     Message[]    @relation("MessageSender")
-  chatMembers  ChatMember[]
+  profilePhoto        File?        @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
+  messages            Message[]    @relation("MessageSender")
+  sentFriendships     Friendship[] @relation("SentFriendships")
+  receivedFriendships Friendship[] @relation("ReceivedFriendships")
+  chatMembers         ChatMember[]
 
   @@map("user")
 }
@@ -107,4 +109,30 @@ model Message {
 
   @@index([chatId, createdAt])
   @@map("messages")
+}
+
+enum FriendshipStatus {
+  pending
+  accepted
+  refused
+  cancelled
+  blocked
+}
+
+model Friendship {
+  id       String           @id @default(uuid())
+  userId   String           @map("user_id")
+  friendId String           @map("friend_id")
+  status   FriendshipStatus @default(pending)
+
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  user   User @relation("SentFriendships", fields: [userId], references: [id], onDelete: Cascade)
+  friend User @relation("ReceivedFriendships", fields: [friendId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, friendId])
+  @@index([userId, status])
+  @@index([friendId, status])
+  @@map("friendships")
 }

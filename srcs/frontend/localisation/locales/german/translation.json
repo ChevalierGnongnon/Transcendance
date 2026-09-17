@@ -1,5 +1,5 @@
 {
-  "common":{
+  "common": {
     "login": "Anmelden",
     "logout": "Abmelden",
     "password": "Passwort",
@@ -55,11 +55,11 @@
     "already-have-account": "Sie haben bereits ein Konto?"
   },
   "complete-your-profile": {
-      "title": "Vervollständigen Sie Ihr Profil",
-      "enter-a-pseudo": "Geben Sie ein Pseudonym ein",
-      "confirm": "Bestätigen",
-      "upload-avatar": "Avatar hochladen",
-      "choose-an-avatar": "Oder wählen Sie einen Standardavatar :"
+    "title": "Vervollständigen Sie Ihr Profil",
+    "enter-a-pseudo": "Geben Sie ein Pseudonym ein",
+    "confirm": "Bestätigen",
+    "upload-avatar": "Avatar hochladen",
+    "choose-an-avatar": "Oder wählen Sie einen Standardavatar :"
   },
   "profile-page": {
     "game-stats": "Spielstatistiken",
@@ -74,7 +74,7 @@
     "best-score": "Bester Punktestand",
     "my-stats": "Meine Statistiken"
   },
-  "update-my-profile":{
+  "update-my-profile": {
     "update-my-profile": "Mein Profil bearbeiten",
     "change-my-password": "Mein Passwort ändern",
     "old-password": "Altes Passwort",
@@ -114,45 +114,50 @@
     "refuse": "Ablehnen",
     "your-requests": "Ihre Anfragen",
     "disable": "Deaktivieren",
-    "avatar-alt": "Freundes-Avatar"
+    "avatar-alt": "Freundes-Avatar",
+    "cancel": "Abbrechen",
+    "add-friend": "Freund hinzufügen",
+    "block": "Blockieren",
+    "no-friends": "Du hast noch keine Freunde oder Freundschaftsanfragen.",
+    "no-friends-hint": "Finde jemanden über die Suchleiste und klicke auf Freund hinzufügen, um eine Freundschaftsanfrage zu senden."
   },
-	"errors": {
-		"ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",
-		"INVALID_EMAIL": "Ungültiges E-Mail-Format",
-		"LOGIN_OR_PASSWORD_INVALID": "Ungültiges Passwort und/oder E-Mail",
-		"INVALID_TOKEN": "Ungültige Sitzung",
-		"DATABASE_ERROR": "Serverfehler, bitte versuchen Sie es später erneut",
-		"INVALID_CREDENTIALS": "Ungültige Anmeldedaten",
-		"INVALID_PASSWORD": "Ungültiges Passwort",
-		"NO_FILE_UPLOADED": "Es wurde keine Datei bereitgestellt",
-		"SERVER_MISCONFIGURED": "Fehlerhafte Serverkonfiguration",
-		"UPLOAD_FAILED": "Der Upload ist fehlgeschlagen",
-		"WRONG_FILE_TYPE": "Falscher Dateityp (nur: png, jpg, jpeg oder webp)",
-		"FETCH_DEFAULT_AVATARS_ERROR": "Die Standardavatare konnten nicht abgerufen werden",
-		"AVATAR_REQUIRED": "Bitte wähle oder lade einen Avatar hoch",
+  "errors": {
+    "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",
+    "INVALID_EMAIL": "Ungültiges E-Mail-Format",
+    "LOGIN_OR_PASSWORD_INVALID": "Ungültiges Passwort und/oder E-Mail",
+    "INVALID_TOKEN": "Ungültige Sitzung",
+    "DATABASE_ERROR": "Serverfehler, bitte versuchen Sie es später erneut",
+    "INVALID_CREDENTIALS": "Ungültige Anmeldedaten",
+    "INVALID_PASSWORD": "Ungültiges Passwort",
+    "NO_FILE_UPLOADED": "Es wurde keine Datei bereitgestellt",
+    "SERVER_MISCONFIGURED": "Fehlerhafte Serverkonfiguration",
+    "UPLOAD_FAILED": "Der Upload ist fehlgeschlagen",
+    "WRONG_FILE_TYPE": "Falscher Dateityp (nur: png, jpg, jpeg oder webp)",
+    "FETCH_DEFAULT_AVATARS_ERROR": "Die Standardavatare konnten nicht abgerufen werden",
+    "AVATAR_REQUIRED": "Bitte wähle oder lade einen Avatar hoch",
 
-		"INTERNAL_SERVER_ERROR": "Serverfehler, bitte später erneut versuchen",
-		"LOGIN_REQUIRED": "Benutzername ist erforderlich.",
-		"LOGIN_TOO_LONG": "Benutzername ist zu lang",
-		"USER_NOT_FOUND": "Kein Benutzer mit diesen Anmeldeinformationen gefunden",
-		"FIRST_NAME_REQUIRED": "Vorname ist erforderlich.",
-		"FIRST_NAME_TOO_LONG": "Vorname ist zu lang",
-		"PASSWORD_REQUIRED": "Passwort ist erforderlich",
-		"PASSWORD_TOO_LONG": "Passwort ist zu lang",
-		"LAST_NAME_REQUIRED": "Nachname ist erforderlich",
-		"LAST_NAME_TOO_LONG": "Nachname ist zu lang",
-		"PASSWORD_WEAK": "Ungültiges Passwort (mindestens 12 Zeichen, 1 Kleinbuchstabe, 1 Großbuchstabe, 1 Ziffer und 1 Sonderzeichen)",
-		"PASSWORD_CONFIRM_REQUIRED": "Passwortbestätigung ist erforderlich",
-		"PASSWORDS_DO_NOT_MATCH": "Passwortbestätigung muss übereinstimmen",
-		"BIRTHDATE_REQUIRED": "Geburtsdatum ist erforderlich",
-		"DATE_INVALID": "Datum ist ungültig",
-		"AGE_REQUIREMENT": "Sie müssen mindestens 18 Jahre alt sein",
-		"PSEUDO_REQUIRED": "Benutzername ist erforderlich",
-		"PSEUDO_INVALID": "Benutzername muss 3–30 Zeichen lang sein und nur Buchstaben, Zahlen, Unterstriche und Bindestriche enthalten",
-		"PSEUDO_EXISTS": "Dieser Benutzername wird bereits verwendet",
-		"EMAIL_REQUIRED": "E-Mail ist erforderlich",
-		"EMAIL_TOO_LONG": "E-Mail ist zu lang",
-		"EMAIL_INVALID": "Ungültiges E-Mail-Format",
-		"EMAIL_EXISTS": "Diese E-Mail wird bereits verwendet"
-	}
+    "INTERNAL_SERVER_ERROR": "Serverfehler, bitte später erneut versuchen",
+    "LOGIN_REQUIRED": "Benutzername ist erforderlich.",
+    "LOGIN_TOO_LONG": "Benutzername ist zu lang",
+    "USER_NOT_FOUND": "Kein Benutzer mit diesen Anmeldeinformationen gefunden",
+    "FIRST_NAME_REQUIRED": "Vorname ist erforderlich.",
+    "FIRST_NAME_TOO_LONG": "Vorname ist zu lang",
+    "PASSWORD_REQUIRED": "Passwort ist erforderlich",
+    "PASSWORD_TOO_LONG": "Passwort ist zu lang",
+    "LAST_NAME_REQUIRED": "Nachname ist erforderlich",
+    "LAST_NAME_TOO_LONG": "Nachname ist zu lang",
+    "PASSWORD_WEAK": "Ungültiges Passwort (mindestens 12 Zeichen, 1 Kleinbuchstabe, 1 Großbuchstabe, 1 Ziffer und 1 Sonderzeichen)",
+    "PASSWORD_CONFIRM_REQUIRED": "Passwortbestätigung ist erforderlich",
+    "PASSWORDS_DO_NOT_MATCH": "Passwortbestätigung muss übereinstimmen",
+    "BIRTHDATE_REQUIRED": "Geburtsdatum ist erforderlich",
+    "DATE_INVALID": "Datum ist ungültig",
+    "AGE_REQUIREMENT": "Sie müssen mindestens 18 Jahre alt sein",
+    "PSEUDO_REQUIRED": "Benutzername ist erforderlich",
+    "PSEUDO_INVALID": "Benutzername muss 3–30 Zeichen lang sein und nur Buchstaben, Zahlen, Unterstriche und Bindestriche enthalten",
+    "PSEUDO_EXISTS": "Dieser Benutzername wird bereits verwendet",
+    "EMAIL_REQUIRED": "E-Mail ist erforderlich",
+    "EMAIL_TOO_LONG": "E-Mail ist zu lang",
+    "EMAIL_INVALID": "Ungültiges E-Mail-Format",
+    "EMAIL_EXISTS": "Diese E-Mail wird bereits verwendet"
+  }
 }
