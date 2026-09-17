@@ -45,13 +45,13 @@ function ChatRoom(roomProps: ChatRoomProps) {
   }, [checkIfAtBottom]);
 
   // scroll if changed chat
-  // useEffect(() => {
-  //   if (roomProps.chat?.chatId) {
-  //     setTimeout(() => {
-  //       scrollToBottom('auto');
-  //     }, 100);
-  //   }
-  // }, [roomProps.chat?.chatId, scrollToBottom]);
+  useEffect(() => {
+    if (roomProps.chat?.chatId) {
+      setTimeout(() => {
+        scrollToBottom('auto');
+      }, 100);
+    }
+  }, [roomProps.chat?.chatId, scrollToBottom]);
 
   // scroll if new message
   useEffect(() => {
@@ -63,10 +63,12 @@ function ChatRoom(roomProps: ChatRoomProps) {
   useEffect(() => {
     if (messages.length > 0) {
       const lastMessageId = messages[messages.length - 1].id ?? null;
-      roomProps.updateLastReadMessageId(roomProps.chat.chatId, lastMessageId);
+      const lastMessageIdinChat = roomProps.chat.lastReadMessagesId;
+      if (lastMessageId !== lastMessageIdinChat) {
+        roomProps.updateLastReadMessageId(roomProps.chat.chatId, lastMessageId);
+      }
     }
-    scrollToBottom();
-  }, [roomProps.chat?.chatId, roomProps.messages]);
+  }, [roomProps.chat?.chatId]);
 
   useEffect(() => {
     const handleChatJoined = (answer: { chatId: string; userId: string }) => {};
@@ -74,12 +76,6 @@ function ChatRoom(roomProps: ChatRoomProps) {
     // send request to join chat
     socket.emit('join-chat-request', { chatId: roomProps.chat.chatId, userId: me.id });
     // socket.on('chat-room-joined', handleChatJoined);
-
-    // if dont have errors
-    // if (isAtBottom) {
-    //   roomProps.chat.unreadCount = '0';
-    //   roomProps.setActiveChat({ ...roomProps.chat });
-    // }
 
     // scrollToBottom();
     // send put to update last_read_chats_id
@@ -100,7 +96,6 @@ function ChatRoom(roomProps: ChatRoomProps) {
       };
       socket.emit('new-chat-message', messageToSend);
 
-      // setMessages((prev) => [...prev, messageToSend]);
       roomProps.onAddMessage(messageToSend);
       // scrollToBottom();
       setMessageText('');
