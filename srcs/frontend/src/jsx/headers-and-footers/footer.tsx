@@ -15,7 +15,7 @@ function Footer() {
   };
   return (
     <footer className="fixed-bottom common-footer d-flex flex-column align-items-center gap-3 p-2">
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 mx-auto">
         <a className="link" onClick={() => navigate("/termsofservice")}>
           {t("common.terms-of-service")}
         </a>
@@ -25,7 +25,7 @@ function Footer() {
       </div>
 
       {isAuthenticated && (
-        <div className="div-connected-only d-flex gap-2">
+        <div className="div-connected-only d-flex gap-2 d-none d-md-flex">
           <input
             type="button"
             value={t("common.my-page")}

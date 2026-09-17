@@ -37,6 +37,7 @@ function AddFriend(props: AddFriendProps) {
         ClassName="search-bar"
         ListClassName="header-search-results"
         BreakPoint={768}
+        PlaceHolder={t('common.search-user')}
         onSelectUser={(user) => {
           setUser(user);
         }}
