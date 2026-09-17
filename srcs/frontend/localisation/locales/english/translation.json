@@ -29,6 +29,7 @@
     "confirm": "Confirm",
     "undo": "Undo",
     "import-file-instead": "Import a file instead",
+    "download-file": "Download file",
     "ready": "Ready",
     "updated": "Updated",
     "my-stats": "My stats",
@@ -85,7 +86,8 @@
     "upload-file": "Upload a file",
     "invite-to-game": "Invite to a game",
     "give-reason": "Give the reason:",
-    "search-user": "Search a user"
+    "search-user": "Search a user",
+    "file-received": "File received"
   },
   "friends": {
     "send-friend-request": "Send a friend request",

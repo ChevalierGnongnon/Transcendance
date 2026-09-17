@@ -137,6 +137,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
                 profilePhoto={msg.sender.profilePhoto}
                 senderId={msg.sender.id}
                 content={msg.content}
+                type={"file"}
               />
             ))}
           </ul>

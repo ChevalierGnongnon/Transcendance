@@ -29,6 +29,7 @@
     "confirm": "Підтвердити",
     "undo": "Скасувати",
     "import-file-instead": "Імпортувати файл замість цього",
+    "download-file": "Завантажити файл",
     "ready": "Готово",
     "updated": "Оновлено",
     "my-stats": "Моя статистика",
@@ -84,7 +85,8 @@
     "upload-file": "Завантажити файл",
     "invite-to-game": "Запросити в гру",
     "give-reason": "Вкажіть причину:",
-    "search-user": "Знайти користувача"
+    "search-user": "Знайти користувача",
+    "file-received": "Файл отримано"
   },
   "friends": {
     "send-friend-request": "Надіслати запит у друзі",

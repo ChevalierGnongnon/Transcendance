@@ -29,6 +29,7 @@
     "confirm": "Подтвердить",
     "undo": "Отменить",
     "import-file-instead": "Импортировать файл вместо этого",
+    "download-file": "Скачать файл",
     "ready": "Готово",
     "updated": "Обновлено",
     "my-stats": "Моя статистика",
@@ -84,7 +85,8 @@
     "upload-file": "Загрузить файл",
     "invite-to-game": "Пригласить в игру",
     "give-reason": "Укажите причину:",
-    "search-user": "Найти пользователя"
+    "search-user": "Найти пользователя",
+    "file-received": "Файл получен"
   },
   "friends": {
     "send-friend-request": "Отправить запрос в друзья",
