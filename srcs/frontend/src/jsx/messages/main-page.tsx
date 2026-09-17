@@ -107,7 +107,7 @@ function Messages() {
   useEffect(() => {
     const handleNewMessage = async (newMessage: IMessage) => {
       const chatId = newMessage.chatId;
-      const messageId = newMessage.chatId;
+      const messageId = newMessage.id;
       if (!chatId || !messageId) throw new Error('Bad message');
 
       try {
@@ -167,7 +167,6 @@ function Messages() {
       chatId: chatId,
       userId: me?.id,
       messageId: messageId,
-      content: '',
     });
   };
 
