@@ -11,11 +11,11 @@
     display: block;
     border-top-left-radius: $radius-md;
     border-top-right-radius: $radius-md;
-    padding: 1%;
+    text-align: center;
 }
 
 .header-middle{
-    width: 50%;
+    width: 60%;
     margin: 0 auto;
 }
 
@@ -55,3 +55,15 @@
     }
 }
 
+.mini-search-bar{
+    width: 100%;
+    border-top-left-radius: $radius-md;
+    border-top-right-radius: $radius-md;
+    text-align: center;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.mini-search-list{
+    
+}

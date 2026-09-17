@@ -56,7 +56,7 @@ function HeaderOnline() {
     return (
         <>
             <header className="profile-page-header py-3 px-4">
-                <section className="d-none d-md-flex header-left d-flex align-items-center gap-3">
+                <section className="d-none d-xl-flex header-left d-flex align-items-center gap-3">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
                         <img src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
@@ -65,12 +65,12 @@ function HeaderOnline() {
                         <span>{user.firstName} {user.lastName}</span>
                     </div>
                 </section>
-                <section className="d-md-none">
+                <section className="d-xl-none">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
                         <img src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
                 </section>
-                <section className="header-middle d-none d-md-flex">
+                <section className="header-middle d-none d-xl-flex">
                     <SearchBar 
                         ClassName="search-bar"
                         PlaceHolder={t('common.search-user')}
@@ -79,7 +79,7 @@ function HeaderOnline() {
                         onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
                     ></SearchBar>   
                 </section>
-                <section className="d-md-none header-middle">
+                <section className="d-xl-none header-middle">
                     <SearchBar
                         ClassName="mini-search-bar"
                         PlaceHolder={t('common.search')}
@@ -90,7 +90,7 @@ function HeaderOnline() {
                     </SearchBar>
                 </section>
                 <section className="header-right">
-                    <div className="d-none d-md-flex d-flex gap-4">
+                    <div className="d-none d-xl-flex d-flex gap-4">
                             <div className="dropdown pp-icons-header">
                                 <button
                                     className="btn btn-secondary btn-sm dropdown-toggle header-btn"
@@ -127,7 +127,7 @@ function HeaderOnline() {
                             <span>{t('common.logout')}</span>
                         </figure>
                     </div>
-                    <div className="dropdown d-md-none">
+                    <div className="dropdown d-xl-none">
                     <button className="btn btn-secondary btn-sm dropdown-toggle header-btn-right" type="button" data-bs-toggle="dropdown">
                         {t('profile-page.go-to')}
                     </button>
