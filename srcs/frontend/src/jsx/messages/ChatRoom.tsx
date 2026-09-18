@@ -6,15 +6,13 @@ import '../../scss/messages.scss';
 import MoreOptions from './options';
 import { Message } from './Message';
 import { socket } from './socket';
-import type { User, IMessage, ChatRoomProps } from './types.js';
-import { fetchMessages } from './utils/api.js';
+import type { IMessage, ChatRoomProps } from './types.js';
 
 function ChatRoom(roomProps: ChatRoomProps) {
   const { t } = useTranslation();
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
   const [messageText, setMessageText] = useState<string>('');
-  // const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState(false);
   // const [error, setError] = useState<Error | null>(null);
   const me = roomProps.me;
@@ -70,22 +68,6 @@ function ChatRoom(roomProps: ChatRoomProps) {
     }
   }, [roomProps.chat?.chatId]);
 
-  useEffect(() => {
-    const handleChatJoined = (answer: { chatId: string; userId: string }) => {};
-
-    // send request to join chat
-    socket.emit('join-chat-request', { chatId: roomProps.chat.chatId, userId: me.id });
-    // socket.on('chat-room-joined', handleChatJoined);
-
-    // scrollToBottom();
-    // send put to update last_read_chats_id
-    return () => {
-      console.log('Cleanup: removing handler for chatId', roomProps.chat.chatId);
-      socket.off('chat-room-joined', handleChatJoined); // ←  Remove joind ...
-      socket.emit('leave-chat-request', { chatId: roomProps.chat.chatId });
-    };
-  }, [roomProps.chat.chatId]);
-
   const handleSendMessage = () => {
     if (messageText.trim() && socket?.connected) {
       const messageToSend: IMessage = {
@@ -93,11 +75,11 @@ function ChatRoom(roomProps: ChatRoomProps) {
         recipientId: roomProps.chat.user.id,
         sender: { id: me.id, profilePhoto: me.profilePhoto },
         content: messageText,
+        type: 'text',
       };
       socket.emit('new-chat-message', messageToSend);
 
       roomProps.onAddMessage(messageToSend);
-      // scrollToBottom();
       setMessageText('');
     }
   };
@@ -132,6 +114,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
                 profilePhoto={msg.sender.profilePhoto}
                 senderId={msg.sender.id}
                 content={msg.content}
+                type={msg.type}
               />
             ))}
           </ul>

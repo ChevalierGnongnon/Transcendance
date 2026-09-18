@@ -11,15 +11,12 @@ import Block from './block';
 import ChatList from './ChatList';
 import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
-import { IChatPreview, IMessage } from './types';
+import { ActiveView, IChatPreview, IMessage } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
 import { useSocketConnection } from './hooks/useSocketConnection';
-import { exists } from 'i18next';
 
 function Messages() {
-  const [activeView, setActiveView] = useState<
-    'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation'
-  >('my messages');
+  const [activeView, setActiveView] = useState<ActiveView>('my messages');
 
   const [userId, setUserId] = useState('');
   const [users, setUsers] = useState([]);
