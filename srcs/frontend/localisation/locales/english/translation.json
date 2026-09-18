@@ -29,6 +29,7 @@
     "confirm": "Confirm",
     "undo": "Undo",
     "import-file-instead": "Import a file instead",
+    "download-file": "Download file",
     "ready": "Ready",
     "updated": "Updated",
     "my-stats": "My stats",
@@ -92,8 +93,10 @@
     "delete-my-game-infos": "Delete my game statistics"
   },
   "message": {
+    "chats": "Chats",
     "my-messages": "My messages",
     "new-message": "New message",
+    "start-new-chat": "Start a new chat",
     "block": "Block",
     "imaginary-friend": "Imaginary friend",
     "chat-with-friend": "Chat with a friend",
@@ -101,7 +104,9 @@
     "upload-file": "Upload a file",
     "invite-to-game": "Invite to a game",
     "give-reason": "Give the reason:",
-    "search-user": "Search a user"
+    "search-user": "Search for a user to start a chat",
+    "file-received": "File received",
+    "start-chat": "Start chat"
   },
   "friends": {
     "send-friend-request": "Send a friend request",

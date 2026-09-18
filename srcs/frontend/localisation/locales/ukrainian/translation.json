@@ -29,6 +29,7 @@
     "confirm": "Підтвердити",
     "undo": "Скасувати",
     "import-file-instead": "Імпортувати файл замість цього",
+    "download-file": "Завантажити файл",
     "ready": "Готово",
     "updated": "Оновлено",
     "my-stats": "Моя статистика",
@@ -91,8 +92,10 @@
     "delete-my-game-infos": "Видалити мою ігрову статистику"
   },
   "message": {
+    "chats": "Чати",
     "my-messages": "Мої повідомлення",
     "new-message": "Нове повідомлення",
+    "start-new-chat": "Почати новий чат",
     "block": "Заблокувати",
     "imaginary-friend": "Уявний друг",
     "chat-with-friend": "Спілкуватися з другом",
@@ -100,7 +103,9 @@
     "upload-file": "Завантажити файл",
     "invite-to-game": "Запросити в гру",
     "give-reason": "Вкажіть причину:",
-    "search-user": "Знайти користувача"
+    "search-user": "Щоб почати чат, знайдіть користувача",
+    "file-received": "Файл отримано",
+    "start-chat": "Почати чат"
   },
   "friends": {
     "send-friend-request": "Надіслати запит у друзі",

@@ -1,12 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect, useCallback } from 'react';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
-// import defaultAvatar from '../../../public/default-avatar.png';
 import { ChatItem } from './ChatItem';
 import { ChatListProps, IChatPreview, IMessage, User } from './types';
-import { fetchUsers } from './utils/api.js';
 
 function ChatList(props: ChatListProps) {
   const { t } = useTranslation();
@@ -22,7 +19,7 @@ function ChatList(props: ChatListProps) {
         }
       >
         <div className="list-header pt-4">
-          <h1>{t('message.my-messages')}</h1>
+          <h1>{t('message.chats')}</h1>
         </div>
         {props.error ? (
           <div className="list-header pt-4">{'Failed to load chats'}</div>

@@ -29,6 +29,7 @@
     "confirm": "Подтвердить",
     "undo": "Отменить",
     "import-file-instead": "Импортировать файл вместо этого",
+    "download-file": "Скачать файл",
     "ready": "Готово",
     "updated": "Обновлено",
     "my-stats": "Моя статистика",
@@ -91,8 +92,10 @@
     "delete-my-game-infos": "Удалить мою игровую статистику"
   },
   "message": {
+    "chats": "Чаты",
     "my-messages": "Мои сообщения",
     "new-message": "Новое сообщение",
+    "start-new-chat": "Начать новый чат",
     "block": "Заблокировать",
     "imaginary-friend": "Воображаемый друг",
     "chat-with-friend": "Пообщаться с другом",
@@ -100,7 +103,9 @@
     "upload-file": "Загрузить файл",
     "invite-to-game": "Пригласить в игру",
     "give-reason": "Укажите причину:",
-    "search-user": "Найти пользователя"
+    "search-user": "Чтобы начать чат, найдите пользователя",
+    "file-received": "Файл получен",
+    "start-chat": "Начать чат"
   },
   "friends": {
     "send-friend-request": "Отправить запрос в друзья",

@@ -41,7 +41,7 @@ function AddFriend(props: AddFriendProps) {
           setUser(user);
         }}
       />
-      {user ? (
+      {user && (
         <div className="row g-4 justify-content-center shortcut-grid">
           <div className="col-12 col-md-6 col-xl-4">
             <figure className="friend-card py-2 px-1 justify-content-center">
@@ -70,8 +70,6 @@ function AddFriend(props: AddFriendProps) {
             </figure>
           </div>
         </div>
-      ) : (
-        ''
       )}
     </form>
   );

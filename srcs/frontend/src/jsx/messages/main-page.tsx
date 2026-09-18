@@ -16,7 +16,7 @@ import { fetchChats, fetchMessages } from './utils/api';
 import { useSocketConnection } from './hooks/useSocketConnection';
 
 function Messages() {
-  const [activeView, setActiveView] = useState<ActiveView>('my messages');
+  const [activeView, setActiveView] = useState<ActiveView>('chats');
 
   const [userId, setUserId] = useState('');
   const [users, setUsers] = useState([]);
@@ -115,10 +115,9 @@ function Messages() {
           unreadCount: 0,
         };
         setChatList((prev) => {
-          const exist = chatList.some((m) => m.chatId === chatId);
+          const exist = prev.some((m) => m.chatId === chatId);
           return exist ? prev : [newChat, ...prev];
         });
-        console.log(newChat);
 
         addMessage(newMessage);
 
@@ -167,13 +166,6 @@ function Messages() {
     });
   };
 
-  useEffect(() => {
-    fetch('/api/users', { credentials: 'include' })
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error('users error:', err));
-  }, []);
-
   if (!me) {
     return <div>Something went wrong. Please try again later.</div>;
   }
@@ -185,9 +177,9 @@ function Messages() {
         {`Status: ${isConnected ? '🟢 Connected' : '🔴 Disconnect'}`}
       </div>*/}
 
-      <div className={activeView !== 'my messages' ? 'd-flex' : ''}>
+      <div className={activeView !== 'chats' ? 'd-flex' : ''}>
         <ChatList
-          align={activeView === 'my messages' ? 'center' : 'left'}
+          align={activeView === 'chats' ? 'center' : 'left'}
           setActiveView={setActiveView}
           setActiveChat={setActiveChat}
           chatList={chatListWithUnread}
@@ -206,7 +198,6 @@ function Messages() {
         )}
         {activeView === 'new message' && (
           <NewChat
-            ausers={users}
             setActiveChat={setActiveChat}
             setActiveView={setActiveView}
             setChatList={setChatList}

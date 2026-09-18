@@ -29,6 +29,7 @@
     "confirm": "Bestätigen",
     "undo": "Rückgängig machen",
     "import-file-instead": "Stattdessen eine Datei importieren",
+    "download-file": "Datei herunterladen",
     "ready": "Bereit",
     "updated": "Aktualisiert",
     "my-stats": "Meine Statistiken",
@@ -91,8 +92,10 @@
     "delete-my-game-infos": "Meine Spielstatistiken löschen"
   },
   "message": {
+    "chats": "Discussions",
     "my-messages": "Meine Nachrichten",
     "new-message": "Neue Nachricht",
+    "start-new-chat": "Neuen Chat starten",
     "block": "Blockieren",
     "imaginary-friend": "Imaginärer Freund",
     "chat-with-friend": "Mit einem Freund chatten",
@@ -100,7 +103,9 @@
     "upload-file": "Eine Datei hochladen",
     "invite-to-game": "Zu einem Spiel einladen",
     "give-reason": "Geben Sie den Grund an:",
-    "search-user": "Einen Benutzer suchen"
+    "search-user": "Suchen Sie nach einem Benutzer, um einen Chat zu starten",
+    "file-received": "Datei erhalten",
+    "start-chat": "Chat starten"
   },
   "friends": {
     "send-friend-request": "Freundschaftsanfrage senden",

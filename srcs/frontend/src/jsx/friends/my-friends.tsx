@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 
-import defaultAvatar from '../../../public/default-avatar.png';
 import '../../scss/friends.scss';
 import AddFriend from './add-friend';
 import { FriendCard } from './FriendCard';

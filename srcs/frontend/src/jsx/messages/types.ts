@@ -1,5 +1,6 @@
-export type ActiveView =
-  'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
+export type ActiveView = 'chats' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
+
+type MessageType = 'text' | 'invitation' | 'file';
 
 export interface User {
   id: string;
@@ -22,7 +23,7 @@ export interface IMessage {
     profilePhoto: { name: string; id: string };
   };
   content: string;
-  type: 'text' | 'invitation' | 'file';
+  type: MessageType;
   createdAt?: string;
 }
 
@@ -31,7 +32,7 @@ export interface MessageProps {
   content: string;
   profilePhoto: { name: string; id: string };
   senderId: string;
-  type: 'text' | 'invitation' | 'file';
+  type: MessageType;
 }
 
 export interface IChatPreview {
