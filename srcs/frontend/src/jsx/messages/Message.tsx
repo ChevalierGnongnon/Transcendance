@@ -1,60 +1,81 @@
 import { useTranslation } from 'react-i18next';
-import defaultAvatar from '../../../public/default-avatar.png'; // TMP
 import type { MessageProps } from './types.js';
-const previewable = ["image/png", "image/webp", "image/jpeg", "image/gif", "application/pdf"];
+import { socket } from './socket.js';
+import { useNavigate } from "react-router-dom";
+
+const previewable = ['image/png', 'image/webp', 'image/jpeg', 'image/gif', 'application/pdf'];
 
 export const Message = (props: MessageProps) => {
-  const {t} = useTranslation()
+  const navigate = useNavigate();
+
+  const { t } = useTranslation();
 
   return (
     <>
 
-    <li
+      <li
         className={`d-flex align-items-start ${props.senderId === props.userId ? 'flex-row-reverse justify-content-start' : 'justify-content-start'}`}
       >
         <figure className="avatar-msg">
-          <img src={`/api/${props.profilePhoto.id}/download` || defaultAvatar} alt="avatar" />
-      </figure>
-    {props.type === "text" &&
-      <>
-
-        <div
-          className={`${props.senderId === props.userId ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
-        >
-          {props.content}
-        </div>
-      </>
-    }
-    { props.type === "invitation" &&
-      <div className="game-invite-box">
-            {/*<p>
-              {isMe
-                ? "You invited opponent to play Gomoku"
-                : `${invite.fromUserName} invites you to play Gomoku`}
-            </p>
-
-            <p>Board size: {invite.boardSize}</p>
-            <p>Mode: {invite.mode}</p>*/}
-
-            {!isMe && (
+          <img
+            src={
+              props.profilePhoto.id
+                ? `/api/${props.profilePhoto.id}/download`
+                : '/default-avatar.png'
+            }
+            alt="avatar"
+          />
+        </figure>
+        {props.type === 'text' && (
+          <>
+            <div
+              className={`${props.senderId === props.userId ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
+            >
+              {props.content}
+            </div>
+          </>
+        )}
+        {props.type === 'invitation' && (
+          <>
+            <div className="game-invite-box card p-2 m-2">
+              <span className="text-message">You invited to play Gomoku</span>
+              {/* <p>Board size: {props.content}</p> */}
               <div className="invite-actions">
                 <button
                   className="btn btn-success"
-                  onClick={() => socket.emit("game:ans-invite", 'yes'); 'naviagete game page'}
+                  onClick={() => {
+                    socket.emit('game:invite:answer', 'accept');
+                    // 'naviagete to game page'
+                    navigate("/game", {
+                      state: {
+                        me: props.me,
+                        opponentId: props.content.fromUserId,
+                        boardSize: props.content.boardSize,
+                        mode: props.content.mode
+                      }
+                    });
+                    
+
+                  
+                  }}
+>>>>>>> adc130a (halfway to online game)
                 >
                   Accept
                 </button>
 
                 <button
                   className="btn btn-danger"
+
                   onClick={() => socket.emit("game:ans-invite", 'no')}
+
                 >
                   Decline
                 </button>
               </div>
-            )}
-          </div>
-    }
+            </div>
+          </>
+        )}
+
 
     {props.type === "file" &&
       <>
@@ -70,6 +91,7 @@ export const Message = (props: MessageProps) => {
       </>
     }
     </li>
+
 
 
 

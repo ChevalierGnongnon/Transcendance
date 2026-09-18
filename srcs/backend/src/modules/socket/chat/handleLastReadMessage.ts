@@ -17,6 +17,7 @@ export async function handleMessageRead(socket: Socket, payload: lastReadInput) 
         lastReadMessagesId: messageId,
       },
     });
+
     return { ok: true, lastReadMessage };
   } catch (error) {
     console.error('Error save message', error);

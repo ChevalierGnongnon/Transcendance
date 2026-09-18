@@ -8,7 +8,7 @@ function GameStart() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // --- incoming opponentId from Chat / Personal page ---
+  // --- incoming data from Chat / Personal page ---
   const incomingOpponentId = location.state?.opponentId || null;
   const incomingChatId = location.state?.chatId || null;
 	const isConnected = useSocketConnection();
@@ -20,6 +20,9 @@ function GameStart() {
   const [boardSize, setBoardSize] = useState(10);
   const [error, setError] = useState(false);
   const [mode, setMode] = useState("local"); // "local" | "online"
+  const isConnected = useSocketConnection();
+
+  console.log(isConnected);
 
   // If StartGame was opened from Chat or Personal page → opponentId is preselected
   useEffect(() => {
@@ -74,11 +77,13 @@ function GameStart() {
       return;
     }
 
-    // ONLINE MODE → send invite (structure only, logic later)
+    // ONLINE MODE → send invite
     if (mode === "online") {
       // here later you will emit socket.io event:
       // socket.emit("game:invite", { fromUserId: me.id, toUserId: opponentId, boardSize, mode });
+     
       handleSendMessage();
+     
       // For now just redirect to chat where opponent will accept invite
       // navigate("/chat", {
       //   state: {
@@ -100,6 +105,7 @@ function GameStart() {
       <h1 className="game-start-title">Start Gomoku Game</h1>
 
       {/* Opponent selection */}
+  
       <div className="section">
         <h3 className="form-text">Choose opponent</h3>
 
