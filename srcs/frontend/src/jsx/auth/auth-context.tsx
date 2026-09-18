@@ -39,8 +39,10 @@ export function AuthProvider({children}:{children:ReactNode}){
     useEffect(() => {
         if (isAuthenticated === true)
             socket.connect();
-        else
+        else{
+            setOnlineFriends([]);
             socket.disconnect()
+        }
     }, [isAuthenticated])
 
     useEffect(() => {
