@@ -1,3 +1,6 @@
+import friendshipsServices from "@/modules/friendships/friendships.services.js";
+import {Socket} from "socket.io"
+
 const userList = new Map<string, number>();
 
 export function connectUser(userId: string){
@@ -32,4 +35,18 @@ export function disconnectUser(userId: string){
 
 export function showConnectedUsers(){
     return (Array.from(userList.keys()));
+}
+
+export async function announceOnline(userId: string, socket: Socket){
+    const friends = await friendshipsServices.getFriendsId(userId);
+    const rooms = friends.map(id => `user-${id}`)
+
+    socket.to(rooms).emit('user-online', { userId })
+}
+
+export async function announceOffline(userId: string, socket: Socket){
+    const friends = await friendshipsServices.getFriendsId(userId);
+    const rooms = friends.map(id => `user-${id}`)
+
+    socket.to(rooms).emit('user-offline', { userId })
 }
