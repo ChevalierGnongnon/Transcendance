@@ -39,6 +39,12 @@ export interface GamesSummary {
     lost: number;
 }
 
+export interface AiTokenUsage {
+    inputTokens: number;
+    outputTokens: number;
+    thinkingTokens: number;
+}
+
 // CENTRAL CONTAINER
 export interface AnalyticsData {
     overview: AnalyticsOverview;

@@ -8,9 +8,9 @@ const DATABASE_NAME = process.env.MARIADB_DATABASE || 'transcendance';
 const DATABASE_USER = process.env.MARIADB_USER || 'transcendance_user';
 const passwordFile = process.env.MARIADB_PASSWORD_FILE;
 
-if (!passwordFile || !DATABASE_HOST || !DATABASE_PORT || !DATABASE_NAME || !DATABASE_USER) {
-  throw new Error('Mariadb envariment variables are not set');
-}
+// if (!passwordFile || !DATABASE_HOST || !DATABASE_PORT || !DATABASE_NAME || !DATABASE_USER) {
+//   throw new Error('Mariadb envariment variables are not set');
+// }
 
 const DATABASE_PASSWORD = '123';
 

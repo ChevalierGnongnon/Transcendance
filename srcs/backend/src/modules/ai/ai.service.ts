@@ -42,8 +42,17 @@ export async function* streamChat(userId: string, conversationId: string, messag
         });
     }
     // 5. Save AI usage
-    if (usage) 
-        await storeAiUsage(userId, conversationId, usage);
+    if (usage) {
+    console.log("SAVING AI USAGE:", {
+        userId,
+        conversationId,
+        usage,
+    });
+
+    await storeAiUsage(userId, conversationId, usage);
+
+    console.log("AI USAGE SAVED");
+}
 }
 
 export async function storeAiUsage(userId: string, conversationId: string, usage: AiUsageData) {

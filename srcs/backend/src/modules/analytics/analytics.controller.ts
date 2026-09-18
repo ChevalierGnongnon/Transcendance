@@ -13,11 +13,17 @@ export async function getAnalyticsController(req: Request, res: Response)
 {
     try {
         const userId = req.userId;
-        if (!userId) 
-             return res.status(401).json({error: "UNAUTHORIZED",});
+
+        if (!userId) {
+            return res.status(401).json({
+                error: "UNAUTHORIZED",
+            });
+        }
 
         const from = new Date(req.query.from as string);
         const to = new Date(req.query.to as string);
+
+        to.setHours(23, 59, 59, 999);
 
         const analytics = await getAnalytics(userId, from, to);
 

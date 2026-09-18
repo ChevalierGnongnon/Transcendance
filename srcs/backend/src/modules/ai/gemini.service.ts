@@ -54,10 +54,14 @@ export async function *generateResponseStream(history: ChatMessage[], message: s
                 text = chunk.text;
             console.log('GEMINI CHUNK:', text);
             if (chunk.usageMetadata)
+            {
+                console.log("USAGE METADATA:", chunk.usageMetadata);
                usageMetadata = chunk.usageMetadata;
+            }
             if (text)
                 yield text;
          }
+         console.log("FINAL USAGE METADATA:", usageMetadata);
          // If usageMetadata exist callback function 
          if (usageMetadata) 
             {
