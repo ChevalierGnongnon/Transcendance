@@ -13,7 +13,7 @@ import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
 import { IChatPreview, IMessage } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
-import { useSocketConnection } from './hooks/useSocketConnection';
+// import { useSocketConnection } from './hooks/useSocketConnection';
 import { exists } from 'i18next';
 
 function Messages() {
@@ -26,7 +26,7 @@ function Messages() {
   const [loadingMessages, setLoadingMessages] = useState(false);
 
   const me = useUser();
-  const isConnected = useSocketConnection();
+  // const isConnected = useSocketConnection();
   const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
   const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
   const [loadingChats, setLoadingChats] = useState(false);

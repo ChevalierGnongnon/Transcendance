@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
-
+import { socket } from "../messages/socket";
 // Shape of the info shared everywhere in the app (via AuthProvider):
 // whether or not the user is connected,
 // and functions to change its status and check if it changed
@@ -34,6 +34,13 @@ export function AuthProvider({children}:{children:ReactNode}){
     useEffect(() => {
         checkAuth();        
     }, []);
+
+    useEffect(() => {
+        if (isAuthenticated === true)
+            socket.connect();
+        else
+            socket.disconnect()
+    }, [isAuthenticated])
 
     useEffect(() => {
         window.addEventListener('storage', refresh)
