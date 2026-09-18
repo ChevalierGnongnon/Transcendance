@@ -50,3 +50,11 @@ export async function announceOffline(userId: string, socket: Socket){
 
     socket.to(rooms).emit('user-offline', { userId })
 }
+
+export async function filterAndEmit(userId: string, socket: Socket){
+    const friends = await friendshipsServices.getFriendsId(userId);
+    const connected = showConnectedUsers();
+
+    const onlineFriends = friends.filter(friendId => connected.includes(friendId));
+    socket.emit('online-friends', { onlineFriends })
+}
