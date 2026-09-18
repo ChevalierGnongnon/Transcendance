@@ -9,6 +9,7 @@ type AuthContextType = {
     markDisconnected: () => void;
     logout: () => Promise<void>;
     refresh: () => Promise<void>;
+    onlineFriends: string[];
 };
 
 const context = createContext<AuthContextType | undefined>(undefined);
@@ -18,7 +19,7 @@ const context = createContext<AuthContextType | undefined>(undefined);
 // info everywhere inside its tags
 export function AuthProvider({children}:{children:ReactNode}){
     const [isAuthenticated, setIsAuthenticated] = useState<true | false | null>(null)
-    
+    const [onlineFriends, setOnlineFriends] = useState<string[]>([]);
     //simple function to avoid code repetition, checks/fetches the current connection status
     const checkAuth = async() => {
         //calls check-auth route to know if the token cookie is still valid
@@ -47,6 +48,26 @@ export function AuthProvider({children}:{children:ReactNode}){
         return () => window.removeEventListener('storage', refresh);
     }, [])
 
+    useEffect(() => {
+        function handleOnlineFriends(data: {onlineFriends: string[]}){
+            setOnlineFriends(data.onlineFriends);
+        }
+        function handleUserOnline(data: {userId: string}){
+            setOnlineFriends(prev => [...prev, data.userId]);
+        }
+
+        function handleUserOffline(data: {userId: string}){
+            setOnlineFriends(prev => prev.filter(id => id !== data.userId));
+        }
+        socket.on('online-friends', handleOnlineFriends);
+        socket.on('user-online', handleUserOnline);
+        socket.on('user-offline', handleUserOffline);
+        return () => {
+            socket.off('online-friends', handleOnlineFriends);
+            socket.off('user-online', handleUserOnline);
+            socket.off('user-offline', handleUserOffline);
+        };
+    }, [])
     function login(){
         localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(true);
@@ -73,7 +94,7 @@ export function AuthProvider({children}:{children:ReactNode}){
 
     return (
         //returns value + usefull functions
-        <context.Provider value={{ isAuthenticated, login, logout, markDisconnected, refresh }}>
+        <context.Provider value={{ isAuthenticated, login, logout, markDisconnected, refresh, onlineFriends }}>
             {children}
         </context.Provider>
     )
