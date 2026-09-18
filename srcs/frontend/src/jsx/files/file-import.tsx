@@ -42,9 +42,9 @@ function FileImport(fileImportComponent: FileImportComponent){
         <div className="file_component d-flex flex-column">
             <input
                 type="file"
-                name="file_input" 
+                name="file_input"
                 id="file_input"
-                className="upload_file"
+                className="d-none"
                 ref={fileInputRef}
                 onChange={
                     (e)=>{
@@ -89,7 +89,11 @@ function FileImport(fileImportComponent: FileImportComponent){
                         }
                     }
                 }/>
-            
+            <div className="upload_file" onClick={() => fileInputRef.current?.click()}>
+                <span className="upload_file-label">{t('common.import-file-instead')}</span>
+                {selectedFile && <span className="upload_file-name">{selectedFile.name}</span>}
+            </div>
+
             <figure className="file_preview_frame">
                 {   previewURL &&
                     <img className="avatar-preview" src={previewURL ?? ''} alt="file-preview" />

@@ -1,5 +1,15 @@
 @use "./common-variables.scss" as *;
 
+input.form-input{
+	background-color:	white;
+	border-radius:		12px;
+	border:				2px solid black;
+	width:				40%;
+	margin-left: 		auto;
+	margin-right: 		auto;
+}
+
+
 body{
 	padding-bottom: 140px;
 }
@@ -44,7 +54,7 @@ body{
 	background-color:	white;
 	border-radius:		12px;
 	border:				2px solid black;
-	width:				50%;
+	width:				40%;
 	margin-left: 		auto;
 	margin-right: 		auto;
 }
