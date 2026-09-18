@@ -6,14 +6,17 @@ import { requireAuth } from './socket.middlewares.js';
 import { handleMessages } from './chat/handleMessages.js';
 import { handleMessageRead } from './chat/handleLastReadMessage.js';
 import { handleStartChat } from './chat/handleStartChat.js';
+import { showConnectedUsers, connectUser, disconnectUser } from './user_status/status_management.ts'
 
 export const setupSocketConnection = (io: Server) => {
   io.use(requireAuth);
 
   io.on('connection', (socket: Socket) => {
     console.log('User connected:', socket.id);
-
+    if (!socket.userId)
+      throw new Error('Internal server error');
     const userRoom = `user-${socket.userId}`;
+    const isFirstConnection = connectUser(socket.userId);
     socket.join(userRoom);
 
     onValidated(socket, 'new-chat-message', messageSchema, handleMessages);
@@ -23,6 +26,9 @@ export const setupSocketConnection = (io: Server) => {
     socket.on('disconnect', (reason) => {
       console.log('User disconnected:', socket.id);
       console.log(`reason: ${reason}`);
+      if (!socket.userId)
+        throw new Error('Internal server error');
+      const isLastDeconnection = disconnectUser(socket.userId);
     });
   });
 };

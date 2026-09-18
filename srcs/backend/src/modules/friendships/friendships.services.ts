@@ -169,6 +169,37 @@ class FriendshipsServices {
       throw error;
     }
   }
+
+  //for online status, we only need friends id
+  async getFriendsId(userId: string){
+    const friendship = await prisma.friendship.findMany({
+      where: { 
+        OR: [
+          { userId: userId }, 
+          { friendId: userId }
+        ] ,
+        AND: [
+          { status: "accepted"}
+        ]
+      },
+      select: {
+        id: true,
+        
+        user:{
+          select: {
+            id: true,
+          }
+        },
+        friend: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    })
+    return (friendship.map(f => f.user.id === userId ? f.friend.id : f.user.id));
+
+  }
 }
 
 export default new FriendshipsServices();
