@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 import MoreOptions from './options';
 import { Message } from './Message';
 import { socket } from './socket';
-import type { IMessage, ChatRoomProps } from './types.js';
+import type { IMessage, ChatRoomProps, MessageType } from './types.js';
 
 function ChatRoom(roomProps: ChatRoomProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
   const [messageText, setMessageText] = useState<string>('');
@@ -68,20 +70,24 @@ function ChatRoom(roomProps: ChatRoomProps) {
     }
   }, [roomProps.chat?.chatId]);
 
-  const handleSendMessage = () => {
-    if (messageText.trim() && socket?.connected) {
-      const messageToSend: IMessage = {
-        chatId: roomProps.chat.chatId,
-        recipientId: roomProps.chat.user.id,
-        sender: { id: me.id, profilePhoto: me.profilePhoto },
-        content: messageText,
-        type: 'text',
-      };
-      socket.emit('new-chat-message', messageToSend);
+  const handleSendMessage = (fileId?: string) => {
+    if (!socket?.connected) return;
+    if (!fileId && !messageText.trim()) return;
 
-      roomProps.onAddMessage(messageToSend);
-      setMessageText('');
-    }
+    const content = fileId ?? messageText.trim();
+    const messageType = fileId ? 'file' : 'text';
+    const messageToSend: IMessage = {
+      chatId: roomProps.chat.chatId,
+      recipientId: roomProps.chat.user.id,
+      sender: { id: me.id, profilePhoto: me.profilePhoto },
+      content: content,
+      type: messageType,
+    };
+
+    socket.emit('new-chat-message', messageToSend);
+    roomProps.onAddMessage(messageToSend);
+
+    setMessageText('');
   };
 
   if (!messages) {
@@ -91,9 +97,24 @@ function ChatRoom(roomProps: ChatRoomProps) {
   return (
     <>
       <div className="chat-list chat-list-right my-2">
-        <div className="chat-header fs-1">
-          {/*{t('common.chatting-with')} {`${roomProps.chat.pseudo}`}*/}
-          {roomProps.chat.user.pseudo}
+        <div className="chat-header fs-1 d-flex align-items-center justify-content-between px-3">
+          <button
+            className="btn btn-link text-secondary fs-6 text-decoration-none p-0"
+            onClick={() => {
+              roomProps.setActiveView('chats');
+            }}
+          >
+            {t('message.back')}
+          </button>
+          <div>{roomProps.chat.user.pseudo}</div>
+          <button
+            className="btn btn-link text-secondary fs-6 text-decoration-none p-0"
+            onClick={() => {
+              navigate(`/profile/${roomProps.chat.user.pseudo}`);
+            }}
+          >
+            {t('message.go-to-profile')}
+          </button>
         </div>
         <div
           ref={containerRef}
@@ -129,7 +150,12 @@ function ChatRoom(roomProps: ChatRoomProps) {
             >
               +
             </button>
-            {showMoreOptions && <MoreOptions></MoreOptions>}
+            {showMoreOptions && (
+              <MoreOptions
+                onClose={() => setShowMoreOptions((prev) => !prev)}
+                onSendMessage={handleSendMessage}
+              />
+            )}
           </div>
 
           <textarea
@@ -146,7 +172,12 @@ function ChatRoom(roomProps: ChatRoomProps) {
               }
             }}
           ></textarea>
-          <button className="btn send-message" onClick={handleSendMessage}>
+          <button
+            className="btn send-message"
+            onClick={() => {
+              handleSendMessage();
+            }}
+          >
             {t('common.send')}
           </button>
         </div>

@@ -105,7 +105,10 @@
     "give-reason": "Donnez la raison :",
     "search-user": "Recherchez un utilisateur pour démarrer une discussion",
     "file-received": "Fichier reçu",
-    "start-chat": "Démarrer la chat"
+    "start-chat": "Démarrer la chat",
+    "go-to-profile": "Aller au profil",
+    "back": "Retour",
+    "info": "Info"
   },
   "friends": {
     "send-friend-request": "Envoyer une demande d'ami",

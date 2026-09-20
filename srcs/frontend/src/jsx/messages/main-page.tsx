@@ -16,14 +16,12 @@ import { fetchChats, fetchMessages } from './utils/api';
 import { useSocketConnection } from './hooks/useSocketConnection';
 
 function Messages() {
-  const [activeView, setActiveView] = useState<ActiveView>('chats');
-
-  const [userId, setUserId] = useState('');
-  const [users, setUsers] = useState([]);
-  const [loadingMessages, setLoadingMessages] = useState(false);
-
   const me = useUser();
   const isConnected = useSocketConnection();
+  const [activeView, setActiveView] = useState<ActiveView>('chats');
+
+  const [loadingMessages, setLoadingMessages] = useState(false);
+
   const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
   const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
   const [loadingChats, setLoadingChats] = useState(false);
@@ -173,9 +171,6 @@ function Messages() {
   return (
     <>
       <NavBar activeView={activeView} setActiveView={setActiveView}></NavBar>
-      {/*<div className="socket-status justify-content-center">
-        {`Status: ${isConnected ? '🟢 Connected' : '🔴 Disconnect'}`}
-      </div>*/}
 
       <div className={activeView !== 'chats' ? 'd-flex' : ''}>
         <ChatList
@@ -191,6 +186,7 @@ function Messages() {
             me={me}
             chat={activeChat}
             setActiveChat={setActiveChat}
+            setActiveView={setActiveView}
             messages={allMessages}
             onAddMessage={addMessage}
             updateLastReadMessageId={updateLastReadMessageId}

@@ -106,7 +106,10 @@
     "give-reason": "Give the reason:",
     "search-user": "Search for a user to start a chat",
     "file-received": "File received",
-    "start-chat": "Start chat"
+    "start-chat": "Start chat",
+    "go-to-profile": "Go to profile",
+    "back": "Back",
+    "info": "Info"
   },
   "friends": {
     "send-friend-request": "Send a friend request",

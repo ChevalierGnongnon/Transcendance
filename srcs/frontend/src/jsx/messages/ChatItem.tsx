@@ -18,6 +18,7 @@ export const ChatItem = ({ chat, setActiveView, setActiveChat }: ChatProps) => {
                 : '/default-avatar.png'
             }
             alt="avatar"
+            className="img-avatar-header"
           />
         </figure>
         <div className="p-2 message-text fw-semibold fs-3">{chat.user.pseudo}</div>

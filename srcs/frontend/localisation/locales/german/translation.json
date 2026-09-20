@@ -105,7 +105,10 @@
     "give-reason": "Geben Sie den Grund an:",
     "search-user": "Suchen Sie nach einem Benutzer, um einen Chat zu starten",
     "file-received": "Datei erhalten",
-    "start-chat": "Chat starten"
+    "start-chat": "Chat starten",
+    "go-to-profile": "Zum Profil gehen",
+    "back": "Zurück",
+    "info": "Info"
   },
   "friends": {
     "send-friend-request": "Freundschaftsanfrage senden",
