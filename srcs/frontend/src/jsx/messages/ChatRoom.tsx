@@ -152,6 +152,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
             </button>
             {showMoreOptions && (
               <MoreOptions
+                chatId={roomProps.chat.chatId}
                 onClose={() => setShowMoreOptions((prev) => !prev)}
                 onSendMessage={handleSendMessage}
               />

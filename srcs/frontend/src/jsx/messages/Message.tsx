@@ -95,9 +95,10 @@ export const Message = (props: MessageProps) => {
             <div
               className={`${props.senderId === props.userId ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
             >
-              {props.senderId !== props.userId && (
+              {props.senderId !== props.userId && !MimeType.startsWith('image/') && (
                 <span className="text-message">{t('message.file-received')}</span>
               )}
+              {/* file preview here if not previewable just use file type icon */}
               {!loading && MimeType.startsWith('image/') && (
                 <img
                   src={`/api/${fileId}/download`}
@@ -105,7 +106,6 @@ export const Message = (props: MessageProps) => {
                   style={{ maxWidth: 300, maxHeight: 300, objectFit: 'contain', borderRadius: 8 }}
                 />
               )}
-              {/* file preview here if not previewable just use file type icon */}
               {/* download button */}
               <a
                 href={`/api/${props.content}/download`}
@@ -115,7 +115,6 @@ export const Message = (props: MessageProps) => {
               >
                 {t('common.download-file')}
               </a>
-              {/*<input type="button" className="btn btn-primary" value={t('common.download-file')} />*/}
             </div>
           </>
         )}

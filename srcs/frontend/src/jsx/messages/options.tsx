@@ -5,6 +5,7 @@ import { MessageType } from './types';
 import { useAuth } from '../auth/auth-context';
 
 interface MoreOptionsProps {
+  chatId: string;
   onClose: () => void;
   onSendMessage: (content?: string, type?: MessageType) => void;
 }
@@ -19,12 +20,14 @@ function MoreOptions(props: MoreOptionsProps) {
     fileInputRef.current?.click();
   };
 
-  const handleChange = async (e) => {
-    const file = e.target.files[0];
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
     const formData = new FormData();
     formData.append('file', file);
 
-    const res = await fetch(`/api/message/`, {
+    const res = await fetch(`/api/message/${props.chatId}`, {
       credentials: 'include',
       method: 'POST',
       body: formData,

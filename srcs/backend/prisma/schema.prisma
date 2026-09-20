@@ -55,6 +55,7 @@ model File {
   name       String    @map("file_name") @db.VarChar(255)
   type       FileType
   userId     String    @map("user_id") @db.Char(36)
+  chatId     String?   @map("chat_id")
   mimeType   String    @map("mime_type") @db.VarChar(100)
   expiresAt  DateTime? @map("expires_at")
   uploadedAt DateTime  @default(now()) @map("uploaded_at")
@@ -62,6 +63,7 @@ model File {
   uploader User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   profileFor User[] @relation("UserProfilePhoto")
+  chat       Chat?   @relation(fields: [chatId], references: [id], onDelete: SetNull)
 
   @@unique([name, type])
   @@map("file")
@@ -74,6 +76,7 @@ model Chat {
 
   members  ChatMember[]
   messages Message[]
+  file     File[]
 
   @@map("chats")
 }
