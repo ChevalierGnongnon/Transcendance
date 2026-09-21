@@ -13,8 +13,10 @@ import statsShortcut from "../../assets/icons/stats.png"
 import { useAuth } from "../auth/auth-context";
 import { useParams } from "react-router-dom";
 import { useApiFetch } from "../auth/use-api-fetch";
+import { useFriendships } from "../friends/useFriendships";
 
 interface User {
+	id: string;
 	firstName: string;
 	lastName: string;
 	email: string;
@@ -32,6 +34,7 @@ function PersonalPage() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const { pseudo } = useParams();
+	const { getStatus } = useFriendships(); 
 
 	useEffect (() => {
 		async function checkProfileOwner(){
@@ -109,7 +112,7 @@ function PersonalPage() {
 										: "/default-avatar.png"
 								}
 								alt="avatar"
-								className="img-avatar-profile-page "
+								className={`img-avatar-profile-page ${getStatus(displayedUser.id)}-avatar`}
 							/>
 							<div className="d-flex flex-column">
 								<h1>{displayedUser.pseudo}</h1>

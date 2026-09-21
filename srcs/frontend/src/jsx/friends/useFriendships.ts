@@ -26,5 +26,4 @@ export function useFriendships(){
 
     }
     return {getStatus};
-    
 }
