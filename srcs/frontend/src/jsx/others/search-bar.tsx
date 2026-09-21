@@ -96,10 +96,11 @@ function SearchBar(props: SearchBarProps){
                     ) : (
                         result.map((user)=>
                             <li className="d-flex align-items-center justify-content-center gap-5 px-3" key={user.id} onClick={(()=> props.onSelectUser(user))}>
-                                <figure className={`avatar-msg ${getStatus(user.id)}-avatar`}>
+                                <figure>
                                     <img
                                         src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'}
                                         alt="avatar"
+                                        className={`avatar-msg ${getStatus(user.id)}-avatar`}
                                     />
                                 </figure>
                                 <span className="d-flex">
