@@ -81,21 +81,44 @@ function PersonalPage() {
 		<>
 			<main className="d-flex flex-column justify-content-center align-items-center">
 				<div className="profile-page d-flex flex-column gap-3 justify-content-center align-items-center min-vh-100">
-					<img
-						src={
-							displayedUser.profilePhoto?.id
-								? `/api/${displayedUser.profilePhoto.id}/download`
-								: "/default-avatar.png"
-						}
-						alt="avatar"
-						className="img-avatar-profile-page"
-					/>
-					<div className="d-flex flex-column">
-						<h1>{displayedUser.pseudo}</h1>
-						<span>
-							{displayedUser.firstName} {displayedUser.lastName}
-						</span>
-					</div>
+					{isMine &&
+						<>
+							<img
+								src={
+									displayedUser.profilePhoto?.id
+										? `/api/${displayedUser.profilePhoto.id}/download`
+										: "/default-avatar.png"
+								}
+								alt="avatar"
+								className="img-avatar-profile-page"
+							/>
+							<div className="d-flex flex-column">
+								<h1>{displayedUser.pseudo}</h1>
+								<span>
+									{displayedUser.firstName} {displayedUser.lastName}
+								</span>
+							</div>
+						</>
+					}
+					{!isMine &&
+						<>
+							<img
+								src={
+									displayedUser.profilePhoto?.id
+										? `/api/${displayedUser.profilePhoto.id}/download`
+										: "/default-avatar.png"
+								}
+								alt="avatar"
+								className="img-avatar-profile-page "
+							/>
+							<div className="d-flex flex-column">
+								<h1>{displayedUser.pseudo}</h1>
+								<span>
+									{displayedUser.firstName} {displayedUser.lastName}
+								</span>
+							</div>
+						</>
+					}
 
 
 					{ !isMine &&

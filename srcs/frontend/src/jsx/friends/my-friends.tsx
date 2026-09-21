@@ -8,7 +8,7 @@ import { FriendCard } from './FriendCard';
 import { useAuth } from '../auth/auth-context';
 import { apiFetch } from './apiFetch';
 
-interface Friendship {
+export interface Friendship {
   id: string;
   status: string;
   createdAt: string;
