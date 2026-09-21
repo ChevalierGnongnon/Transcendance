@@ -68,7 +68,7 @@ export function AuthProvider({children}:{children:ReactNode}){
             socket.off('online-friends', handleOnlineFriends);
             socket.off('user-online', handleUserOnline);
             socket.off('user-offline', handleUserOffline);
-        };
+        }; 
     }, [])
     function login(){
         localStorage.setItem('auth-sync', Date.now().toString());
