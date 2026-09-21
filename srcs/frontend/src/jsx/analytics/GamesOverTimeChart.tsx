@@ -10,8 +10,6 @@ function GamesOverTimeChart({
 {
 	return (
 		<div>
-			<h2>Games Over Time</h2>
-
 			<ResponsiveContainer
 				width="100%"
 				height={400}

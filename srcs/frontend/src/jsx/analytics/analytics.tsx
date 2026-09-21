@@ -6,7 +6,7 @@ import type { AnalyticsData } from "./analytics.types";
 import AnalyticsCard from "./AnalyticsCard";
 import LineChartSection from './LineChartSection';
 import PieChartSection from "./PieChartSection";
-
+import { exportAnalyticsToCsv } from './analyticsExport';
 
 
 function getDefaultDates() {
@@ -109,108 +109,160 @@ function Analytics() {
 
     return (
     <div className="analytics">
-        <h1>Analytics Dashboard</h1>
+        <h1 className="mb-2 fw-bold">
+            Analytics Dashboard
+        </h1>
 
-        <p className="analytics-subtitle">
+        <p className="text-secondary mb-4">
             Overview of your activity and AI usage.
         </p>
 
-        <div className="analytics-filters">
-            <label>
-                <span className="analytics-filters-title">
-                    From:
-                </span>
+        <div className="d-flex flex-wrap align-items-end gap-3 p-4 mb-4 border rounded">
 
-                <input
-                    type="date"
-                    value={from}
-                    max={today}
-                    onChange={(event) => setFrom(event.target.value)}
-                />
-            </label>
+    <div>
+        <label
+            htmlFor="analytics-from"
+            className="form-label"
+        >
+            From:
+        </label>
 
-            <label>
-                <span className="analytics-filters-title">
-                    To:
-                </span>
+        <input
+            id="analytics-from"
+            type="date"
+            className="form-control"
+            value={from}
+            max={today}
+            onChange={(event) => setFrom(event.target.value)}
+        />
+    </div>
 
-                <input
-                    type="date"
-                    value={to}
-                    max={today}
-                    onChange={(event) => setTo(event.target.value)}
-                />
-            </label>
-            <div className="analytics-presets">
-                 <button onClick={() => applyPreset(7)}>
-                    7 Days
-                </button>
-                <button onClick={() => applyPreset(14)}>
-                    14 Days
-                </button>
-                <button onClick={() => applyPreset(30)}>
-                    30 Days
-                </button>
-            </div>
+    <div>
+        <label
+            htmlFor="analytics-to"
+            className="form-label"
+        >
+            To:
+        </label>
 
-            <button onClick={handleApplyFilter}>
-                Apply
-            </button>
-        </div>
+        <input
+            id="analytics-to"
+            type="date"
+            className="form-control"
+            value={to}
+            max={today}
+            onChange={(event) => setTo(event.target.value)}
+        />
+    </div>
+
+    <div className="d-flex gap-2">
+        <button
+            className="btn btn-outline-secondary"
+            onClick={() => applyPreset(7)}
+        >
+            7 Days
+        </button>
+
+        <button
+            className="btn btn-outline-secondary"
+            onClick={() => applyPreset(14)}
+        >
+            14 Days
+        </button>
+
+        <button
+            className="btn btn-outline-secondary"
+            onClick={() => applyPreset(30)}
+        >
+            30 Days
+        </button>
+    </div>
+
+    <button
+        className="btn btn-primary"
+        onClick={handleApplyFilter}
+    >
+        Apply
+    </button>
+
+    <button
+        className="btn btn-success ms-auto"
+        onClick={() =>
+            exportAnalyticsToCsv(
+                analytics,
+                activeFrom,
+                activeTo
+            )
+        }
+    >
+        Export CSV
+    </button>
+
+    </div>
 
         {error && (
-            <p className="analytics-error">
+            <div className="alert alert-danger" role="alert">
                 {error}
-            </p>
+            </div>
         )}
 
-        <div className="analytics-cards">
-            <AnalyticsCard
-                title="Games Played"
-                value={analytics.overview.gamesPlayed}
-            />
-
-            <AnalyticsCard
-                title="Games Won"
-                value={analytics.overview.gamesWon}
-            />
-
-            <AnalyticsCard
-                title="Games Lost"
-                value={analytics.overview.gamesLost}
-            />
-
-            <AnalyticsCard
-                title="Win Rate"
-                value={`${analytics.overview.winRate.toFixed(1)}%`}
-            />
-
-            <AnalyticsCard
-                title="AI Requests"
-                value={analytics.overview.aiRequests}
-            />
-
-            <AnalyticsCard
-                title="Total Tokens"
-                value={analytics.overview.totalTokens}
-            />
+        <div className="row g-4">
+           <div className="col-12 col-sm-6 col-lg-4">
+                <AnalyticsCard
+                    title="Games Played"
+                    value={analytics.overview.gamesPlayed}
+                />
+            </div>
+            <div className="col-12 col-sm-6 col-lg-4">
+                <AnalyticsCard
+                    title="Games Won"
+                    value={analytics.overview.gamesWon}
+                />
+            </div>
+            <div className="col-12 col-sm-6 col-lg-4">
+                <AnalyticsCard
+                    title="Games Lost"
+                    value={analytics.overview.gamesLost}
+                />
+            </div>
+            <div className="col-12 col-sm-6 col-lg-4">
+                <AnalyticsCard
+                    title="Win Rate"
+                    value={`${analytics.overview.winRate.toFixed(1)}%`}
+                />
+            </div>
+            <div className="col-12 col-sm-6 col-lg-4">
+                <AnalyticsCard
+                    title="AI Requests"
+                    value={analytics.overview.aiRequests}
+                />
+            </div>
+            <div className="col-12 col-sm-6 col-lg-4">
+                <AnalyticsCard
+                    title="Total Tokens"
+                    value={analytics.overview.totalTokens}
+                />
+            </div>
         </div>
-        <div className="analytics-chart-grid">
-
-             <LineChartSection
-                aiUsageData={analytics.aiUsageOverTime}
-                gamesData={analytics.gamesOverTime}
-            />
-
-            <PieChartSection
-                gamesSummary={analytics.gamesSummary}
-                aiTokenUsage={{
-                    inputTokens: analytics.overview.inputTokens,
-                    outputTokens: analytics.overview.outputTokens,
-                    thinkingTokens: analytics.overview.thinkingTokens,
-                }}
-            />
-
+        <div className="row g-4 mt-4">
+             <div className="col-12 col-lg-6 d-flex">
+                <LineChartSection
+                    aiUsageData={analytics.aiUsageOverTime}
+                    gamesData={analytics.gamesOverTime}
+                />
+            </div>
+            <div className="col-12 col-lg-6 d-flex">
+                <PieChartSection
+                    gamesSummary={analytics.gamesSummary}
+                    aiTokenUsage={{
+                        inputTokens: analytics.overview.inputTokens,
+                        outputTokens: analytics.overview.outputTokens,
+                        thinkingTokens: analytics.overview.thinkingTokens,
+                    }}
+                    totalTokens={analytics.overview.totalTokens}
+                    totalGames={analytics.overview.gamesPlayed}
+                />
+            </div>
         </div>
     </div>
     );

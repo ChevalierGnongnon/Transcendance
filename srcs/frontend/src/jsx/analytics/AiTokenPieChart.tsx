@@ -11,10 +11,12 @@ import {
 
 interface AiTokenUsagePieChartProps {
     data: AiTokenUsage;
+	totalTokens: number;
 }
 
 function AiTokenUsagePieChart({
     data,
+	totalTokens
 }: AiTokenUsagePieChartProps) {
 
 	// Change data in frontend vor Visualisation and Rechart purposes
@@ -35,6 +37,9 @@ function AiTokenUsagePieChart({
 
 	return (
 		<div>
+			<p className="analytics-total">
+        		Total Tokens: {totalTokens.toLocaleString()}
+    		</p>
 			<ResponsiveContainer
 				width="100%"
 				height={400}	

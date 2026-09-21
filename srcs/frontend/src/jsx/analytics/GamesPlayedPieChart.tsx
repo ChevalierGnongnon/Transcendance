@@ -1,12 +1,13 @@
-import { ChatItem } from "../messages/ChatItem";
-import { GamesSummary, AiTokenUsage } from "./analytics.types";
+
+import { GamesSummary } from "./analytics.types";
 import { PieChart, Pie, Tooltip, Legend, ResponsiveContainer, Cell } from "recharts";
 
 interface GamesPlayedPieChartProps {
 	data: GamesSummary;
+	totalGames: number;
 }
 
-function GamesPlayedPieChart({data,}: GamesPlayedPieChartProps){
+function GamesPlayedPieChart({data, totalGames,}: GamesPlayedPieChartProps){
 	const chartData = [
 		{
 			name: "Won",
@@ -20,7 +21,9 @@ function GamesPlayedPieChart({data,}: GamesPlayedPieChartProps){
 
 	return(
 		<div>
-			<h2>Games Played</h2>
+			<p className="analytics-total">
+        		Total Games: {totalGames}
+    		</p>
 			<ResponsiveContainer
 				width= "100%"
 				height={400}
