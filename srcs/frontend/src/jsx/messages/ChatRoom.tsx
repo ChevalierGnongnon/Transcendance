@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 import MoreOptions from './options';

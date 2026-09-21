@@ -1,6 +1,9 @@
 import type { ChatProps } from './types.js';
+import { useFriendships } from '../friends/useFriendships.js';
+
 
 export const ChatItem = ({ chat, setActiveView, setActiveChat }: ChatProps) => {
+  const {getStatus} = useFriendships();
   return (
     <>
       <li
@@ -10,7 +13,7 @@ export const ChatItem = ({ chat, setActiveView, setActiveChat }: ChatProps) => {
           setActiveChat(chat);
         }}
       >
-        <figure className="avatar-msg">
+        <figure className={`avatar-msg ${getStatus(chat.user.id)}-avatar`}>
           <img src={`/api/${chat.user.profilePhoto.id}/download`} alt="avatar" />
         </figure>
         <div className="p-2 message-text fw-semibold fs-3">{chat.user.pseudo}</div>

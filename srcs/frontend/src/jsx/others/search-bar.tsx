@@ -4,7 +4,7 @@ import "../../scss/headers.scss";
 import { useState , useEffect, useRef} from "react";
 import { useApiFetch } from "../auth/use-api-fetch";
 import { useTranslation } from 'react-i18next';
-
+import { useFriendships } from "../friends/useFriendships";
 interface SearchResult{
     id: string;
     firstName: string;
@@ -32,6 +32,7 @@ function SearchBar(props: SearchBarProps){
     const ref = useRef<HTMLDivElement>(null);
     const apiFetch = useApiFetch();
 
+    const { getStatus } = useFriendships()
     useEffect(() => {
         async function search() {
             try {
@@ -95,7 +96,7 @@ function SearchBar(props: SearchBarProps){
                     ) : (
                         result.map((user)=>
                             <li className="d-flex align-items-center justify-content-center gap-5 px-3" key={user.id} onClick={(()=> props.onSelectUser(user))}>
-                                <figure>
+                                <figure className={`avatar-msg ${getStatus(user.id)}-avatar`}>
                                     <img
                                         src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'}
                                         alt="avatar"
