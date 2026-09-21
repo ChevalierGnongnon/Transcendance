@@ -207,6 +207,8 @@ function MyFriends() {
               if (item.status === 'accepted') {
                 return (
                   <FriendCard
+                    isFriend={true}
+                    userId ={friend.id}
                     key={item.id}
                     name={`${friend.firstName} ${friend.lastName}`}
                     profilePhotoId={friend.profilePhotoId}
@@ -233,6 +235,8 @@ function MyFriends() {
                 if (isReceiver && item.status === 'pending') {
                   return (
                     <FriendCard
+                      isFriend={false}
+                      userId ={friend.id}
                       key={item.id}
                       name={`${friend.firstName} ${friend.lastName}`}
                       profilePhotoId={friend.profilePhotoId}
@@ -265,6 +269,8 @@ function MyFriends() {
                   if (isSender && item.status === 'pending') {
                     return (
                       <FriendCard
+                        isFriend={false}
+                        userId ={friend.id}
                         key={item.id}
                         name={`${friend.firstName} ${friend.lastName}`}
                         profilePhotoId={friend.profilePhotoId}
@@ -292,9 +298,11 @@ function MyFriends() {
                     const isSender = item.user.id === me.id;
                     const friend = isSender ? item.friend : item.user;
 
-                    if (item.status === 'bocked') {
+                    if (item.status === 'blocked') {
                       return (
                         <FriendCard
+                          isFriend={false}
+                          userId ={friend.id}
                           key={item.id}
                           name={`${friend.firstName} ${friend.lastName}`}
                           profilePhotoId={friend.profilePhotoId}
