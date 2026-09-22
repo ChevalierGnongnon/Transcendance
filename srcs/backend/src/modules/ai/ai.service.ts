@@ -1,6 +1,7 @@
 import { prisma } from '../../lib/prisma.js';
 import { generateResponseStream } from "./gemini.service.ts";
 import type{ AiUsageData } from "./ai.types.ts";
+import { emitAnalyticsUpdated } from '../socket/socket-events.ts';
 
 export async function* streamChat(userId: string, conversationId: string, message: string) 
 {
@@ -66,4 +67,5 @@ export async function storeAiUsage(userId: string, conversationId: string, usage
             totalTokens: usage.totalTokens,
         },
     });
+    emitAnalyticsUpdated(userId);
 }

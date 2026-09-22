@@ -6,6 +6,7 @@ import cron from 'node-cron';
 import app from './app.js';
 import { fileManager } from './scripts/file-manager.ts';
 import { setupSocketConnection } from './modules/socket/socket.ts';
+import { initializeSocketEvents } from './modules/socket/socket-events.ts';
 
 cron.schedule('0 * * * *', fileManager);
 
@@ -18,6 +19,7 @@ const io = new Server(httpServer, {
   },
 });
 
+initializeSocketEvents(io);
 setupSocketConnection(io);
 
 const PORT = Number(process.env.EXPRESS_PORT) || 3000;

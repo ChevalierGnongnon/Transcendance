@@ -7,7 +7,8 @@ import AnalyticsCard from "./AnalyticsCard";
 import LineChartSection from './LineChartSection';
 import PieChartSection from "./PieChartSection";
 import { exportAnalyticsToCsv } from './analyticsExport';
-
+import { useSocketConnection } from '../messages/hooks/useSocketConnection';
+import { socket } from '../messages/socket';
 
 function getDefaultDates() {
     const today = new Date();
@@ -34,6 +35,7 @@ function Analytics() {
     const [to, setTo] = useState(defaultDates.to);
     const [activeFrom, setActiveFrom] = useState(defaultDates.from);
     const [activeTo, setActiveTo] = useState(defaultDates.to);
+    const isConnected = useSocketConnection();
 
     useEffect(() => {
         async function loadAnalytics() {
@@ -58,7 +60,19 @@ function Analytics() {
                 setLoading(false);
             }
         }
+
+        function handleAnalyticsUpdated(){
+            console.log("Analytics updated");
+            loadAnalytics();
+        }
+
         loadAnalytics();
+
+        socket.on("analytics:updated", handleAnalyticsUpdated);
+
+        return ()=> {
+            socket.off("analytics:updated", handleAnalyticsUpdated);
+        }
     }, [activeFrom, activeTo]);
 
     if (loading) {

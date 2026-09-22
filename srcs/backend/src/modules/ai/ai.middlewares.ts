@@ -13,7 +13,7 @@ type RateLimitRequest = Request & {
 
 export const aiRateLimiter = rateLimit({
     windowMs: 60 * 1000,
-    limit: 3,
+    limit: 10,
 
     keyGenerator: (req: Request) => {
         if (!req.userId) {
