@@ -41,6 +41,8 @@ model User {
   aiConversations AiConversation[]
   aiUsage AiUsage[]
   games Game[]
+  sentFriendships     Friendship[] @relation("SentFriendships")
+  receivedFriendships Friendship[] @relation("ReceivedFriendships")
 
   @@map("user")
 }
@@ -56,6 +58,7 @@ model File {
   name       String    @map("file_name") @db.VarChar(255)
   type       FileType
   userId     String    @map("user_id") @db.Char(36)
+  chatId     String?   @map("chat_id")
   mimeType   String    @map("mime_type") @db.VarChar(100)
   expiresAt  DateTime? @map("expires_at")
   uploadedAt DateTime  @default(now()) @map("uploaded_at")
@@ -63,6 +66,7 @@ model File {
   uploader User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   profileFor User[] @relation("UserProfilePhoto")
+  chat       Chat?   @relation(fields: [chatId], references: [id], onDelete: SetNull)
 
   @@unique([name, type])
   @@map("file")
@@ -75,35 +79,45 @@ model Chat {
 
   members  ChatMember[]
   messages Message[]
+  file     File[]
 
   @@map("chats")
 }
 
 model ChatMember {
-  chatId   String   @map("chat_id") @db.Char(36)
-  userId   String   @map("user_id") @db.Char(36)
-  joinedAt DateTime @default(now()) @map("joined_at")
+  chatId             String   @map("chat_id") @db.Char(36)
+  userId             String   @map("user_id") @db.Char(36)
+  joinedAt           DateTime @default(now()) @map("joined_at")
+  lastReadMessagesId String?  @map("last_read_message_id")
 
-  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat    Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message Message? @relation(fields: [lastReadMessagesId], references: [id])
 
   @@id([chatId, userId])
   @@map("chat_members")
 }
 
+enum MessageType {
+  text
+  image
+  file
+  audio
+  invitation
+}
+
 model Message {
-  id        String   @id @default(uuid()) @db.Char(36)
-  chatId    String   @map("chat_id") @db.Char(36)
-  senderId  String   @map("sender_id") @db.Char(36)
-  content   String   @db.Text
-  // replyToId String?  @map("reply_to_id") @db.Char(36)
-  createdAt DateTime @default(now()) @map("created_at")
+  id        String      @id @default(uuid()) @db.Char(36)
+  chatId    String      @map("chat_id") @db.Char(36)
+  senderId  String      @map("sender_id") @db.Char(36)
+  content   String      @db.Text
+  type      MessageType
+  createdAt DateTime    @default(now()) @map("created_at")
 
   chat   Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
   sender User @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
-  // replyTo Message? @relation("MessageReplies", fields: [replyToId], references: [id], onDelete: SetNull)
 
-  // replies Message[] @relation("MessageReplies")
+  chatMembers ChatMember[]
 
   @@index([chatId, createdAt])
   @@map("messages")
@@ -180,4 +194,29 @@ model Game {
     @@index([userId])
     @@index([createdAt])
     @@map("games")
+}
+enum FriendshipStatus {
+  pending
+  accepted
+  refused
+  cancelled
+  blocked
+}
+
+model Friendship {
+  id       String           @id @default(uuid())
+  userId   String           @map("user_id")
+  friendId String           @map("friend_id")
+  status   FriendshipStatus @default(pending)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  user   User @relation("SentFriendships", fields: [userId], references: [id], onDelete: Cascade)
+  friend User @relation("ReceivedFriendships", fields: [friendId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, friendId])
+  @@index([userId, status])
+  @@index([friendId, status])
+  @@map("friendships")
 }

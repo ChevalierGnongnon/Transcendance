@@ -14,7 +14,7 @@ export const loginValidator = [
     .withMessage('PASSWORD_TOO_LONG'),
 ];
 
-export const registerValidator = [
+export const registrationValidator = [
   body('name')
     .trim()
     .notEmpty()
@@ -61,13 +61,10 @@ export const registerValidator = [
         age--;
       }
       if (age < 18) {
-        throw new Error('');
+        throw new Error('AGE_REQUIREMENT');
       }
       return true;
     }),
-];
-
-export const completeProfileValidator = [
   body('pseudo')
     .trim()
     .notEmpty()
@@ -75,7 +72,7 @@ export const completeProfileValidator = [
     .matches(/^[a-zA-Z0-9_-]{3,30}$/)
     .withMessage('PSEUDO_INVALID'),
   body('avatar').custom((value, { req }) => {
-    if (!value && !req.body.avatarPending) {
+    if (!value && !req.file) {
       throw new Error('AVATAR_REQUIRED');
     }
     return true;

@@ -1,4 +1,4 @@
-export const getChats = async () => {
+export const fetchChats = async () => {
   const res = await fetch(`/api/me/chats/`, {
     credentials: 'include',
   });
@@ -14,7 +14,7 @@ export const getChats = async () => {
   return chats;
 };
 
-export const getMessages = async (chatId: string) => {
+export const fetchMessages = async (chatId: string) => {
   const res = await fetch(`/api/messages/${chatId}`, {
     credentials: 'include',
   });
@@ -24,7 +24,7 @@ export const getMessages = async (chatId: string) => {
   }
 
   if (!res.ok) {
-    throw new Error('Failed to fetch messages');
+    throw new Error('Failed t ofetch messages');
   }
 
   const data = await res.json();
@@ -84,4 +84,19 @@ export const createAiConversation = async () => {
   const data = await res.json();
 
   return data.conversationId;
+};
+export const fetchUsers = async () => {
+  try {
+    const response = await fetch('/api/users', { credentials: 'include' });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('users error:', error);
+    throw error;
+  }
 };

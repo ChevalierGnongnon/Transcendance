@@ -7,6 +7,7 @@ import authRoutes from './modules/auth/auth.routes.js';
 import usersRoutes from './modules/users/users.routes.js';
 import filesRoutes from './modules/files/files.routes.js';
 import chatRoutes from './modules/chat/chat.routes.js';
+import friendshipsRoutes from './modules/friendships/friendships.routes.js';
 import healthRouter from './modules/health.js';
 import aiRouter from "./modules/ai/ai.routes.ts"
 import analyticsRouter from "./modules/analytics/analytics.routes.ts";
@@ -24,5 +25,6 @@ app.use('/api', healthRouter);
 app.use('/api', chatRoutes);
 app.use('/api', aiRouter);
 app.use('/api', analyticsRouter);
+app.use('/api', friendshipsRoutes);
 
 export default app;

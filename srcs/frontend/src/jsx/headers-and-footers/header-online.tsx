@@ -12,6 +12,8 @@ import myPageIcon from "../../assets/icons/icon-my-page.png";
 import { useAuth } from "../auth/auth-context";
 import { useApiFetch } from "../auth/use-api-fetch";
 import langIcon from "../../assets/icons/lang_icon.png";
+import SearchBar from "../others/search-bar";
+import '../../scss/headers.scss'
 
 interface User {
 	firstName: string;
@@ -19,6 +21,7 @@ interface User {
 	email: string;
 	pseudo: string;
 	profilePhoto: {
+		id: string;
 		name: string;
 	};
 }
@@ -49,13 +52,13 @@ function HeaderOnline() {
 		navigate("/login");
 	};
     if (!user)
-        return <p>Chargement...</p>;
+        return <p>{t('common.loading')}</p>;
     return (
         <>
             <header className="profile-page-header py-3 px-4">
                 <section className="d-none d-md-flex header-left d-flex align-items-center gap-3">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
-                        <img src={user.profilePhoto?.name ? `/uploads/${user.profilePhoto.name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
+                        <img src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
                     <div className="d-flex flex-column">
                         <h3>{user.pseudo}</h3>
@@ -64,8 +67,16 @@ function HeaderOnline() {
                 </section>
                 <section className="d-md-none">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
-                        <img src={user.profilePhoto?.name ? `/uploads/${user.profilePhoto?.name}` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
+                        <img src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
                     </figure>
+                </section>
+                <section className="header-middle">
+                    <SearchBar
+                        ClassName="search-bar"
+                        ListClassName="header-search-results"
+                        BreakPoint={768}
+                        onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
+                    ></SearchBar>
                 </section>
                 <section className="header-right">
                     <div className="d-none d-md-flex d-flex gap-4">

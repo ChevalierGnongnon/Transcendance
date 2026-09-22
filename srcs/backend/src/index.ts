@@ -1,12 +1,22 @@
-import { prisma } from './lib/prisma.js';
-import { Server } from 'socket.io';
 import { createServer } from 'node:http';
+import { Server } from 'socket.io';
+import { prisma } from './lib/prisma.js';
+import cron from 'node-cron';
 
-import app from './app.ts';
-import { setupSocketConnection } from './socket.js';
+import app from './app.js';
+import { fileManager } from './scripts/file-manager.ts';
+import { setupSocketConnection } from './modules/socket/socket.ts';
+
+cron.schedule('0 * * * *', fileManager);
 
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+  connectionStateRecovery: {},
+  cors: {
+    // origin: 'https://transcendance.fr',
+    credentials: true,
+  },
+});
 
 setupSocketConnection(io);
 

@@ -1,27 +1,30 @@
 import type { ChatProps } from './types.js';
 
-export const ChatItem = ({
-  chatId,
-  pseudo,
-  profilePhoto,
-  setActiveView,
-  setActiveChatId,
-}: ChatProps) => {
+export const ChatItem = ({ chat, setActiveView, setActiveChat }: ChatProps) => {
   return (
     <>
       <li
         className="message-block d-flex"
         onClick={() => {
           setActiveView('conversation');
-          setActiveChatId(chatId);
+          setActiveChat(chat);
         }}
       >
         <figure className="avatar-msg">
-          <img src={`/uploads/${profilePhoto}`} alt="avatar" />
+          <img
+            src={
+              chat.user.profilePhoto.id
+                ? `/api/${chat.user.profilePhoto.id}/download`
+                : '/default-avatar.png'
+            }
+            alt="avatar"
+            className="img-avatar-header"
+          />
         </figure>
-        <div className="p-2 message-text">
-          {pseudo} =={'>'} id: {chatId}
-        </div>
+        <div className="p-2 message-text fw-semibold fs-3">{chat.user.pseudo}</div>
+        {chat.unreadCount > 0 && (
+          <span className="badge rounded-pill bg-success me-2 text-start ">{chat.unreadCount}</span>
+        )}
       </li>
     </>
   );

@@ -26,10 +26,10 @@ function useGomoku(playersFromSystem: Player[], boardSize: number) {
 
   const checkWin = (board: Board, row: number, col: number, symbol: string) => {
     const directions = [
-      [1, 0],   // вниз
-      [0, 1],   // вправо
-      [1, 1],   // діагональ вниз-право
-      [1, -1],  // діагональ вниз-ліво
+      [1, 0],
+      [0, 1],
+      [1, 1],
+      [1, -1],
     ];
 
     for (const [dRow, dCol] of directions) {
@@ -50,7 +50,6 @@ function useGomoku(playersFromSystem: Player[], boardSize: number) {
         c -= dCol;
       }
 
-      // вперед
       r = row + dRow;
       c = col + dCol;
       while (

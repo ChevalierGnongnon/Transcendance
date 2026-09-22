@@ -1,7 +1,7 @@
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import ChatRoom from './ChatRoom';
 import NavBar from './navbar';
@@ -9,51 +9,161 @@ import NewChat from './new-chat';
 import MoreOptions from './options';
 import Block from './block';
 import ChatList from './ChatList';
+import ImaginaryFriend from './ImaginaryFriend';
 import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
-import ImaginaryFriend from './ImaginaryFriend';
-
-// import { io } from "socket.io-client";
+import { ActiveView, IChatPreview, IMessage } from './types';
+import { fetchChats, fetchMessages } from './utils/api';
+import { useSocketConnection } from './hooks/useSocketConnection';
 
 function Messages() {
-  const [activeView, setActiveView] = useState<
-    'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation'
-  >('my messages');
-
-  const [activeChatId, setActiveChatId] = useState<string | null>(null);
-  const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
-  const [fooEvents, setFooEvents] = useState<any[]>([]);
   const me = useUser();
+  const isConnected = useSocketConnection();
+  const [activeView, setActiveView] = useState<ActiveView>('chats');
+
+  const [loadingMessages, setLoadingMessages] = useState(false);
+
+  const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
+  const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
+  const [loadingChats, setLoadingChats] = useState(false);
+  const [chatList, setChatList] = useState<IChatPreview[]>([]);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (!socket.connected) {
-      socket.connect();
-      console.log('🔄 Attempting to connect...');
-    }
-    function onConnect() {
-      setIsConnected(true);
-      console.log('✅ Socket is connected');
-    }
-
-    function onDisconnect() {
-      setIsConnected(false);
-      console.log('❌ Socket disconnected');
-    }
-
-    function onFooEvent(value: any) {
-      setFooEvents((previous) => [...previous, value]);
-    }
-
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
-    socket.on('foo', onFooEvent);
-
+    let cancelled = false;
+    setLoadingChats(true);
+    fetchChats()
+      .then((chats) => {
+        if (!cancelled) setChatList(chats);
+      })
+      .catch((e) => {
+        if (!cancelled) setError(e instanceof Error ? e : new Error('Unknown'));
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingChats(false);
+      });
     return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
-      socket.off('foo', onFooEvent);
+      cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    const missing = chatList.filter((c) => !allMessages.has(c.chatId));
+    if (missing.length === 0) return;
+
+    let cancelled = false;
+
+    Promise.all(
+      missing.map((chat) =>
+        fetchMessages(chat.chatId)
+          .then((messages) => ({ chatId: chat.chatId, messages }))
+          .catch(() => ({ chatId: chat.chatId, messages: [] as IMessage[] }))
+      )
+    ).then((results) => {
+      if (cancelled) return;
+      setAllMessages((prev) => {
+        const next = new Map(prev);
+        for (const { chatId, messages } of results) {
+          if (!next.has(chatId)) next.set(chatId, messages);
+        }
+        return next;
+      });
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [chatList, allMessages]);
+
+  const chatListWithUnread = useMemo(() => {
+    return chatList.map((chat) => {
+      const messages = allMessages.get(chat.chatId) ?? [];
+      const last = messages[messages.length - 1];
+
+      if (
+        messages.length === 0 ||
+        last?.sender.id === me?.id ||
+        activeChat?.chatId === chat.chatId
+      ) {
+        return { ...chat, unreadCount: 0 };
+      }
+
+      if (!chat.lastReadMessagesId) {
+        return { ...chat, unreadCount: messages.length };
+      }
+
+      const idx = messages.findIndex((m) => m.id === chat.lastReadMessagesId);
+      return {
+        ...chat,
+        unreadCount: idx === -1 ? messages.length : messages.length - idx - 1,
+      };
+    });
+  }, [chatList, allMessages, activeChat, me?.id]);
+
+  useEffect(() => {
+    const handleNewMessage = async (newMessage: IMessage) => {
+      const chatId = newMessage.chatId;
+      const messageId = newMessage.id;
+      if (!chatId || !messageId) throw new Error('Bad message');
+
+      try {
+        const newChat = {
+          chatId: chatId,
+          user: newMessage.sender,
+          lastReadMessagesId: null,
+          unreadCount: 0,
+        };
+        setChatList((prev) => {
+          const exist = prev.some((m) => m.chatId === chatId);
+          return exist ? prev : [newChat, ...prev];
+        });
+
+        addMessage(newMessage);
+
+        if (activeChat && chatId === activeChat.chatId) {
+          updateLastReadMessageId(chatId, messageId);
+        }
+      } catch (error) {
+        console.error('Failed to handle new messages', error);
+      }
+    };
+
+    socket.on('new-chat-message', handleNewMessage);
+
+    return () => {
+      socket.off('new-chat-message', handleNewMessage);
+    };
+  }, [chatList, allMessages]);
+
+  const addMessage = useCallback((newMessage: IMessage) => {
+    setAllMessages((prev) => {
+      const next = new Map(prev);
+
+      const currentMessages = next.get(newMessage.chatId) ?? [];
+      next.set(newMessage.chatId, [...currentMessages, newMessage]);
+
+      return next;
+    });
+  }, []);
+
+  const updateLastReadMessageId = (chatId: string, messageId: string | null) => {
+    setChatList((prev) =>
+      prev.map((chat) =>
+        chat.chatId === chatId
+          ? {
+              ...chat,
+              lastReadMessagesId: messageId,
+            }
+          : chat
+      )
+    );
+
+    socket.emit('last-read-message', {
+      chatId: chatId,
+      userId: me?.id,
+      messageId: messageId,
+    });
+  };
 
   if (!me) {
     return <div>Something went wrong. Please try again later.</div>;
@@ -62,22 +172,34 @@ function Messages() {
   return (
     <>
       <NavBar activeView={activeView} setActiveView={setActiveView}></NavBar>
-      <div className="socket-status justify-content-center">
-        {`Status: ${isConnected ? '🟢 Connected' : '🔴 Disconnect'}`}
-      </div>
-      <div className={activeView !== 'my messages' ? 'd-flex' : ''}>
-        {activeView !== 'imaginaryfriend' && (
-          <ChatList
-            align={activeView === 'my messages' ? 'center' : 'left'}
+
+      <div className={activeView !== 'chats' ? 'd-flex' : ''}>
+        <ChatList
+          align={activeView === 'chats' ? 'center' : 'left'}
+          setActiveView={setActiveView}
+          setActiveChat={setActiveChat}
+          chatList={chatListWithUnread}
+          loading={loadingChats}
+          error={error}
+        />
+        {activeView === 'conversation' && activeChat && (
+          <ChatRoom
+            me={me}
+            chat={activeChat}
+            setActiveChat={setActiveChat}
             setActiveView={setActiveView}
-            setActiveChatId={setActiveChatId}
+            messages={allMessages}
+            onAddMessage={addMessage}
+            updateLastReadMessageId={updateLastReadMessageId}
           />
         )}
-
-        {activeView === 'conversation' && activeChatId && (
-          <ChatRoom me={me} chatId={activeChatId} />
+        {activeView === 'new message' && (
+          <NewChat
+            setActiveChat={setActiveChat}
+            setActiveView={setActiveView}
+            setChatList={setChatList}
+          />
         )}
-        {activeView === 'new message' && <NewChat />}
         {activeView === 'block' && <Block />}
         <div className={activeView === 'imaginaryfriend' ? 
           'd-flex justify-content-center w-100' : 'd-none'}>

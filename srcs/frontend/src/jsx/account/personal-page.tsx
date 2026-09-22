@@ -9,7 +9,10 @@ import updateShortcut from "../../assets/icons/icon-update.png";
 import playShortcut from "../../assets/icons/play-shortcut.png";
 import addFriendsIcon from "../../assets/icons/icon-add-friends.png";
 import iconFriendList from "../../assets/icons/icon-friend-list.png";
+import statsShortcut from "../../assets/icons/stats.png"
 import { useAuth } from "../auth/auth-context";
+import { useParams } from "react-router-dom";
+import { useApiFetch } from "../auth/use-api-fetch";
 
 interface User {
 	firstName: string;
@@ -17,6 +20,7 @@ interface User {
 	email: string;
 	pseudo: string;
 	profilePhoto: {
+		id: string;
 		name: string;
 	};
 }
@@ -24,8 +28,35 @@ interface User {
 function PersonalPage() {
 	const {logout} = useAuth();
 	const [user, setUser] = useState<User | null>(null);
+	const [displayedUser, setDisplayedUser] = useState<User | null>(null);
 	const { t } = useTranslation();
 	const navigate = useNavigate();
+	const { pseudo } = useParams();
+
+	useEffect (() => {
+		async function checkProfileOwner(){
+			if (pseudo !== undefined){
+				const displayedUserInfos = await fetch(`/api/users/${pseudo}`, {credentials: "include"});
+				if (!displayedUserInfos.ok) {
+					setDisplayedUser(null);
+					return;
+				}
+				const data = await displayedUserInfos.json();
+				setDisplayedUser(data);
+			}
+			else {
+				const res = await fetch('/api/my-profile', { credentials: "include" });
+				if (!res.ok) {
+					setDisplayedUser(null);
+					return;
+				}
+				const data = await res.json();
+				setDisplayedUser(data);
+			}
+
+		}
+		checkProfileOwner();
+	}, [pseudo])
 
 	useEffect(() => {
 		async function loadProfile() {
@@ -42,87 +73,115 @@ function PersonalPage() {
 		loadProfile();
 	}, []);
 
-	if (!user) return <p>{t("common.loading")}</p>;
+	const isMine = pseudo === undefined || user?.pseudo === pseudo;
+
+	if (!displayedUser)
+		return (<p>{t("common.loading")}</p>);
 	return (
 		<>
 			<main className="d-flex flex-column justify-content-center align-items-center">
 				<div className="profile-page d-flex flex-column gap-3 justify-content-center align-items-center min-vh-100">
 					<img
 						src={
-							user.profilePhoto?.name
-								? `/uploads/${user.profilePhoto.name}`
+							displayedUser.profilePhoto?.id
+								? `/api/${displayedUser.profilePhoto.id}/download`
 								: "/default-avatar.png"
 						}
 						alt="avatar"
 						className="img-avatar-profile-page"
 					/>
 					<div className="d-flex flex-column">
-						<h1>{user.pseudo}</h1>
+						<h1>{displayedUser.pseudo}</h1>
 						<span>
-							{user.firstName} {user.lastName}
+							{displayedUser.firstName} {displayedUser.lastName}
 						</span>
 					</div>
 
-					<span>{t("profile-page.go-to")}</span>
-					<div className="row g-4 justify-content-center shortcut-grid">
-						<div className="col-12 col-md-6 col-xl-4">
-							<figure className="shortcut-icon justify-content-center">
-								<img src={messageIcon} alt="message-shortcut" onClick={() => navigate("/messages")} />
-								<span>{t("common.messages")}</span>
-							</figure>
-						</div>
-						<div className="col-12 col-md-6 col-xl-4">
-							<figure
-								className="shortcut-icon justify-content-center"
-								onClick={() => navigate("/Parameters")}
-							>
-								<img src={updateShortcut} alt="message-shortcut" />
-								<span>{t("common.parameters")}</span>
-							</figure>
-						</div>
-						<div className="col-12 col-md-6 col-xl-4" onClick={() => navigate('/game/gomoku')}>
-							<figure className="shortcut-icon justify-content-center">
-								<img src={playShortcut} alt="play-shortcut" />
-								<span>{t("common.play")}</span>
-							</figure>
-						</div>
-					</div>
 
-					<span>{t("profile-page.my-friends")}</span>
-					<div className="row g-4 justify-content-center shortcut-grid">
-						<div className="col-12 col-md-6 col-xl-6">
-							<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/myfriends")}>
-								<img src={iconFriendList} alt="message-shortcut" />
-								<span>{t("profile-page.friend-list")}</span>
-							</figure>
-						</div>
-						<div className="col-12 col-md-6 col-xl-6">
-							<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/addfriend")}>
-								<img src={addFriendsIcon} alt="message-shortcut" />
-								<span>{t("profile-page.add-friend")}</span>
-							</figure>
-						</div>
-					</div>
+					{ !isMine &&
+						<>
+							
+							<div className="row g-4 justify-content-center shortcut-grid">
+								<div className="col-12 col-md-6 col-xl-6">
+									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/addfriend")}>
+										<img src={addFriendsIcon} alt="message-shortcut" />
+										<span>{t("profile-page.send-friendship-invitation")}</span>
+									</figure>
+								</div>
 
-					<span>{t("profile-page.game-stats")}</span>
-					{/* <div className="d-flex gap-2 justify-content-center flex-wrap shortcut-grid">
-                        <figure className="shortcut-icon justify-content-center">
-                            <h1>{user.games_played}</h1>
-                            <span>{t('profile-page.games-played')}</span>
-                        </figure>
-                        <figure className="shortcut-icon justify-content-center">
-                            <h1>{user.games_won}</h1>
-                            <span>{t('profile-page.games-won')}</span>
-                        </figure>
-                        <figure className="shortcut-icon justify-content-center">
-                             <h1>{user.games_lost}</h1>
-                            <span>{t('profile-page.games-lost')}</span>
-                        </figure>
-                        <figure className="shortcut-icon justify-content-center">
-                             <h1>{user.best_score}</h1>
-                            <span>{t('profile-page.best-score')}</span>
-                        </figure>
-                    </div> */}
+								<div className="col-12 col-md-6 col-xl-6">
+									<figure className="shortcut-icon justify-content-center">
+										<img src={playShortcut} alt="play-shortcut" />
+										<span>{t("common.send-game-invitation")}</span>
+									</figure>
+								</div>
+								<div className="col-12 col-md-6 col-xl-4">
+									<figure className="shortcut-icon justify-content-center">
+										<img src={messageIcon} alt="message-shortcut" onClick={() => navigate("/messages")} />
+										<span>{t("common.send-message")}</span>
+									</figure>
+								</div>
+							</div>
+						</>
+					}
+
+					{isMine &&
+						<>
+							<span>{t("profile-page.go-to")}</span>
+							<div className="row g-4 justify-content-center shortcut-grid">
+								<div className="col-12 col-md-6 col-xl-4">
+									<figure className="shortcut-icon justify-content-center">
+										<img src={messageIcon} alt="message-shortcut" onClick={() => navigate("/messages")} />
+										<span>{t("common.messages")}</span>
+									</figure>
+								</div>
+								<div className="col-12 col-md-6 col-xl-4">
+									<figure
+										className="shortcut-icon justify-content-center"
+										onClick={() => navigate("/Parameters")}
+									>
+										<img src={updateShortcut} alt="message-shortcut" />
+										<span>{t("common.parameters")}</span>
+									</figure>
+								</div>
+								<div className="col-12 col-md-6 col-xl-4" onClick={() => navigate('/game/gomoku')}>
+									<figure className="shortcut-icon justify-content-center">
+										<img src={playShortcut} alt="play-shortcut" />
+										<span>{t("common.play")}</span>
+									</figure>
+								</div>
+							</div>
+						</>
+					}
+					
+					{isMine && 
+						<>
+							<span>{t("profile-page.my-friends")}</span>
+							<div className="row g-4 justify-content-center shortcut-grid">
+								<div className="col-12 col-md-6 col-xl-6">
+									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/myfriends")}>
+										<img src={iconFriendList} alt="message-shortcut" />
+										<span>{t("profile-page.friend-list")}</span>
+									</figure>
+								</div>
+								<div className="col-12 col-md-6 col-xl-6">
+									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/addfriend")}>
+										<img src={addFriendsIcon} alt="message-shortcut" />
+										<span>{t("profile-page.add-friend")}</span>
+									</figure>
+								</div>
+							</div>
+
+							<span>{t("profile-page.game-stats")}</span>
+							<div className="col-12 col-md-6 col-xl-6">
+								<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/mystats")}>
+									<img src={statsShortcut} alt="message-shortcut" />
+									<span>{t("profile-page.my-stats")}</span>
+								</figure>
+							</div>
+						</>
+					}
+					
 				</div>
 			</main>
 		</>

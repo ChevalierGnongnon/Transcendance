@@ -10,8 +10,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-	"outDir": "dist"
-
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+    },
   },
-  "include": ["src", "prisma.config.ts"]
+  "include": ["src", "prisma.config.ts"],
 }

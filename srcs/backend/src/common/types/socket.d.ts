@@ -1,9 +1,14 @@
-import { DefaultEventsMap } from 'socket.io';
+import { Socket } from 'socket.io';
+import 'jsonwebtoken'
 
 declare module 'socket.io' {
   interface Socket {
-    user: {
-      id: string;
-    };
+    userId?: string;
+  }
+}
+
+declare module 'jsonwebtoken' {
+  interface JwtPayload {
+    userId: string;
   }
 }

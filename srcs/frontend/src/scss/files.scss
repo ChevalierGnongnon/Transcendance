@@ -1,0 +1,44 @@
+@use "./common-variables.scss" as *;
+@use "./mixins.scss" as *;
+
+.avatar-preview{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.upload_file{
+    background-color: rgb(205, 205, 205);
+    border: 2px solid white;
+    border-radius: 12px;
+    display: block;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+    margin-bottom: 3%;
+}
+
+.file-accept-button{
+    @include bordered-btn(white, $green-color, 40%);
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 8px 12px;
+    display: block;
+    margin: 1% auto;
+}
+
+.file-delete-button{
+    @include bordered-btn(white, $red-color, 40%);
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 8px 12px;
+    display: block;
+    margin: 1% auto;
+}
+
