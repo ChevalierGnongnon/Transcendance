@@ -139,12 +139,15 @@ body{
 
 .online-avatar{
 	border: 3px solid $green-color;
+	border-radius: 50%;
 }
 
 .offline-avatar{
 	border: 3px solid $red-color;
+	border-radius: 50%;
 }
 
 .not-friend-avatar{
 	border: 3px solid white;
+	border-radius: 50%;
 }
