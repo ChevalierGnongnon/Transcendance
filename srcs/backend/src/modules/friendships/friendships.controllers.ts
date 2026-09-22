@@ -1,7 +1,6 @@
 import type { Request, Response } from 'express';
 import { NotFoundError } from '../../common/errors.ts';
 import FriendshipsServices from './friendships.services.ts';
-import type { FriendshipStatus } from '@/generated/prisma/enums.js';
 
 export const createFriendship = async (req: Request, res: Response) => {
   const { friendId } = req.body;
