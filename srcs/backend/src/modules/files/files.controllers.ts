@@ -70,8 +70,10 @@ export async function downloadFile(req: Request, res: Response) {
       return res.status(400).json({ error: 'INVALID_FILE_ID' });
     const file = await FileService.getFileDownload(req.params.id, req.userId);
 
-    if (avatarWhiteList.includes(file.mimeType)) res.set('Content-Disposition', 'inline');
-    else res.set('Content-Disposition', `attachment; filename="${file.name}"`);
+    if (avatarWhiteList.includes(file.mimeType))
+      res.set('Content-Disposition', 'inline');
+    else
+      res.set('Content-Disposition', `attachment; filename="${file.name}"`);
     res.set('Content-Type', file.mimeType);
     res.send(fs.readFileSync(`/app/uploads/${file.name}`));
   } catch (error) {

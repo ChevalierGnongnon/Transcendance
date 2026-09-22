@@ -115,6 +115,7 @@ export const Message = (props: MessageProps) => {
               >
                 {t('common.download-file')}
               </a>
+              <input type="button" value={t('common.delete-file')}/>
             </div>
           </>
         )}
