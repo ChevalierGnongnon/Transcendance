@@ -11,22 +11,17 @@ import Block from './block';
 import ChatList from './ChatList';
 import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
-import { IChatPreview, IMessage } from './types';
+import { ActiveView, IChatPreview, IMessage } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
 import { useSocketConnection } from './hooks/useSocketConnection';
-import { exists } from 'i18next';
 
 function Messages() {
-  const [activeView, setActiveView] = useState<
-    'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation'
-  >('my messages');
-
-  const [userId, setUserId] = useState('');
-  const [users, setUsers] = useState([]);
-  const [loadingMessages, setLoadingMessages] = useState(false);
-
   const me = useUser();
   const isConnected = useSocketConnection();
+  const [activeView, setActiveView] = useState<ActiveView>('chats');
+
+  const [loadingMessages, setLoadingMessages] = useState(false);
+
   const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
   const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
   const [loadingChats, setLoadingChats] = useState(false);
@@ -107,7 +102,7 @@ function Messages() {
   useEffect(() => {
     const handleNewMessage = async (newMessage: IMessage) => {
       const chatId = newMessage.chatId;
-      const messageId = newMessage.chatId;
+      const messageId = newMessage.id;
       if (!chatId || !messageId) throw new Error('Bad message');
 
       try {
@@ -118,10 +113,9 @@ function Messages() {
           unreadCount: 0,
         };
         setChatList((prev) => {
-          const exist = chatList.some((m) => m.chatId === chatId);
+          const exist = prev.some((m) => m.chatId === chatId);
           return exist ? prev : [newChat, ...prev];
         });
-        console.log(newChat);
 
         addMessage(newMessage);
 
@@ -167,16 +161,8 @@ function Messages() {
       chatId: chatId,
       userId: me?.id,
       messageId: messageId,
-      content: '',
     });
   };
-
-  useEffect(() => {
-    fetch('/api/users', { credentials: 'include' })
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error('users error:', err));
-  }, []);
 
   if (!me) {
     return <div>Something went wrong. Please try again later.</div>;
@@ -185,13 +171,10 @@ function Messages() {
   return (
     <>
       <NavBar activeView={activeView} setActiveView={setActiveView}></NavBar>
-      {/*<div className="socket-status justify-content-center">
-        {`Status: ${isConnected ? '🟢 Connected' : '🔴 Disconnect'}`}
-      </div>*/}
 
-      <div className={activeView !== 'my messages' ? 'd-flex' : ''}>
+      <div className={activeView !== 'chats' ? 'd-flex' : ''}>
         <ChatList
-          align={activeView === 'my messages' ? 'center' : 'left'}
+          align={activeView === 'chats' ? 'center' : 'left'}
           setActiveView={setActiveView}
           setActiveChat={setActiveChat}
           chatList={chatListWithUnread}
@@ -203,6 +186,7 @@ function Messages() {
             me={me}
             chat={activeChat}
             setActiveChat={setActiveChat}
+            setActiveView={setActiveView}
             messages={allMessages}
             onAddMessage={addMessage}
             updateLastReadMessageId={updateLastReadMessageId}
@@ -210,7 +194,6 @@ function Messages() {
         )}
         {activeView === 'new message' && (
           <NewChat
-            ausers={users}
             setActiveChat={setActiveChat}
             setActiveView={setActiveView}
             setChatList={setChatList}

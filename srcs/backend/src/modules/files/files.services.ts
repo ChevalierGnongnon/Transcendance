@@ -1,5 +1,9 @@
 import { prisma } from '../../lib/prisma.ts';
-import { ForbiddenRightsError, InvalidAuthentificationError, NotFoundError } from '../../common/errors.js';
+import {
+  ForbiddenRightsError,
+  InvalidAuthentificationError,
+  NotFoundError,
+} from '../../common/errors.js';
 import { UnsupportedFileTypeError } from '../../common/errors.js';
 import { avatarWhiteList, messageFileWhiteList } from './files.middlewares.ts';
 import { fileTypeFromBuffer } from 'file-type';
@@ -24,59 +28,57 @@ class FileService {
     }
     return avatars;
   }
-  async createFile(fileBuffer: Buffer,  userId: string, type: string) {
+
+  async createFile(fileBuffer: Buffer, userId: string, type: string, chatId?: string) {
     const fileType = await fileTypeFromBuffer(fileBuffer);
-    
+
     if (fileType === undefined)
       throw new UnsupportedFileTypeError('Unsupported file type by fileTypeFromBuffer()');
     else {
-      if (type === 'profile_photo' && avatarWhiteList.includes(fileType.mime)){
-        const previousUser = await prisma.user.findUnique({ 
+      if (type === 'profile_photo' && avatarWhiteList.includes(fileType.mime)) {
+        const previousUser = await prisma.user.findUnique({
           where: {
-            id: userId
+            id: userId,
           },
           select: {
-            profilePhotoId: true
-          }
+            profilePhotoId: true,
+          },
         });
         const result = await sharp(fileBuffer).toFormat('webp').toBuffer();
         const id = randomUUID();
         const fileName = `${id}.webp`;
-      
-        
+
         fs.writeFileSync(`/app/uploads/${fileName}`, result);
 
         await prisma.$transaction([
           prisma.file.create({
-            data:{
-              id : id,
+            data: {
+              id: id,
               name: fileName,
               type: type,
               userId: userId,
-              mimeType: 'image/webp', 
+              mimeType: 'image/webp',
               expiresAt: null,
-            }
+            },
           }),
           prisma.user.update({
-            where:{
+            where: {
               id: userId,
             },
-            data:{
+            data: {
               profilePhotoId: id,
-            }
-          })
-        ])
+            },
+          }),
+        ]);
         if (previousUser?.profilePhotoId) {
-            try {
-                await this.deleteFile(previousUser.profilePhotoId, userId);
-            } catch (err) {
-                // best-effort: ignore (ex: ancien avatar par défaut)
-            }
+          try {
+            await this.deleteFile(previousUser.profilePhotoId, userId);
+          } catch (err) {
+            // best-effort: ignore (ex: ancien avatar par défaut)
+          }
         }
-        return(id);
-      }
-      
-      else if (type === 'message' && messageFileWhiteList.includes(fileType.mime)){
+        return id;
+      } else if (type === 'message' && messageFileWhiteList.includes(fileType.mime) && chatId) {
         let bufferToWrite = fileBuffer;
         let extension = fileType.ext;
         const expiredDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
@@ -88,44 +90,56 @@ class FileService {
 
         const id = randomUUID();
         const fileName = `${id}.${extension}`;
-        
+
         fs.writeFileSync(`/app/uploads/${fileName}`, bufferToWrite);
-        
+
+        const member = await prisma.chatMember.findUnique({
+          where: {
+            chatId_userId: {
+              chatId: chatId,
+              userId: userId,
+            },
+          },
+        });
+
+        if (!member) {
+          throw new ForbiddenRightsError('User is not a member of this chat');
+        }
+
         await prisma.file.create({
-          data:{
-            id : id,
+          data: {
+            id: id,
             name: fileName,
             type: type,
             userId: userId,
+            chatId: chatId,
             mimeType: extension === 'webp' ? 'image/webp' : fileType.mime,
             expiresAt: expiredDate,
-          }
-        })
-        return(id);
-      }
-      else {
+          },
+        });
+        return id;
+      } else {
         throw new UnsupportedFileTypeError('File type is not in whitelist');
       }
-      
     }
   }
-  async deleteFile(fileId: string, requesterId: string){
+
+  async deleteFile(fileId: string, requesterId: string) {
     const file = await prisma.file.findUnique({
-      where:{
+      where: {
         id: fileId,
-      }
+      },
     });
-    if (file === null)
-      throw new NotFoundError('File not found');
+    if (file === null) throw new NotFoundError('File not found');
     if (file.userId !== requesterId)
-      throw new ForbiddenRightsError('User doesn\'t have the rights for this file');
+      throw new ForbiddenRightsError("User doesn't have the rights for this file");
     if (file.type === 'default_avatar')
-      throw new ForbiddenRightsError('Default avatars can\'t be deleted');
-      await prisma.file.delete({
-        where:{
-          id: fileId,
-      }
-    })
+      throw new ForbiddenRightsError("Default avatars can't be deleted");
+    await prisma.file.delete({
+      where: {
+        id: fileId,
+      },
+    });
     try {
       fs.unlinkSync(`/app/uploads/${file.name}`);
     } catch (err) {
@@ -134,25 +148,32 @@ class FileService {
       }
     }
   }
-  async getFileDownload(fileId: string, requesterId?: string){
+
+  async getFileDownload(fileId: string, requesterId?: string) {
     const file = await prisma.file.findUnique({
-      where:{
-        id: fileId, 
-      }
+      where: {
+        id: fileId,
+      },
     });
-    if (file === null)
-      throw new NotFoundError('File not found');
-    if (file.type === 'default_avatar')
-      return (file);
-    if (requesterId === undefined)
-      throw new InvalidAuthentificationError('Invalid user id');
-    if (file.type === 'profile_photo')
-      return (file);
-    if (file.type === 'message'){
-      if (file.userId !== requesterId)
-        throw new ForbiddenRightsError('User doesn\'t have the rights for this file');
+
+    if (file === null) throw new NotFoundError('File not found');
+    if (file.type === 'default_avatar') return file;
+    if (requesterId === undefined) throw new InvalidAuthentificationError('Invalid user id');
+    if (file.type === 'profile_photo') return file;
+    if (file.type === 'message') {
+      const chatId = file?.chatId;
+      if (!chatId) throw new ForbiddenRightsError("User doesn't have the rights for this file");
+      const member = await prisma.chatMember.findUnique({
+        where: {
+          chatId_userId: {
+            chatId: chatId,
+            userId: requesterId,
+          },
+        },
+      });
+      if (!member) throw new ForbiddenRightsError("User doesn't have the rights for this file");
     }
-    return (file);
+    return file;
   }
 }
 

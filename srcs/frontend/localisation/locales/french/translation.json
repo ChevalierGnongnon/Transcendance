@@ -1,5 +1,5 @@
- {
-   "common":{
+{
+  "common": {
     "login": "Se connecter",
     "logout": "Se déconnecter",
     "password": "Mot de passe",
@@ -9,7 +9,7 @@
     "messages": "Messages",
     "my-messages": "Mes messages",
     "my-friends": "Mes amis",
-    "send-game-invitation": "Envoyer une invitation pour jouer",
+    "send-game-invitation": "Envoyer une invitation à jouer",
     "send-message": "Envoyer un message",
     "notifications": "Notifications",
     "parameters": "Paramètres",
@@ -21,7 +21,7 @@
     "play": "Jouer",
     "update-my-profile": "Modifier mon profil",
     "loading": "Chargement...",
-    "page-not-found": "Page introuvable",
+    "page-not-found": "Page non trouvée",
     "chatting-with": "Vous discutez avec",
     "send": "Envoyer",
     "search-user": "Rechercher un utilisateur",
@@ -39,20 +39,28 @@
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",
+    "log-google": "Se connecter avec Google",
+    "log-github": "Se connecter avec GitHub",
+    "log-fourty-two": "Se connecter avec 42",
+    "login-with": "Se connecter avec :",
+    "register-with": "S'inscrire avec :",
     "or": "OU",
     "no-account": "Pas encore de compte ?",
     "create-account": "Créez un compte"
   },
   "register": {
     "birthdate": "Date de naissance",
+    "register-google": "S'inscrire avec Google",
+    "register-github": "S'inscrire avec GitHub",
+    "register-fourty-two": "S'inscrire avec 42",
     "already-have-account": "Vous avez déjà un compte ?"
   },
   "complete-your-profile": {
-      "title": "Complétez votre profil",
-      "enter-a-pseudo": "Entrez un pseudo",
-      "confirm": "Confirmer",
-      "upload-avatar": "Téléchargez un avatar",
-      "choose-an-avatar": "Ou choisissez-en un par défaut :"
+    "title": "Complétez votre profil",
+    "enter-a-pseudo": "Entrez un pseudo",
+    "confirm": "Confirmer",
+    "upload-avatar": "Téléchargez un avatar",
+    "choose-an-avatar": "Ou choisissez-en un par défaut :"
   },
   "profile-page": {
     "game-stats": "Statistiques de jeu",
@@ -61,10 +69,17 @@
     "add-friend": "Ajouter un ami",
     "send-friendship-invitation": "Envoyer une demande d'ami",
     "friend-list": "Ma liste d'amis",
+    "games-played": "Parties jouées",
+    "games-won": "Parties gagnées",
+    "games-lost": "Parties perdues",
+    "best-score": "Meilleur score",
     "my-stats": "Mes statistiques"
   },
-  "update-my-profile":{
+  "update-my-profile": {
     "update-my-profile": "Mettre à jour mon profil",
+    "change-my-password": "Changer mon mot de passe",
+    "old-password": "Ancien mot de passe",
+    "new-password": "Nouveau mot de passe",
     "confirm-password": "Confirmez le nouveau mot de passe",
     "change-account-infos": "Modifier les informations du compte",
     "change-first-name": "Changer de prénom",
@@ -73,11 +88,14 @@
     "change-profile-photo": "Changer de photo de profil",
     "display-name-and-last-name": "Afficher le nom et le prénom",
     "danger-zone": "ZONE DANGEREUSE",
+    "delete-my-account": "Supprimer mon compte",
     "delete-my-game-infos": "Supprimer mes statistiques de jeu"
   },
   "message": {
+    "chats": "Chats",
     "my-messages": "Mes messages",
     "new-message": "Nouveau message",
+    "start-new-chat": "Démarrer une nouvelle discussion",
     "block": "Bloquer",
     "imaginary-friend": "Ami imaginaire",
     "chat-with-friend": "Discuter avec un ami",
@@ -85,8 +103,12 @@
     "upload-file": "Envoyer un fichier",
     "invite-to-game": "Inviter à jouer",
     "give-reason": "Donnez la raison :",
-    "search-user": "Rechercher un utilisateur",
-    "file-received": "Fichier reçu"
+    "search-user": "Recherchez un utilisateur pour démarrer une discussion",
+    "file-received": "Fichier reçu",
+    "start-chat": "Démarrer la chat",
+    "go-to-profile": "Aller au profil",
+    "back": "Retour",
+    "info": "Info"
   },
   "friends": {
     "send-friend-request": "Envoyer une demande d'ami",
@@ -100,7 +122,12 @@
     "refuse": "Refuser",
     "your-requests": "Vos demandes",
     "disable": "Désactiver",
-    "avatar-alt": "Avatar de l'ami"
+    "avatar-alt": "Avatar de l'ami",
+    "cancel": "Annuler",
+    "add-friend": "Ajouter un ami",
+    "block": "Bloquer",
+    "no-friends": "Vous n'avez pas encore d'amis ni de demandes d'ami.",
+    "no-friends-hint": "Trouvez quelqu'un à l'aide de la barre de recherche et cliquez sur Ajouter un ami pour lui envoyer une demande d'ami."
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",

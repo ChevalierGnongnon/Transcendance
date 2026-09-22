@@ -4,6 +4,7 @@ import type { Request, Response } from 'express';
 import { requireAuth } from '../auth/auth.middlewares.js';
 import { validateUuid } from './chat.validators.js';
 import { getMyChats, messages } from './chat.controllers.js';
+import { validate } from './chat.middlewares.ts';
 
 const router = express.Router();
 
@@ -11,6 +12,5 @@ router.get('/me/chats', requireAuth, getMyChats);
 // router.get('/chats/:id', requireAuth, getUserChats);
 // router.get('/chats/:userId/chats', requireAuth, getUserChats);
 // router.get('/chats/:user_id');
-router.get('/messages/:chatId', validateUuid, messages);
-// router.get('/messages/:chat_id', messages);
+router.get('/messages/:chatId', requireAuth, validateUuid, validate, messages);
 export default router;

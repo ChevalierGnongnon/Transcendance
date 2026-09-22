@@ -11,6 +11,7 @@ export const messageSchema = z.object({
     }),
   }),
   content: z.string(),
+  type: z.enum(['text', 'image', 'file', 'audio', 'invitation']),
   createdAt: z.date().optional(),
 });
 

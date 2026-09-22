@@ -25,7 +25,7 @@ class chatService {
                     profilePhoto: {
                       select: {
                         name: true,
-                        id:true,
+                        id: true,
                       },
                     },
                   },
@@ -44,8 +44,6 @@ class chatService {
       user: chat.chat.members[0]?.user,
       lastReadMessagesId: chat.lastReadMessagesId,
     }));
-
-    console.log(ret[0]);
 
     return ret;
   }
@@ -71,6 +69,7 @@ class chatService {
           },
         },
         content: true,
+        type: true,
         createdAt: true,
       },
     });
