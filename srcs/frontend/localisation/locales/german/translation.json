@@ -154,5 +154,24 @@
 		"EMAIL_TOO_LONG": "E-Mail ist zu lang",
 		"EMAIL_INVALID": "Ungültiges E-Mail-Format",
 		"EMAIL_EXISTS": "Diese E-Mail wird bereits verwendet"
-	}
+	},
+
+  "game": {
+    "your_turn": "du bist am Zug",
+    "gomoku": "Gomoku",
+    "new_game": "neues Spiel",
+    "send_invite": "Einladung senden",
+    "start_gomoku_game": "Gomoku-Spiel starten",
+    "choose_opponent": "Gegner auswählen",
+    "select_opponent": "-- Gegner auswählen --",
+    "game_mode": "Spielmodus",
+    "play_local": "Lokal spielen (gleicher Computer)",
+    "play_online": "Online spielen (Gegner einladen)",
+    "table_size": "Brettgröße:",
+    "winner": "Gewinner",
+    "waiting": "warten",
+    "opponent": "Gegner",
+    "finish": "Spiel schließen"
+  }
+
 }

@@ -150,5 +150,23 @@
     "EMAIL_TOO_LONG": "L'email est trop long",
     "EMAIL_INVALID": "L'email est invalide",
     "EMAIL_EXISTS": "Cet email est déjà utilisé"
+  },
+
+  "game": {
+    "your_turn": "à toi de jouer",
+    "gomoku": "Gomoku",
+    "new_game": "nouvelle partie",
+    "send_invite": "envoyer une invitation",
+    "start_gomoku_game": "Commencer une partie de Gomoku",
+    "choose_opponent": "Choisir un adversaire",
+    "select_opponent": "-- sélectionner un adversaire --",
+    "game_mode": "Mode de jeu",
+    "play_local": "Jouer en local (même ordinateur)",
+    "play_online": "Jouer en ligne (inviter un adversaire)",
+    "table_size": "Taille du plateau :",
+    "winner": "Vainqueur",
+    "waiting": "en attente",
+    "opponent": "adversaire",
+    "finish": "fermer le jeu"
   }
 }

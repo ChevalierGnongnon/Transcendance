@@ -154,5 +154,23 @@
 		"EMAIL_TOO_LONG": "Email is too long",
 		"EMAIL_INVALID": "Email is invalid",
 		"EMAIL_EXISTS": "This email is already in use"
-	}
+	},
+
+  "game": {
+    "your_turn":"your turn",
+    "gomoku":"Gomoku",
+    "new_game":"new game",
+    "send_invite":"send invite",
+    "start_gomoku_game": "Start Gomoku game",
+    "choose_opponent": "Choose opponent",
+    "select_opponent": "-- select opponent --",
+    "game_mode": "Game mode",
+    "play_local": "Play local (same computer)",
+    "play_online": "Play online (invite opponent)",
+    "table_size": "Table size:",
+    "winner": "Winner",
+    "waiting": "waiting",
+    "opponent": "opponent",
+    "finish": "close game"
+  }
 }

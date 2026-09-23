@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./scss/gamestart.scss";
 import { socket } from "../../jsx/messages/socket";
 import { useSocketConnection } from "../../jsx/messages/hooks/useSocketConnection";
+import { useTranslation } from "react-i18next";
 
 function GameStart() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function GameStart() {
   const incomingOpponentId = location.state?.opponentId || null;
   const incomingChatId = location.state?.chatId || null;
 	const isConnected = useSocketConnection();
+  const {t} = useTranslation();
 
   const [me, setMe] = useState(null);
   const [users, setUsers] = useState([]);
@@ -20,7 +22,6 @@ function GameStart() {
   const [boardSize, setBoardSize] = useState(10);
   const [error, setError] = useState(false);
   const [mode, setMode] = useState("local"); // "local" | "online"
-  const isConnected = useSocketConnection();
 
   console.log(isConnected);
 
@@ -48,14 +49,14 @@ function GameStart() {
       .catch(err => console.error("users error:", err));
   }, []);
 
-  const handleSendMessage = () => {
+  const handleSendInvitation = () => {
 
       const msg = {
-        chatId: '8cbad2be-da73-47f0-b39a-8d7f41b65ab4',
-        recipientId: '28a4dbd9-50e0-4fe6-bef3-dc4a08071300',
+        chatId: chatId,
+        recipientId: opponentId,
         sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },
-        type: "text",
-        content: ''
+        type: "invitation",
+        content: `${gameId}:${boardSize}`   /////
       };
 
       socket.emit("new-chat-message", msg);
@@ -79,10 +80,9 @@ function GameStart() {
 
     // ONLINE MODE → send invite
     if (mode === "online") {
-      // here later you will emit socket.io event:
-      // socket.emit("game:invite", { fromUserId: me.id, toUserId: opponentId, boardSize, mode });
+
      
-      handleSendMessage();
+      handleSendInvitation();
      
       // For now just redirect to chat where opponent will accept invite
       // navigate("/chat", {
@@ -95,19 +95,60 @@ function GameStart() {
       //     }
       //   }
       // });
+
+      useEffect(() => {
+          const handleAccepted = ({ gameId, answer }) => {
+            if (answer === "accept") {
+              //handle accept
+               navigate("/game", {
+                state: {
+                  me,
+                  opponentId,
+                  boardSize: invite.boardSize,
+                  mode: invite.mode,
+                  gameId
+              }
+            });
+            } 
+            else {
+              // handle decline
+            }     
+           
+          };
+      
+          socket.on("game:invite_answer", handleAccepted);
+          return () => socket.off("game:accepted", handleAccepted);
+        }, [navigate, me]);
+      
+        // Handle invite decline → system message
+        useEffect(() => {
+          const handleDeclined = ({ invite }) => {
+            roomProps.onAddMessage({
+              id: Date.now(),
+              chatId,
+              type: "system",
+              sender: { id: 0, profilePhoto: { name: "system.png" } },
+              content: `${invite.toUserName} declined the game invite.`
+            });
+          };
+      
+          socket.on("game:decline", handleDeclined);
+          return () => socket.off("game:decline", handleDeclined);
+        }, [chatId]);
+
     }
   };
 
-  if (!me) return <p>Loading...</p>;
+  if (!me) return <p>{t('common.loading')}</p>;
 
   return (
     <div className="game-start-wrapper common-head">
-      <h1 className="game-start-title">Start Gomoku Game</h1>
+      <h1 className="game-start-title">{t('game.start_gomoku_game')}</h1>
 
       {/* Opponent selection */}
   
       <div className="section">
-        <h3 className="form-text">Choose opponent</h3>
+        <h3 className="form-text">{t('game.choose_opponent')}</h3>
 
         <select
           className={`form-input select-opponent ${error ? "error-frame" : ""}`}
@@ -117,7 +158,7 @@ function GameStart() {
             setError(false);
           }}
         >
-          <option value="">-- select opponent --</option>
+          <option value="">{t('game.select_opponent')}</option>
 
           {users.map(u => (
             <option key={u.id} value={u.id}>
@@ -129,22 +170,22 @@ function GameStart() {
 
       {/* Game mode */}
       <div className="section">
-        <h3 className="form-text">Game mode</h3>
+        <h3 className="form-text">{t('game.game_mode')}</h3>
 
         <select
           className="form-input"
           value={mode}
           onChange={e => setMode(e.target.value)}
         >
-          <option value="local">Play local (same computer)</option>
-          <option value="online">Play online (invite opponent)</option>
+          <option value="local">{t('game.play_local')}</option>
+          <option value="online">{t('game.play_online')}</option>
         </select>
       </div>
 
       {/* Board size */}
       <div className="section">
         <h3 className="form-text">
-          Table size: <b>{boardSize} × {boardSize}</b>
+          {t('game.table_size')} <b>{boardSize} × {boardSize}</b>
         </h3>
 
         <input
@@ -160,7 +201,7 @@ function GameStart() {
 
       {/* Start button */}
       <button className="form-button start-btn" onClick={startGame}>
-        Send invite
+        {t('game.send_invite')}
       </button>
     </div>
   );

@@ -2,8 +2,13 @@ import './scss/gomoku.scss';
 
 import React from 'react';
 import useGomoku from './useGomoku';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 function Gomoku({ playersData, boardSize, mode }) {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
   const {
     board,
     players,
@@ -29,7 +34,7 @@ function Gomoku({ playersData, boardSize, mode }) {
           
           <div className={`player-box ${currentPlayer.id === players[0].id ? "active-turn" : ""}`}>
             <img
-              src={players[0].avatar ? `/uploads/${players[0].avatar}` : "/default-avatar.png"}
+              src={players[0].profilePhoto ? `/uploads/${players[0].profilePhoto}` : "/default-avatar.png"}
               alt="me avatar"
               className="player-avatar"
             />
@@ -39,20 +44,20 @@ function Gomoku({ playersData, boardSize, mode }) {
           <div className="turn-info">
             {winner ? (
               <>
-                Winner:<br />{winner.username}
+                {t("game.winner")}:<br />{winner.username}
               </>
             ) : currentPlayer.id === players[0].id ? (
-              "Your turn"
+              t("game.your_turn")
             ) : (
               <>
-                Waiting<br />opponent
+                {t('game.waiting')}<br />{t('game.opponent')}
               </>
             )}
           </div>
 
           <div className={`player-box ${currentPlayer.id === players[1].id ? "active-turn" : ""}`}>
             <img
-              src={players[1].avatar ? `/uploads/${players[1].avatar}` : "/default-avatar.png"}
+              src={players[1].profilePhoto ? `/uploads/${players[1].profilePhoto}` : "/default-avatar.png"}
               alt="opponent avatar"
               className="player-avatar"
             />
@@ -62,7 +67,10 @@ function Gomoku({ playersData, boardSize, mode }) {
 
         <div className="text-center mb-3">
           <button className="btn btn-primary gomoku-reset-btn" onClick={reset}>
-            New Game
+            {t('game.new_game')}
+          </button>
+          <button className="btn btn-primary gomoku-reset-btn ms-3" onClick={() => navigate('/game/gomoku')}>
+            {t('game.finish')}
           </button>
         </div>
 

@@ -44,21 +44,18 @@ export const Message = (props: MessageProps) => {
                 <button
                   className="btn btn-success"
                   onClick={() => {
-                    socket.emit('game:invite:answer', 'accept');
-                    // 'naviagete to game page'
+                    //socket.emit('game:invite_answer', { gameId, 'accept' });
                     navigate("/game", {
                       state: {
                         me: props.me,
                         opponentId: props.content.fromUserId,
                         boardSize: props.content.boardSize,
                         mode: props.content.mode
+                        //gameId: gameId
                       }
                     });
                     
-
-                  
                   }}
->>>>>>> adc130a (halfway to online game)
                 >
                   Accept
                 </button>
@@ -66,7 +63,7 @@ export const Message = (props: MessageProps) => {
                 <button
                   className="btn btn-danger"
 
-                  onClick={() => socket.emit("game:ans-invite", 'no')}
+                  onClick={() => socket.emit("game:invite_answer", 'decline')}
 
                 >
                   Decline

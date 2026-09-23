@@ -81,7 +81,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
         recipientId: roomProps.chat.user.id,
         sender: { id: me.id, profilePhoto: me.profilePhoto },
         content: messageText,
-        //type: "text"
+        type: "text"
       };
       socket.emit('new-chat-message', messageToSend);
 
@@ -91,7 +91,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
     }
   };
 
-  //////////////////////////////////////////////////////////// Handle incoming game invites
+  ////////////////////////////////////////////////////////// Handle incoming game invites
   // useEffect(() => {
   //   const handleInvite = (invite) => {
   //     roomProps.onAddMessage({
@@ -107,58 +107,10 @@ function ChatRoom(roomProps: ChatRoomProps) {
   //   return () => socket.off("game:invite", handleInvite);
   // }, [chatId]);
 
-  // // Handle invite acceptance → redirect to game
-  // useEffect(() => {
-  //   const handleAccepted = ({ gameId, invite }) => {
-  //     const opponentId =
-  //       invite.fromUserId === me.id ? invite.toUserId : invite.fromUserId;
+  // Handle invite acceptance → redirect to game
+  
 
-  //     navigate("/game", {
-  //       state: {
-  //         me,
-  //         opponentId,
-  //         boardSize: invite.boardSize,
-  //         mode: invite.mode,
-  //         gameId
-  //       }
-  //     });
-  //   };
-
-  //   socket.on("game:accepted", handleAccepted);
-  //   return () => socket.off("game:accepted", handleAccepted);
-  // }, [navigate, me]);
-
-  // // Handle invite decline → system message
-  // useEffect(() => {
-  //   const handleDeclined = ({ invite }) => {
-  //     roomProps.onAddMessage({
-  //       id: Date.now(),
-  //       chatId,
-  //       type: "system",
-  //       sender: { id: 0, profilePhoto: { name: "system.png" } },
-  //       content: `${invite.toUserName} declined the game invite.`
-  //     });
-  //   };
-
-  //   socket.on("game:decline", handleDeclined);
-  //   return () => socket.off("game:decline", handleDeclined);
-  // }, [chatId]);
-
-  /////////////////////////////////////////////////////////////////////////////////////
-  // If StartGame redirected here with invite → send it
-  useEffect(() => {
-    if (location.state?.invite) {
-      const invite = {
-        ...location.state.invite,
-        chatId,
-        fromUserName: me.pseudo,
-        toUserName: roomProps.chat.user.pseudo,
-        fromUserPhoto: me.profilePhoto.name
-      };
-
-      socket.emit("game:invite", invite);
-    }
-  }, [location.state]);
+  ///////////////////////////////////////////////////////////////////////////////////
   
   if (!messages) {
       return <div className="chat-placeholder">Open chat</div>;
@@ -190,7 +142,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
                 profilePhoto={msg.sender.profilePhoto}
                 senderId={msg.sender.id}
                 content={msg.content}
-                type={"invitation"}
+                type={msg.type}
 
 
               />
