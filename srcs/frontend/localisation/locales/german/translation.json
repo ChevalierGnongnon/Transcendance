@@ -30,6 +30,8 @@
     "undo": "Rückgängig machen",
     "import-file-instead": "Stattdessen eine Datei importieren",
     "download-file": "Datei herunterladen",
+    "delete-file": "Datei löschen",
+    "file-is-deleted": "Diese Datei wurde gelöscht",
     "ready": "Bereit",
     "updated": "Aktualisiert",
     "my-stats": "Meine Statistiken",

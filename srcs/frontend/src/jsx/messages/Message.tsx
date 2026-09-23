@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import type { MessageProps } from './types.js';
 import { socket } from './socket.js';
 import { useEffect, useState } from 'react';
-
+import ErrorMessage from '../others/error-message.js';
 const previewable = ['image/png', 'image/webp', 'image/jpeg', 'image/gif', 'application/pdf'];
 
 export const Message = (props: MessageProps) => {
@@ -10,11 +10,13 @@ export const Message = (props: MessageProps) => {
   const fileId = props.type === 'file' ? props.content : '';
   const [MimeType, setMimeType] = useState('');
   const [loading, setLoading] = useState(false);
+  const [deletedFile, setDeletedFile] = useState<boolean>(false);
 
   useEffect(() => {
     if (!fileId) {
       setMimeType('');
       setLoading(false);
+      
       return;
     }
 
@@ -24,7 +26,11 @@ export const Message = (props: MessageProps) => {
     fetch(`/api/${fileId}/download`, { credentials: 'include', method: 'HEAD' })
       .then((res) => {
         const MimeType = res.headers.get('Content-Type') ?? '';
-        if (!cancelled) setMimeType(MimeType);
+        if (!cancelled){
+          setMimeType(MimeType);
+          if (!res.ok)
+            setDeletedFile(true);
+        }
       })
       .catch((e) => {
         if (!cancelled) setMimeType('');
@@ -99,23 +105,71 @@ export const Message = (props: MessageProps) => {
                 <span className="text-message">{t('message.file-received')}</span>
               )}
               {/* file preview here if not previewable just use file type icon */}
-              {!loading && MimeType.startsWith('image/') && (
+              {!loading && !deletedFile && MimeType.startsWith('image/') && (
                 <img
                   src={`/api/${fileId}/download`}
                   alt="attachment"
-                  style={{ maxWidth: 300, maxHeight: 300, objectFit: 'contain', borderRadius: 8 }}
+                  className="bg-img-message"
                 />
               )}
+
+              {/* {!loading && !deletedFile && MimeType === 'application/pdf' && (
+                <embed
+                  src={`/api/${fileId}/download`}
+                  className="pdf-preview"
+                  type="application/pdf"
+                />
+              )} */}
               {/* download button */}
-              <a
-                href={`/api/${props.content}/download`}
-                download
-                // type="button"
-                className="btn btn-primary"
-              >
-                {t('common.download-file')}
-              </a>
-              <input type="button" value={t('common.delete-file')}/>
+              {!deletedFile &&
+                // <a
+                //   href={`/api/${props.content}/download`}
+                //   download
+                //   // type="button"
+                //   className="btn btn-primary"
+                // >
+                //   {t('common.download-file')}
+                // </a>
+                <input type="button" value={t('common.download-file')} className='btn btn-primary m-1' onClick={
+                  async()=>{
+                    const res = await fetch(`/api/${props.content}/download`, {credentials: 'include'})
+                    if (!res.ok)
+                      setDeletedFile(true)
+                    else {
+                      const blob = await res.blob();
+                      const url = URL.createObjectURL(blob)
+                      const contentDisposition = res.headers.get('Content-Disposition');
+                      const match = contentDisposition?.match(/filename="(.+)"/);
+                      const filename = match?.[1] ?? fileId;
+                      const link = document.createElement('a');
+                      link.download = filename;
+                      link.href = url;
+                      link.click();
+                      URL.revokeObjectURL(url)
+                    }
+                    
+                  }
+                }/>
+              }
+              { deletedFile &&
+                <ErrorMessage error={t('common.file-is-deleted')}></ErrorMessage>
+                
+              }
+              
+              {!deletedFile &&
+                <input
+                type="button"
+                value={t('common.delete-file')}
+                className='btn btn-primary m-1'
+                onClick={async() =>{
+                  const res = await fetch(`/api/${fileId}`, { credentials: 'include', method: 'DELETE' })
+                    if (!res.ok)
+                      setDeletedFile(false);
+                    else
+                      setDeletedFile(true);
+                  }
+                }/>
+              } 
             </div>
           </>
         )}

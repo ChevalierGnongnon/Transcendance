@@ -30,6 +30,8 @@
     "undo": "Undo",
     "import-file-instead": "Import a file instead",
     "download-file": "Download file",
+    "delete-file": "Delete file",
+    "file-is-deleted": "This file has been deleted",
     "ready": "Ready",
     "updated": "Updated",
     "my-stats": "My stats",

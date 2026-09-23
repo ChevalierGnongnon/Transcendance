@@ -16,6 +16,13 @@ export const messageFileWhiteList = [
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',        // .xlsx
   'application/vnd.openxmlformats-officedocument.presentationml.presentation', // .pptx
 ]
+export const previewWhiteList = [
+  'image/png',
+  'image/webp',
+  'image/jpeg',
+  'image/gif',
+  'application/pdf',
+]
 
 export const uploadImageConfig = multer({
     storage: multer.memoryStorage(),

@@ -5,8 +5,7 @@ import { NotFoundError } from '../../common/errors.js';
 import { UnsupportedFileTypeError } from '../../common/errors.js';
 import { ForbiddenRightsError } from '../../common/errors.js';
 import { InvalidAuthentificationError } from '../../common/errors.js';
-import fs from 'fs';
-import { avatarWhiteList, messageFileWhiteList } from './files.middlewares.ts';
+import { avatarWhiteList, messageFileWhiteList, previewWhiteList } from './files.middlewares.ts';
 
 export async function getDefaultAvatars(req: Request, res: Response) {
   try {
@@ -68,14 +67,13 @@ export async function downloadFile(req: Request, res: Response) {
   try {
     if (typeof req.params.id !== 'string')
       return res.status(400).json({ error: 'INVALID_FILE_ID' });
-    const file = await FileService.getFileDownload(req.params.id, req.userId);
-
-    if (avatarWhiteList.includes(file.mimeType))
+    const fileData = await FileService.getFileDownload(req.params.id, req.userId);
+    if (previewWhiteList.includes(fileData.file.mimeType))
       res.set('Content-Disposition', 'inline');
     else
-      res.set('Content-Disposition', `attachment; filename="${file.name}"`);
-    res.set('Content-Type', file.mimeType);
-    res.send(fs.readFileSync(`/app/uploads/${file.name}`));
+      res.set('Content-Disposition', `attachment; filename="${fileData.file.name}"`);
+    res.set('Content-Type', fileData.file.mimeType);
+    res.send(fileData.fileBuffer);
   } catch (error) {
     console.error('Download file error:', error);
     if (error instanceof NotFoundError) {

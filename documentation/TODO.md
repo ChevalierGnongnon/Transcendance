@@ -17,6 +17,7 @@
     - [X] debounce
     - [X] fetch
     - [X] scss
+    - [ ] .search-bar sans background-color (fond hérité de la page, potentiellement invisible/moche)
 
 - [ ] backend
     - [ ] delete isdeleted row in user table
@@ -27,3 +28,10 @@
 - [ ] check all responsive
 
 - [ ] security check
+
+- [ ] console warnings/errors (sujet: "No warnings or errors")
+    - [ ] search-bar : 400 au chargement (query vide envoyée au montage)
+    - [ ] vérifier que favicon.ico existe dans public/
+
+- [ ] si on a le temps
+    - [ ] preview pdf via pdf.js (canvas, évite X-Frame-Options)
