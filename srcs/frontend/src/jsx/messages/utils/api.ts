@@ -85,6 +85,8 @@ export const createAiConversation = async () => {
 
   return data.conversationId;
 };
+
+
 export const fetchUsers = async () => {
   try {
     const response = await fetch('/api/users', { credentials: 'include' });

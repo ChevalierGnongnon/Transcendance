@@ -35,16 +35,16 @@ useEffect(() => {
       setLoading(true);
       setError(null);
 
-      const storedConversationId = sessionStorage.getItem(
-        'aiConversationId'
-      );
+      // const storedConversationId = sessionStorage.getItem(
+      //   'aiConversationId'
+      // );
 
-      if (storedConversationId) {
-        setConversationId(storedConversationId);
-        console.log("found ID");
-        return;
-      }
-      console.log("Starting new conversation");
+      // if (storedConversationId) {
+      //   setConversationId(storedConversationId);
+      //   console.log("found ID");
+      //   return;
+      // }
+      // console.log("Starting new conversation");
 
       const id = await createAiConversation();
 

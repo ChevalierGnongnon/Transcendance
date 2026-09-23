@@ -39,7 +39,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
 					<Route path="/game/gomoku" element={<RequireAuth><GameStart /></RequireAuth>} />
 					<Route path="/game" element={<RequireAuth><GamePage /></RequireAuth>} />
-					<Route path="/analytics" element={<Analytics />} />
+					<Route path="/analytics" element={<RequireAuth><Analytics /></RequireAuth>} />
 				</Routes>
 				<Footer />
 			</AuthProvider>

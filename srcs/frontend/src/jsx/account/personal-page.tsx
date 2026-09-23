@@ -171,12 +171,14 @@ function PersonalPage() {
 									</figure>
 								</div>
 							</div>
-
-							<span>{t("profile-page.game-stats")}</span>
+		
 							<div className="col-12 col-md-6 col-xl-6">
-								<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/mystats")}>
-									<img src={statsShortcut} alt="message-shortcut" />
-									<span>{t("profile-page.my-stats")}</span>
+								<figure
+									className="shortcut-icon justify-content-center"
+									onClick={() => navigate("/analytics")}
+								>
+									<img src={statsShortcut} alt="analytics-shortcut" />
+									<span>Analytics</span>
 								</figure>
 							</div>
 						</>
