@@ -29,7 +29,9 @@
     "confirm": "Confirm",
     "undo": "Undo",
     "import-file-instead": "Import a file instead",
-    "download-file": "Download file",
+    "download-file": "Download",
+    "delete-file": "Delete",
+    "file-is-deleted": "This file has been deleted",
     "ready": "Ready",
     "updated": "Updated",
     "my-stats": "My stats",
@@ -39,12 +41,20 @@
   },
   "login": {
     "mail-or-pseudo": "Mail or pseudo",
+    "log-google": "Login with Google",
+    "log-github": "Login with GitHub",
+    "log-fourty-two": "Login with 42",
     "or": "OR",
     "no-account": "No account yet?",
-    "create-account": "Create an account"
+    "create-account": "Create an account",
+    "login-with": "Login with :",
+    "register-with": "Register with :"
   },
   "register": {
     "birthdate": "Birthdate",
+    "register-google": "Register with Google",
+    "register-github": "Register with GitHub",
+    "register-fourty-two": "Register with 42",
     "already-have-account": "Already have an account ?"
   },
   "complete-your-profile": {
@@ -61,11 +71,18 @@
     "add-friend": "Add a friend",
     "send-friendship-invitation": "Send friend request",
     "friend-list": "My friend list",
+    "games-played": "Games played",
+    "games-won": "Games won",
+    "games-lost": "Games lost",
+    "best-score": "Best score",
     "my-stats": "My stats"
   },
 
   "update-my-profile": {
     "update-my-profile": "Update my profile",
+    "change-my-password": "Change my password",
+    "old-password": "Old password",
+    "new-password": "New password",
     "confirm-password": "Confirm the new password",
     "change-account-infos": "Change account information",
     "change-first-name": "Change first name",
@@ -74,11 +91,14 @@
     "change-profile-photo": "Change profile picture",
     "display-name-and-last-name": "Display name and last name",
     "danger-zone": "DANGER ZONE",
+    "delete-my-account": "Delete my account",
     "delete-my-game-infos": "Delete my game statistics"
   },
   "message": {
+    "chats": "Chats",
     "my-messages": "My messages",
     "new-message": "New message",
+    "start-new-chat": "Start a new chat",
     "block": "Block",
     "imaginary-friend": "Imaginary friend",
     "chat-with-friend": "Chat with a friend",
@@ -86,8 +106,12 @@
     "upload-file": "Upload a file",
     "invite-to-game": "Invite to a game",
     "give-reason": "Give the reason:",
-    "search-user": "Search a user",
-    "file-received": "File received"
+    "search-user": "Search for a user to start a chat",
+    "file-received": "File received",
+    "start-chat": "Start chat",
+    "go-to-profile": "Go to profile",
+    "back": "Back",
+    "info": "Info"
   },
   "friends": {
     "send-friend-request": "Send a friend request",

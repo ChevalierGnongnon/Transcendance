@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma.js';
 import type { newMessageInput } from '../schemas.js';
 
 export async function handleMessages(socket: Socket, payload: newMessageInput) {
-  const { chatId, recipientId, sender, content } = payload;
+  const { chatId, recipientId, sender, content, type } = payload;
   try {
     const chat = await prisma.chat.findFirst({
       where: {
@@ -21,12 +21,13 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
     if (!chat) throw new Error('Chat not found or access denied');
 
     const savedMessage = await prisma.message.create({
-      data: { chatId, senderId: sender.id, content },
+      data: { chatId, senderId: sender.id, content, type },
       select: {
         id: true,
         chatId: true,
         content: true,
         createdAt: true,
+        type: true,
         sender: {
           select: {
             id: true,
@@ -43,7 +44,6 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
     });
 
     if (!savedMessage) throw new Error('Can not save message');
-    console.log(savedMessage);
 
     socket.to(`user-${recipientId}`).emit('new-chat-message', savedMessage);
 

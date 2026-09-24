@@ -29,7 +29,9 @@
     "confirm": "Подтвердить",
     "undo": "Отменить",
     "import-file-instead": "Импортировать файл вместо этого",
-    "download-file": "Скачать файл",
+    "download-file": "Скачать",
+    "delete-file": "Удалить",
+    "file-is-deleted": "Этот файл был удалён",
     "ready": "Готово",
     "updated": "Обновлено",
     "my-stats": "Моя статистика",
@@ -39,12 +41,20 @@
   },
   "login": {
     "mail-or-pseudo": "Почта или псевдоним",
+    "log-google": "Войти через Google",
+    "log-github": "Войти через GitHub",
+    "log-fourty-two": "Войти через 42",
+    "login-with": "Войти через :",
+    "register-with": "Зарегистрироваться через :",
     "or": "ИЛИ",
     "no-account": "Ещё нет аккаунта?",
     "create-account": "Создать аккаунт"
   },
   "register": {
     "birthdate": "Дата рождения",
+    "register-google": "Зарегистрироваться через Google",
+    "register-github": "Зарегистрироваться через GitHub",
+    "register-fourty-two": "Зарегистрироваться через 42",
     "already-have-account": "Уже есть аккаунт?"
   },
   "complete-your-profile": {
@@ -61,10 +71,17 @@
     "add-friend": "Добавить друга",
     "send-friendship-invitation": "Отправить заявку в друзья",
     "friend-list": "Мой список друзей",
+    "games-played": "Сыгранные игры",
+    "games-won": "Выигранные игры",
+    "games-lost": "Проигранные игры",
+    "best-score": "Лучший результат",
     "my-stats": "Моя статистика"
   },
   "update-my-profile": {
     "update-my-profile": "Редактировать профиль",
+    "change-my-password": "Изменить пароль",
+    "old-password": "Старый пароль",
+    "new-password": "Новый пароль",
     "confirm-password": "Подтвердите новый пароль",
     "change-account-infos": "Изменить информацию об аккаунте",
     "change-first-name": "Изменить имя",
@@ -73,11 +90,14 @@
     "change-profile-photo": "Изменить фото профиля",
     "display-name-and-last-name": "Показывать имя и фамилию",
     "danger-zone": "ОПАСНАЯ ЗОНА",
+    "delete-my-account": "Удалить мой аккаунт",
     "delete-my-game-infos": "Удалить мою игровую статистику"
   },
   "message": {
+    "chats": "Чаты",
     "my-messages": "Мои сообщения",
     "new-message": "Новое сообщение",
+    "start-new-chat": "Начать новый чат",
     "block": "Заблокировать",
     "imaginary-friend": "Воображаемый друг",
     "chat-with-friend": "Пообщаться с другом",
@@ -85,8 +105,12 @@
     "upload-file": "Загрузить файл",
     "invite-to-game": "Пригласить в игру",
     "give-reason": "Укажите причину:",
-    "search-user": "Найти пользователя",
-    "file-received": "Файл получен"
+    "search-user": "Чтобы начать чат, найдите пользователя",
+    "file-received": "Файл получен",
+    "start-chat": "Начать чат",
+    "go-to-profile": "Перейти в профиль",
+    "back": "Назад",
+    "info": "Информация"
   },
   "friends": {
     "send-friend-request": "Отправить запрос в друзья",

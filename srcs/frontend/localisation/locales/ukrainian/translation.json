@@ -29,7 +29,9 @@
     "confirm": "Підтвердити",
     "undo": "Скасувати",
     "import-file-instead": "Імпортувати файл замість цього",
-    "download-file": "Завантажити файл",
+    "download-file": "Завантажити",
+    "delete-file": "Видалити",
+    "file-is-deleted": "Цей файл було видалено",
     "ready": "Готово",
     "updated": "Оновлено",
     "my-stats": "Моя статистика",
@@ -39,12 +41,20 @@
   },
   "login": {
     "mail-or-pseudo": "Пошта або псевдонім",
+    "log-google": "Увійти через Google",
+    "log-github": "Увійти через GitHub",
+    "log-fourty-two": "Увійти через 42",
+    "login-with": "Увійти через :",
+    "register-with": "Зареєструватися через :",
     "or": "АБО",
     "no-account": "Ще немає акаунта?",
     "create-account": "Створити акаунт"
   },
   "register": {
     "birthdate": "Дата народження",
+    "register-google": "Зареєструватися через Google",
+    "register-github": "Зареєструватися через GitHub",
+    "register-fourty-two": "Зареєструватися через 42",
     "already-have-account": "Уже є акаунт?"
   },
   "complete-your-profile": {
@@ -61,10 +71,17 @@
     "add-friend": "Додати друга",
     "send-friendship-invitation": "Надіслати запит у друзі",
     "friend-list": "Мій список друзів",
+    "games-played": "Зіграні ігри",
+    "games-won": "Виграні ігри",
+    "games-lost": "Програні ігри",
+    "best-score": "Найкращий результат",
     "my-stats": "Моя статистика"
   },
   "update-my-profile": {
     "update-my-profile": "Редагувати профіль",
+    "change-my-password": "Змінити пароль",
+    "old-password": "Старий пароль",
+    "new-password": "Новий пароль",
     "confirm-password": "Підтвердіть новий пароль",
     "change-account-infos": "Змінити інформацію про акаунт",
     "change-first-name": "Змінити ім'я",
@@ -73,11 +90,14 @@
     "change-profile-photo": "Змінити фото профілю",
     "display-name-and-last-name": "Показувати ім'я та прізвище",
     "danger-zone": "НЕБЕЗПЕЧНА ЗОНА",
+    "delete-my-account": "Видалити мій акаунт",
     "delete-my-game-infos": "Видалити мою ігрову статистику"
   },
   "message": {
+    "chats": "Чати",
     "my-messages": "Мої повідомлення",
     "new-message": "Нове повідомлення",
+    "start-new-chat": "Почати новий чат",
     "block": "Заблокувати",
     "imaginary-friend": "Уявний друг",
     "chat-with-friend": "Спілкуватися з другом",
@@ -85,8 +105,12 @@
     "upload-file": "Завантажити файл",
     "invite-to-game": "Запросити в гру",
     "give-reason": "Вкажіть причину:",
-    "search-user": "Знайти користувача",
-    "file-received": "Файл отримано"
+    "search-user": "Щоб почати чат, знайдіть користувача",
+    "file-received": "Файл отримано",
+    "start-chat": "Почати чат",
+    "go-to-profile": "Перейти до профілю",
+    "back": "Назад",
+    "info": "Інформація"
   },
   "friends": {
     "send-friend-request": "Надіслати запит у друзі",

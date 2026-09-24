@@ -9,7 +9,7 @@
     "messages": "Messages",
     "my-messages": "Mes messages",
     "my-friends": "Mes amis",
-    "send-game-invitation": "Envoyer une invitation pour jouer",
+    "send-game-invitation": "Envoyer une invitation à jouer",
     "send-message": "Envoyer un message",
     "notifications": "Notifications",
     "parameters": "Paramètres",
@@ -21,7 +21,7 @@
     "play": "Jouer",
     "update-my-profile": "Modifier mon profil",
     "loading": "Chargement...",
-    "page-not-found": "Page introuvable",
+    "page-not-found": "Page non trouvée",
     "chatting-with": "Vous discutez avec",
     "send": "Envoyer",
     "search-user": "Rechercher un utilisateur",
@@ -29,7 +29,9 @@
     "confirm": "Confirmer",
     "undo": "Annuler",
     "import-file-instead": "Importer un fichier à la place",
-    "download-file": "Télécharger le fichier",
+    "download-file": "Télécharger",
+    "delete-file": "Supprimer",
+    "file-is-deleted": "Ce fichier a été supprimé",
     "ready": "Prêt",
     "updated": "Mis à jour",
     "my-stats": "Mes statistiques",
@@ -39,12 +41,20 @@
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",
+    "log-google": "Se connecter avec Google",
+    "log-github": "Se connecter avec GitHub",
+    "log-fourty-two": "Se connecter avec 42",
+    "login-with": "Se connecter avec :",
+    "register-with": "S'inscrire avec :",
     "or": "OU",
     "no-account": "Pas encore de compte ?",
     "create-account": "Créez un compte"
   },
   "register": {
     "birthdate": "Date de naissance",
+    "register-google": "S'inscrire avec Google",
+    "register-github": "S'inscrire avec GitHub",
+    "register-fourty-two": "S'inscrire avec 42",
     "already-have-account": "Vous avez déjà un compte ?"
   },
   "complete-your-profile": {
@@ -61,10 +71,17 @@
     "add-friend": "Ajouter un ami",
     "send-friendship-invitation": "Envoyer une demande d'ami",
     "friend-list": "Ma liste d'amis",
+    "games-played": "Parties jouées",
+    "games-won": "Parties gagnées",
+    "games-lost": "Parties perdues",
+    "best-score": "Meilleur score",
     "my-stats": "Mes statistiques"
   },
   "update-my-profile": {
     "update-my-profile": "Mettre à jour mon profil",
+    "change-my-password": "Changer mon mot de passe",
+    "old-password": "Ancien mot de passe",
+    "new-password": "Nouveau mot de passe",
     "confirm-password": "Confirmez le nouveau mot de passe",
     "change-account-infos": "Modifier les informations du compte",
     "change-first-name": "Changer de prénom",
@@ -73,11 +90,14 @@
     "change-profile-photo": "Changer de photo de profil",
     "display-name-and-last-name": "Afficher le nom et le prénom",
     "danger-zone": "ZONE DANGEREUSE",
+    "delete-my-account": "Supprimer mon compte",
     "delete-my-game-infos": "Supprimer mes statistiques de jeu"
   },
   "message": {
+    "chats": "Chats",
     "my-messages": "Mes messages",
     "new-message": "Nouveau message",
+    "start-new-chat": "Démarrer une nouvelle discussion",
     "block": "Bloquer",
     "imaginary-friend": "Ami imaginaire",
     "chat-with-friend": "Discuter avec un ami",
@@ -85,8 +105,12 @@
     "upload-file": "Envoyer un fichier",
     "invite-to-game": "Inviter à jouer",
     "give-reason": "Donnez la raison :",
-    "search-user": "Rechercher un utilisateur",
-    "file-received": "Fichier reçu"
+    "search-user": "Recherchez un utilisateur pour démarrer une discussion",
+    "file-received": "Fichier reçu",
+    "start-chat": "Démarrer la chat",
+    "go-to-profile": "Aller au profil",
+    "back": "Retour",
+    "info": "Info"
   },
   "friends": {
     "send-friend-request": "Envoyer une demande d'ami",
