@@ -3,6 +3,7 @@ import type { MessageProps } from './types.js';
 import { socket } from './socket.js';
 import { useEffect, useState } from 'react';
 import ErrorMessage from '../others/error-message.js';
+
 const previewable = ['image/png', 'image/webp', 'image/jpeg', 'image/gif', 'application/pdf'];
 
 export const Message = (props: MessageProps) => {
@@ -120,6 +121,41 @@ export const Message = (props: MessageProps) => {
                   type="application/pdf"
                 />
               )} */}
+
+              {!loading && !deletedFile && MimeType === 'application/pdf' &&
+                <img
+                  src="/pdf-icon.svg"
+                  alt="icon-pdf"
+                  className="icon-type"
+                />
+              }
+
+              {!loading && !deletedFile
+                && MimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' &&
+                <img
+                  src="/docx-icon.svg"
+                  alt="icon-docx"
+                  className="icon-type"
+                />
+              }
+
+              {!loading && !deletedFile 
+                && MimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
+                <img
+                  src="/xlsx-icon.svg"
+                  alt="icon-xslx"
+                  className="icon-type"
+                />
+              }
+
+              {!loading && !deletedFile 
+                && MimeType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' &&
+                <img
+                  src="/pptx-icon.svg"
+                  alt="icon-pdf"
+                  className="icon-type"
+                />
+              }
               {/* download button */}
               {!deletedFile &&
                 // <a
