@@ -7,7 +7,7 @@ function ErrorMessage({error} : {error: string | null}){
     if (!error)
         return (null);
     return (
-        <div className="alert alert-danger error-message">{t('errors.' + error)}</div>
+        <div className="alert alert-danger error-message">{t(error)}</div>
     )
 }
 export default ErrorMessage;
