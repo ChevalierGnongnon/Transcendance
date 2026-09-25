@@ -13,6 +13,19 @@ class BlocksServices {
     return await prisma.$transaction(async (tx) => {
       const block = await tx.block.create({
         data: { blockerId: blockerId, blockedId: blockedId },
+        select: {
+          id: true,
+          blocked: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              pseudo: true,
+              profilePhotoId: true,
+            },
+          },
+          createdAt: true,
+        },
       });
       await tx.friendship.deleteMany({
         where: { userId: userId, friendId: friendId },
@@ -31,9 +44,13 @@ class BlocksServices {
   }
 
   async unblockUser(blockerId: string, blockedId: string) {
-    await prisma.block.deleteMany({
-      where: { blockerId: blockerId, blockedId: blockedId },
+    const ret = await prisma.block.deleteMany({
+      where: { blockerId, blockedId },
     });
+
+    if (ret.count === 0) {
+      throw new NotFoundError('Block not found');
+    }
   }
 }
 

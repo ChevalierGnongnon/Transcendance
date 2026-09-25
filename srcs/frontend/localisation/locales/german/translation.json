@@ -127,7 +127,9 @@
     "add-friend": "Freund hinzufügen",
     "block": "Blockieren",
     "no-friends": "Du hast noch keine Freunde oder Freundschaftsanfragen.",
-    "no-friends-hint": "Finde jemanden über die Suchleiste und klicke auf Freund hinzufügen, um eine Freundschaftsanfrage zu senden."
+    "no-friends-hint": "Finde jemanden über die Suchleiste und klicke auf Freund hinzufügen, um eine Freundschaftsanfrage zu senden.",
+    "blocked-users": "Blockierte Benutzer",
+    "unblock": "Entsperren"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Alle Felder sind erforderlich",

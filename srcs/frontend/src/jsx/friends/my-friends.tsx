@@ -1,32 +1,17 @@
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 import '../../scss/friends.scss';
 import AddFriend from './add-friend';
-import { FriendCard } from './FriendCard';
+import FriendCard from './FriendCard';
 import { useAuth } from '../auth/auth-context';
-import { apiFetch } from './apiFetch';
-
-interface Friendship {
-  id: string;
-  status: string;
-  createdAt: string;
-  acceptedAt: string | null;
-  user: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    pseudo: string;
-    profilePhotoId: string;
-  };
-  friend: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    pseudo: string;
-    profilePhotoId: string;
-  };
-}
+import { apiFetch, apiFetchVoid } from './apiFetch';
+import OutgoingList from './OutgoingRequestsList';
+import { Friend, OutgoingRequest, Relationships, BlockedUsers, IncomingRequests } from './types';
+import OutgoingRequestsList from './OutgoingRequestsList';
+import FriendsList from './FriendsList';
+import IncomingRequestsList from './IncomingRequestsList';
+import BlockList from './BlockList';
 
 interface User {
   id: string;
@@ -42,10 +27,17 @@ interface User {
 
 function MyFriends() {
   const { t } = useTranslation();
-  const [friendships, setFriendships] = useState<Friendship[]>([]);
   const { logout } = useAuth();
   const [me, setMe] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [relationship, setRelationship] = useState<Relationships>({
+    friends: [],
+    incomingRequests: [],
+    outgoingRequests: [],
+    blockedUsers: [],
+  });
 
   useEffect(() => {
     apiFetch('/api/my-profile', {}, logout)
@@ -61,258 +53,186 @@ function MyFriends() {
   }, []);
 
   useEffect(() => {
-    apiFetch('/api/friendships', {}, logout)
+    setLoading(true);
+    setError(null);
+
+    apiFetch<Relationships>('/api/social/state', {}, logout)
       .then((data) => {
-        setFriendships(data);
+        setRelationship(data);
       })
       .catch((err) => {
-        console.error('friendships error:', err);
+        console.error('Error gettting relationships :', err);
+        setError('Can not download relationships');
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
   const sendFriendRequest = async (userId: string) => {
     try {
-      const data = await apiFetch(
-        '/api/friendships',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ friendId: userId }),
-        },
+      const data = await apiFetch<OutgoingRequest>(
+        `/api/social/friend-requests/${userId}`,
+        { method: 'POST' },
         logout
       );
 
-      const newFriendship = data.friendship;
-      setFriendships((prev) => [newFriendship, ...prev]);
+      const newOutgoingRequest: OutgoingRequest = data;
+      setRelationship((prev) => ({
+        ...prev,
+        outgoingRequests: [...prev.outgoingRequests, newOutgoingRequest],
+      }));
     } catch (err) {
       console.error('Error sendFriendRequest:', err);
     }
   };
 
-  const blockUser = async (userId: string) => {
-    fetch(`api/friendships/${userId}`, {
-      credentials: 'include',
-      method: 'POST',
-    })
-      .then((res) => {
-        if (res.status === 401) {
-          logout();
-          throw new Error('Unauthorized');
-        }
-        if (!res.ok) {
-          throw new Error(`HTTP error: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.error('Error updateFriendship:', err);
-      });
-  };
-
-  const deleteFriendship = async (id: string) => {
-    fetch(`api/friendships/${id}`, {
-      credentials: 'include',
-      method: 'DELETE',
-    })
-      .then((res) => {
-        if (res.status === 401) {
-          logout();
-          throw new Error('Unauthorized');
-        }
-        if (!res.ok) {
-          throw new Error(`HTTP error: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (data.success) {
-          {
-            const targetId = data.deleted.id;
-            if (targetId) setFriendships((prev) => prev.filter((f) => f.id !== targetId));
-          }
-        }
-      })
-      .catch((err) => {
-        console.error('Error updateFriendship:', err);
-      });
-  };
-
-  const updateFriendship = async (
-    id: string,
-    status: 'accepted' | 'refused' | 'cancelled' | 'blocked'
-  ) => {
+  const acceptFriendRequest = async (requestId: string) => {
     try {
-      const updated = await apiFetch(
-        `/api/friendships/${id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ status }),
-        },
+      const data = await apiFetch<Friend>(
+        `/api/social/friend-requests/${requestId}/accept`,
+        { method: 'POST' },
         logout
       );
-
-      setFriendships((prev) => {
-        switch (updated.status) {
-          case 'refused':
-          case 'cancelled':
-            return prev.filter((f) => f.id !== id);
-
-          case 'accepted':
-          case 'blocked':
-            return prev.map((f) =>
-              f.id === id ? { ...f, status: updated.status, updatedAt: updated.updatedAt } : f
-            );
-
-          default:
-            return prev;
-        }
-      });
+      const newFriend: Friend = data;
+      setRelationship((prev) => ({
+        ...prev,
+        incomingRequests: prev.incomingRequests.filter((req) => req.id !== requestId),
+        friends: [newFriend, ...prev.friends],
+      }));
     } catch (err) {
-      console.error('Error updateFriendship:', err);
+      console.error('Error cancelFriendRequest:', err);
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
+  const cancelFriendRequest = async (requestId: string) => {
+    try {
+      await apiFetchVoid(`/api/social/friend-requests/${requestId}`, { method: 'DELETE' }, logout);
+      setRelationship((prev) => ({
+        ...prev,
+        outgoingRequests: prev.outgoingRequests.filter((req) => req.id !== requestId),
+      }));
+    } catch (err) {
+      console.error('Error cancelFriendRequest:', err);
+    }
+  };
+
+  const declineFriendRequest = async (requestId: string) => {
+    try {
+      await apiFetchVoid(`/api/social/friend-requests/${requestId}`, { method: 'DELETE' }, logout);
+      setRelationship((prev) => ({
+        ...prev,
+        incomingRequests: prev.incomingRequests.filter((req) => req.id !== requestId),
+      }));
+    } catch (err) {
+      console.error('Error declineFriendRequest:', err);
+    }
+  };
+
+  const deleteFriendship = async (friendshipsId: string) => {
+    try {
+      await apiFetchVoid(`/api/social/${friendshipsId}`, { method: 'DELETE' }, logout);
+      setRelationship((prev) => ({
+        ...prev,
+        friends: prev.friends.filter((req) => req.id !== friendshipsId),
+      }));
+    } catch (err) {
+      console.error('Error declineFriendRequest:', err);
+    }
+  };
+
+  const blockUser = async (userId: string) => {
+    try {
+      const blocked = await apiFetch<BlockedUsers>(
+        `/api/social/blocks/${userId}`,
+        { method: 'POST' },
+        logout
+      );
+
+      const newBlockedUser: BlockedUsers = blocked;
+      setRelationship((prev) => ({
+        ...prev,
+        friends: prev.friends.filter((i) => i.friend.id !== userId),
+        incomingRequests: prev.incomingRequests.filter((i) => i.sender.id !== userId),
+        outgoingRequests: prev.outgoingRequests.filter((o) => o.receiver.id !== userId),
+        blockedUsers: [newBlockedUser, ...prev.blockedUsers],
+      }));
+    } catch (err) {
+      console.error('Error blockUser:', err);
+    }
+  };
+
+  const unBlockUser = async (userId: string) => {
+    try {
+      await apiFetchVoid(`/api/social/blocks/${userId}`, { method: 'DELETE' }, logout);
+      setRelationship((prev) => ({
+        ...prev,
+        blockedUsers: prev.blockedUsers.filter((req) => req.blocked.id !== userId),
+      }));
+    } catch (err) {
+      console.error('Error unblock user:', err);
+    }
+  };
+
+  const friends = useMemo(() => relationship.friends, [relationship.friends]);
+
+  function isRelationshipEmpty(relationship: Relationships): boolean {
+    return (
+      relationship.friends.length === 0 &&
+      relationship.outgoingRequests.length === 0 &&
+      relationship.incomingRequests.length === 0 &&
+      relationship.blockedUsers.length === 0
+    );
   }
 
-  if (!me) {
-    return null;
+  if (loading) {
+    return (
+      <div className="friends-page m-2 p-2">
+        <AddFriend send={sendFriendRequest} block={blockUser} />
+        <div>
+          <p>{t('common.loading')}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isRelationshipEmpty(relationship)) {
+    return (
+      <div className="friends-page m-2 p-2">
+        <AddFriend send={sendFriendRequest} block={blockUser} />
+        <div>
+          <p>{t('friends.no-friends')}</p>
+          <p>{t('friends.no-friends-hint')}</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="friends-page m-2 p-2">
       <AddFriend send={sendFriendRequest} block={blockUser} />
-      {friendships.length === 0 ? (
-        <div>
-          <p>{t('friends.no-friends')}</p>
-          <p>{t('friends.no-friends-hint')}</p>
-        </div>
-      ) : (
-        <div>
-          <h1>{t('friends.my-friends')}</h1>{' '}
-          <div className="row g-4 justify-content-center shortcut-grid">
-            {friendships.map((item) => {
-              const isSender = item.user.id === me.id;
-              const friend = isSender ? item.friend : item.user;
-              if (item.status === 'accepted') {
-                return (
-                  <FriendCard
-                    key={item.id}
-                    name={`${friend.firstName} ${friend.lastName}`}
-                    profilePhotoId={friend.profilePhotoId}
-                    buttonValue={t('friends.delete-friend')}
-                    buttonClassName="delete-button px-2"
-                    onButtonClick={() => {
-                      deleteFriendship(item.id);
-                    }}
-                  />
-                );
-              }
-              return null;
-            })}
-          </div>
-          {/*########################---Pending---###########################*/}
-          {friendships.some((f) => f.status === 'pending' && f.friend.id === me.id) && (
-            <div className="orange-border p-2">
-              <h1>{t('friends.pending-requests')}</h1>
-              <div className="row g-4 justify-content-center shortcut-grid"></div>
-              {friendships.map((item) => {
-                const isReceiver = item.friend.id === me.id;
-                const friend = isReceiver ? item.user : item.friend;
 
-                if (isReceiver && item.status === 'pending') {
-                  return (
-                    <FriendCard
-                      key={item.id}
-                      name={`${friend.firstName} ${friend.lastName}`}
-                      profilePhotoId={friend.profilePhotoId}
-                      buttonValue={t('friends.accept')}
-                      buttonClassName={'accept-button px-2'}
-                      onButtonClick={() => {
-                        updateFriendship(item.id, 'accepted');
-                      }}
-                      secondButtonValue={t('friends.refuse')}
-                      secondButtonClassName={'delete-button'}
-                      onSecondButtonClick={() => {
-                        updateFriendship(item.id, 'refused');
-                      }}
-                    />
-                  );
-                }
-                return null;
-              })}
-            </div>
-          )}
-          {/*#########################My requests to add######################*/}
-          {friendships.some((f) => f.status === 'pending' && f.user.id === me.id) && (
-            <div className="green-border p-2">
-              <h1>{t('friends.your-requests')}</h1>
-              <div className="row g-4 justify-content-center shortcut-grid">
-                {friendships.map((item) => {
-                  const isSender = item.user.id === me.id;
-                  const friend = isSender ? item.friend : item.user;
+      {relationship.friends.length > 0 && (
+        <FriendsList friends={relationship.friends} onDeleteFriend={deleteFriendship} />
+      )}
 
-                  if (isSender && item.status === 'pending') {
-                    return (
-                      <FriendCard
-                        key={item.id}
-                        name={`${friend.firstName} ${friend.lastName}`}
-                        profilePhotoId={friend.profilePhotoId}
-                        buttonValue={t('friends.cancel')}
-                        buttonClassName={'delete-button px-2'}
-                        onButtonClick={() => {
-                          updateFriendship(item.id, 'cancelled');
-                        }}
-                      />
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-            </div>
-          )}
-          {/*############################Block part##########################*/}
-          {friendships.some((f) => f.status === 'blocked') && (
-            <div className="red-border p-2">
-              <div className="form-new-chat p-3 my-2 gap-3 d-flex flex-column justify-content-center align-items-center">
-                <h1>{t('friends.delete-confirm-title', { name: 'user' })}</h1>
-                <h1>{'Bocked'}</h1>
-                <div className="col-12 col-md-6 col-xl-4">
-                  {friendships.map((item) => {
-                    const isSender = item.user.id === me.id;
-                    const friend = isSender ? item.friend : item.user;
+      {relationship.incomingRequests.length > 0 && (
+        <IncomingRequestsList
+          incomingRequests={relationship.incomingRequests}
+          onAcceptRequest={acceptFriendRequest}
+          onDeclineRequest={declineFriendRequest}
+        />
+      )}
 
-                    if (item.status === 'bocked') {
-                      return (
-                        <FriendCard
-                          key={item.id}
-                          name={`${friend.firstName} ${friend.lastName}`}
-                          profilePhotoId={friend.profilePhotoId}
-                          buttonValue={t('friends.cancel')}
-                          buttonClassName={'delete-button px-2'}
-                          onButtonClick={() => {
-                            blockUser(item.id);
-                          }}
-                        />
-                      );
-                    }
-                    return null;
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-          {/*###################################################*/}
-        </div>
+      {relationship.outgoingRequests.length > 0 && (
+        <OutgoingRequestsList
+          outgoingRequests={relationship.outgoingRequests}
+          onCancelRequest={cancelFriendRequest}
+        />
+      )}
+
+      {relationship.blockedUsers.length > 0 && (
+        <BlockList blockedUsers={relationship.blockedUsers} onUnblockUser={unBlockUser} />
       )}
     </div>
   );

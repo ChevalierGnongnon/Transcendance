@@ -128,7 +128,9 @@
     "add-friend": "Add friend",
     "block": "Block",
     "no-friends": "You don't have any friends or friend requests yet.",
-    "no-friends-hint": "Find someone using the search bar and click Add Friend to send them a friend request."
+    "no-friends-hint": "Find someone using the search bar and click Add Friend to send them a friend request.",
+    "blocked-users": "Blocked users",
+    "unblock": "Unblock"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "All fields are required",

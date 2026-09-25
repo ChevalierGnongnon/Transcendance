@@ -1,4 +1,6 @@
 import type { Request, Response } from 'express';
+import { Prisma } from '@/generated/prisma/client.js';
+
 import { NotFoundError } from '../../common/errors.js';
 import BlocksServices from '@/modules/friendships/blocks.services.js';
 
@@ -49,6 +51,9 @@ export const unblockUser = async (req: Request<{ userId: string }>, res: Respons
 
     return res.status(204).json();
   } catch (error) {
+    if (error instanceof NotFoundError) {
+      return res.status(404).json({ error: 'BLOCK_NOT_FOUND' });
+    }
     return res.status(500).json({ success: false, error: 'INTERNAL_SERVER_ERROR' });
   }
 };

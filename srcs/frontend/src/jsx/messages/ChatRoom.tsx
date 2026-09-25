@@ -18,12 +18,29 @@ function ChatRoom(roomProps: ChatRoomProps) {
   const [loading, setLoading] = useState(false);
   // const [error, setError] = useState<Error | null>(null);
   const me = roomProps.me;
+  const [relationship, setRelationship] = useState({
+    isFriend: false,
+    requestSent: false,
+    requestReceived: false,
+    blockedByMe: false,
+    blockedMe: false,
+  });
   const chatId = roomProps.chat.chatId;
   const messages = chatId ? (roomProps.messages.get(chatId) ?? []) : [];
-
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
+
+  useEffect(() => {
+    fetch(`/api/social/relationship/${roomProps.chat.user.id}`, { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data) => {
+        setRelationship(data);
+      })
+      .catch((e) => {
+        console.error('Error get relationship', e);
+      });
+  }, [roomProps.chat.user.id]);
 
   const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
     messagesEndRef.current?.scrollIntoView({
@@ -169,6 +186,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
+                if (relationship.blockedByMe || relationship.blockedMe) return;
                 handleSendMessage();
               }
             }}
@@ -176,6 +194,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
           <button
             className="btn send-message"
             onClick={() => {
+              if (relationship.blockedByMe || relationship.blockedMe) return;
               handleSendMessage();
             }}
           >

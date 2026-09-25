@@ -127,7 +127,9 @@
     "add-friend": "Ajouter un ami",
     "block": "Bloquer",
     "no-friends": "Vous n'avez pas encore d'amis ni de demandes d'ami.",
-    "no-friends-hint": "Trouvez quelqu'un à l'aide de la barre de recherche et cliquez sur Ajouter un ami pour lui envoyer une demande d'ami."
+    "no-friends-hint": "Trouvez quelqu'un à l'aide de la barre de recherche et cliquez sur Ajouter un ami pour lui envoyer une demande d'ami.",
+    "blocked-users": "Utilisateurs bloqués",
+    "unblock": "Débloquer"
   },
   "errors": {
     "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",

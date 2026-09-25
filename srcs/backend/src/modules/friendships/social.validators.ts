@@ -15,3 +15,11 @@ export const idParamValidator = [
     .isUUID()
     .withMessage('id must be a valid UUID'),
 ];
+
+export const friendshipIdParamValidator = [
+  param('friendshipId')
+    .notEmpty()
+    .withMessage('USERID_REQUIRED')
+    .isUUID()
+    .withMessage('FRIENDSHIPID_MUST_BE_A_VALID_UUID'),
+];
