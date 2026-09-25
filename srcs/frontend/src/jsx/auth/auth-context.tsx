@@ -45,6 +45,7 @@ export function AuthProvider({children}:{children:ReactNode}){
         }
     }, [isAuthenticated])
 
+    // To handle deconnexion in all tabs if one logged out 
     useEffect(() => {
         window.addEventListener('storage', refresh)
         return () => window.removeEventListener('storage', refresh);
