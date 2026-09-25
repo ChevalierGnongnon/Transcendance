@@ -5,7 +5,7 @@ import { RateLimiter } from '../../common/common-middlewares.js';
 import { requireAuth } from '../auth/auth.middlewares.js';
 import { validate } from './social.middlewares.js';
 import { blockUser, unblockUser } from './blocks.controllers.ts';
-import { removeFriendship } from './social.controllers.js';
+import { removeFriend, removeFriendship } from './social.controllers.js';
 import {
   sendFriendRequest,
   acceptFriendRequest,
@@ -30,8 +30,8 @@ router.get(
   validate,
   getRelationship
 );
-router.get('/social/friends', requireAuth, getFriends);
-// router.delete('/social/friends/:userId', userIdParamValidator, validate);
+router.get('/social/friends', requireAuth, getFriends, getFriends);
+router.delete('/social/friends/:userId', requireAuth, userIdParamValidator, validate, removeFriend);
 router.post(
   '/social/friend-requests/:userId',
   requireAuth,
@@ -54,7 +54,7 @@ router.delete(
   deleteFriendRequest
 );
 router.delete(
-  '/social/friends/:friendshipId',
+  '/social/friendships/:friendshipId',
   requireAuth,
   friendshipIdParamValidator,
   validate,
@@ -64,35 +64,3 @@ router.post('/social/blocks/:userId', requireAuth, userIdParamValidator, validat
 router.delete('/social/blocks/:userId', requireAuth, userIdParamValidator, validate, unblockUser);
 
 export default router;
-
-// sendFriendRequest()
-// acceptFriendRequest()
-// rejectFriendRequest()
-// removeFriend()
-// getSocialState()
-// getRelationship()
-//
-// getSocialState()
-// getRelationship()
-// sendFriendRequest()
-// acceptFriendRequest()
-// deleteFriendRequest()
-// getFriends()
-// removeFriend()
-// blockUser()
-// unblockUser()
-//
-//
-//friendship.service.ts
-// createFriendship()
-// getFriends()
-
-// isFriend()
-
-// {
-//   "isFriend": false,
-//   "requestSent": true,
-//   "requestReceived": false,
-//   "blockedByMe": false,
-//   "blockedMe": false
-// }

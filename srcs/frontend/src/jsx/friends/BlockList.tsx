@@ -15,14 +15,14 @@ function BlockList({ blockedUsers, onUnblockUser }: BlockListProps) {
       <div className="form-new-chat p-3 my-2 gap-3 d-flex flex-column justify-content-center align-items-center">
         {/*<h1>{t('friends.delete-confirm-title', { name: 'user' })}</h1>*/}
         <h1>{t('friends.blocked-users')}</h1>
-        <div className="col-12 col-md-6 col-xl-4">
+        <div className="row g-4 justify-content-center shortcut-grid">
           {blockedUsers.map((item) => (
             <FriendCard
               key={item.id}
               name={`${item.blocked.firstName} ${item.blocked.lastName}`}
               profilePhotoId={item.blocked.profilePhotoId}
               buttonValue={t('friends.unblock')}
-              buttonClassName={'delete-button px-2'}
+              buttonClassName={'accept-button px-2'}
               onButtonClick={() => {
                 onUnblockUser(item.blocked.id);
               }}

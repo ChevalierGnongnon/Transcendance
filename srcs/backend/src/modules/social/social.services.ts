@@ -2,7 +2,6 @@ import { prisma } from '@/lib/prisma.js';
 
 import { normalizePair, type Relationship } from './social.utils.js';
 import { NotFoundError } from '@/common/errors.js';
-import { transformProcessor } from 'node_modules/zod/v4/core/json-schema-processors.js';
 
 class SocialServices {
   async getSocialState(userId: string) {
@@ -190,6 +189,20 @@ class SocialServices {
     ];
 
     return friends;
+  }
+
+  async removeFriend(currentUserId: string, otherUserId: string) {
+    const [userId, friendId] = normalizePair(currentUserId, otherUserId);
+
+    const ret = await prisma.friendship.deleteMany({
+      where: { userId, friendId },
+    });
+
+    if (ret.count === 0) {
+      throw new NotFoundError('Friendship not found');
+    }
+
+    return { count: ret.count };
   }
 }
 

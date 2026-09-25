@@ -36,3 +36,11 @@ export interface Relationships {
   outgoingRequests: OutgoingRequest[];
   blockedUsers: BlockedUsers[];
 }
+
+export type Relationship = {
+  isFriend: boolean;
+  requestSent: boolean;
+  requestReceived: boolean;
+  blockedByMe: boolean;
+  blockedMe: boolean;
+};

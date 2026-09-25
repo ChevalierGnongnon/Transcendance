@@ -32,7 +32,7 @@ function MyFriends() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [relationship, setRelationship] = useState<Relationships>({
+  const [relationships, setRelationships] = useState<Relationships>({
     friends: [],
     incomingRequests: [],
     outgoingRequests: [],
@@ -58,7 +58,7 @@ function MyFriends() {
 
     apiFetch<Relationships>('/api/social/state', {}, logout)
       .then((data) => {
-        setRelationship(data);
+        setRelationships(data);
       })
       .catch((err) => {
         console.error('Error gettting relationships :', err);
@@ -78,7 +78,7 @@ function MyFriends() {
       );
 
       const newOutgoingRequest: OutgoingRequest = data;
-      setRelationship((prev) => ({
+      setRelationships((prev) => ({
         ...prev,
         outgoingRequests: [...prev.outgoingRequests, newOutgoingRequest],
       }));
@@ -95,7 +95,7 @@ function MyFriends() {
         logout
       );
       const newFriend: Friend = data;
-      setRelationship((prev) => ({
+      setRelationships((prev) => ({
         ...prev,
         incomingRequests: prev.incomingRequests.filter((req) => req.id !== requestId),
         friends: [newFriend, ...prev.friends],
@@ -108,7 +108,7 @@ function MyFriends() {
   const cancelFriendRequest = async (requestId: string) => {
     try {
       await apiFetchVoid(`/api/social/friend-requests/${requestId}`, { method: 'DELETE' }, logout);
-      setRelationship((prev) => ({
+      setRelationships((prev) => ({
         ...prev,
         outgoingRequests: prev.outgoingRequests.filter((req) => req.id !== requestId),
       }));
@@ -120,7 +120,7 @@ function MyFriends() {
   const declineFriendRequest = async (requestId: string) => {
     try {
       await apiFetchVoid(`/api/social/friend-requests/${requestId}`, { method: 'DELETE' }, logout);
-      setRelationship((prev) => ({
+      setRelationships((prev) => ({
         ...prev,
         incomingRequests: prev.incomingRequests.filter((req) => req.id !== requestId),
       }));
@@ -131,8 +131,8 @@ function MyFriends() {
 
   const deleteFriendship = async (friendshipsId: string) => {
     try {
-      await apiFetchVoid(`/api/social/${friendshipsId}`, { method: 'DELETE' }, logout);
-      setRelationship((prev) => ({
+      await apiFetchVoid(`/api/social/friendshs/${friendshipsId}`, { method: 'DELETE' }, logout);
+      setRelationships((prev) => ({
         ...prev,
         friends: prev.friends.filter((req) => req.id !== friendshipsId),
       }));
@@ -150,7 +150,7 @@ function MyFriends() {
       );
 
       const newBlockedUser: BlockedUsers = blocked;
-      setRelationship((prev) => ({
+      setRelationships((prev) => ({
         ...prev,
         friends: prev.friends.filter((i) => i.friend.id !== userId),
         incomingRequests: prev.incomingRequests.filter((i) => i.sender.id !== userId),
@@ -165,7 +165,7 @@ function MyFriends() {
   const unBlockUser = async (userId: string) => {
     try {
       await apiFetchVoid(`/api/social/blocks/${userId}`, { method: 'DELETE' }, logout);
-      setRelationship((prev) => ({
+      setRelationships((prev) => ({
         ...prev,
         blockedUsers: prev.blockedUsers.filter((req) => req.blocked.id !== userId),
       }));
@@ -174,7 +174,7 @@ function MyFriends() {
     }
   };
 
-  const friends = useMemo(() => relationship.friends, [relationship.friends]);
+  const friends = useMemo(() => relationships.friends, [relationships.friends]);
 
   function isRelationshipEmpty(relationship: Relationships): boolean {
     return (
@@ -188,7 +188,12 @@ function MyFriends() {
   if (loading) {
     return (
       <div className="friends-page m-2 p-2">
-        <AddFriend send={sendFriendRequest} block={blockUser} />
+        <AddFriend
+          send={sendFriendRequest}
+          accept={acceptFriendRequest}
+          block={blockUser}
+          unblock={unBlockUser}
+        />
         <div>
           <p>{t('common.loading')}</p>
         </div>
@@ -196,10 +201,15 @@ function MyFriends() {
     );
   }
 
-  if (isRelationshipEmpty(relationship)) {
+  if (isRelationshipEmpty(relationships)) {
     return (
       <div className="friends-page m-2 p-2">
-        <AddFriend send={sendFriendRequest} block={blockUser} />
+        <AddFriend
+          send={sendFriendRequest}
+          accept={acceptFriendRequest}
+          block={blockUser}
+          unblock={unBlockUser}
+        />
         <div>
           <p>{t('friends.no-friends')}</p>
           <p>{t('friends.no-friends-hint')}</p>
@@ -210,29 +220,35 @@ function MyFriends() {
 
   return (
     <div className="friends-page m-2 p-2">
-      <AddFriend send={sendFriendRequest} block={blockUser} />
+      <AddFriend
+        send={sendFriendRequest}
+        accept={acceptFriendRequest}
+        decline={declineFriendRequest}
+        block={blockUser}
+        unblock={unBlockUser}
+      />
 
-      {relationship.friends.length > 0 && (
-        <FriendsList friends={relationship.friends} onDeleteFriend={deleteFriendship} />
+      {relationships.friends.length > 0 && (
+        <FriendsList friends={relationships.friends} onDeleteFriend={deleteFriendship} />
       )}
 
-      {relationship.incomingRequests.length > 0 && (
+      {relationships.incomingRequests.length > 0 && (
         <IncomingRequestsList
-          incomingRequests={relationship.incomingRequests}
+          incomingRequests={relationships.incomingRequests}
           onAcceptRequest={acceptFriendRequest}
           onDeclineRequest={declineFriendRequest}
         />
       )}
 
-      {relationship.outgoingRequests.length > 0 && (
+      {relationships.outgoingRequests.length > 0 && (
         <OutgoingRequestsList
-          outgoingRequests={relationship.outgoingRequests}
+          outgoingRequests={relationships.outgoingRequests}
           onCancelRequest={cancelFriendRequest}
         />
       )}
 
-      {relationship.blockedUsers.length > 0 && (
-        <BlockList blockedUsers={relationship.blockedUsers} onUnblockUser={unBlockUser} />
+      {relationships.blockedUsers.length > 0 && (
+        <BlockList blockedUsers={relationships.blockedUsers} onUnblockUser={unBlockUser} />
       )}
     </div>
   );

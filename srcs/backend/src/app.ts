@@ -7,7 +7,7 @@ import authRoutes from './modules/auth/auth.routes.js';
 import usersRoutes from './modules/users/users.routes.js';
 import filesRoutes from './modules/files/files.routes.js';
 import chatRoutes from './modules/chat/chat.routes.js';
-import socialRoutes from './modules/friendships/social.routes.js';
+import socialRoutes from './modules/social/social.routes.ts';
 import healthRouter from './modules/health.js';
 
 const app = express();

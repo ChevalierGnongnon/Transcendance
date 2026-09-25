@@ -143,3 +143,25 @@ export const getFriends = async (req: Request, res: Response) => {
     return res.status(500).json({ success: false, error: 'INTERNAL_SERVER_ERROR' });
   }
 };
+
+export const removeFriend = async (req: Request<{ userId: string }>, res: Response) => {
+  const currentUserId = req.userId!;
+  const otherUserId = req.params.userId;
+
+  if (currentUserId === otherUserId)
+    res.status(400).json({ success: false, error: 'CANNOT_REMOVE_SELF' });
+
+  try {
+    if (!currentUserId) throw new Error('userId dont exist');
+
+    const count = await SocialServices.removeFriend(currentUserId, otherUserId);
+
+    return res.status(204).json();
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return res.status(404).json({ success: false, error: 'FRIENDSHIP_NOT_FOUND' });
+    }
+
+    return res.status(500).json({ success: false, error: 'INTERNAL_SERVER_ERROR' });
+  }
+};

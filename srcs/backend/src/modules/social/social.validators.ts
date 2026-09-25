@@ -9,17 +9,13 @@ export const userIdParamValidator = [
 ];
 
 export const idParamValidator = [
-  param('id')
-    .notEmpty()
-    .withMessage('USERID_REQUIRED')
-    .isUUID()
-    .withMessage('id must be a valid UUID'),
+  param('id').notEmpty().withMessage('ID_REQUIRED').isUUID().withMessage('ID_MUST_BE_A_VALID_UUID'),
 ];
 
 export const friendshipIdParamValidator = [
   param('friendshipId')
     .notEmpty()
-    .withMessage('USERID_REQUIRED')
+    .withMessage('FRIENDSHIPID_REQUIRED')
     .isUUID()
     .withMessage('FRIENDSHIPID_MUST_BE_A_VALID_UUID'),
 ];

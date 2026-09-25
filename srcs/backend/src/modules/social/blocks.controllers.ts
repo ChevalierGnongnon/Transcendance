@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 import { Prisma } from '@/generated/prisma/client.js';
 
 import { NotFoundError } from '../../common/errors.js';
-import BlocksServices from '@/modules/friendships/blocks.services.js';
+import BlocksServices from '@/modules/social/blocks.services.js';
 
 export const blockUser = async (req: Request<{ userId: string }>, res: Response) => {
   const blockedId = req.params.userId;
