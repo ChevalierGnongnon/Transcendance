@@ -11,6 +11,7 @@ import sharp from 'sharp';
 import { randomUUID } from 'crypto';
 import fs from 'fs';
 import type { File } from '@/generated/prisma/client.js';
+import { getIo } from '../socket/socket-register.ts';
 
 interface FileData{
   file: File;
@@ -138,20 +139,38 @@ class FileService {
     });
     if (file === null)
       throw new NotFoundError('File not found');
+
     if (file.userId !== requesterId)
       throw new ForbiddenRightsError("User doesn't have the rights for this file");
     if (file.type === 'default_avatar')
       throw new ForbiddenRightsError("Default avatars can't be deleted");
+    const chat = file.chatId;
     await prisma.file.delete({
       where: {
         id: fileId,
       },
     });
+    
     try {
       fs.unlinkSync(`/app/uploads/${file.name}`);
     } catch (err) {
       if (err instanceof Error && 'code' in err && err.code !== 'ENOENT') {
         throw err;
+      }
+    }
+
+    if (file.chatId !== null){
+      if (chat !== null){
+        const chatMembers = await prisma.chatMember.findMany({
+          where:{
+            chatId: chat,
+          }
+        })
+        const rooms = chatMembers.map((member) => `user-${member.userId}`)
+        const io = getIo();
+        if (!io)
+            return ;
+        io.to(rooms).emit('file-deleted', {fileId})
       }
     }
   }

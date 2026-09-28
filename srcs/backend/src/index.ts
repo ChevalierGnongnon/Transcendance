@@ -6,6 +6,7 @@ import cron from 'node-cron';
 import app from './app.js';
 import { fileManager } from './scripts/file-manager.ts';
 import { setupSocketConnection } from './modules/socket/socket.ts';
+import { setIo } from './modules/socket/socket-register.ts';
 
 cron.schedule('0 * * * *', fileManager);
 
@@ -17,6 +18,9 @@ const io = new Server(httpServer, {
     credentials: true,
   },
 });
+
+setIo(io);
+
 
 setupSocketConnection(io);
 

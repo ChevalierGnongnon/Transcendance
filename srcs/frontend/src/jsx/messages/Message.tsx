@@ -34,15 +34,25 @@ export const Message = (props: MessageProps) => {
         }
       })
       .catch((e) => {
-        if (!cancelled) setMimeType('');
+        if (!cancelled)
+          setMimeType('');
       })
       .finally(() => {
-        if (!cancelled) setLoading(false);
+        if (!cancelled)
+          setLoading(false);
       });
     return () => {
       cancelled = true;
     };
   }, []);
+  useEffect(() =>{
+    function handleFileDeleted(data){
+      if (data.fileId === fileId)
+        setDeletedFile(true);
+    }
+    socket.on('file-deleted', handleFileDeleted)
+    return () => socket.off('file-deleted', handleFileDeleted);
+  }, []) 
 
   return (
     <>
@@ -192,7 +202,7 @@ export const Message = (props: MessageProps) => {
                 
               }
               
-              {!deletedFile &&
+              {!deletedFile && props.senderId === props.userId &&
                 <input
                 type="button"
                 value={t('common.delete-file')}

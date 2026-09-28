@@ -6,6 +6,8 @@ import french_trans from "./locales/french/translation.json"
 import ukrainian_trans from "./locales/ukrainian/translation.json"
 import russian_trans from "./locales/russian/translation.json" 
 
+// configuration file for i18n
+
 i18n.use(initReactI18next).init({
     resources: {
         en: {translation: english_trans},
@@ -14,7 +16,9 @@ i18n.use(initReactI18next).init({
         uk: {translation: ukrainian_trans},
         ru: {translation: russian_trans}
     },
+    // default lang
     lng: localStorage.getItem('lang') || 'en',
+    // fallback in case of no key
     fallbackLng: 'en',
 });
 
