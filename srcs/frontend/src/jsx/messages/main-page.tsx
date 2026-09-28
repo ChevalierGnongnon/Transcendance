@@ -9,7 +9,7 @@ import NewChat from './new-chat';
 import MoreOptions from './options';
 import Block from './block';
 import ChatList from './ChatList';
-import ImaginaryFriend from './ImaginaryFriend';
+import ImaginaryFriend from '../ai/ImaginaryFriend';
 import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
 import { ActiveView, IChatPreview, IMessage } from './types';
