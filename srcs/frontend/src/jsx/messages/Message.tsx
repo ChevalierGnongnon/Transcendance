@@ -3,7 +3,7 @@ import type { MessageProps } from './types.js';
 import { socket } from './socket.js';
 import { useEffect, useState } from 'react';
 import ErrorMessage from '../others/error-message.js';
-
+import { useFriendships } from '../friends/useFriendships.js';
 const previewable = ['image/png', 'image/webp', 'image/jpeg', 'image/gif', 'application/pdf'];
 
 export const Message = (props: MessageProps) => {
@@ -12,13 +12,14 @@ export const Message = (props: MessageProps) => {
   const [MimeType, setMimeType] = useState('');
   const [loading, setLoading] = useState(false);
   const [deletedFile, setDeletedFile] = useState<boolean>(false);
+  const {getStatus} = useFriendships()
 
   useEffect(() => {
     if (!fileId) {
       setMimeType('');
       setLoading(false);
       
-      return;
+      return; 
     }
 
     let cancelled = false;
@@ -168,14 +169,6 @@ export const Message = (props: MessageProps) => {
               }
               {/* download button */}
               {!deletedFile &&
-                // <a
-                //   href={`/api/${props.content}/download`}
-                //   download
-                //   // type="button"
-                //   className="btn btn-primary"
-                // >
-                //   {t('common.download-file')}
-                // </a>
                 <input type="button" value={t('common.download-file')} className='btn btn-primary m-1' onClick={
                   async()=>{
                     const res = await fetch(`/api/${props.content}/download`, {credentials: 'include'})
