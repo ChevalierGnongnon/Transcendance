@@ -128,6 +128,7 @@ function Parameters() {
 									mode="avatar"
 									onUploaded={(fileId) => setAvatar(fileId)}
 									onSelectedChange={setHasCustomFile}
+									inputPlaceHolder="Importer une nouvelle image"
 								/>
 							}
 

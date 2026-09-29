@@ -1,13 +1,18 @@
 @use "./common-variables.scss" as *;
 
-input.form-input{
+input.form-input {
 	background-color:	white;
 	border-radius:		12px;
 	border:				2px solid black;
 	width:				40%;
 	margin-left: 		auto;
 	margin-right: 		auto;
+
+	@media (max-width: 767px) {
+		width: 90%;
+	}
 }
+
 
 
 body{
@@ -50,19 +55,7 @@ body{
 	margin: auto;
 }
 
-.form-input{
-	background-color:	white;
-	border-radius:		12px;
-	border:				2px solid black;
-	width:				40%;
-	margin-left: 		auto;
-	margin-right: 		auto;
-}
-
 @media (max-width: 767px) {
-    .form-input {
-        width: 90%;
-    }
 	.login-form {
 		width: 90%;
 	}

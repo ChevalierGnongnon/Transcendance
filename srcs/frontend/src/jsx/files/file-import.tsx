@@ -10,6 +10,7 @@ interface FileImportComponent{
     deferUpload?: boolean;
     onFileReady?: (file: File | null) => void;
     externalProgress?: number;
+    inputPlaceHolder: string | undefined
 }
 
 const avatarWhiteList = [
@@ -46,6 +47,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                 id="file_input"
                 className="d-none"
                 ref={fileInputRef}
+                placeholder={fileImportComponent.inputPlaceHolder}
                 onChange={
                     (e)=>{
                         setUploadProgress(0);

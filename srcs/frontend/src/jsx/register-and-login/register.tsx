@@ -113,6 +113,7 @@ function Register() {
 								deferUpload={true}
 								externalProgress={uploadProgress}
 								onFileReady={(file) => { setAvatarFile(file); if (file === null) setUploadProgress(0); }}
+								inputPlaceHolder="Importer une image"
 							/>
 						)}
 						

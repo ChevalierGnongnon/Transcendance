@@ -54,6 +54,7 @@ function MoreOptions(props: MoreOptionsProps) {
         deferUpload={true}
         onFileReady={(fileId) => handleChange(fileId)}
         externalProgress={uploadProgress}
+        inputPlaceHolder="Importer un fichier"
       ></FileImport>
       <input
         type="button"
