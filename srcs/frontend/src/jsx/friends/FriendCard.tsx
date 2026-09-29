@@ -11,7 +11,7 @@ type FriendCardProps = {
   onSecondButtonClick?: () => void;
 };
 
-export const FriendCard = ({
+function FriendCard({
   name,
   profilePhotoId,
   buttonValue,
@@ -21,7 +21,7 @@ export const FriendCard = ({
   secondButtonValue,
   secondButtonClassName,
   onSecondButtonClick,
-}: FriendCardProps) => {
+}: FriendCardProps) {
   return (
     <div className="col-12 col-md-6 col-xl-4">
       <figure className="friend-card py-2 px-1 justify-content-center">
@@ -48,4 +48,6 @@ export const FriendCard = ({
       </figure>
     </div>
   );
-};
+}
+
+export default FriendCard;

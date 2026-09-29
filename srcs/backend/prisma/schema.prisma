@@ -35,11 +35,18 @@ model User {
 
   uploadedFiles File[]
 
-  profilePhoto        File?        @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
-  messages            Message[]    @relation("MessageSender")
-  sentFriendships     Friendship[] @relation("SentFriendships")
-  receivedFriendships Friendship[] @relation("ReceivedFriendships")
-  chatMembers         ChatMember[]
+  profilePhoto File?        @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
+  messages     Message[]    @relation("MessageSender")
+  chatMembers  ChatMember[]
+
+  sentFriendRequests     FriendRequest[] @relation("sentFriendRequests")
+  receivedFriendRequests FriendRequest[] @relation("receivedFriendRequests")
+
+  friendshipsAsUser   Friendship[] @relation("friendshipsAsUser")
+  friendshipsAsFriend Friendship[] @relation("friendshipsAsFriend")
+
+  blocksCreated  Block[] @relation("blocksCreated")
+  blocksReceived Block[] @relation("blocksReceived")
 
   @@map("user")
 }
@@ -55,7 +62,7 @@ model File {
   name       String    @map("file_name") @db.VarChar(255)
   type       FileType
   userId     String    @map("user_id") @db.Char(36)
-  chatId     String?   @map("chat_id")
+  chatId     String?   @map("chat_id") @db.Char(36)
   mimeType   String    @map("mime_type") @db.VarChar(100)
   expiresAt  DateTime? @map("expires_at")
   uploadedAt DateTime  @default(now()) @map("uploaded_at")
@@ -63,7 +70,7 @@ model File {
   uploader User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   profileFor User[] @relation("UserProfilePhoto")
-  chat       Chat?   @relation(fields: [chatId], references: [id], onDelete: SetNull)
+  chat       Chat?  @relation(fields: [chatId], references: [id], onDelete: SetNull)
 
   @@unique([name, type])
   @@map("file")
@@ -120,28 +127,46 @@ model Message {
   @@map("messages")
 }
 
-enum FriendshipStatus {
-  pending
-  accepted
-  refused
-  cancelled
-  blocked
-}
-
 model Friendship {
-  id       String           @id @default(uuid())
-  userId   String           @map("user_id")
-  friendId String           @map("friend_id")
-  status   FriendshipStatus @default(pending)
+  id        String   @id @default(uuid()) @db.Char(36)
+  userId    String   @map("user_id") @db.Char(36)
+  friendId  String   @map("friend_id") @db.Char(36)
+  createdAt DateTime @default(now())
 
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @map("updated_at")
-
-  user   User @relation("SentFriendships", fields: [userId], references: [id], onDelete: Cascade)
-  friend User @relation("ReceivedFriendships", fields: [friendId], references: [id], onDelete: Cascade)
+  user   User @relation("friendshipsAsUser", fields: [userId], references: [id])
+  friend User @relation("friendshipsAsFriend", fields: [friendId], references: [id])
 
   @@unique([userId, friendId])
-  @@index([userId, status])
-  @@index([friendId, status])
+  @@index([friendId])
   @@map("friendships")
+}
+
+model FriendRequest {
+  id String @id @default(uuid()) @db.Char(36)
+
+  senderId   String @map("sender_id") @db.Char(36)
+  receiverId String @map("receiver_id") @db.Char(36)
+
+  sender   User @relation("sentFriendRequests", fields: [senderId], references: [id])
+  receiver User @relation("receivedFriendRequests", fields: [receiverId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([senderId, receiverId])
+  @@index([receiverId])
+  @@map("friend_request")
+}
+
+model Block {
+  id        String   @id @default(uuid()) @db.Char(36)
+  blockerId String   @map("blocker_id") @db.Char(36)
+  blockedId String   @map("blocked_id") @db.Char(36)
+  createdAt DateTime @default(now())
+
+  blocker User @relation("blocksCreated", fields: [blockerId], references: [id])
+  blocked User @relation("blocksReceived", fields: [blockedId], references: [id])
+
+  @@unique([blockerId, blockedId])
+  @@index([blockedId])
+  @@map("block")
 }
