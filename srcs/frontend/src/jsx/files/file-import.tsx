@@ -109,7 +109,7 @@ function FileImport(fileImportComponent: FileImportComponent){
 
                 {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' &&
                     <img
-                        src="/pdf-icon.svg"
+                        src="/docx-icon.svg"
                         alt="icon-pdf"
                         className="icon-type"
                     />
@@ -117,7 +117,7 @@ function FileImport(fileImportComponent: FileImportComponent){
 
                 {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
                     <img
-                        src="/pdf-icon.svg"
+                        src="/xlsx-icon.svg"
                         alt="icon-pdf"
                         className="icon-type"
                     />
@@ -125,7 +125,7 @@ function FileImport(fileImportComponent: FileImportComponent){
 
                 {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' &&
                     <img
-                        src="/pdf-icon.svg"
+                        src="/pptx-icon.svg"
                         alt="icon-pdf"
                         className="icon-type"
                     />
