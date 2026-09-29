@@ -39,22 +39,18 @@ export const Message = (props: MessageProps) => {
           <>
             <div className="game-invite-box card p-2 m-2">
               <span className="text-message">You invited to play Gomoku</span>
-              {/* <p>Board size: {props.content}</p> */}
               <div className="invite-actions">
                 <button
                   className="btn btn-success"
                   onClick={() => {
-                    //socket.emit('game:invite_answer', { gameId, 'accept' });
-                    navigate("/game", {
-                      state: {
-                        me: props.me,
-                        opponentId: props.content.fromUserId,
-                        boardSize: props.content.boardSize,
-                        mode: props.content.mode
-                        //gameId: gameId
-                      }
-                    });
                     
+                    console.log("CONTENT", props.content);
+
+                    socket.emit("game:accept", {
+                      fromUserId: props.content.fromUserId,
+                      toUserId: props.senderId,
+                      boardSize: props.content.boardSize,
+                    });
                   }}
                 >
                   Accept
@@ -63,7 +59,7 @@ export const Message = (props: MessageProps) => {
                 <button
                   className="btn btn-danger"
 
-                  onClick={() => socket.emit("game:invite_answer", 'decline')}
+                  onClick={() => socket.emit("game:decline", '')}
 
                 >
                   Decline

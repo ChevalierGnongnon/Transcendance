@@ -16,5 +16,5 @@
       "@/*": ["src/*"],
     },
   },
-  "include": ["src", "prisma.config.ts"],
+  "include": ["src", "prisma.config.ts", "../frontend/src/game/gomoku/handleGameAccepted.ts"],
 }

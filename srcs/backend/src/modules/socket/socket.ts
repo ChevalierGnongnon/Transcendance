@@ -19,6 +19,17 @@ export const setupSocketConnection = (io: Server) => {
     onValidated(socket, 'new-chat-message', messageSchema, handleMessages);
     onValidated(socket, 'last-read-message', lastReadSchema, handleMessageRead);
     onValidated(socket, 'start-new-chat', startNewChatSchema, handleStartChat);
+    // onValidated(socket, 'game:accept', gameAcceptSchema, handleGameAccept);   ////////////////
+
+    /////////////////////////////// temporary test
+    socket.on("game:accept", ({ fromUserId, toUserId, boardSize }) => {
+      console.log("GAME ACCEPTED", {
+        fromUserId,
+        toUserId,
+        boardSize,
+      });
+    });
+/////////////////////////////////////////////////////////
 
     socket.on('disconnect', (reason) => {
       console.log('User disconnected:', socket.id);

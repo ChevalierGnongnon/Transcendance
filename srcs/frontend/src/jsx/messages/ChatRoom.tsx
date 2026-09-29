@@ -91,23 +91,22 @@ function ChatRoom(roomProps: ChatRoomProps) {
     }
   };
 
-  ////////////////////////////////////////////////////////// Handle incoming game invites
-  // useEffect(() => {
-  //   const handleInvite = (invite) => {
-  //     roomProps.onAddMessage({
-  //       id: Date.now(),
-  //       chatId,
-  //       sender: { id: invite.fromUserId, profilePhoto: { name: invite.fromUserPhoto } },
-  //       type: "game_invite",
-  //       content: invite
-  //     });
-  //   };
-
-  //   socket.on("game:invite", handleInvite);
-  //   return () => socket.off("game:invite", handleInvite);
-  // }, [chatId]);
-
-  // Handle invite acceptance → redirect to game
+  useEffect(() => {
+      const handleAccepted = ({ gameId, boardSize }) => {
+        navigate("/game", {
+          state: {
+            gameId,
+            boardSize,
+          },
+        });
+      };
+    
+      socket.on("game:accepted", handleAccepted);
+    
+      return () => {
+        socket.off("game:accepted", handleAccepted);
+      };
+    }, [navigate]);
   
 
   ///////////////////////////////////////////////////////////////////////////////////

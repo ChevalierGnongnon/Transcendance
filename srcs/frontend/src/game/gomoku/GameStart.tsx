@@ -4,6 +4,7 @@ import "./scss/gamestart.scss";
 import { socket } from "../../jsx/messages/socket";
 import { useSocketConnection } from "../../jsx/messages/hooks/useSocketConnection";
 import { useTranslation } from "react-i18next";
+import { handleGameAccept } from "./handleGameAccepted"; 
 
 function GameStart() {
   const navigate = useNavigate();
@@ -49,20 +50,69 @@ function GameStart() {
       .catch(err => console.error("users error:", err));
   }, []);
 
-  const handleSendInvitation = () => {
+  useEffect(() => {
+    const handleAccepted = ({ gameId, boardSize }) => {
+      navigate("/game", {
+        state: {
+          gameId,
+          boardSize,
+        },
+      });
+    };
 
+    socket.on("game:accepted", handleAccepted);
+
+    return () => {
+      socket.off("game:accepted", handleAccepted);
+    };
+  }, [navigate]);
+
+
+
+  async function getOrCreateChatId(meId: string, opponentId: string) {
+      const res = await fetch(`/api/chat/find?user1=${meId}&user2=${opponentId}`, {
+        credentials: "include"
+      });
+    
+      const data = await res.json();
+    
+      if (data?.chatId) return data.chatId;
+    
+      // If no chat exists → create one
+      const createRes = await fetch(`/api/chat/create`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user1: meId, user2: opponentId })
+      });
+    
+      const createData = await createRes.json();
+      return createData.chatId;
+    }
+
+  
+
+
+  const handleSendInvitation = async () => {
+
+    const finalChatId = chatId || await getOrCreateChatId(me.id, opponentId);
+
+    setChatId(finalChatId);
+   
       const msg = {
-        chatId: chatId,
+        chatId: finalChatId,
         recipientId: opponentId,
         sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },
         type: "invitation",
-        content: `${gameId}:${boardSize}`   /////
+        content: `${boardSize}`
       };
 
       socket.emit("new-chat-message", msg);
     };
 
-  const startGame = () => {
+  
+
+  const startGame = async () => {
     if (!opponentId) {
       setError(true);
       return;
@@ -73,68 +123,37 @@ function GameStart() {
     // LOCAL MODE → go directly to game
     if (mode === "local") {
       navigate("/game", {
-        state: { me, opponentId, boardSize, mode,  }
+        state: { me, opponentId, boardSize, mode, }
       });
       return;
     }
 
     // ONLINE MODE → send invite
     if (mode === "online") {
-
      
-      handleSendInvitation();
-     
-      // For now just redirect to chat where opponent will accept invite
-      // navigate("/chat", {
-      //   state: {
-      //     invite: {
-      //       fromUserId: me.id,
-      //       toUserId: opponentId,
-      //       boardSize,
-      //       mode
-      //     }
-      //   }
-      // });
+      await handleSendInvitation();
 
-      useEffect(() => {
-          const handleAccepted = ({ gameId, answer }) => {
-            if (answer === "accept") {
-              //handle accept
-               navigate("/game", {
-                state: {
-                  me,
-                  opponentId,
-                  boardSize: invite.boardSize,
-                  mode: invite.mode,
-                  gameId
-              }
-            });
-            } 
-            else {
-              // handle decline
-            }     
-           
-          };
       
-          socket.on("game:invite_answer", handleAccepted);
-          return () => socket.off("game:accepted", handleAccepted);
-        }, [navigate, me]);
       
-        // Handle invite decline → system message
-        useEffect(() => {
-          const handleDeclined = ({ invite }) => {
-            roomProps.onAddMessage({
-              id: Date.now(),
-              chatId,
-              type: "system",
-              sender: { id: 0, profilePhoto: { name: "system.png" } },
-              content: `${invite.toUserName} declined the game invite.`
-            });
-          };
+      //     socket.on("game:invite_answer", handleAccepted);
+      //     return () => socket.off("game:accepted", handleAccepted);
+      //   }, [navigate, me]);
       
-          socket.on("game:decline", handleDeclined);
-          return () => socket.off("game:decline", handleDeclined);
-        }, [chatId]);
+      //   // Handle invite decline → system message
+      //   useEffect(() => {
+      //     const handleDeclined = ({ invite }) => {
+      //       roomProps.onAddMessage({
+      //         id: Date.now(),
+      //         finalChatId,
+      //         type: "system",
+      //         sender: { id: 0, profilePhoto: { name: "system.png" } },
+      //         content: `${invite.toUserName} declined the game invite.`
+      //       });
+      //     };
+      
+      //     socket.on("game:decline", handleDeclined);
+      //     return () => socket.off("game:decline", handleDeclined);
+      //   }, [chatId]);
 
     }
   };
