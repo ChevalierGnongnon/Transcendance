@@ -4,7 +4,7 @@ import ErrorMessage from "../others/error-message";
 import "../../scss/files.scss"
 interface FileImportComponent{
     mode: 'avatar' | 'message';
-    onUploaded: (fileId: string) => void;
+    onUploaded?: (fileId: string) => void;
     onSelectedChange?:(hasFile: boolean)=> void;
     initialPreviewUrl?: string; 
     deferUpload?: boolean;
@@ -128,7 +128,8 @@ function FileImport(fileImportComponent: FileImportComponent){
                     request.onload = () =>{
                         if (request.status === 201){
                             const id = JSON.parse(request.responseText);
-                            fileImportComponent.onUploaded(id.file_id);
+                            if (fileImportComponent.onUploaded)
+                                fileImportComponent.onUploaded(id.file_id);
                         }
                     }
                     request.upload.onprogress = (event) =>{

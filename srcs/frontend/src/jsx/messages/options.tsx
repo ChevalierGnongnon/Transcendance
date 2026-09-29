@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import '../../scss/messages.scss';
-import { useRef } from 'react';
+import { useState } from 'react';
 import { MessageType } from './types';
 import { useAuth } from '../auth/auth-context';
+import FileImport from '../files/file-import';
 
 interface MoreOptionsProps {
   chatId: string;
@@ -13,50 +14,47 @@ interface MoreOptionsProps {
 function MoreOptions(props: MoreOptionsProps) {
   const { t } = useTranslation();
   const { logout } = useAuth();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const handleSendMessage = props.onSendMessage;
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  
 
-  const handleClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleChange = async (file: File | null) => {
+    
+    if (!file)
+      return;
 
     const formData = new FormData();
     formData.append('file', file);
 
-    const res = await fetch(`/api/message/${props.chatId}`, {
-      credentials: 'include',
-      method: 'POST',
-      body: formData,
-    });
-
-    if (res.status == 401) {
-      logout();
-      return;
+    const request = new XMLHttpRequest();
+    request.open('POST', `/api/message/${props.chatId}`);
+    request.withCredentials = true;
+    request.upload.onprogress = (event) =>{
+      setUploadProgress((event.loaded / event.total) * 100)
     }
-
-    if (!res.ok) {
-      return;
+    request.onload = () =>{
+      if (!request || request.status == 401) {
+        logout();
+        return;
+      }
+      if (request.status === 201){
+        const data = JSON.parse(request.responseText)
+        handleSendMessage(data.file_id)
+        props.onClose()
+      }
+      
     }
-
-    const data = await res.json();
-
-    handleSendMessage(data.file_id);
-    props.onClose();
+    request.send(formData);
   };
-
+  
   return (
     <div className="more-options-div gap-1 d-flex flex-column align-items-center">
-      <input
-        type="button"
-        value={t('message.upload-file')}
-        className="btn btn-primary more-options-btn"
-        onClick={handleClick}
-      />
-      <input type="file" ref={fileInputRef} onChange={handleChange} style={{ display: 'none' }} />
+      <FileImport
+        mode="message"
+        deferUpload={true}
+        onFileReady={(fileId) => handleChange(fileId)}
+        externalProgress={uploadProgress}
+      ></FileImport>
       <input
         type="button"
         value={t('message.invite-to-game')}
