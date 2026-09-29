@@ -16,6 +16,23 @@
     border-radius: 50%;
 }
 
+.icon-preview{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid white;
+    border-radius: 50%;
+    img{
+        width: 60%;
+        height: 60%;
+        object-fit: contain;
+    }
+}
+
 .upload_file{
     background-color: rgb(205, 205, 205);
     color: black;

@@ -102,35 +102,27 @@ function FileImport(fileImportComponent: FileImportComponent){
                 }
 
                 {selectedFile?.type === 'application/pdf' &&
-                    <img
-                        src="/pdf-icon.svg"
-                        alt="icon-pdf"
-                        className="icon-type"
-                    />
+                    <div className="icon-preview">
+                        <img src="/pdf-icon.svg" alt="icon-pdf" />
+                    </div>
                 }
 
                 {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' &&
-                    <img
-                        src="/docx-icon.svg"
-                        alt="icon-pdf"
-                        className="icon-type"
-                    />
+                    <div className="icon-preview">
+                        <img src="/docx-icon.svg" alt="icon-docx" />
+                    </div>
                 }
 
                 {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
-                    <img
-                        src="/xlsx-icon.svg"
-                        alt="icon-pdf"
-                        className="icon-type"
-                    />
+                    <div className="icon-preview">
+                        <img src="/xlsx-icon.svg" alt="icon-xlsx" />
+                    </div>
                 }
 
                 {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' &&
-                    <img
-                        src="/pptx-icon.svg"
-                        alt="icon-pdf"
-                        className="icon-type"
-                    />
+                    <div className="icon-preview">
+                        <img src="/pptx-icon.svg" alt="icon-pptx" />
+                    </div>
                 }
                 
             </figure>
