@@ -39,7 +39,7 @@ function FileImport(fileImportComponent: FileImportComponent){
     const [confirmed, setConfirmed] = useState(false);
 
     return (
-        <div className="file_component d-flex flex-column">
+        <div className="file_component p-2 d-flex flex-column">
             <input
                 type="file"
                 name="file_input"
@@ -95,9 +95,42 @@ function FileImport(fileImportComponent: FileImportComponent){
             </div>
 
             <figure className="file_preview_frame">
-                {   previewURL &&
+                {   previewURL && selectedFile?.type.startsWith('image/') &&
                     <img className="avatar-preview" src={previewURL ?? ''} alt="file-preview" />
                 }
+
+                {selectedFile?.type === 'application/pdf' &&
+                    <img
+                        src="/pdf-icon.svg"
+                        alt="icon-pdf"
+                        className="icon-type"
+                    />
+                }
+
+                {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' &&
+                    <img
+                        src="/pdf-icon.svg"
+                        alt="icon-pdf"
+                        className="icon-type"
+                    />
+                }
+
+                {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
+                    <img
+                        src="/pdf-icon.svg"
+                        alt="icon-pdf"
+                        className="icon-type"
+                    />
+                }
+
+                {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' &&
+                    <img
+                        src="/pdf-icon.svg"
+                        alt="icon-pdf"
+                        className="icon-type"
+                    />
+                }
+                
             </figure>
             <progress className="w-25 mx-auto" value={fileImportComponent.externalProgress ?? uploadProgress} max={100}></progress>
             <input
