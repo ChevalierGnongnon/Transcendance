@@ -92,7 +92,7 @@
     "delete-my-game-infos": "Meine Spielstatistiken löschen"
   },
   "message": {
-    "chats": "Discussions",
+    "chats": "Chats",
     "my-messages": "Meine Nachrichten",
     "new-message": "Neue Nachricht",
     "start-new-chat": "Neuen Chat starten",
@@ -367,7 +367,7 @@
     "contact": {
       "title": "15. Kontakt",
       "text": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, können Sie das Projektteam kontaktieren unter:",
-      "email": "IHRE KONTAKT-E-MAIL"
+      "email": "mknoll@student.42mulhouse.fr"
     }
   },
   "analytics": {
