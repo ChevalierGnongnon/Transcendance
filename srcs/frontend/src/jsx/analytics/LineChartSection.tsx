@@ -9,6 +9,7 @@ import type {
 
 import AiUsageChart from "./AiUsageChart";
 import GamesOverTimeChart from "./GamesOverTimeChart";
+import { useTranslation } from "react-i18next";
 
 interface LineChartSectionProps {
     aiUsageData: AiUsageOverTime[];
@@ -19,7 +20,7 @@ function LineChartSection({
     aiUsageData,
     gamesData,
 }: LineChartSectionProps) {
-
+    const { t } = useTranslation();
     const [selectedChart, setSelectedChart] = useState("aiUsage");
 
     return (
@@ -28,7 +29,7 @@ function LineChartSection({
             <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-2 mb-3">
 
             <h2 className="card-title mb-0">
-                Activity Over Time
+                {t("analytics.charts.activity-over-time")}
             </h2>
 
             <select
@@ -37,11 +38,11 @@ function LineChartSection({
                 onChange={(event) => setSelectedChart(event.target.value)}
             >
                 <option value="aiUsage">
-                    AI Usage Over Time
+                    {t("analytics.charts.ai-usage-over-time")}
                 </option>
 
                 <option value="games">
-                    Games Over Time
+                    {t("analytics.charts.games-over-time")}
                 </option>
             </select>
 

@@ -8,6 +8,7 @@ import type {
 import GamesPlayedPieChart from "./GamesPlayedPieChart";
 import AiTokenUsagePieChart from "./AiTokenPieChart";
 import GamesOverTimeChart from "./GamesOverTimeChart";
+import { useTranslation } from "react-i18next";
 
 
 interface PieChartSectionProps {
@@ -24,7 +25,7 @@ function PieChartSection({
 	totalTokens,
 	totalGames,
 }: PieChartSectionProps) {
-
+    const { t } = useTranslation();
     const [selectedChart, setSelectedChart] = useState("aiTokens");
 
     return (
@@ -33,7 +34,7 @@ function PieChartSection({
                 <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-2 mb-3">
 
                     <h2 className="card-title mb-0">
-                        Distribution
+                        {t("analytics.charts.distribution")}
                     </h2>
 
                     <select
@@ -42,11 +43,11 @@ function PieChartSection({
                         onChange={(event) => setSelectedChart(event.target.value)}
                     >
                     <option value="aiTokens">
-                        AI Token Usage
+                        {t("analytics.charts.ai-token-usage")}
                     </option>
 
                     <option value="games">
-                        Games Played
+                        {t("analytics.charts.games-played")}
                     </option>
                     </select>
 

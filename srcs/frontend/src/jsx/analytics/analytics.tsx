@@ -9,6 +9,7 @@ import PieChartSection from "./PieChartSection";
 import { exportAnalyticsToCsv } from './analyticsExport';
 import { useSocketConnection } from '../messages/hooks/useSocketConnection';
 import { socket } from '../messages/socket';
+import { useTranslation } from 'react-i18next';
 
 function getDefaultDates() {
     const today = new Date();
@@ -26,6 +27,7 @@ function getDefaultDates() {
 
 
 function Analytics() {
+    const { t } = useTranslation();
     const today = new Date().toISOString().split("T")[0];
     const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
     const [loading, setLoading] = useState(true);
@@ -76,11 +78,11 @@ function Analytics() {
     }, [activeFrom, activeTo]);
 
     if (loading) {
-        return <p>Loading analytics...</p>;
+        return <p>{t("analytics.loading")}</p>;
     }
 
     if (!analytics) {
-        return <p>No analytics available.</p>;
+        return <p>{t("analytics.no-data")}</p>;
     }
 
     function handleApplyFilter() {
@@ -124,11 +126,11 @@ function Analytics() {
     return (
     <div className="analytics">
         <h1 className="mb-2 fw-bold">
-            Analytics Dashboard
+            {t("analytics.title")}
         </h1>
 
         <p className="text-secondary mb-4">
-            Overview of your activity and AI usage.
+            {t("analytics.description")}
         </p>
 
         <div className="d-flex flex-wrap align-items-end gap-3 p-4 mb-4 border rounded">
@@ -138,7 +140,7 @@ function Analytics() {
             htmlFor="analytics-from"
             className="form-label"
         >
-            From:
+           {t("analytics.filters.from")}
         </label>
 
         <input
@@ -156,7 +158,7 @@ function Analytics() {
             htmlFor="analytics-to"
             className="form-label"
         >
-            To:
+            {t("analytics.filters.to")}
         </label>
 
         <input
@@ -174,21 +176,21 @@ function Analytics() {
             className="btn btn-outline-secondary"
             onClick={() => applyPreset(7)}
         >
-            7 Days
+            {t("analytics.filters.7-days")}
         </button>
 
         <button
             className="btn btn-outline-secondary"
             onClick={() => applyPreset(14)}
         >
-            14 Days
+            {t("analytics.filters.14-days")}
         </button>
 
         <button
             className="btn btn-outline-secondary"
             onClick={() => applyPreset(30)}
         >
-            30 Days
+            {t("analytics.filters.30-days")}
         </button>
     </div>
 
@@ -196,7 +198,7 @@ function Analytics() {
         className="btn btn-primary"
         onClick={handleApplyFilter}
     >
-        Apply
+        {t("analytics.filters.apply")}
     </button>
 
     <button
@@ -209,7 +211,7 @@ function Analytics() {
             )
         }
     >
-        Export CSV
+        {t("analytics.filters.export-csv")}
     </button>
 
     </div>
@@ -223,37 +225,37 @@ function Analytics() {
         <div className="row g-4">
            <div className="col-12 col-sm-6 col-lg-4">
                 <AnalyticsCard
-                    title="Games Played"
+                    title={t("analytics.overview.games-played")}
                     value={analytics.overview.gamesPlayed}
                 />
             </div>
             <div className="col-12 col-sm-6 col-lg-4">
                 <AnalyticsCard
-                    title="Games Won"
+                    title={t("analytics.overview.games-won")}
                     value={analytics.overview.gamesWon}
                 />
             </div>
             <div className="col-12 col-sm-6 col-lg-4">
                 <AnalyticsCard
-                    title="Games Lost"
+                    title={t("analytics.overview.games-lost")}
                     value={analytics.overview.gamesLost}
                 />
             </div>
             <div className="col-12 col-sm-6 col-lg-4">
                 <AnalyticsCard
-                    title="Win Rate"
+                    title={t("analytics.overview.win-rate")}
                     value={`${analytics.overview.winRate.toFixed(1)}%`}
                 />
             </div>
             <div className="col-12 col-sm-6 col-lg-4">
                 <AnalyticsCard
-                    title="AI Requests"
+                    title={t("analytics.overview.ai-requests")}
                     value={analytics.overview.aiRequests}
                 />
             </div>
             <div className="col-12 col-sm-6 col-lg-4">
                 <AnalyticsCard
-                    title="Total Tokens"
+                    title={t("analytics.overview.total-tokens")}
                     value={analytics.overview.totalTokens}
                 />
             </div>

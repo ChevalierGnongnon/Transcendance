@@ -167,5 +167,266 @@
     "EMAIL_TOO_LONG": "E-Mail ist zu lang",
     "EMAIL_INVALID": "Ungültiges E-Mail-Format",
     "EMAIL_EXISTS": "Diese E-Mail wird bereits verwendet"
+  },
+  "privacy-policy": {
+    "title": "Datenschutzerklärung",
+    "last-updated": "Zuletzt aktualisiert: September 2026",
+
+    "introduction": {
+      "title": "1. Einleitung",
+      "text": "Diese Datenschutzerklärung erklärt, wie unsere Anwendung personenbezogene Daten sammelt, verwendet, speichert und schützt, wenn Sie unsere Dienste nutzen."
+    },
+
+    "information": {
+      "title": "2. Welche Informationen wir erfassen",
+
+      "account": {
+        "title": "Kontoinformationen",
+        "text": "Wenn Sie ein Konto erstellen, können wir Informationen wie Ihren Benutzernamen, Ihre Passwortdaten und weitere Informationen erfassen, die für die Erstellung und Verwaltung Ihres Kontos erforderlich sind."
+      },
+
+      "profile": {
+        "title": "Profilinformationen",
+        "text": "Benutzer können Informationen für ihr Profil bereitstellen, beispielsweise ein Profilbild oder andere Profilinformationen."
+      },
+
+      "messages": {
+        "title": "Nachrichten und soziale Funktionen",
+        "text": "Wenn Sie Nachrichten- und Freundschaftsfunktionen nutzen, verarbeiten wir die Informationen, die für die Bereitstellung dieser Dienste erforderlich sind, einschließlich Nachrichten, Gesprächsteilnehmern und Freundschaftsbeziehungen."
+      },
+
+      "game": {
+        "title": "Spieldaten",
+        "text": "Wenn Sie Spiele über die Anwendung spielen, können wir Informationen über Ihre Spiele speichern, beispielsweise Spielergebnisse, Spielzüge, Punktzahlen oder andere Informationen, die für die Bereitstellung von Spiel- und Statistikfunktionen erforderlich sind."
+      },
+
+      "ai": {
+        "title": "KI-Unterhaltungen",
+        "text": "Die Anwendung bietet eine KI-gestützte Funktion namens \"Imaginary Friend\". Wenn Sie diese Funktion nutzen, werden Ihre Nachrichten verarbeitet, um KI-Antworten zu generieren."
+      },
+
+      "analytics": {
+        "title": "Analyse- und Nutzungsdaten",
+        "text": "Wir können Nutzungsinformationen über Ihre eigene Aktivität in der Anwendung erfassen, beispielsweise zur KI-Nutzung, zu Spielen, Nachrichten oder anderen Statistiken, die über die Analysefunktionen der Anwendung angezeigt werden."
+      },
+
+      "technical": {
+        "title": "Technische Informationen",
+        "text": "Die Anwendung kann technische Informationen verarbeiten, die für den Betrieb und die Sicherheit des Dienstes erforderlich sind, beispielsweise Authentifizierungsinformationen, Sitzungsinformationen, IP-Adressen oder Serverprotokolle."
+      }
+    },
+
+    "usage": {
+      "title": "3. Wie wir Informationen verwenden",
+      "intro": "Wir verwenden die von uns verarbeiteten Informationen unter anderem für folgende Zwecke:",
+      "items": {
+        "accounts": "Erstellung und Verwaltung von Benutzerkonten;",
+        "authentication": "Authentifizierung von Benutzern;",
+        "messaging": "Bereitstellung von Nachrichten- und Freundschaftsfunktionen;",
+        "games": "Bereitstellung von Spielen und Spielstatistiken;",
+        "ai": "Bereitstellung von KI-gestützten Funktionen;",
+        "analytics": "Anzeige persönlicher Nutzungsstatistiken;",
+        "security": "Schutz der Anwendung vor Missbrauch und unbefugtem Zugriff;",
+        "rate-limits": "Durchsetzung von Anfrage- und Nutzungsbeschränkungen sowie Sicherheitsmaßnahmen;",
+        "maintenance": "Wartung und Verbesserung der Anwendung."
+      }
+    },
+
+    "ai-services": {
+      "title": "4. KI-Dienste",
+      "text": "Unsere Anwendung verwendet einen externen KI-Dienst, um Antworten für die Funktion \"Imaginary Friend\" zu generieren. An die KI-Funktion gesendete Nachrichten können zur Verarbeitung an den Anbieter des KI-Dienstes übermittelt werden.",
+      "accuracy": "KI-generierte Antworten werden automatisch erstellt und können ungenau, unvollständig oder unangemessen sein. Benutzer sollten sich bei medizinischen, rechtlichen, finanziellen oder anderen professionellen Fragen nicht auf KI-generierte Antworten als professionelle Beratung verlassen.",
+      "sensitive-data": "Benutzer sollten vermeiden, hochsensible oder für die Nutzung der KI-Funktion nicht erforderliche personenbezogene Informationen bereitzustellen."
+    },
+
+    "third-party": {
+      "title": "5. Drittanbieter-Dienste",
+      "text": "Die Anwendung kann Drittanbieter-Dienste verwenden, um bestimmte Funktionen bereitzustellen, beispielsweise KI-Dienste oder Authentifizierungsanbieter. Wenn Drittanbieter personenbezogene Informationen verarbeiten, kann diese Verarbeitung zusätzlich ihren eigenen Datenschutzrichtlinien und Nutzungsbedingungen unterliegen."
+    },
+
+    "cookies": {
+      "title": "6. Authentifizierung und Cookies",
+      "text": "Die Anwendung verwendet Authentifizierungsmechanismen, einschließlich Cookies oder ähnlicher Technologien, um authentifizierte Sitzungen aufrechtzuerhalten und Benutzerkonten zu schützen. Diese Technologien sind für Kernfunktionen wie die Anmeldung und den Zugriff auf geschützte Funktionen erforderlich."
+    },
+
+    "retention": {
+      "title": "7. Speicherung und Aufbewahrung von Daten",
+      "text": "Personenbezogene Daten werden nur so lange gespeichert, wie dies erforderlich ist, um die entsprechenden Funktionen bereitzustellen, die Anwendung zu betreiben, geltende Verpflichtungen zu erfüllen oder Sicherheits- und Betriebsprobleme zu bearbeiten. Die genaue Aufbewahrungsdauer kann von der Art der Daten und der jeweiligen Funktion abhängen. Wenn Daten nicht mehr benötigt werden, können sie gegebenenfalls gelöscht oder anonymisiert werden."
+    },
+
+    "security": {
+      "title": "8. Datensicherheit",
+      "text": "Wir verwenden angemessene technische und organisatorische Maßnahmen, um personenbezogene Informationen vor unbefugtem Zugriff, Veränderung, Offenlegung oder Zerstörung zu schützen. Dazu können Authentifizierungskontrollen, Passwort-Hashing, Zugriffskontrollen, Autorisierungsprüfungen, Rate-Limiting und sichere Kommunikationsmechanismen gehören. Dennoch kann kein Online-Dienst absolute Sicherheit garantieren."
+    },
+
+    "rights": {
+      "title": "9. Rechte der Benutzer",
+      "intro": "Je nach geltendem Datenschutzrecht können Benutzer bestimmte Rechte in Bezug auf ihre personenbezogenen Daten haben, darunter:",
+      "items": {
+        "access": "das Recht auf Auskunft über personenbezogene Daten;",
+        "correction": "das Recht, die Berichtigung unrichtiger Daten zu verlangen;",
+        "deletion": "das Recht, die Löschung personenbezogener Daten zu verlangen;",
+        "restriction": "das Recht, eine Einschränkung der Verarbeitung zu verlangen;",
+        "objection": "das Recht, bestimmten Verarbeitungen zu widersprechen;",
+        "portability": "das Recht auf Datenübertragbarkeit, soweit dies gesetzlich vorgesehen ist."
+      },
+      "contact": "Benutzer können sich mit Anfragen zu ihren personenbezogenen Daten an das Projektteam wenden."
+    },
+
+    "deletion": {
+      "title": "10. Löschung von Daten",
+      "text": "Benutzer können, soweit zutreffend, die Löschung ihres Kontos und der damit verbundenen personenbezogenen Daten beantragen. Bestimmte Informationen können aus Sicherheits-, rechtlichen oder technischen Gründen aufbewahrt werden müssen."
+    },
+
+    "changes": {
+      "title": "11. Änderungen dieser Datenschutzerklärung",
+      "text": "Wir können diese Datenschutzerklärung aktualisieren, wenn sich die Anwendung oder ihre Datenverarbeitungspraktiken ändern. Bei Änderungen wird die aktualisierte Version auf dieser Seite zusammen mit einem neuen Datum der letzten Aktualisierung veröffentlicht."
+    },
+
+    "contact": {
+      "title": "12. Kontakt",
+      "text": "Wenn Sie Fragen zu dieser Datenschutzerklärung oder zur Verarbeitung Ihrer personenbezogenen Daten haben, können Sie das Projektteam kontaktieren unter:",
+      "email": "IHRE KONTAKT-E-MAIL"
+    }
+  },
+
+  "terms-of-service": {
+    "title": "Nutzungsbedingungen",
+    "last-updated": "Zuletzt aktualisiert: September 2026",
+
+    "acceptance": {
+      "title": "1. Zustimmung zu diesen Bedingungen",
+      "text": "Durch die Erstellung eines Kontos oder die Nutzung der Anwendung erklären Sie sich mit diesen Nutzungsbedingungen einverstanden."
+    },
+
+    "service": {
+      "title": "2. Beschreibung des Dienstes",
+      "text": "Die Anwendung ist eine webbasierte soziale und Gaming-Plattform."
+    },
+
+    "accounts": {
+      "title": "3. Benutzerkonten",
+      "text": "Benutzer sind dafür verantwortlich, ihre Zugangsdaten sicher aufzubewahren."
+    },
+
+    "acceptable-use": {
+      "title": "4. Zulässige Nutzung",
+      "intro": "Sie verpflichten sich, die Anwendung verantwortungsvoll und rechtmäßig zu nutzen."
+    },
+
+    "content": {
+      "title": "5. Von Benutzern erstellte Inhalte",
+      "text": "Benutzer können Inhalte wie Profilinformationen, Profilbilder und Nachrichten erstellen oder hochladen."
+    },
+
+    "messaging": {
+      "title": "6. Nachrichten und soziale Funktionen",
+      "text": "Die Nachrichten- und Freundschaftsfunktionen sind für die Kommunikation zwischen Benutzern vorgesehen."
+    },
+
+    "games": {
+      "title": "7. Spiele",
+      "text": "Die Anwendung kann Online-Spiele wie Gomoku bereitstellen."
+    },
+
+    "ai": {
+      "title": "8. KI-Funktionen",
+      "text": "Die Anwendung bietet über die Funktion \"Imaginary Friend\" KI-gestützte Funktionen. KI-Antworten werden automatisch generiert und können Fehler oder ungenaue Informationen enthalten. Die KI-Funktion sollte nicht als Ersatz für professionelle Beratung betrachtet werden. Benutzer dürfen die KI-Funktion nicht für illegale Zwecke verwenden oder versuchen, den KI-Dienst zu missbrauchen, zu umgehen oder zu überlasten. Die Anwendung kann Beschränkungen für die KI-Nutzung durchsetzen."
+    },
+
+    "third-party": {
+      "title": "9. Drittanbieter-Dienste",
+      "text": "Einige Funktionen der Anwendung können von Drittanbieter-Diensten abhängig sein. Drittanbieter können eigene Nutzungsbedingungen und Datenschutzrichtlinien haben."
+    },
+
+    "availability": {
+      "title": "10. Verfügbarkeit des Dienstes",
+      "text": "Wir bemühen uns, die Anwendung verfügbar und funktionsfähig zu halten. Wir garantieren jedoch nicht, dass der Dienst jederzeit verfügbar, ununterbrochen oder fehlerfrei ist. Wartungsarbeiten, technische Probleme, Sicherheitsvorfälle oder andere Umstände können die Verfügbarkeit vorübergehend beeinträchtigen."
+    },
+
+    "termination": {
+      "title": "11. Sperrung und Beendigung von Konten",
+      "text": "Wir können ein Konto einschränken, sperren oder beenden, wenn dies erforderlich ist, insbesondere bei Verstößen gegen diese Nutzungsbedingungen, Missbrauch anderer Benutzer, Versuchen, die Sicherheit der Anwendung zu gefährden, betrügerischen oder rechtswidrigen Aktivitäten oder einer absichtlichen Störung des Dienstes."
+    },
+
+    "intellectual-property": {
+      "title": "12. Geistiges Eigentum",
+      "text": "Die Anwendung, einschließlich ihrer Software, ihres Designs, ihrer Benutzeroberfläche, Logos und anderer eigener Materialien, kann durch geltende Gesetze zum Schutz des geistigen Eigentums geschützt sein."
+    },
+
+    "liability": {
+      "title": "13. Haftungsbeschränkung",
+      "text": "Die Anwendung wird im Rahmen ihrer Verfügbarkeit bereitgestellt. Soweit gesetzlich zulässig, ist das Projektteam nicht für Schäden verantwortlich, die durch die missbräuchliche Nutzung der Anwendung, ungenaue KI-generierte Informationen, vorübergehende Dienstunterbrechungen oder Umstände außerhalb der zumutbaren Kontrolle des Projekts entstehen. Gesetzlich nicht ausschließbare Rechte und Schutzbestimmungen bleiben unberührt."
+    },
+
+    "changes": {
+      "title": "14. Änderungen dieser Nutzungsbedingungen",
+      "text": "Diese Nutzungsbedingungen können aktualisiert werden, wenn sich die Anwendung oder ihre Funktionen ändern. Die aktualisierte Version wird auf dieser Seite zusammen mit einem neuen Datum der letzten Aktualisierung veröffentlicht."
+    },
+
+    "contact": {
+      "title": "15. Kontakt",
+      "text": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, können Sie das Projektteam kontaktieren unter:",
+      "email": "IHRE KONTAKT-E-MAIL"
+    }
+  },
+  "analytics": {
+  "title": "Analyse-Dashboard",
+  "description": "Übersicht über deine Aktivitäten und deine KI-Nutzung.",
+
+  "filters": {
+    "from": "Von:",
+    "to": "Bis:",
+    "7-days": "7 Tage",
+    "14-days": "14 Tage",
+    "30-days": "30 Tage",
+    "apply": "Anwenden",
+    "export-csv": "CSV exportieren"
+  },
+
+  "errors": {
+    "load-failed": "Die Analysedaten konnten nicht geladen werden.",
+    "invalid-date-range": "Das Startdatum darf nicht nach dem Enddatum liegen."
+  },
+
+  "loading": "Analysedaten werden geladen...",
+  "no-data": "Keine Analysedaten verfügbar.",
+
+  "overview": {
+    "games-played": "Gespielte Spiele",
+    "games-won": "Gewonnene Spiele",
+    "games-lost": "Verlorene Spiele",
+    "win-rate": "Siegesquote",
+    "ai-requests": "KI-Anfragen",
+    "total-tokens": "Tokens insgesamt"
+  },
+
+  "charts": {
+    "activity-over-time": "Aktivität im Zeitverlauf",
+    "distribution": "Verteilung",
+
+    "ai-usage-over-time": "KI-Nutzung im Zeitverlauf",
+    "games-over-time": "Spiele im Zeitverlauf",
+
+    "ai-token-usage": "KI-Token-Nutzung",
+    "games-played": "Gespielte Spiele",
+
+    "input-tokens": "Eingabe-Tokens",
+    "output-tokens": "Ausgabe-Tokens",
+    "thinking-tokens": "Thinking-Tokens",
+
+    "won": "Gewonnen",
+    "lost": "Verloren",
+
+    "total-tokens": "Tokens insgesamt",
+    "total-games": "Spiele insgesamt"
   }
+}, 
+"imaginary-friend": {
+  "loading": "Dein imaginärer Freund wird gestartet...",
+  "title": "Imaginärer Freund",
+  "rate-limit": "Du kannst in {{seconds}} Sekunden eine weitere Nachricht senden.",
+  "placeholder": "Schreibe eine Nachricht...",
+  "send": "Senden"
+}
 }

@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import i18n from "../../../localisation/i18n";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../auth/auth-context";
@@ -63,12 +63,19 @@ function Footer() {
         />
       </div>
       <div className="d-flex gap-2">
-        <a className="link" onClick={() => navigate("/termsofservice")}>
+        <Link
+          className="link"
+          to="/termsofservice"
+        >
           {t("common.terms-of-service")}
-        </a>
-        <a className="link" onClick={() => navigate("/privacypolicy")}>
+        </Link>
+
+        <Link
+          className="link"
+          to="/privacypolicy"
+        >
           {t("common.privacy-policy")}
-        </a>
+        </Link>
       </div>
 
       {isAuthenticated && (

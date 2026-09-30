@@ -9,6 +9,9 @@ import {
     Cell,
 } from "recharts";
 
+import { useTransition } from "react";
+import { useTranslation } from "react-i18next";
+
 interface AiTokenUsagePieChartProps {
     data: AiTokenUsage;
 	totalTokens: number;
@@ -18,27 +21,28 @@ function AiTokenUsagePieChart({
     data,
 	totalTokens
 }: AiTokenUsagePieChartProps) {
-
+	const { t } = useTranslation();
 	// Change data in frontend vor Visualisation and Rechart purposes
 	const chartData = [
 		{
-			name: "Input Tokens", 
+			name:  t("analytics.charts.input-tokens"), 
 			value: data.inputTokens,
 		},
 		{
-			name: "Output Tokens", 
+			name: t("analytics.charts.output-tokens"), 
 			value: data.outputTokens,
 		},
 		{
-			name: "Thinking Tokens", 
-			value: data.outputTokens,
+			name: t("analytics.charts.thinking-tokens"), 
+			value: data.thinkingTokens,
 		}
 	];
 
 	return (
 		<div>
 			<p className="analytics-total">
-        		Total Tokens: {totalTokens.toLocaleString()}
+        		{t("analytics.charts.total-tokens")}:{" "}
+                {totalTokens.toLocaleString()}
     		</p>
 			<ResponsiveContainer
 				width="100%"

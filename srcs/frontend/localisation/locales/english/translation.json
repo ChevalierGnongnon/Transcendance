@@ -165,5 +165,244 @@
     "EMAIL_TOO_LONG": "Email is too long",
     "EMAIL_INVALID": "Email is invalid",
     "EMAIL_EXISTS": "This email is already in use"
+  },
+  "privacy-policy": {
+    "title": "Privacy Policy",
+    "last-updated": "Last updated: September 2026",
+
+    "introduction": {
+      "title": "1. Introduction",
+      "text": "This Privacy Policy explains how our application collects, uses, stores, and protects personal data when you use our services."
+    },
+
+    "information": {
+      "title": "2. Information We Collect",
+
+      "account": {
+        "title": "Account Information",
+        "text": "When you create an account, we may collect information such as your username, password credentials, and other information required to create and manage your account."
+      },
+
+      "profile": {
+        "title": "Profile Information",
+        "text": "Users may provide information for their profile, such as a profile picture or other profile information."
+      },
+
+      "messages": {
+        "title": "Messages and Social Features",
+        "text": "When you use messaging and friendship features, we process the information necessary to provide these services, including messages, conversation participants, and friendship relationships."
+      },
+
+      "game": {
+        "title": "Game Data",
+        "text": "When you play games through the application, we may store information related to your games, such as game results, moves, scores, or other information required to provide game and statistics features."
+      },
+
+      "ai": {
+        "title": "AI Conversations",
+        "text": "The application provides an AI-powered feature called \"Imaginary Friend\". When you use this feature, your messages are processed to generate AI responses."
+      },
+
+      "analytics": {
+        "title": "Analytics and Usage Data",
+        "text": "We may collect usage information related to your own activity in the application, such as AI usage, games, messages, or other statistics displayed through the application's analytics features."
+      },
+
+      "technical": {
+        "title": "Technical Information",
+        "text": "The application may process technical information required to operate and secure the service, such as authentication information, session information, IP addresses, or server logs."
+      }
+    },
+
+    "usage": {
+      "title": "3. How We Use Information",
+      "intro": "We use the information we process for purposes including:"
+    },
+
+    "ai-services": {
+      "title": "4. AI Services",
+      "text": "Our application uses an external AI service to generate responses for the \"Imaginary Friend\" feature."
+    },
+
+    "third-party": {
+      "title": "5. Third-Party Services",
+      "text": "The application may use third-party services to provide specific functionality, such as AI services or authentication providers."
+    },
+
+    "cookies": {
+      "title": "6. Authentication and Cookies",
+      "text": "The application uses authentication mechanisms, including cookies or similar technologies, to maintain authenticated sessions and protect user accounts."
+    },
+
+    "retention": {
+      "title": "7. Data Retention",
+      "text": "Personal data is retained only for as long as necessary to provide the relevant functionality, maintain the application, comply with applicable obligations, or resolve security and operational issues."
+    },
+
+    "security": {
+      "title": "8. Data Security",
+      "text": "We use reasonable technical and organizational measures to protect personal information against unauthorized access, alteration, disclosure, or destruction."
+    },
+
+    "rights": {
+      "title": "9. User Rights",
+      "intro": "Depending on applicable data protection law, users may have rights concerning their personal information, including:"
+    },
+
+    "deletion": {
+      "title": "10. Data Deletion",
+      "text": "Users may request deletion of their account and associated personal information where applicable."
+    },
+
+    "changes": {
+      "title": "11. Changes to This Privacy Policy",
+      "text": "We may update this Privacy Policy when the application or its data processing practices change."
+    },
+
+    "contact": {
+      "title": "12. Contact",
+      "text": "If you have questions about this Privacy Policy or the processing of your personal information, please contact the project team at:",
+      "email": "your-email@example.com"
+    }
+  },
+
+  "terms-of-service": {
+    "title": "Terms of Service",
+    "last-updated": "Last updated: September 2026",
+
+    "acceptance": {
+      "title": "1. Acceptance of These Terms",
+      "text": "By creating an account or using the application, you agree to these Terms of Service."
+    },
+
+    "service": {
+      "title": "2. Description of the Service",
+      "text": "The application is a web-based social and gaming platform."
+    },
+
+    "accounts": {
+      "title": "3. User Accounts",
+      "text": "Users are responsible for keeping their account credentials secure."
+    },
+
+    "acceptable-use": {
+      "title": "4. Acceptable Use",
+      "intro": "You agree to use the application responsibly and lawfully."
+    },
+
+    "content": {
+      "title": "5. User-Generated Content",
+      "text": "Users may create or upload content such as profile information, profile pictures, and messages."
+    },
+
+    "messaging": {
+      "title": "6. Messaging and Social Features",
+      "text": "Messaging and friendship features are intended for communication between users."
+    },
+
+    "games": {
+      "title": "7. Games",
+      "text": "The application may provide online games such as Gomoku."
+    },
+
+    "ai": {
+      "title": "8. AI Features",
+      "text": "The application provides AI-powered functionality through the \"Imaginary Friend\" feature."
+    },
+
+    "third-party": {
+      "title": "9. Third-Party Services",
+      "text": "Some application features may depend on third-party services."
+    },
+
+    "availability": {
+      "title": "10. Availability of the Service",
+      "text": "We aim to keep the application available and functional, but we do not guarantee that the service will always be available, uninterrupted, or error-free."
+    },
+
+    "termination": {
+      "title": "11. Account Suspension and Termination",
+      "text": "We may restrict, suspend, or terminate an account when necessary, including in cases of violation of these Terms of Service."
+    },
+
+    "intellectual-property": {
+      "title": "12. Intellectual Property",
+      "text": "The application, including its software, design, interface, logos, and other original materials, may be protected by applicable intellectual property laws."
+    },
+
+    "liability": {
+      "title": "13. Limitation of Liability",
+      "text": "The application is provided on an \"as available\" basis."
+    },
+
+    "changes": {
+      "title": "14. Changes to These Terms",
+      "text": "These Terms of Service may be updated when the application or its functionality changes."
+    },
+
+    "contact": {
+      "title": "15. Contact",
+      "text": "If you have questions about these Terms of Service, please contact the project team at:",
+      "email": "your-email@example.com"
+    }
+  },
+  "analytics": {
+  "title": "Analytics Dashboard",
+  "description": "Overview of your activity and AI usage.",
+
+  "filters": {
+    "from": "From:",
+    "to": "To:",
+    "7-days": "7 Days",
+    "14-days": "14 Days",
+    "30-days": "30 Days",
+    "apply": "Apply",
+    "export-csv": "Export CSV"
+  },
+
+  "errors": {
+    "load-failed": "Could not load analytics.",
+    "invalid-date-range": "The start date cannot be after the end date."
+  },
+
+  "loading": "Loading analytics...",
+  "no-data": "No analytics available.",
+
+  "overview": {
+    "games-played": "Games Played",
+    "games-won": "Games Won",
+    "games-lost": "Games Lost",
+    "win-rate": "Win Rate",
+    "ai-requests": "AI Requests",
+    "total-tokens": "Total Tokens"
+  },
+
+  "charts": {
+    "activity-over-time": "Activity Over Time",
+    "distribution": "Distribution",
+
+    "ai-usage-over-time": "AI Usage Over Time",
+    "games-over-time": "Games Over Time",
+
+    "ai-token-usage": "AI Token Usage",
+    "games-played": "Games Played",
+
+    "input-tokens": "Input Tokens",
+    "output-tokens": "Output Tokens",
+    "thinking-tokens": "Thinking Tokens",
+
+    "won": "Won",
+    "lost": "Lost",
+
+    "total-tokens": "Total Tokens",
+    "total-games": "Total Games"
   }
+}, 
+"imaginary-friend": {
+  "loading": "Starting your imaginary friend...",
+  "title": "Imaginary Friend",
+  "rate-limit": "You can send another message in {{seconds}} seconds.",
+  "placeholder": "Write a message...",
+  "send": "Send"
+}
 }

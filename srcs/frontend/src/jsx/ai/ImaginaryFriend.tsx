@@ -38,7 +38,7 @@ function ImaginaryFriend() {
   if (loading) {
     return (
       <div>
-        Starting your imaginary friend...
+        {t('imaginary-friend.loading')}
       </div>
     );
   }
@@ -47,7 +47,7 @@ function ImaginaryFriend() {
     <div className="chat-list chat-list-right my-2">
 
       <div className="chat-header">
-        <h2>Imaginary Friend</h2>
+        <h2>{t('imaginary-friend.title')}</h2>
       </div>
 
       <ul className="px-3">
@@ -68,8 +68,7 @@ function ImaginaryFriend() {
 
       {rateLimitReached && (
         <div className="text-danger px-3">
-          You can send another message in{' '}
-          {rateLimitSeconds} seconds.
+          {t('imaginary-friend.rate-limit', { seconds: rateLimitSeconds, })}
         </div>
       )}
 
@@ -81,7 +80,7 @@ function ImaginaryFriend() {
             setMessageText(event.target.value)
           }
           onKeyDown={handleKeyDown}
-          placeholder="Write a message..."
+          placeholder={t('imaginary-friend.placeholder')}
           disabled={sending}
           maxLength={MAX_MESSAGE_LENGTH}
         />
@@ -96,7 +95,7 @@ function ImaginaryFriend() {
             rateLimitReached
           }
         >
-          Send
+          {t('imaginary-friend.send')}
         </button>
       </div>
 

@@ -17,4 +17,4 @@ COPY srcs/docker/backend/default-avatars/ /app/uploads/
 EXPOSE 3000
 
 # CMD ["npm", "run", "dev"]
-CMD ["sh", "-c", "npx prisma generate && npm run prisma:deploy && npm run db:seed && npm run dev"]
+CMD ["sh", "-c", "npx prisma generate && npm run prisma:deploy && npm run db:seed && npm run analytics:seed && npm run dev"]
