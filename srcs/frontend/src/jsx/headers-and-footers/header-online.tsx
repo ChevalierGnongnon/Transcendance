@@ -66,9 +66,23 @@ function HeaderOnline() {
                     </div>
                 </section>
                 <section className="d-xl-none">
-                    <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
-                        <img src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
-                    </figure>
+                    <div className="dropdown pp-icons-header">
+                        <button
+                            className="btn btn-secondary btn-sm dropdown-toggle header-btn"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                        >
+                            <img src={langIcon} alt="language-icon" className="lang-icon" />
+                        </button>
+
+                        <ul className="dropdown-menu">
+                            <li><input type="button" value="Fr" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
+                            <li><input type="button" value="Eng" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
+                            <li><input type="button" value="De" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
+                            <li><input type="button" value="Ru" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
+                            <li><input type="button" value="Ua" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
+                        </ul>
+                    </div>
                 </section>
                 <section className="header-middle d-none d-xl-flex">
                     <SearchBar 
@@ -128,23 +142,23 @@ function HeaderOnline() {
                         </figure>
                     </div>
                     <div className="dropdown d-xl-none">
-                    <button className="btn btn-secondary btn-sm dropdown-toggle header-btn-right" type="button" data-bs-toggle="dropdown">
-                        {t('profile-page.go-to')}
-                    </button>
-                    <ul className="dropdown-menu">
-                        <li>
-                            <input type="button" value={t('common.messages')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/messages')}/>
-                        </li>
-                        <li>
-                            <input type="button" value={t('common.parameters')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/Parameters') } />
-                        </li>
-                        <li>
-                            <input type="button" value={t('common.my-page')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/personalpage') } /></li>
-                        <li>
-                            <input type="button" value={t('common.logout')} className="btn btn-secondary header-btn btn-sm" onClick={handleLogout} />
-                        </li>
-                    </ul>
-                </div>
+                        <button className="btn btn-secondary btn-sm dropdown-toggle header-btn-right" type="button" data-bs-toggle="dropdown">
+                            {t('profile-page.go-to')}
+                        </button>
+                        <ul className="dropdown-menu">
+                            <li>
+                                <input type="button" value={t('common.messages')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/messages')}/>
+                            </li>
+                            <li>
+                                <input type="button" value={t('common.parameters')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/Parameters') } />
+                            </li>
+                            <li>
+                                <input type="button" value={t('common.my-page')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/personalpage') } /></li>
+                            <li>
+                                <input type="button" value={t('common.logout')} className="btn btn-secondary header-btn btn-sm" onClick={handleLogout} />
+                            </li>
+                        </ul>
+                    </div>
                 </section>
             </header>
         </>
