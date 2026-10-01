@@ -6,6 +6,17 @@ import type { newMessageInput } from '../schemas.js';
 export async function handleMessages(socket: Socket, payload: newMessageInput) {
   const { chatId, recipientId, sender, content, type } = payload;
   try {
+    const isblocked = await prisma.block.findFirst({
+      where: {
+        OR: [
+          { blockerId: sender.id, blockedId: payload.recipientId },
+          { blockerId: payload.recipientId, blockedId: sender.id },
+        ],
+      },
+    });
+
+    if (isblocked) return;
+
     const chat = await prisma.chat.findFirst({
       where: {
         id: chatId,

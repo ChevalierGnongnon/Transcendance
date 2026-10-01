@@ -1,10 +1,10 @@
-import { useState, ChangeEvent, KeyboardEvent } from 'react';
+import { useState, ChangeEvent, KeyboardEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 import MoreOptions from './options';
+import { socket } from './socket';
 
 interface MessageInputProps {
   chatId: string;
@@ -25,9 +25,22 @@ function MessageInput({
 }: MessageInputProps) {
   const { t } = useTranslation();
   const [showMoreOptions, setShowMoreOptions] = useState(false);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
+    if (!typingTimeoutRef.current) {
+      socket.emit('chat:typing:start');
+    }
+
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit('chat:typing:stop');
+      typingTimeoutRef.current = null;
+    }, 2000);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
