@@ -32,7 +32,7 @@ export async function *generateResponseStream(history: ChatMessage[], message: s
     try 
     {
         const responseStream = await ai.models.generateContentStream({
-            model: "gemini-3.6-flash",
+            model: "gemini-3.5-flash-lite",
             config: {
                 systemInstruction: `
                 Pretend to be my Imaginary friend.
