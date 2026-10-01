@@ -35,6 +35,11 @@ function SearchBar(props: SearchBarProps){
     const { getStatus } = useFriendships()
     useEffect(() => {
         async function search() {
+            if (input.trim() === "") {
+                setResult(null);
+                return;
+            }
+
             try {
                 const res = await apiFetch("/api/users/search?q=" + encodeURIComponent(input), { credentials: "include" });
                 if (!res.ok) {
