@@ -32,7 +32,10 @@
     "terms-of-service": "Conditions d'utilisation",
     "privacy-policy": "Politique de confidentialité",
     "no-search-results": "Aucun profil avec ce nom, pseudo ou prénom",
-    "something-went-wrong": "Une erreur est survenue. Veuillez réessayer plus tard."
+    "something-went-wrong": "Une erreur est survenue. Veuillez réessayer plus tard.",
+    "import-image": "Importer une image",
+    "find-user": "Rechercher un utilisateur",
+    "import-file": "Importer un fichier"
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",

@@ -32,7 +32,10 @@
     "terms-of-service": "Nutzungsbedingungen",
     "privacy-policy": "Datenschutzrichtlinie",
     "no-search-results": "Kein Profil mit diesem Namen, Pseudonym oder Vornamen gefunden",
-    "something-went-wrong": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut."
+    "something-went-wrong": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut.",
+    "import-image": "Bild importieren",
+    "find-user": "Benutzer suchen",
+    "import-file": "Datei importieren"
   },
   "login": {
     "mail-or-pseudo": "E-Mail oder Pseudonym",

@@ -62,6 +62,7 @@ function NewChat({ setActiveChat, setActiveView, setChatList }: nProps) {
         onSelectUser={(user) => {
           setUser(user);
         }}
+        PlaceHolder={t('common.find-user')}
       />
       {user && (
         <div className="row g-4 justify-content-center shortcut-grid">
