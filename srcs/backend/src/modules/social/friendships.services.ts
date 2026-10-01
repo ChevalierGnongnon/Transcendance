@@ -17,6 +17,31 @@ class FriendshipsServices {
       return { success: true };
     });
   }
+
+  async getFriendsId(userId: string) {
+    const friends = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        friendshipsAsUser: {
+          select: {
+            id: true,
+          },
+        },
+        friendshipsAsFriend: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    const friendIds = [
+      ...(friends?.friendshipsAsUser ?? []),
+      ...(friends?.friendshipsAsFriend ?? []),
+    ].map(({ id }) => id);
+
+    return friendIds;
+  }
 }
 
 export default new FriendshipsServices();
