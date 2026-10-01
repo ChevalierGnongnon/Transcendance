@@ -93,7 +93,7 @@ function PersonalPage() {
 										: "/default-avatar.png"
 								}
 								alt="avatar"
-								className="img-avatar-profile-page"
+								className="img-avatar-profile-page my-avatar"
 							/>
 							<div className="d-flex flex-column">
 								<h1>{displayedUser.pseudo}</h1>

@@ -1,9 +1,13 @@
 @use "./common-variables.scss" as *;
 
 .search{
-    width: 70%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
+
+    @media (min-width: 1200px) {
+        width: 70%;
+    }
 }
 
 .search-bar{
@@ -15,11 +19,16 @@
 }
 
 .header-middle{
-    width: 60%;
+    width: 50%;
     margin: 0 auto;
+
+    @media (min-width: 1200px) {
+        width: 60%;
+    }
 }
 
-.header-search-results {
+.header-search-results,
+.mini-search-list {
     background-color: $navy-hover;
     color: white;
     padding: 0;
@@ -31,7 +40,8 @@
     overflow-y: auto;
 }
 
-.header-search-results li {
+.header-search-results li,
+.mini-search-list li {
     border-bottom: 1px solid white;
     padding: 1%;
     &:hover{
@@ -39,18 +49,35 @@
     }
 }
 
-.header-search-results li figure {
+.header-search-results li figure,
+.mini-search-list li figure {
     margin: 0;
 }
 
 
-.header-search-results li img {
+.header-search-results li img,
+.mini-search-list li img {
     height: 80px;
     width: 80px;
     border-radius: 50%;
     object-fit: cover;
     &:hover{
         transform: scale(1.1, 1.1);
+    }
+}
+
+.search-result-name {
+    min-width: 0;
+    overflow: hidden;
+
+    .field-name {
+        display: inline-block;
+        max-width: 100%;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: bottom;
     }
 }
 
@@ -63,6 +90,3 @@
     -webkit-appearance: none;
 }
 
-.mini-search-list{
-    
-}

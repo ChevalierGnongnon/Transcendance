@@ -7,9 +7,14 @@
 	object-fit: cover;
 	background-color: rgb(92, 156, 185);
     cursor: pointer;
+    border: 3px solid white;
     &:hover{
         transform: scale(1.1,1.1);
     }
+}
+
+.my-avatar{
+    border: 3px solid white;
 }
 
 .img-avatar-profile-page{
@@ -19,6 +24,7 @@
     object-fit: cover;
 	background-color: rgb(92, 156, 185);
     cursor: pointer;
+    // border: 3px solid white;
 }
 
 .lang-choice{
@@ -125,7 +131,7 @@
 
 .profile-page{
     background-color: $background-common-color;
-    width: 70%;
+    width: 90%;
     margin: auto;
     padding: 1%;
     color: white;
