@@ -31,7 +31,6 @@
     "import-file-instead": "Import a file instead",
     "download-file": "Download",
     "delete-file": "Delete",
-    "file-is-deleted": "This file has been deleted",
     "ready": "Ready",
     "updated": "Updated",
     "my-stats": "My stats",
@@ -166,6 +165,7 @@
     "EMAIL_REQUIRED": "Email is required",
     "EMAIL_TOO_LONG": "Email is too long",
     "EMAIL_INVALID": "Email is invalid",
-    "EMAIL_EXISTS": "This email is already in use"
+    "EMAIL_EXISTS": "This email is already in use",
+    "FILE_DELETED": "This file has been deleted."
   }
 }

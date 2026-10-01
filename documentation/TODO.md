@@ -52,3 +52,19 @@
 
 - [ ] si on a le temps
     - [ ] preview pdf via pdf.js (canvas, évite X-Frame-Options)
+
+- [ ] check translation everywhere
+
+- [ ] reponsive:
+    - [ ] searchbar 
+    - [ ] messages
+    - [ ] personal page
+    - [ ] my friends
+    - [ ] footer
+    - [ ] header
+    - [ ] file import
+    - [ ] search results list
+
+- [ ] online status everywhere
+- [ ] useless stuff cleaning
+- [ ] adapt online status with new friendship system 

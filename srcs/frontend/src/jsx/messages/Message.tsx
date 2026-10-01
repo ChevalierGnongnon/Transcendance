@@ -191,7 +191,7 @@ export const Message = (props: MessageProps) => {
                 }/>
               }
               { deletedFile &&
-                <ErrorMessage error={t('common.file-is-deleted')}></ErrorMessage>
+                <ErrorMessage error="FILE_DELETED"></ErrorMessage>
                 
               }
               

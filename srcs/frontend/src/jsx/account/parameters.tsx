@@ -41,7 +41,7 @@ function Parameters() {
 				setAvatarError(data.error);
 			}
 		} catch (err) {
-			setAvatarError("DATABASE_ERROR");
+			setAvatarError('DATABASE_ERROR');
 		}
 	};
 
@@ -64,7 +64,7 @@ function Parameters() {
 			}
 		}
 		catch(err){
-			setAccountError("DATABASE_ERROR");
+			setAccountError('DATABASE_ERROR');
 		}
 	}
 	useEffect(() => {
