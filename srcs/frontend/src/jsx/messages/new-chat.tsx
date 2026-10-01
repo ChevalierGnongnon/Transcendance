@@ -1,11 +1,10 @@
-import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import '../../scss/messages.scss';
 import { socket } from './socket';
 import { IChatPreview, ActiveView } from './types';
 import SearchBar from '../others/search-bar';
-import { use } from 'i18next';
 
 interface SearchResult {
   id: string;
@@ -57,6 +56,7 @@ function NewChat({ setActiveChat, setActiveView, setChatList }: nProps) {
       <h3>{t('message.search-user')} : </h3>
       <SearchBar
         ClassName="search-bar"
+        PlaceHolder={t('common.search')}
         ListClassName="header-search-results"
         BreakPoint={768}
         onSelectUser={(user) => {

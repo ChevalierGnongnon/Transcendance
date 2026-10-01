@@ -76,6 +76,7 @@ function AddFriend({
       <h3>{t('message.search-user')} : </h3>
       <SearchBar
         ClassName="search-bar"
+        PlaceHolder={t('common.search')}
         ListClassName="header-search-results"
         BreakPoint={768}
         onSelectUser={(user) => {

@@ -131,7 +131,7 @@ function MyFriends() {
 
   const deleteFriendship = async (friendshipsId: string) => {
     try {
-      await apiFetchVoid(`/api/social/friendshs/${friendshipsId}`, { method: 'DELETE' }, logout);
+      await apiFetchVoid(`/api/social/friendships/${friendshipsId}`, { method: 'DELETE' }, logout);
       setRelationships((prev) => ({
         ...prev,
         friends: prev.friends.filter((req) => req.id !== friendshipsId),
@@ -174,16 +174,14 @@ function MyFriends() {
     }
   };
 
-  const friends = useMemo(() => relationships.friends, [relationships.friends]);
-
-  function isRelationshipEmpty(relationship: Relationships): boolean {
+  const isRelationshipEmpty = (relationship: Relationships): boolean => {
     return (
       relationship.friends.length === 0 &&
       relationship.outgoingRequests.length === 0 &&
       relationship.incomingRequests.length === 0 &&
       relationship.blockedUsers.length === 0
     );
-  }
+  };
 
   return (
     <div className="friends-page m-2 p-2">

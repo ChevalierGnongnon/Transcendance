@@ -6,7 +6,6 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import ChatRoom from './ChatRoom';
 import NavBar from './navbar';
 import NewChat from './new-chat';
-import MoreOptions from './options';
 import Block from './block';
 import ChatList from './ChatList';
 import { socket } from './socket.js';
@@ -103,9 +102,10 @@ function Messages() {
     const handleNewMessage = async (newMessage: IMessage) => {
       const chatId = newMessage.chatId;
       const messageId = newMessage.id;
-      if (!chatId || !messageId) throw new Error('Bad message');
 
       try {
+        if (!chatId || !messageId) throw new Error('Bad message');
+
         const newChat = {
           chatId: chatId,
           user: newMessage.sender,
@@ -185,7 +185,6 @@ function Messages() {
           <ChatRoom
             me={me}
             chat={activeChat}
-            setActiveChat={setActiveChat}
             setActiveView={setActiveView}
             messages={allMessages}
             onAddMessage={addMessage}
@@ -200,7 +199,7 @@ function Messages() {
           />
         )}
         {activeView === 'block' && <Block />}
-        {activeView === 'imaginaryfriend' && <MoreOptions />}
+        {activeView === 'imaginaryfriend'}
       </div>
     </>
   );
