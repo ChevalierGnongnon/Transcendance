@@ -82,8 +82,8 @@ export const Message = (props: MessageProps) => {
         {props.type === 'invitation' && (
           <>
             <div className="game-invite-box card p-2 m-2">
-              <span className="text-message">You invited to play Gomoku</span>
-              <p>Board size: {props.content}</p>
+              <span className="text-message">{t('message.game-invite')}</span>
+              <p>{t('message.board-size', { size: props.content })}</p>
               <div className="invite-actions">
                 <button
                   className="btn btn-success"
@@ -92,7 +92,7 @@ export const Message = (props: MessageProps) => {
                     // 'naviagete to game page'
                   }}
                 >
-                  Accept
+                  {t('message.accept')}
                 </button>
 
                 <button
@@ -101,7 +101,7 @@ export const Message = (props: MessageProps) => {
                     socket.emit('game:invite:answer', 'decline');
                   }}
                 >
-                  Decline
+                  {t('message.decline')}
                 </button>
               </div>
             </div>

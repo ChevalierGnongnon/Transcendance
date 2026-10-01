@@ -13,6 +13,7 @@ import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
 import { ActiveView, IChatPreview, IMessage } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
+import { useTranslation } from 'react-i18next';
 
 
 function Messages() {
@@ -29,6 +30,8 @@ function Messages() {
   const [chatList, setChatList] = useState<IChatPreview[]>([]);
   const [error, setError] = useState<Error | null>(null);
 
+  const {t} = useTranslation();
+  
   useEffect(() => {
     let cancelled = false;
     setLoadingChats(true);
@@ -166,7 +169,7 @@ function Messages() {
   };
 
   if (!me) {
-    return <div>Something went wrong. Please try again later.</div>;
+    return <div>{t('common.something-went-wrong')}</div>;
   }
 
   return (

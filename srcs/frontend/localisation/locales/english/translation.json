@@ -31,7 +31,8 @@
     "my-stats": "My stats",
     "terms-of-service": "Terms of service",
     "privacy-policy": "Privacy policy",
-    "no-search-results": "No profile matches this name, pseudo or first name"
+    "no-search-results": "No profile matches this name, pseudo or first name",
+    "something-went-wrong": "Something went wrong. Please try again later."
   },
   "login": {
     "mail-or-pseudo": "Mail or pseudo",
@@ -77,7 +78,13 @@
     "file-received": "File received",
     "start-chat": "Start chat",
     "go-to-profile": "Go to profile",
-    "back": "Back"
+    "back": "Back",
+    "open-chat": "Open a chat",
+    "type-your-message": "Type your message here",
+    "game-invite": "You have been invited to play Gomoku",
+    "board-size": "Board size: {{size}}",
+    "accept": "Accept",
+    "decline": "Decline"
   },
   "friends": {
     "send-friend-request": "Send a friend request",

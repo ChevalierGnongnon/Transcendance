@@ -181,7 +181,7 @@ function MyFriends() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t('common.loading')}</div>;
   }
 
   if (!me) {

@@ -31,7 +31,8 @@
     "my-stats": "Mes statistiques",
     "terms-of-service": "Conditions d'utilisation",
     "privacy-policy": "Politique de confidentialité",
-    "no-search-results": "Aucun profil avec ce nom, pseudo ou prénom"
+    "no-search-results": "Aucun profil avec ce nom, pseudo ou prénom",
+    "something-went-wrong": "Une erreur est survenue. Veuillez réessayer plus tard."
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",
@@ -77,7 +78,13 @@
     "file-received": "Fichier reçu",
     "start-chat": "Démarrer la chat",
     "go-to-profile": "Aller au profil",
-    "back": "Retour"
+    "back": "Retour",
+    "open-chat": "Ouvrez une conversation",
+    "type-your-message": "Écrivez votre message ici",
+    "game-invite": "Vous êtes invité à jouer au Gomoku",
+    "board-size": "Taille du plateau : {{size}}",
+    "accept": "Accepter",
+    "decline": "Refuser"
   },
   "friends": {
     "send-friend-request": "Envoyer une demande d'ami",

@@ -90,7 +90,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
   };
 
   if (!messages) {
-    return <div className="chat-placeholder">Open chat</div>;
+    return <div className="chat-placeholder">{t('message.open-chat')}</div>;
   }
 
   return (
@@ -161,7 +161,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
           <textarea
             className="form-control message-area"
             name="new-message"
-            placeholder="Type your message here"
+            placeholder={t('message.type-your-message')}
             value={messageText}
 
             onChange={(e) => setMessageText(e.target.value)}

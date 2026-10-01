@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../auth/auth-context";
 // import ""
 type FriendCardProps = {
@@ -16,6 +17,7 @@ type FriendCardProps = {
 };
 
 export const FriendCard = (props: FriendCardProps) => {
+  const { t } = useTranslation();
   const {onlineFriends} = useAuth();
   
   let isOnline = onlineFriends.includes(props.userId);
@@ -25,7 +27,7 @@ export const FriendCard = (props: FriendCardProps) => {
       <figure className="friend-card py-2 px-1 justify-content-center">
         <img
           src={`/api/${props.profilePhotoId}/download`}
-          alt="Friend avatar"
+          alt={t('friends.avatar-alt')}
           className={!props.isFriend ? 'not-friend-avatar' : isOnline ? 'online-avatar' : 'offline-avatar'}
         />
         <span>{props.name}</span>
