@@ -36,6 +36,8 @@ function IncomingRequestsList({
           onSecondButtonClick={() => {
             onDeclineRequest(item.id);
           }}
+          userId={item.sender.id}
+          isFriend={false}
         />
       ))}
     </div>

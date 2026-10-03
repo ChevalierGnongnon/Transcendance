@@ -26,6 +26,8 @@ function OutgoingRequestsList({ outgoingRequests, onCancelRequest }: OutgoingLis
             onButtonClick={() => {
               onCancelRequest(item.id);
             }}
+            userId={item.receiver.id}
+            isFriend={false}
           />
         ))}
       </div>

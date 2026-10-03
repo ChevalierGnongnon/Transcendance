@@ -184,7 +184,7 @@ class SocialServices {
     if (!user) throw new NotFoundError('User not found');
 
     const friends = [
-      ...user?.friendshipsAsFriend.map(({ user, ...rest }) => ({ ...rest, friens: user })),
+      ...user?.friendshipsAsFriend.map(({ user, ...rest }) => ({ ...rest, friend: user })),
       ...user?.friendshipsAsUser,
     ];
 

@@ -27,6 +27,8 @@ function BlockList({ blockedUsers, onUnblockUser }: BlockListProps) {
               onButtonClick={() => {
                 onUnblockUser(item.blocked.id);
               }}
+              userId={item.blocked.id}
+              isFriend={false}
             />
           ))}
         </div>

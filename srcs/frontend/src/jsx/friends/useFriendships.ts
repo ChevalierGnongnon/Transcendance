@@ -1,19 +1,21 @@
 import { apiFetch } from "./apiFetch";
 import { useAuth } from "../auth/auth-context";
 import { useEffect, useState } from "react";
-import type {Friendship} from './my-friends'
+import type {Friend} from './types'
 
 export function useFriendships(){
     const {logout, onlineFriends} = useAuth();
-    const [friendships, setFriendships] = useState<Friendship[]> ([]);
+    const [friendships, setFriendships] = useState<Friend[]> ([]);
 
     useEffect(() =>{
-        apiFetch<Friendship[]>('/api/friendships', {}, logout).then((data) => setFriendships(data));
+        apiFetch<Friend[]>('/api/social/friends', {}, logout)
+        .then((data) => setFriendships(data))
+        .catch((err) => console.error("CALL FAILED", err));
     }, [])
 
     function getStatus(userId: string){
         const isFriend = friendships.some(
-            (f) => f.status === 'accepted' && (f.user.id === userId || f.friend.id === userId)
+            (f) => (f.friend.id === userId)
         );
         if (!isFriend)
             return ('not-friend')

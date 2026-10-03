@@ -10,7 +10,8 @@ interface FriendsListProps {
 function FriendsList({ friends, onDeleteFriend }: FriendsListProps) {
   const { t } = useTranslation();
 
-  if (friends.length === 0) return null;
+  if (friends.length === 0)
+    return null;
 
   return (
     <div>
@@ -24,6 +25,8 @@ function FriendsList({ friends, onDeleteFriend }: FriendsListProps) {
             buttonValue={t('friends.delete-friend')}
             buttonClassName="delete-button px-2"
             onButtonClick={() => onDeleteFriend(item.id)}
+            userId={item.friend.id}
+            isFriend={true}
           />
         ))}
       </div>
