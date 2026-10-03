@@ -10,7 +10,7 @@
     margin-right: auto;
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 70vh;
     padding-bottom: 1rem;
 
 }
@@ -43,7 +43,7 @@
     max-width: 80%;
     color: rgb(20, 91, 197);
     text-align: left;
-    
+
 }
 
 .message-right{
@@ -56,7 +56,7 @@
 }
 .chat-header{
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     width: 100%;
     color: white;
@@ -260,8 +260,8 @@
 }
 
 .bg-img-message{
-    background-image: 
-        linear-gradient(45deg, #cdcdcd 25%, transparent 25%), 
+    background-image:
+        linear-gradient(45deg, #cdcdcd 25%, transparent 25%),
         linear-gradient(-45deg, #cdcdcd 25%, transparent 25%),
         linear-gradient(45deg, transparent 75%, #cdcdcd 75%),
         linear-gradient(-45deg, transparent 75%, #cdcdcd 75%);
@@ -278,5 +278,5 @@
 .pdf-preview{
     max-width: 70%;
     max-height: 500px;
-    
+
 }

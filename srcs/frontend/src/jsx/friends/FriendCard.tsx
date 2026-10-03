@@ -16,40 +16,56 @@ type FriendCardProps = {
   onSecondButtonClick?: () => void;
 };
 
-export const FriendCard = (props: FriendCardProps) => {
+
+function FriendCard({
+    name,
+    profilePhotoId,
+    buttonValue,
+    buttonClassName,
+    onButtonClick,
+
+    secondButtonValue,
+    secondButtonClassName,
+    onSecondButtonClick,
+    userId,
+    isFriend
+  }: FriendCardProps) {
   const { t } = useTranslation();
   const {onlineFriends} = useAuth();
   
-  let isOnline = onlineFriends.includes(props.userId);
+  let isOnline = onlineFriends.includes(userId);
 
+  
   return (
     <div className="col-12 col-md-6 col-xl-4">
       <figure className="friend-card py-2 px-1 justify-content-center">
         <img
-          src={`/api/${props.profilePhotoId}/download`}
+          src={`/api/${profilePhotoId}/download`}
           alt={t('friends.avatar-alt')}
-          className={!props.isFriend ? 'not-friend-avatar' : isOnline ? 'online-avatar' : 'offline-avatar'}
+          className={!isFriend ? 'not-friend-avatar' : isOnline ? 'online-avatar' : 'offline-avatar'}
         />
-        <span>{props.name}</span>
+        <span>{name}</span>
 
-        {props.buttonValue && (
+        {buttonValue && (
           <input
             type="button"
-            value={props.buttonValue}
-            className={props.buttonClassName}
-            onClick={props.onButtonClick}
+            value={buttonValue}
+            className={buttonClassName}
+            onClick={onButtonClick}
           />
         )}
 
-        {props.secondButtonValue && (
+        {secondButtonValue && (
           <input
             type="button"
-            value={props.secondButtonValue}
-            className={props.secondButtonClassName}
-            onClick={props.onSecondButtonClick}
+            value={secondButtonValue}
+            className={secondButtonClassName}
+            onClick={onSecondButtonClick}
           />
         )}
       </figure>
     </div>
   );
-};
+}
+
+export default FriendCard;

@@ -1,63 +1,56 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
-import MoreOptions from './options';
-import { Message } from './Message';
+import MessageInput from './MessageInput';
 import { socket } from './socket';
 import type { IMessage, ChatRoomProps, MessageType } from './types.js';
+import MessagesList from './MessagesList';
+import { useAuth } from '../auth/auth-context';
 
 function ChatRoom(roomProps: ChatRoomProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [showMoreOptions, setShowMoreOptions] = useState(false);
-
+  const { logout } = useAuth();
   const [messageText, setMessageText] = useState<string>('');
-  const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState<Error | null>(null);
   const me = roomProps.me;
+  const [relationship, setRelationship] = useState({
+    isFriend: false,
+    requestSent: false,
+    requestReceived: false,
+    blockedByMe: false,
+    blockedMe: false,
+  });
   const chatId = roomProps.chat.chatId;
   const messages = chatId ? (roomProps.messages.get(chatId) ?? []) : [];
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isAtBottom, setIsAtBottom] = useState(true);
+  const loadRelationship = useCallback(async () => {
+    const userId = roomProps.chat?.user?.id;
+    if (!userId) return;
 
-  const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior,
-      block: 'end',
-    });
-  }, []);
+    try {
+      const res = await fetch(`/api/social/relationship/${userId}`, {
+        credentials: 'include',
+      });
 
-  const checkIfAtBottom = useCallback(() => {
-    if (!containerRef.current) return;
+      if (res.status === 401) {
+        logout();
+        throw new Error('Unauthorized');
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-    const atBottom = scrollHeight - scrollTop <= clientHeight + 10; // +10 для погрешности
-    setIsAtBottom(atBottom);
-  }, []);
-
-  const handleScroll = useCallback(() => {
-    checkIfAtBottom();
-  }, [checkIfAtBottom]);
-
-  // scroll if changed chat
-  useEffect(() => {
-    if (roomProps.chat?.chatId) {
-      setTimeout(() => {
-        scrollToBottom('auto');
-      }, 100);
+      const data = await res.json();
+      setRelationship(data);
+    } catch (e) {
+      console.error('Error get relationship', e);
     }
-  }, [roomProps.chat?.chatId, scrollToBottom]);
+  }, [roomProps.chat?.user?.id, logout]);
 
-  // scroll if new message
   useEffect(() => {
-    if (isAtBottom) {
-      scrollToBottom('smooth');
-    }
-  }, [messages, isAtBottom, scrollToBottom]);
+    loadRelationship();
+  }, [loadRelationship]);
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -89,9 +82,24 @@ function ChatRoom(roomProps: ChatRoomProps) {
     setMessageText('');
   };
 
-  if (!messages) {
-    return <div className="chat-placeholder">{t('message.open-chat')}</div>;
-  }
+  const unBlockUser = async (userId: string) => {
+    try {
+      const res = await fetch(`/api/social/blocks/${userId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (res.status === 401) {
+        logout();
+        throw new Error('Unauthorized, logging out...');
+      }
+      if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+
+      await loadRelationship();
+    } catch (e) {
+      console.error('Error unBlockUser', e);
+    }
+  };
 
   return (
     <>
@@ -115,72 +123,26 @@ function ChatRoom(roomProps: ChatRoomProps) {
             {t('message.go-to-profile')}
           </button>
         </div>
-        <div
-          ref={containerRef}
-          onScroll={handleScroll}
-          className="chat-messages-container"
-          style={{
-            maxHeight: '65vh',
-            overflowY: 'auto',
-            position: 'relative',
-          }}
-        >
-          (
-          <ul className="px-3">
-            {messages.map((msg, index) => (
-              <Message
-                key={index}
-                userId={me.id}
-                profilePhoto={msg.sender.profilePhoto}
-                senderId={msg.sender.id}
-                content={msg.content}
-                type={msg.type}
-              />
-            ))}
-          </ul>
-          )
-          <div ref={messagesEndRef} style={{ height: '2px' }} />
-        </div>
-        <div className="input-group group-new-message my-3 mt-auto">
-          <div className="position-relative">
-            <button
-              className="btn fs-2 send-message d-flex align-items-center justify-content-center"
-              onClick={() => setShowMoreOptions((prev) => !prev)}
-            >
-              +
-            </button>
-            {showMoreOptions && (
-              <MoreOptions
-                chatId={roomProps.chat.chatId}
-                onClose={() => setShowMoreOptions((prev) => !prev)}
-                onSendMessage={handleSendMessage}
-              />
-            )}
+        <MessagesList me={me} chatId={roomProps.chat.chatId} messages={messages} />
+        {relationship.blockedByMe ? (
+          <div className="input-group group-new-message my-3 mt-auto">
+            <input
+              type="button"
+              value={t('friends.unblock')}
+              className="accept-button px-2"
+              onClick={() => {
+                unBlockUser(roomProps.chat.user.id);
+              }}
+            />
           </div>
-
-          <textarea
-            className="form-control message-area"
-            name="new-message"
-            placeholder={t('message.type-your-message')}
+        ) : (
+          <MessageInput
+            chatId={roomProps.chat.chatId}
             value={messageText}
-
-            onChange={(e) => setMessageText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSendMessage();
-              }
-            }}
-          ></textarea>
-          <button
-            className="btn send-message"
-            onClick={() => {
-              handleSendMessage();
-            }}
-          >
-            {t('common.send')}
-          </button>
-        </div>
+            onChange={setMessageText}
+            onSend={handleSendMessage}
+          />
+        )}
       </div>
     </>
   );

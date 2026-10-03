@@ -1,4 +1,4 @@
-import friendshipsServices from "@/modules/friendships/friendships.services.js";
+import friendshipsServices from "@/modules/social/friendships.services.js";
 import {Socket} from "socket.io"
 
 const userList = new Map<string, number>();
@@ -38,21 +38,38 @@ export function showConnectedUsers(){
 }
 
 export async function announceOnline(userId: string, socket: Socket){
-    const friends = await friendshipsServices.getFriendsId(userId);
-    const rooms = friends.map(id => `user-${id}`)
+    const register = await friendshipsServices.getFriendsRegister(userId);
+    const friends = register.map(f => f.userId === userId ? f.friendId : f.userId);
+    const connected = showConnectedUsers();
+
+    const onlineFriends = friends.filter(friendId => connected.includes(friendId));
+    const rooms = onlineFriends.map(id => `user-${id}`)
 
     socket.to(rooms).emit('user-online', { userId })
 }
 
 export async function announceOffline(userId: string, socket: Socket){
-    const friends = await friendshipsServices.getFriendsId(userId);
-    const rooms = friends.map(id => `user-${id}`)
+    const register = await friendshipsServices.getFriendsRegister(userId);
+    const friends = register.map(f => f.userId === userId ? f.friendId : f.userId);
+    const connected = showConnectedUsers();
+
+    const onlineFriends = friends.filter(friendId => connected.includes(friendId));
+    const rooms = onlineFriends.map(id => `user-${id}`)
 
     socket.to(rooms).emit('user-offline', { userId })
 }
 
+// export async function filterAndEmit(userId: string, socket: Socket){
+//     const friends = await friendshipsServices.getFriendsId(userId);
+//     const connected = showConnectedUsers();
+
+//     const onlineFriends = friends.filter(friendId => connected.includes(friendId));
+//     socket.emit('online-friends', { onlineFriends })
+// }
+
 export async function filterAndEmit(userId: string, socket: Socket){
-    const friends = await friendshipsServices.getFriendsId(userId);
+    const register = await friendshipsServices.getFriendsRegister(userId);
+    const friends = register.map(f => f.userId === userId ? f.friendId : f.userId);
     const connected = showConnectedUsers();
 
     const onlineFriends = friends.filter(friendId => connected.includes(friendId));
