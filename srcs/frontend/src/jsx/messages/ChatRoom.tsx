@@ -15,6 +15,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const [messageText, setMessageText] = useState<string>('');
+  const [isTyping, setIsTyping] = useState<boolean>(false);
   const me = roomProps.me;
   const [relationship, setRelationship] = useState({
     isFriend: false,
@@ -76,7 +77,11 @@ function ChatRoom(roomProps: ChatRoomProps) {
       type: messageType,
     };
 
-    socket.emit('new-chat-message', messageToSend);
+    socket.emit('new-chat-message', messageToSend, (res) => {
+      if (res.ok) {
+        console.log(JSON.stringify(res));
+      }
+    });
     roomProps.onAddMessage(messageToSend);
 
     setMessageText('');
@@ -101,6 +106,25 @@ function ChatRoom(roomProps: ChatRoomProps) {
     }
   };
 
+  useEffect(() => {
+    const startTyping = async (data: {}) => {
+      setIsTyping(roomProps.chat.chatId === data.chatId);
+    };
+
+    const stopTyping = (data) => {
+      if (roomProps.chat.chatId === data.chatId) {
+        setIsTyping(false);
+      }
+    };
+    socket.on('chat:typing:start', startTyping);
+    socket.on('chat:typing:stop', stopTyping);
+
+    return () => {
+      socket.off('chat:typing:start', startTyping);
+      socket.off('chat:typing:stop', stopTyping);
+    };
+  }, []);
+
   return (
     <>
       <div className="chat-list chat-list-right my-2">
@@ -113,7 +137,15 @@ function ChatRoom(roomProps: ChatRoomProps) {
           >
             {t('message.back')}
           </button>
-          <div>{roomProps.chat.user.pseudo}</div>
+          <div className="d-flex align-items-center gap-2">
+            <div>{roomProps.chat.user.pseudo}</div>
+            <div
+              className={`text-secondary fs-6 fw-light fst-italic ${isTyping ? '' : 'invisible'}`}
+            >
+              typing...
+            </div>
+          </div>
+
           <button
             className="btn btn-link text-secondary fs-6 text-decoration-none p-0"
             onClick={() => {
@@ -138,6 +170,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
         ) : (
           <MessageInput
             chatId={roomProps.chat.chatId}
+            userId={roomProps.chat.user.id}
             value={messageText}
             onChange={setMessageText}
             onSend={handleSendMessage}

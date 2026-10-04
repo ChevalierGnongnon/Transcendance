@@ -6,6 +6,17 @@ import type { newMessageInput } from '../schemas.js';
 export async function handleMessages(socket: Socket, payload: newMessageInput) {
   const { chatId, recipientId, sender, content, type } = payload;
   try {
+    const isblocked = await prisma.block.findFirst({
+      where: {
+        OR: [
+          { blockerId: sender.id, blockedId: payload.recipientId },
+          { blockerId: payload.recipientId, blockedId: sender.id },
+        ],
+      },
+    });
+
+    if (isblocked) return;
+
     const chat = await prisma.chat.findFirst({
       where: {
         id: chatId,
@@ -47,19 +58,10 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
 
     socket.to(`user-${recipientId}`).emit('new-chat-message', savedMessage);
 
-    return 'Message saved and send to recipient';
+    return { id: savedMessage.id };
   } catch (error) {
     console.error('Error save message', error);
 
     throw new Error('Error sending message, save in DB');
-
-    // return {
-    //   ok: false,
-    //   data: {
-    //     event: 'new-chat-message',
-    //     code: 'DB_SAVE_ERROR',
-    //     message: 'Error sending message, save in DB',
-    //   },
-    // };
   }
 }
