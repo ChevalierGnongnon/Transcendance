@@ -92,11 +92,24 @@ function ChatRoom(roomProps: ChatRoomProps) {
   };
 
   useEffect(() => {
-      const handleAccepted = ({ gameId, boardSize }) => {
+      const handleAccepted = ({
+        gameId,
+        boardSize,
+        fromUserId,
+        toUserId,
+      }: {
+        gameId: string;
+        boardSize: number;
+        fromUserId: string;
+        toUserId: string;
+      }) => {
         navigate("/game", {
           state: {
             gameId,
             boardSize,
+            me,
+            opponentId: fromUserId === me.id ? toUserId : fromUserId,
+            mode: "online",
           },
         });
       };
@@ -106,7 +119,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
       return () => {
         socket.off("game:accepted", handleAccepted);
       };
-    }, [navigate]);
+    }, [navigate, me]);
   
 
   ///////////////////////////////////////////////////////////////////////////////////
@@ -137,6 +150,8 @@ function ChatRoom(roomProps: ChatRoomProps) {
             {messages.map((msg, index) => (
               <Message
                 key={index}
+                messageId={msg.id ?? ''}
+                chatId={msg.chatId}
                 userId={me.id}
                 profilePhoto={msg.sender.profilePhoto}
                 senderId={msg.sender.id}

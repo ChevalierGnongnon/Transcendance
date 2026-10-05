@@ -4,7 +4,6 @@ import "./scss/gamestart.scss";
 import { socket } from "../../jsx/messages/socket";
 import { useSocketConnection } from "../../jsx/messages/hooks/useSocketConnection";
 import { useTranslation } from "react-i18next";
-import { handleGameAccept } from "./handleGameAccepted"; 
 
 function GameStart() {
   const navigate = useNavigate();
@@ -51,11 +50,14 @@ function GameStart() {
   }, []);
 
   useEffect(() => {
-    const handleAccepted = ({ gameId, boardSize }) => {
+    const handleAccepted = ({ gameId, boardSize, fromUserId, toUserId }) => {
       navigate("/game", {
         state: {
           gameId,
           boardSize,
+          me,
+          opponentId: fromUserId === me?.id ? toUserId : fromUserId,
+          mode: "online",
         },
       });
     };
@@ -65,7 +67,7 @@ function GameStart() {
     return () => {
       socket.off("game:accepted", handleAccepted);
     };
-  }, [navigate]);
+  }, [navigate, me]);
 
 
 

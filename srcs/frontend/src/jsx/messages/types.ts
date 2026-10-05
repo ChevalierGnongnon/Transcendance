@@ -27,6 +27,8 @@ export interface IMessage {
 }
 
 export interface MessageProps {
+  messageId: string;
+  chatId: string;
   userId: string;
   content: string;
   profilePhoto: { name: string; id: string };

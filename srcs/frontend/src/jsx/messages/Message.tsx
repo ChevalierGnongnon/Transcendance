@@ -42,14 +42,17 @@ export const Message = (props: MessageProps) => {
               <div className="invite-actions">
                 <button
                   className="btn btn-success"
+                  disabled={props.senderId === props.userId || !props.messageId}
                   onClick={() => {
                     
-                    console.log("CONTENT", props.content);
+                    socket.emit("ping-test");
 
                     socket.emit("game:accept", {
-                      fromUserId: props.content.fromUserId,
-                      toUserId: props.senderId,
-                      boardSize: props.content.boardSize,
+                      invitationId: props.messageId,
+                      chatId: props.chatId,
+                      fromUserId: props.senderId,
+                      toUserId: props.userId,
+                      boardSize: Number(props.content),
                     });
                   }}
                 >
