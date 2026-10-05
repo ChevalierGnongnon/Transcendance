@@ -58,6 +58,7 @@ export async function register(req: Request, res: Response) {
       fileBuffer: req.file?.buffer,
     });
     res.cookie('token', token.accessToken, {
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       httpOnly: true,
       secure: true,
       sameSite: 'strict',

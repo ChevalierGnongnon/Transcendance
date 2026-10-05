@@ -6,7 +6,7 @@ export function RateLimiter(time: number, trys: number, message: string) {
   const limiter = rateLimiter({
     windowMs: time * 60 * 1000,
     max: trys,
-    message: message,
+    message: { error: message },
   });
   return limiter;
 }

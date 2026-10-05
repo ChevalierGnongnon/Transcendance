@@ -12,6 +12,13 @@ import healthRouter from './modules/health.js';
 
 const app = express();
 
+// every requests passed by nginx before express. so express sees nginx ip for everyone.
+// rate-limiter counting by ips, he would consider every user as a single person, 20 requests for 
+// making a research would break the limit and block everyone.
+// that tells to express: 1 proxy ahead. trust the header  X-Forwarded-For for knowing real ip.
+app.set('trust proxy', 1);
+
+
 app.use(helmet());
 app.use(cors({ origin: 'https://transcendance.fr' }));
 app.use(express.json());

@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 import type { Request, Response, NextFunction } from 'express';
+import { prisma } from '../../lib/prisma.js';
 
-export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
+
+export const requireAuth = async(req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.token;
 
   if (!token || typeof token !== 'string') {
@@ -27,7 +29,16 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
         error: 'INVALID_TOKEN',
       });
     }
-
+    const user = await prisma.user.findUnique({
+      where: {
+        id:decoded.userId
+      },
+      select: {
+        id:true
+      }
+    })
+    if (!user)
+      return res.status(401).json({ error: 'INVALID_TOKEN' });
     req.jwtPayload = decoded;
     req.userId = decoded.userId;
 

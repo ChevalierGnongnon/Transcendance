@@ -7,7 +7,6 @@ class UsersService {
     const user = await prisma.user.findUnique({
       where: {
         id: userId,
-        isDeleted: false,
       },
       select: {
         id: true,
@@ -35,9 +34,6 @@ class UsersService {
 
   async getAllUsers() {
     const users = await prisma.user.findMany({
-      where: {
-        isDeleted: false,
-      },
       select: {
         id: true,
         pseudo: true,
@@ -46,8 +42,8 @@ class UsersService {
         // email: true,
         // password: true,
       },
+      take: 20,
     });
-
     if (!users) {
       throw new NotFoundError('User not found');
     }
@@ -91,7 +87,6 @@ class UsersService {
   async searchUsers(input: string, currentUserId: string){
     const res = await prisma.user.findMany({
       where:{
-        isDeleted: false,
         id: {
           not: currentUserId,
         },
