@@ -67,6 +67,16 @@ class authService {
     if (existingPseudo) {
       throw new Error('PSEUDO_EXISTS');
     }
+    if (avatar){
+      const checkNewFileId = await prisma.file.findUnique({
+        where:{
+          id: avatar,
+        }
+      });
+      if (!checkNewFileId || checkNewFileId.type !== 'default_avatar') {
+        throw new Error('INVALID_AVATAR');
+      }
+    }
     const password_hash = await bcrypt.hash(password, 12);
      const newUser = await prisma.user.create({
       data: {

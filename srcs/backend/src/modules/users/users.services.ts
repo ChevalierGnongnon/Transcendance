@@ -13,7 +13,7 @@ class UsersService {
         id: true,
         firstName: true,
         lastName: true,
-        email: true,
+        // email: true,
         pseudo: true,
 
         profilePhoto: {
@@ -42,8 +42,9 @@ class UsersService {
         id: true,
         pseudo: true,
         firstName: true,
-        lastName: true,
-        email: true,
+        lastName: true
+        // email: true,
+        // password: true,
       },
     });
 

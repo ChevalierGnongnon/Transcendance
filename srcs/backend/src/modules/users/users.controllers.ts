@@ -79,9 +79,13 @@ export async function getAllUsers(req: Request, res: Response) {
 export async function getUser(req: Request, res: Response) {
   try {
     const {id} = req.params;
+    if (typeof id !== 'string')
+      return(res.status(400).json({error: 'INVALID_USER_ID'}))
     const user = await UsersService.getUserById(id);
     return res.status(200).json(user);
   } catch (error) {
+    if (error instanceof NotFoundError)
+      return res.status(404).json({ error: 'USER_NOT_FOUND' });
     console.error("Get user error:", error);
     return res.status(500).json({ error: "INTERNAL_SERVER_ERROR" });
   }

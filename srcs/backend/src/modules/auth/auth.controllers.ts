@@ -66,13 +66,16 @@ export async function register(req: Request, res: Response) {
     return res.status(201).json({ success: true });
   } catch (error: any) {
     if (error.message === 'EMAIL_EXISTS') {
-      return res.status(409).json({ error: 'EMAIL_EXISTS' });
+      return (res.status(409).json({ error: 'EMAIL_EXISTS' }));
     }
     if (error.message === 'PSEUDO_EXISTS'){
-      return res.status(409).json({ error: 'PSEUDO_EXISTS' });
+      return (res.status(409).json({ error: 'PSEUDO_EXISTS' }));
+    }
+    if (error.message === 'INVALID_AVATAR'){
+      return (res.status(400).json({error: 'INVALID_AVATAR'}));
     }
     else {
-      return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
+      return (res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' }));
     }
   }
 }
