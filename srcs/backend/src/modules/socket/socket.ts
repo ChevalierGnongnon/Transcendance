@@ -1,12 +1,24 @@
 import { Server, Socket } from 'socket.io';
 
-import { gameAcceptSchema, lastReadSchema, messageSchema, startNewChatSchema } from './schemas.js';
+import {
+  gameAcceptSchema,
+  gameMoveSchema,
+  gameStateSchema,
+  lastReadSchema,
+  messageSchema,
+  startNewChatSchema,
+} from './schemas.js';
 import { onValidated } from './socket.validators.js';
 import { requireAuth } from './socket.middlewares.js';
 import { handleMessages } from './chat/handleMessages.js';
 import { handleMessageRead } from './chat/handleLastReadMessage.js';
 import { handleStartChat } from './chat/handleStartChat.js';
-import { handleGameAccept } from './game/socket-game.js';
+import {
+  handleGameAccept,
+  handleGameGetState,
+  handleGameMove,
+  handleGameRestart,
+} from './game/socket-game.js';
 
 export const setupSocketConnection = (io: Server) => {
 
@@ -17,10 +29,6 @@ export const setupSocketConnection = (io: Server) => {
   io.on('connection', (socket: Socket) => {
     console.log('User connected:', socket.id);
 
-    socket.on("ping-test", () => {
-      console.log("PING RECEIVED");
-    });
-
     const userRoom = `user-${socket.userId}`;
     socket.join(userRoom);
 
@@ -30,16 +38,13 @@ export const setupSocketConnection = (io: Server) => {
     onValidated(socket, 'game:accept', gameAcceptSchema, (currentSocket, payload) =>
       handleGameAccept(io, currentSocket, payload)
     );
-
-    /////////////////////////////// temporary test
-    socket.on("game:accept", ({ fromUserId, toUserId, boardSize }) => {
-      console.log("GAME ACCEPTED", {
-        fromUserId,
-        toUserId,
-        boardSize,
-      });
-    });
-/////////////////////////////////////////////////////////
+    onValidated(socket, 'game:get-state', gameStateSchema, handleGameGetState);
+    onValidated(socket, 'game:new-round', gameStateSchema, (currentSocket, payload) =>
+      handleGameRestart(io, currentSocket, payload)
+    );
+    onValidated(socket, 'game:move', gameMoveSchema, (currentSocket, payload) =>
+      handleGameMove(io, currentSocket, payload)
+    );
 
     socket.on('disconnect', (reason) => {
       console.log('User disconnected:', socket.id);

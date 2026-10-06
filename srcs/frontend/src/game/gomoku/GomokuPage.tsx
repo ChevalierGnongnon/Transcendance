@@ -1,5 +1,5 @@
-import Gomoku from "./gomoku";
+import { Navigate } from "react-router-dom";
 
 export default function GomokuPage() {
-    return <Gomoku />;
+    return <Navigate to="/game/gomoku" replace />;
 }

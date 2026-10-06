@@ -103,12 +103,13 @@ function ChatRoom(roomProps: ChatRoomProps) {
         fromUserId: string;
         toUserId: string;
       }) => {
-        navigate("/game", {
+        const opponentId = fromUserId === me.id ? toUserId : fromUserId;
+        navigate(`/game?gameId=${gameId}&opponentId=${opponentId}&boardSize=${boardSize}`, {
           state: {
             gameId,
             boardSize,
             me,
-            opponentId: fromUserId === me.id ? toUserId : fromUserId,
+            opponentId,
             mode: "online",
           },
         });

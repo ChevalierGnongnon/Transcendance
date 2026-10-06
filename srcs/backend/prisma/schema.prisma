@@ -117,6 +117,23 @@ model Message {
   @@map("messages")
 }
 
+model Game {
+  id                String   @id @default(uuid()) @db.Char(36)
+  invitationId      String   @unique @map("invitation_id") @db.Char(36)
+  boardSize         Int      @map("board_size")
+  playerXId         String   @map("player_x_id") @db.Char(36)
+  playerOId         String   @map("player_o_id") @db.Char(36)
+  currentTurnUserId String   @map("current_turn_user_id") @db.Char(36)
+  board             Json
+  winnerId          String?  @map("winner_id") @db.Char(36)
+  isDraw            Boolean  @default(false) @map("is_draw")
+  winningLine       Json     @map("winning_line")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@map("games")
+}
+
 enum FriendshipStatus {
   pending
   accepted

@@ -11,10 +11,9 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "outDir": "dist",
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["./src/*"],
     },
   },
-  "include": ["src", "prisma.config.ts", "../frontend/src/game/gomoku/handleGameAccepted.ts"],
+  "include": ["src", "prisma.config.ts"],
 }

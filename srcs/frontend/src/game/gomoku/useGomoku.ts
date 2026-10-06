@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { socket } from '../../jsx/messages/socket';
 
 type Player = {
   id: string;
   username: string;
   symbol: string;
+  profilePhoto?: string;
 };
 
 type Cell = string | null;
@@ -17,12 +19,60 @@ function createEmptyBoard(boardSize: number): Board {
   );
 }
 
-function useGomoku(playersFromSystem: Player[], boardSize: number, mode: string) {
-  const [players] = useState<Player[]>(playersFromSystem);
+type GameSnapshot = {
+  gameId: string;
+  board: Board;
+  currentTurnUserId: string;
+  players: { userId: string; symbol: string }[];
+  winnerId: string | null;
+  isDraw: boolean;
+  winningLine: number[][];
+};
+
+function useGomoku(
+  playersFromSystem: Player[],
+  boardSize: number,
+  mode: string,
+  gameId: string | undefined,
+  myUserId: string,
+  isConnected: boolean
+) {
+  const [players, setPlayers] = useState<Player[]>(playersFromSystem);
   const [board, setBoard] = useState<Board>(createEmptyBoard(boardSize));
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [winner, setWinner] = useState<Player | null>(null);
   const [winningLine, setWinningLine] = useState<number[][]>([]);
+  const [isDraw, setIsDraw] = useState(false);
+
+  useEffect(() => {
+    if (mode !== 'online' || !gameId) return;
+
+    const handleGameState = (snapshot: GameSnapshot) => {
+      if (snapshot.gameId !== gameId) return;
+
+      setBoard(snapshot.board);
+      setPlayers((currentPlayers) => {
+        let changed = false;
+        const updatedPlayers = currentPlayers.map((player) => {
+          const symbol = snapshot.players.find((entry) => entry.userId === player.id)?.symbol ?? player.symbol;
+          if (symbol !== player.symbol) changed = true;
+          return symbol === player.symbol ? player : { ...player, symbol };
+        });
+        return changed ? updatedPlayers : currentPlayers;
+      });
+      setCurrentPlayerIndex(snapshot.currentTurnUserId === myUserId ? 0 : 1);
+      setWinner(snapshot.winnerId ? players.find((player) => player.id === snapshot.winnerId) ?? null : null);
+      setIsDraw(snapshot.isDraw);
+      setWinningLine(snapshot.winningLine);
+    };
+
+    socket.on('game:state', handleGameState);
+    if (isConnected) socket.emit('game:get-state', { gameId });
+
+    return () => {
+      socket.off('game:state', handleGameState);
+    };
+  }, [gameId, isConnected, mode, myUserId, players]);
 
   const checkWin = (board: Board, row: number, col: number, symbol: string) => {
     const directions = [
@@ -76,8 +126,8 @@ function useGomoku(playersFromSystem: Player[], boardSize: number, mode: string)
   if (winner || board[row][col] !== null) return;
 
   if (mode === "online") {
-    // тут буде socket.emit("move", { row, col })
-    // але зараз просто return
+    if (players[currentPlayerIndex]?.id !== myUserId || !gameId || !isConnected) return;
+    socket.emit('game:move', { gameId, row, col });
     return;
   }
 
@@ -101,10 +151,17 @@ function useGomoku(playersFromSystem: Player[], boardSize: number, mode: string)
   };
 
   const reset = () => {
+    if (mode === 'online') {
+      if (gameId && isConnected && (winner || isDraw)) {
+        socket.emit('game:new-round', { gameId });
+      }
+      return;
+    }
     setBoard(createEmptyBoard(boardSize));
     setCurrentPlayerIndex(0);
     setWinner(null);
     setWinningLine([]);
+    setIsDraw(false);
   };
 
   return {
@@ -112,6 +169,7 @@ function useGomoku(playersFromSystem: Player[], boardSize: number, mode: string)
     players,
     currentPlayerIndex,
     winner,
+    isDraw,
     winningLine,
     handleClick,
     reset

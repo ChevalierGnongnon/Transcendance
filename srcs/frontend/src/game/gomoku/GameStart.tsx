@@ -4,24 +4,26 @@ import "./scss/gamestart.scss";
 import { socket } from "../../jsx/messages/socket";
 import { useSocketConnection } from "../../jsx/messages/hooks/useSocketConnection";
 import { useTranslation } from "react-i18next";
+import type { User } from "../../jsx/messages/types";
 
 function GameStart() {
   const navigate = useNavigate();
   const location = useLocation();
 
   // --- incoming data from Chat / Personal page ---
-  const incomingOpponentId = location.state?.opponentId || null;
-  const incomingChatId = location.state?.chatId || null;
+  const incomingState = location.state as { opponentId?: string; chatId?: string } | null;
+  const incomingOpponentId = incomingState?.opponentId || null;
+  const incomingChatId = incomingState?.chatId || null;
 	const isConnected = useSocketConnection();
   const {t} = useTranslation();
 
-  const [me, setMe] = useState(null);
-  const [users, setUsers] = useState([]);
+  const [me, setMe] = useState<User | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
   const [opponentId, setOpponentId] = useState("");
   const [chatId, setChatId] = useState("");
   const [boardSize, setBoardSize] = useState(10);
   const [error, setError] = useState(false);
-  const [mode, setMode] = useState("local"); // "local" | "online"
+  const [mode, setMode] = useState<"local" | "online">("local");
 
   console.log(isConnected);
 
@@ -50,13 +52,19 @@ function GameStart() {
   }, []);
 
   useEffect(() => {
-    const handleAccepted = ({ gameId, boardSize, fromUserId, toUserId }) => {
-      navigate("/game", {
+    const handleAccepted = ({ gameId, boardSize, fromUserId, toUserId }: {
+      gameId: string;
+      boardSize: number;
+      fromUserId: string;
+      toUserId: string;
+    }) => {
+      const acceptedOpponentId = fromUserId === me?.id ? toUserId : fromUserId;
+      navigate(`/game?gameId=${gameId}&opponentId=${acceptedOpponentId}&boardSize=${boardSize}`, {
         state: {
           gameId,
           boardSize,
           me,
-          opponentId: fromUserId === me?.id ? toUserId : fromUserId,
+          opponentId: acceptedOpponentId,
           mode: "online",
         },
       });
@@ -96,6 +104,7 @@ function GameStart() {
 
 
   const handleSendInvitation = async () => {
+    if (!me) return;
 
     const finalChatId = chatId || await getOrCreateChatId(me.id, opponentId);
 
@@ -115,6 +124,7 @@ function GameStart() {
   
 
   const startGame = async () => {
+    if (!me) return;
     if (!opponentId) {
       setError(true);
       return;
@@ -196,7 +206,7 @@ function GameStart() {
         <select
           className="form-input"
           value={mode}
-          onChange={e => setMode(e.target.value)}
+          onChange={e => setMode(e.target.value as "local" | "online")}
         >
           <option value="local">{t('game.play_local')}</option>
           <option value="online">{t('game.play_online')}</option>

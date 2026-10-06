@@ -5,7 +5,30 @@ import useGomoku from './useGomoku';
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-function Gomoku({ playersData, boardSize, mode }) {
+type GomokuPlayer = {
+  id: string;
+  username: string;
+  profilePhoto?: string;
+  symbol: string;
+};
+
+type GomokuProps = {
+  playersData: GomokuPlayer[];
+  boardSize: number;
+  mode: string;
+  gameId?: string;
+  myUserId?: string;
+  isConnected?: boolean;
+};
+
+function Gomoku({
+  playersData,
+  boardSize,
+  mode,
+  gameId,
+  myUserId = playersData[0]?.id ?? '',
+  isConnected = true,
+}: GomokuProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -14,10 +37,11 @@ function Gomoku({ playersData, boardSize, mode }) {
     players,
     currentPlayerIndex,
     winner,
+    isDraw,
     winningLine,
     handleClick,
     reset
-  } = useGomoku(playersData, boardSize, mode);
+  } = useGomoku(playersData, boardSize, mode, gameId, myUserId, isConnected);
 
   const currentPlayer = players[currentPlayerIndex];
 
@@ -46,7 +70,9 @@ function Gomoku({ playersData, boardSize, mode }) {
               <>
                 {t("game.winner")}:<br />{winner.username}
               </>
-            ) : currentPlayer.id === players[0].id ? (
+            ) : isDraw ? (
+              t("game.draw", "Draw")
+            ) : currentPlayer.id === myUserId ? (
               t("game.your_turn")
             ) : (
               <>
@@ -66,7 +92,11 @@ function Gomoku({ playersData, boardSize, mode }) {
         </div>
 
         <div className="text-center mb-3">
-          <button className="btn btn-primary gomoku-reset-btn" onClick={reset}>
+          <button
+            className="btn btn-primary gomoku-reset-btn"
+            onClick={reset}
+            disabled={mode === 'online' && (!isConnected || (!winner && !isDraw))}
+          >
             {t('game.new_game')}
           </button>
           <button className="btn btn-primary gomoku-reset-btn ms-3" onClick={() => navigate('/game/gomoku')}>
@@ -89,7 +119,7 @@ function Gomoku({ playersData, boardSize, mode }) {
                   key={`${rIdx}-${cIdx}`}
                   className={`gomoku-cell btn ${isWinningCell ? 'win-cell' : ''}`}
                   onClick={() => handleClick(rIdx, cIdx)}
-                  disabled={!!winner}
+                  disabled={!!winner || isDraw || (mode === 'online' && (!isConnected || currentPlayer.id !== myUserId || cell !== null))}
                 >
                   {cell}
                 </button>

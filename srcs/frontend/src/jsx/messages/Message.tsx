@@ -44,9 +44,6 @@ export const Message = (props: MessageProps) => {
                   className="btn btn-success"
                   disabled={props.senderId === props.userId || !props.messageId}
                   onClick={() => {
-                    
-                    socket.emit("ping-test");
-
                     socket.emit("game:accept", {
                       invitationId: props.messageId,
                       chatId: props.chatId,
