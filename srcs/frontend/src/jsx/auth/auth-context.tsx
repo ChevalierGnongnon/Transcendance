@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import { createAiConversation } from "../ai/utils/api";
 
 // Shape of the info shared everywhere in the app (via AuthProvider):
 // whether or not the user is connected,
@@ -18,7 +19,7 @@ const context = createContext<AuthContextType | undefined>(undefined);
 // info everywhere inside its tags
 export function AuthProvider({children}:{children:ReactNode}){
     const [isAuthenticated, setIsAuthenticated] = useState<true | false | null>(null)
-    
+    const [conversationId, setAiConversationId] = useState<string | null>(null);
     //simple function to avoid code repetition, checks/fetches the current connection status
     const checkAuth = async() => {
         //calls check-auth route to know if the token cookie is still valid
@@ -40,9 +41,13 @@ export function AuthProvider({children}:{children:ReactNode}){
         return () => window.removeEventListener('storage', refresh);
     }, [])
 
-    function login(){
+    async function login(){
+
+        const conversationId = await createAiConversation();
+        sessionStorage.setItem('aiConversationId', conversationId);
         localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(true);
+        setAiConversationId(conversationId);
     }
 
     // When user disconnects himself volontarly (clicks on logout)
@@ -52,6 +57,7 @@ export function AuthProvider({children}:{children:ReactNode}){
             credentials: 'include'
         });
         sessionStorage.removeItem('aiConversationId');
+        setAiConversationId(null);
         localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(false);
     }

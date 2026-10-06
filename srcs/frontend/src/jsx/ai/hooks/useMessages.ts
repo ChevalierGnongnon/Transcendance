@@ -1,14 +1,32 @@
+import {getAiMessages} from '../utils/api';
+import { useState, useEffect } from 'react';
+
 export interface AIMessageData {
   id: string;
   role: 'user' | 'assistant';
   content: string;
 }
 
-import { useState } from 'react';
-
-export function useMessages() {
+export function useMessages(conversationId: string | null) {
   const [messages, setMessages] =
-    useState<AIMessageData[]>([]);
+        useState<AIMessageData[]>([]);
+
+    useEffect(() => {
+        if (!conversationId) {
+            setMessages([]);
+            return;
+        }
+
+        async function loadMessages() {
+            try {
+                const loadedMessages = await getAiMessages(conversationId);
+                setMessages(loadedMessages);
+            } catch (error) {
+                console.error('Error loading AI messages:',error);
+            }
+        }
+        loadMessages();
+    }, [conversationId]);
 
   function addUserMessage(content: string) {
     setMessages(previous => [

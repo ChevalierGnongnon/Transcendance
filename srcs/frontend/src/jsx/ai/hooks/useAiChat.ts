@@ -8,7 +8,7 @@ import {readAiResponseStream,} from '../utils/readAiResponseStream';
 
 export function useAiChat() {
   const conversation = useConversation();
-  const messages = useMessages();
+  const messages = useMessages(conversation.conversationId);
   const rateLimit = useRateLimit();
   const [messageText, setMessageText] = useState('');
 

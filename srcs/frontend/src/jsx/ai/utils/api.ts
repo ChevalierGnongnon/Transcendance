@@ -88,3 +88,11 @@ export const createAiConversation = async () => {
   return data.conversationId;
 };
 
+export const getAiMessages = async(conversationId: string | null) => {
+  const res = await fetch(`/api/ai/conversations/${conversationId}/messages`, {credentials:'include',});
+  if (res.status === 401)
+    throw new Error('Unauthorized');
+  if(!res.ok)
+    throw new Error('Failed to load AI messages');
+  return res.json();
+}

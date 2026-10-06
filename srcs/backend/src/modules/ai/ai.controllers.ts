@@ -60,3 +60,42 @@ export async function chatbot(req: Request, res: Response) {
     throw error;
 }
 }
+
+export async function getConversationMessages(req: Request, res: Response)
+{
+    const userId = req.userId;
+    if(!userId)
+        throw new AppError("User not autheticated", 401);
+    const conversationId = req.params.conversationId as string;
+    
+    const conversation = await prisma.aiConversation.findFirst({
+        where: {
+            id: conversationId,
+            userId,
+        },
+        select: {
+            id: true,
+        },
+    });
+    if (!conversation)
+        throw new AppError("Conversation not found",404);
+    console.log("Conversation ID:", conversationId);
+    console.log("User ID:", userId);
+
+    const messages =
+        await prisma.aiMessage.findMany({
+            where: {
+                conversationId,
+            },
+            orderBy: {
+                createdAt: "asc",
+            },
+            select: {
+                id: true,
+                role: true,
+                content: true,
+            },
+        });
+
+    res.status(200).json(messages);
+}
