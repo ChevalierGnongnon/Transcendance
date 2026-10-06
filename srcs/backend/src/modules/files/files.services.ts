@@ -98,8 +98,7 @@ class FileService {
         const id = randomUUID();
         const fileName = `${id}.${extension}`;
 
-        fs.writeFileSync(`/app/uploads/${fileName}`, bufferToWrite);
-
+        // check user is member of the chat BEFORE create the file in the volume
         const member = await prisma.chatMember.findUnique({
           where: {
             chatId_userId: {
@@ -112,6 +111,8 @@ class FileService {
         if (!member) {
           throw new ForbiddenRightsError('User is not a member of this chat');
         }
+
+        fs.writeFileSync(`/app/uploads/${fileName}`, bufferToWrite);
 
         await prisma.file.create({
           data: {

@@ -40,7 +40,6 @@ class UsersService {
         firstName: true,
         lastName: true
         // email: true,
-        // password: true,
       },
       take: 20,
     });
@@ -63,6 +62,7 @@ class UsersService {
         id: FileId,
       }
     });
+
     if (!checkNewFileId || checkNewFileId.type !== 'default_avatar') {
       throw new Error('INVALID_AVATAR');
     }
@@ -170,6 +170,7 @@ class UsersService {
       },
     })
   }
+
   async updatePseudo(userId: string, newPseudo: string){
     const res = await prisma.user.findUnique({
       where:{
