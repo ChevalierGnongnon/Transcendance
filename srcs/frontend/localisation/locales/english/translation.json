@@ -123,6 +123,8 @@
     "PASSWORD_TOO_LONG": "Password is too long",
     "LAST_NAME_REQUIRED": "Last name is required",
     "LAST_NAME_TOO_LONG": "Last name is too long",
+    "INVALID_FIRST_NAME": "Invalid first name",
+    "INVALID_LAST_NAME": "Invalid last name",
     "PASSWORD_WEAK": "Invalid password (12 characters at least, 1 lowercase, 1 uppercase, 1 digit and 1 special character)",
     "PASSWORDS_DO_NOT_MATCH": "Password confirmation must match",
     "AGE_REQUIREMENT": "Must be at least 18 years old",
@@ -146,6 +148,9 @@
     "FORBIDDEN": "Access to this file is forbidden",
     "INVALID_FILE_ID": "Invalid file ID",
     "NO_FILE_PROVIDED": "No file provided",
+    "INVALID_FILE_SIZE": "File is too large",
+    "INVALID_UPLOAD": "Invalid upload",
+    "INVALID_REQUEST": "Invalid request",
     "CHATID_REQUIRED": "Conversation ID is required",
     "TOO_MANY_REQUESTS": "Too many requests, please try again in a moment"
   }

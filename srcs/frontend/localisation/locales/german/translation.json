@@ -123,6 +123,8 @@
     "PASSWORD_TOO_LONG": "Passwort ist zu lang",
     "LAST_NAME_REQUIRED": "Nachname ist erforderlich",
     "LAST_NAME_TOO_LONG": "Nachname ist zu lang",
+    "INVALID_FIRST_NAME": "Ungültiger Vorname",
+    "INVALID_LAST_NAME": "Ungültiger Nachname",
     "PASSWORD_WEAK": "Ungültiges Passwort (mindestens 12 Zeichen, 1 Kleinbuchstabe, 1 Großbuchstabe, 1 Ziffer und 1 Sonderzeichen)",
     "PASSWORDS_DO_NOT_MATCH": "Passwortbestätigung muss übereinstimmen",
     "AGE_REQUIREMENT": "Sie müssen mindestens 18 Jahre alt sein",
@@ -146,6 +148,9 @@
     "FORBIDDEN": "Zugriff auf diese Datei verweigert",
     "INVALID_FILE_ID": "Ungültige Datei-ID",
     "NO_FILE_PROVIDED": "Keine Datei angegeben",
+    "INVALID_FILE_SIZE": "Die Datei ist zu groß",
+    "INVALID_UPLOAD": "Ungültiger Upload",
+    "INVALID_REQUEST": "Ungültige Anfrage",
     "CHATID_REQUIRED": "Die Konversations-ID ist erforderlich",
     "TOO_MANY_REQUESTS": "Zu viele Anfragen, bitte versuchen Sie es gleich noch einmal"
   }

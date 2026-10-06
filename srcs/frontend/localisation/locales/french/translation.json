@@ -123,6 +123,8 @@
     "PASSWORD_TOO_LONG": "Le mot de passe est trop long",
     "LAST_NAME_REQUIRED": "Le nom est requis",
     "LAST_NAME_TOO_LONG": "Le nom est trop long",
+    "INVALID_FIRST_NAME": "Prénom invalide",
+    "INVALID_LAST_NAME": "Nom invalide",
     "PASSWORD_WEAK": "Mot de passe invalide (12 caractères minimum, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial)",
     "PASSWORDS_DO_NOT_MATCH": "La confirmation du mot de passe doit correspondre",
     "AGE_REQUIREMENT": "Vous devez avoir au moins 18 ans",
@@ -146,6 +148,9 @@
     "FORBIDDEN": "Accès au fichier interdit",
     "INVALID_FILE_ID": "Identifiant du fichier invalide",
     "NO_FILE_PROVIDED": "Aucun fichier fourni",
+    "INVALID_FILE_SIZE": "Le fichier est trop volumineux",
+    "INVALID_UPLOAD": "Envoi de fichier invalide",
+    "INVALID_REQUEST": "Requête invalide",
     "CHATID_REQUIRED": "L'identifiant de la conversation est requis",
     "TOO_MANY_REQUESTS": "Trop de requêtes, veuillez réessayer dans quelques instants"
   }

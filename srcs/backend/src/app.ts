@@ -9,6 +9,7 @@ import filesRoutes from './modules/files/files.routes.js';
 import chatRoutes from './modules/chat/chat.routes.js';
 import socialRoutes from './modules/social/social.routes.ts';
 import healthRouter from './modules/health.js';
+import { multerErrorManager } from './modules/files/files.middlewares.ts';
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.use('/api', filesRoutes);
 app.use('/api', healthRouter);
 app.use('/api', chatRoutes);
 app.use('/api', socialRoutes);
+app.use(multerErrorManager)
 
 export default app;
