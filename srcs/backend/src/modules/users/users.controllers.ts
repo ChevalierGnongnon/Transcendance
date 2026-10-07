@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import UsersService from './users.services.ts';
 import { NotFoundError } from '../../common/errors.js';
+import { Prisma } from '@/generated/prisma/client.js';
 import usersServices from './users.services.ts';
 
 export async function getMyProfile(req: Request, res: Response) {
@@ -110,6 +111,9 @@ export async function updateUser(req: Request, res: Response){
     return (res.status(200).json({success:true}))
   } catch (error) {
     if (error instanceof Error && error.message === 'PSEUDO_EXISTS') {
+      return res.status(409).json({ error: 'PSEUDO_EXISTS' });
+    }
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
       return res.status(409).json({ error: 'PSEUDO_EXISTS' });
     }
     return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });

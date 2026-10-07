@@ -48,9 +48,11 @@ export const registrationValidator = [
   }),
   body('birthdate')
     .notEmpty()
-    .withMessage('AGE_REQUIREMENT')
-    // .isISO8601()
-    // .withMessage('Email is required')
+    .withMessage('INVALID_BIRTHDATE')
+    .bail()
+    .isISO8601()
+    .withMessage('INVALID_BIRTHDATE')
+    .bail()
     .toDate()
     .custom((value) => {
       const birthDate = new Date(value);
@@ -60,7 +62,7 @@ export const registrationValidator = [
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
       }
-      if (age < 18) {
+      if (age < 18 || age > 100) {
         throw new Error('AGE_REQUIREMENT');
       }
       return true;
@@ -69,8 +71,10 @@ export const registrationValidator = [
     .trim()
     .notEmpty()
     .withMessage('PSEUDO_REQUIRED')
+    .bail()
     .matches(/^[a-zA-Z0-9_-]{3,30}$/)
-    .withMessage('PSEUDO_INVALID'),
+    .withMessage('PSEUDO_INVALID')
+    .bail(),
   body('avatar').custom((value, { req }) => {
     if (!value && !req.file) {
       throw new Error('AVATAR_REQUIRED');

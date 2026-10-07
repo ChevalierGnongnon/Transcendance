@@ -61,7 +61,6 @@ export function multerErrorManager(error: unknown, req: Request, res: Response, 
   else if (error instanceof UnsupportedFileTypeError){
     return (res.status(415).json ({error: 'WRONG_FILE_TYPE'}));
   }
-  // errors that already carry a client status (ex: malformed JSON from express.json() -> 400)
   else if (typeof error === 'object' && error !== null && 'status' in error
     && typeof error.status === 'number' && error.status >= 400 && error.status < 500){
     return (res.status(error.status).json({error: 'INVALID_REQUEST'}));

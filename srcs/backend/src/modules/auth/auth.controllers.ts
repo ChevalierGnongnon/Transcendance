@@ -68,9 +68,13 @@ export async function register(req: Request, res: Response) {
   } catch (error: any) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
+        const index = (error.meta as any)?.driverAdapterError?.cause?.constraint?.index;
+        if (typeof index === 'string' && index.includes('email'))
+          return (res.status(409).json({ error: 'EMAIL_EXISTS' }));
+        if (typeof index === 'string' && index.includes('pseudo'))
+          return (res.status(409).json({ error: 'PSEUDO_EXISTS' }));
         return(res.status(409).json({
-          code: 'USER_ALREADY_EXISTS',
-          message: 'This user is already created.',
+          error: 'USER_ALREADY_EXISTS'
         }));
       }
     }
