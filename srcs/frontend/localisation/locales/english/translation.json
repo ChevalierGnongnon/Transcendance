@@ -151,6 +151,17 @@
     "INVALID_FILE_SIZE": "File is too large",
     "INVALID_UPLOAD": "Invalid upload",
     "INVALID_REQUEST": "Invalid request",
+    "ALREADY_BLOCKED": "This user is already blocked",
+    "CANNOT_BLOCK_SELF": "You cannot block yourself",
+    "CANNOT_REMOVE_SELF": "You cannot remove yourself from your friends",
+    "BLOCK_NOT_FOUND": "This user is not blocked",
+    "CANNOT_FRIEND_SELF": "You cannot send a friend request to yourself",
+    "CANNOT_UNBLOCK_SELF": "You cannot unblock yourself",
+    "CONFLICT": "A request or relationship already exists with this user",
+    "NOT_FOUND": "Not found",
+    "FRIENDREQUESTID_ISEMPTY": "Missing friend request",
+    "SENDERID_ISEMPTY": "Missing sender",
+    "USERID_ISEMPTY": "Missing user",
     "CHATID_REQUIRED": "Conversation ID is required",
     "TOO_MANY_REQUESTS": "Too many requests, please try again in a moment"
   }

@@ -149,7 +149,7 @@ export const removeFriend = async (req: Request<{ userId: string }>, res: Respon
   const otherUserId = req.params.userId;
 
   if (currentUserId === otherUserId)
-    res.status(400).json({ success: false, error: 'CANNOT_REMOVE_SELF' });
+    return (res.status(400).json({ success: false, error: 'CANNOT_REMOVE_SELF' }));
 
   try {
     if (!currentUserId) throw new Error('userId dont exist');

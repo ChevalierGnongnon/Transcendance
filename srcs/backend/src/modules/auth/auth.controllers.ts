@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-
+import { Prisma } from '@/generated/prisma/client.js';
 import authService from './auth.services.ts';
 import { NotFoundError } from '../../common/errors.js';
 
@@ -66,6 +66,14 @@ export async function register(req: Request, res: Response) {
 
     return res.status(201).json({ success: true });
   } catch (error: any) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return(res.status(409).json({
+          code: 'USER_ALREADY_EXISTS',
+          message: 'This user is already created.',
+        }));
+      }
+    }
     if (error.message === 'EMAIL_EXISTS') {
       return (res.status(409).json({ error: 'EMAIL_EXISTS' }));
     }

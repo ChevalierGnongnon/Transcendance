@@ -9,3 +9,4 @@ srcs/backend/src/generated
 srcs/backend/upload/
 srcs/frontend/node_modules
 .claude/
+cookies.txt

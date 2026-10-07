@@ -151,6 +151,17 @@
     "INVALID_FILE_SIZE": "Le fichier est trop volumineux",
     "INVALID_UPLOAD": "Envoi de fichier invalide",
     "INVALID_REQUEST": "Requête invalide",
+    "ALREADY_BLOCKED": "Cet utilisateur est déjà bloqué",
+    "CANNOT_BLOCK_SELF": "Vous ne pouvez pas vous bloquer vous-même",
+    "CANNOT_REMOVE_SELF": "Vous ne pouvez pas vous retirer de vos amis",
+    "BLOCK_NOT_FOUND": "Cet utilisateur n'est pas bloqué",
+    "CANNOT_FRIEND_SELF": "Vous ne pouvez pas vous envoyer une demande d'ami",
+    "CANNOT_UNBLOCK_SELF": "Vous ne pouvez pas vous débloquer vous-même",
+    "CONFLICT": "Une demande ou une relation existe déjà avec cet utilisateur",
+    "NOT_FOUND": "Introuvable",
+    "FRIENDREQUESTID_ISEMPTY": "Demande d'ami manquante",
+    "SENDERID_ISEMPTY": "Expéditeur manquant",
+    "USERID_ISEMPTY": "Utilisateur manquant",
     "CHATID_REQUIRED": "L'identifiant de la conversation est requis",
     "TOO_MANY_REQUESTS": "Trop de requêtes, veuillez réessayer dans quelques instants"
   }

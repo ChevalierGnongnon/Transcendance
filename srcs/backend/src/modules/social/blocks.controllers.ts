@@ -20,16 +20,14 @@ export const blockUser = async (req: Request<{ userId: string }>, res: Response)
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
-        res.status(409).json({
-          code: 'ALREADY_BLOCKED',
-          message: 'This user is already blocked.',
-        });
+        return (res.status(409).json({
+          error: 'ALREADY_BLOCKED'
+        }));
       }
       if (error.code === 'P2003') {
-        res.status(422).json({
-          code: 'USER_NOT_FOUND',
-          message: 'One of the users does not exist.',
-        });
+        return (res.status(404).json({
+          error: 'USER_NOT_FOUND',
+        }));
       }
     }
 

@@ -151,6 +151,17 @@
     "INVALID_FILE_SIZE": "Die Datei ist zu groß",
     "INVALID_UPLOAD": "Ungültiger Upload",
     "INVALID_REQUEST": "Ungültige Anfrage",
+    "ALREADY_BLOCKED": "Dieser Benutzer ist bereits blockiert",
+    "CANNOT_BLOCK_SELF": "Sie können sich nicht selbst blockieren",
+    "CANNOT_REMOVE_SELF": "Sie können sich nicht selbst aus Ihren Freunden entfernen",
+    "BLOCK_NOT_FOUND": "Dieser Benutzer ist nicht blockiert",
+    "CANNOT_FRIEND_SELF": "Sie können sich selbst keine Freundschaftsanfrage senden",
+    "CANNOT_UNBLOCK_SELF": "Sie können sich nicht selbst entsperren",
+    "CONFLICT": "Mit diesem Benutzer besteht bereits eine Anfrage oder Beziehung",
+    "NOT_FOUND": "Nicht gefunden",
+    "FRIENDREQUESTID_ISEMPTY": "Freundschaftsanfrage fehlt",
+    "SENDERID_ISEMPTY": "Absender fehlt",
+    "USERID_ISEMPTY": "Benutzer fehlt",
     "CHATID_REQUIRED": "Die Konversations-ID ist erforderlich",
     "TOO_MANY_REQUESTS": "Zu viele Anfragen, bitte versuchen Sie es gleich noch einmal"
   }
