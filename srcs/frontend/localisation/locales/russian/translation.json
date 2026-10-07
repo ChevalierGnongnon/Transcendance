@@ -117,6 +117,7 @@
     "LOGIN_REQUIRED": "Логин обязателен.",
     "LOGIN_TOO_LONG": "Логин слишком длинный",
     "USER_NOT_FOUND": "Пользователь с этими данными не найден",
+    "INVALID_CREDENTIALS": "Неверные учётные данные",
     "FIRST_NAME_REQUIRED": "Имя обязательно.",
     "FIRST_NAME_TOO_LONG": "Имя слишком длинное",
     "LAST_NAME_REQUIRED": "Фамилия обязательна",

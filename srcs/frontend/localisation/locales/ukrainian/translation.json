@@ -117,6 +117,7 @@
     "LOGIN_REQUIRED": "Логін є обов'язковим.",
     "LOGIN_TOO_LONG": "Логін занадто довгий",
     "USER_NOT_FOUND": "Користувача з цими даними не знайдено",
+    "INVALID_CREDENTIALS": "Невірні облікові дані",
     "FIRST_NAME_REQUIRED": "Ім'я є обов'язковим.",
     "FIRST_NAME_TOO_LONG": "Ім'я занадто довге",
     "PASSWORD_REQUIRED": "Пароль є обов'язковим",

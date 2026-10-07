@@ -117,6 +117,7 @@
     "LOGIN_REQUIRED": "Benutzername ist erforderlich.",
     "LOGIN_TOO_LONG": "Benutzername ist zu lang",
     "USER_NOT_FOUND": "Kein Benutzer mit diesen Anmeldeinformationen gefunden",
+    "INVALID_CREDENTIALS": "Ungültige Anmeldedaten",
     "FIRST_NAME_REQUIRED": "Vorname ist erforderlich.",
     "FIRST_NAME_TOO_LONG": "Vorname ist zu lang",
     "PASSWORD_REQUIRED": "Passwort ist erforderlich",

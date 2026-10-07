@@ -109,6 +109,7 @@
   },
   "errors": {
     "USER_NOT_FOUND": "Aucun utilisateur trouvé avec ces identifiants",
+    "INVALID_CREDENTIALS": "Identifiants invalides",
     "INVALID_TOKEN": "Session invalide",
     "DATABASE_ERROR": "Erreur serveur, merci de réessayer plus tard",
     "WRONG_FILE_TYPE": "Mauvais type de fichier (uniquement : png, jpg, jpeg ou webp)",

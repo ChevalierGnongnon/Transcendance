@@ -21,15 +21,21 @@ export const requireAuth = async(req: Request, res: Response, next: NextFunction
     });
   }
 
+  let decoded;
   try {
-    const decoded = jwt.verify(token, secret);
+    decoded = jwt.verify(token, secret);
 
-    if (typeof decoded === 'string' || typeof decoded.userId !== 'string') {
-      return res.status(403).json({
-        error: 'INVALID_TOKEN',
-      });
-    }
-    const user = await prisma.user.findUnique({
+  } catch (error) {
+      return res.status(401).json({error: 'INVALID_TOKEN',});
+  }
+
+  if (typeof decoded === 'string' || typeof decoded.userId !== 'string') {
+    return res.status(401).json({ error: 'INVALID_TOKEN' });
+  }
+
+  let user;
+  try{
+    user = await prisma.user.findUnique({
       where: {
         id:decoded.userId
       },
@@ -37,18 +43,19 @@ export const requireAuth = async(req: Request, res: Response, next: NextFunction
         id:true
       }
     })
-    if (!user)
-      return res.status(401).json({ error: 'INVALID_TOKEN' });
-    req.jwtPayload = decoded;
-    req.userId = decoded.userId;
-
-    next();
   } catch (error) {
     console.error(error);
-    return res.status(403).json({
-      error: 'INVALID_TOKEN',
+    return res.status(500).json({
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
+
+  if (!user)
+    return res.status(401).json({ error: 'INVALID_TOKEN' });
+  req.jwtPayload = decoded;
+  req.userId = decoded.userId;
+
+  next();
 };
 
 export function validate(req: Request, res: Response, next: NextFunction) {

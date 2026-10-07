@@ -184,6 +184,8 @@ class FileService {
     });
     if (file === null)
       throw new NotFoundError('File not found');
+    if (file.expiresAt !== null && file.expiresAt.getTime() < Date.now())
+        throw new NotFoundError("File has been deleted");
     let fileBuffer;
     let data : FileData;
     try{

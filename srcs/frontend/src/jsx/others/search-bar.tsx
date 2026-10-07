@@ -114,11 +114,15 @@ function SearchBar(props: SearchBarProps){
                                             const len = input.length;
                                             const boldPart = field.slice(0, len);
                                             const end = field.slice(len, field.length)
+                                            
+                                            
                                             return (
+                                                    
                                                     <span key={index}  className={`field-name ${index < 2 ? 'd-none d-xl-inline' : ''}`}>
                                                         { index > 0 &&
                                                             <span className="mx-4 d-none d-xl-inline"> | </span>
                                                         }
+
                                                         { boldPart.toLowerCase() === input.toLowerCase() &&
                                                             <>
                                                                 <span>
@@ -129,6 +133,7 @@ function SearchBar(props: SearchBarProps){
                                                                 </span>
                                                             </>
                                                         }
+
                                                         { boldPart.toLowerCase() !== input.toLowerCase() &&
                                                             <span>{field}</span>
                                                         }
