@@ -12,12 +12,13 @@ export const Message = (props: MessageProps) => {
   const [MimeType, setMimeType] = useState('');
   const [loading, setLoading] = useState(false);
   const [deletedFile, setDeletedFile] = useState<boolean>(false);
+  const isOwnMessage = props.senderId === props.userId;
 
   useEffect(() => {
     if (!fileId) {
       setMimeType('');
       setLoading(false);
-      
+
       return;
     }
 
@@ -27,10 +28,9 @@ export const Message = (props: MessageProps) => {
     fetch(`/api/${fileId}/download`, { credentials: 'include', method: 'HEAD' })
       .then((res) => {
         const MimeType = res.headers.get('Content-Type') ?? '';
-        if (!cancelled){
+        if (!cancelled) {
           setMimeType(MimeType);
-          if (!res.ok)
-            setDeletedFile(true);
+          if (!res.ok) setDeletedFile(true);
         }
       })
       .catch((e) => {
@@ -47,7 +47,7 @@ export const Message = (props: MessageProps) => {
   return (
     <>
       <li
-        className={`d-flex align-items-start ${props.senderId === props.userId ? 'flex-row-reverse justify-content-start' : 'justify-content-start'}`}
+        className={`d-flex align-items-start ${isOwnMessage ? 'flex-row-reverse justify-content-start' : 'justify-content-start'}`}
       >
         <figure className="avatar-msg">
           <img
@@ -62,9 +62,18 @@ export const Message = (props: MessageProps) => {
         {props.type === 'text' && (
           <>
             <div
-              className={`${props.senderId === props.userId ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
+              className={`${isOwnMessage ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
             >
               {props.content}
+              {isOwnMessage && (
+                <div className="message-status-badge">
+                  {props.isRead ? (
+                    <span className="status-icon read">✓✓</span>
+                  ) : (
+                    <span className="status-icon sent">✓</span>
+                  )}
+                </div>
+              )}
             </div>
           </>
         )}
@@ -107,11 +116,7 @@ export const Message = (props: MessageProps) => {
               )}
               {/* file preview here if not previewable just use file type icon */}
               {!loading && !deletedFile && MimeType.startsWith('image/') && (
-                <img
-                  src={`/api/${fileId}/download`}
-                  alt="attachment"
-                  className="bg-img-message"
-                />
+                <img src={`/api/${fileId}/download`} alt="attachment" className="bg-img-message" />
               )}
 
               {/* {!loading && !deletedFile && MimeType === 'application/pdf' && (
@@ -122,42 +127,32 @@ export const Message = (props: MessageProps) => {
                 />
               )} */}
 
-              {!loading && !deletedFile && MimeType === 'application/pdf' &&
-                <img
-                  src="/pdf-icon.svg"
-                  alt="icon-pdf"
-                  className="icon-type"
-                />
-              }
+              {!loading && !deletedFile && MimeType === 'application/pdf' && (
+                <img src="/pdf-icon.svg" alt="icon-pdf" className="icon-type" />
+              )}
 
-              {!loading && !deletedFile
-                && MimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' &&
-                <img
-                  src="/docx-icon.svg"
-                  alt="icon-docx"
-                  className="icon-type"
-                />
-              }
+              {!loading &&
+                !deletedFile &&
+                MimeType ===
+                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && (
+                  <img src="/docx-icon.svg" alt="icon-docx" className="icon-type" />
+                )}
 
-              {!loading && !deletedFile 
-                && MimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
-                <img
-                  src="/xlsx-icon.svg"
-                  alt="icon-xslx"
-                  className="icon-type"
-                />
-              }
+              {!loading &&
+                !deletedFile &&
+                MimeType ===
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && (
+                  <img src="/xlsx-icon.svg" alt="icon-xslx" className="icon-type" />
+                )}
 
-              {!loading && !deletedFile 
-                && MimeType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' &&
-                <img
-                  src="/pptx-icon.svg"
-                  alt="icon-pdf"
-                  className="icon-type"
-                />
-              }
+              {!loading &&
+                !deletedFile &&
+                MimeType ===
+                  'application/vnd.openxmlformats-officedocument.presentationml.presentation' && (
+                  <img src="/pptx-icon.svg" alt="icon-pdf" className="icon-type" />
+                )}
               {/* download button */}
-              {!deletedFile &&
+              {!deletedFile && (
                 // <a
                 //   href={`/api/${props.content}/download`}
                 //   download
@@ -166,14 +161,18 @@ export const Message = (props: MessageProps) => {
                 // >
                 //   {t('common.download-file')}
                 // </a>
-                <input type="button" value={t('common.download-file')} className='btn btn-primary m-1' onClick={
-                  async()=>{
-                    const res = await fetch(`/api/${props.content}/download`, {credentials: 'include'})
-                    if (!res.ok)
-                      setDeletedFile(true)
+                <input
+                  type="button"
+                  value={t('common.download-file')}
+                  className="btn btn-primary m-1"
+                  onClick={async () => {
+                    const res = await fetch(`/api/${props.content}/download`, {
+                      credentials: 'include',
+                    });
+                    if (!res.ok) setDeletedFile(true);
                     else {
                       const blob = await res.blob();
-                      const url = URL.createObjectURL(blob)
+                      const url = URL.createObjectURL(blob);
                       const contentDisposition = res.headers.get('Content-Disposition');
                       const match = contentDisposition?.match(/filename="(.+)"/);
                       const filename = match?.[1] ?? fileId;
@@ -181,31 +180,28 @@ export const Message = (props: MessageProps) => {
                       link.download = filename;
                       link.href = url;
                       link.click();
-                      URL.revokeObjectURL(url)
+                      URL.revokeObjectURL(url);
                     }
-                    
-                  }
-                }/>
-              }
-              { deletedFile &&
-                <ErrorMessage error={t('common.file-is-deleted')}></ErrorMessage>
-                
-              }
-              
-              {!deletedFile &&
+                  }}
+                />
+              )}
+              {deletedFile && <ErrorMessage error={t('common.file-is-deleted')}></ErrorMessage>}
+
+              {!deletedFile && (
                 <input
-                type="button"
-                value={t('common.delete-file')}
-                className='btn btn-primary m-1'
-                onClick={async() =>{
-                  const res = await fetch(`/api/${fileId}`, { credentials: 'include', method: 'DELETE' })
-                    if (!res.ok)
-                      setDeletedFile(false);
-                    else
-                      setDeletedFile(true);
-                  }
-                }/>
-              } 
+                  type="button"
+                  value={t('common.delete-file')}
+                  className="btn btn-primary m-1"
+                  onClick={async () => {
+                    const res = await fetch(`/api/${fileId}`, {
+                      credentials: 'include',
+                      method: 'DELETE',
+                    });
+                    if (!res.ok) setDeletedFile(false);
+                    else setDeletedFile(true);
+                  }}
+                />
+              )}
             </div>
           </>
         )}

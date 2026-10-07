@@ -30,6 +30,7 @@ class chatService {
                     },
                   },
                 },
+                lastReadMessagesId: true,
               },
             },
           },
@@ -42,7 +43,8 @@ class chatService {
     const ret = myChats.map((chat) => ({
       chatId: chat.chatId,
       user: chat.chat.members[0]?.user,
-      lastReadMessagesId: chat.lastReadMessagesId,
+      mylastReadMessagesId: chat.lastReadMessagesId,
+      otherlastReadMessagesId: chat.chat.members[0]?.lastReadMessagesId,
     }));
 
     return ret;

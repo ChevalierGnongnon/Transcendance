@@ -1,6 +1,6 @@
 export type ActiveView = 'chats' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
-
 export type MessageType = 'text' | 'invitation' | 'file';
+export type MessageStatus = 'sending' | 'sent' | 'read' | 'error';
 
 export interface User {
   id: string;
@@ -28,11 +28,14 @@ export interface IMessage {
 }
 
 export interface MessageProps {
+  // id: string;
   userId: string;
   content: string;
   profilePhoto: { name: string; id: string };
   senderId: string;
   type: MessageType;
+  isRead?: boolean;
+  // status?: MessageStatus;
 }
 
 export interface IChatPreview {
@@ -45,7 +48,8 @@ export interface IChatPreview {
       id: string;
     };
   };
-  lastReadMessagesId: string | null;
+  mylastReadMessagesId: string | null;
+  otherlastReadMessagesId: string | null;
   unreadCount: number;
 }
 
@@ -56,6 +60,7 @@ export interface ChatRoomProps {
   messages: Map<string, IMessage[]>;
   onAddMessage: (message: IMessage) => void;
   updateLastReadMessageId: (chatId: string, messageId: string | null) => void;
+  otherLastReadMessagesId: string | null;
 }
 
 export interface ChatProps {

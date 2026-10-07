@@ -56,9 +56,11 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
 
     if (!savedMessage) throw new Error('Can not save message');
 
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     socket.to(`user-${recipientId}`).emit('new-chat-message', savedMessage);
 
-    return { id: savedMessage.id };
+    return savedMessage;
   } catch (error) {
     console.error('Error save message', error);
 

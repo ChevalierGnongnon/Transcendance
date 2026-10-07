@@ -26,6 +26,9 @@ function ChatRoom(roomProps: ChatRoomProps) {
   });
   const chatId = roomProps.chat.chatId;
   const messages = chatId ? (roomProps.messages.get(chatId) ?? []) : [];
+  const [otherLastReadMessagesId, setOtherLastReadMessagesId] = useState<string | null>(
+    roomProps.chat.otherlastReadMessagesId
+  );
 
   const loadRelationship = useCallback(async () => {
     const userId = roomProps.chat?.user?.id;
@@ -56,7 +59,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
   useEffect(() => {
     if (messages.length > 0) {
       const lastMessageId = messages[messages.length - 1].id ?? null;
-      const lastMessageIdinChat = roomProps.chat.lastReadMessagesId;
+      const lastMessageIdinChat = roomProps.chat.mylastReadMessagesId;
       if (lastMessageId !== lastMessageIdinChat) {
         roomProps.updateLastReadMessageId(roomProps.chat.chatId, lastMessageId);
       }
@@ -77,12 +80,12 @@ function ChatRoom(roomProps: ChatRoomProps) {
       type: messageType,
     };
 
-    socket.emit('new-chat-message', messageToSend, (res) => {
+    socket.emit('new-chat-message', messageToSend, (res: any) => {
       if (res.ok) {
         console.log(JSON.stringify(res));
+        roomProps.onAddMessage(res.data);
       }
     });
-    roomProps.onAddMessage(messageToSend);
 
     setMessageText('');
   };
@@ -107,11 +110,11 @@ function ChatRoom(roomProps: ChatRoomProps) {
   };
 
   useEffect(() => {
-    const startTyping = async (data: {}) => {
+    const startTyping = async (data: { chatId: string }) => {
       setIsTyping(roomProps.chat.chatId === data.chatId);
     };
 
-    const stopTyping = (data) => {
+    const stopTyping = (data: { chatId: string }) => {
       if (roomProps.chat.chatId === data.chatId) {
         setIsTyping(false);
       }
@@ -122,6 +125,24 @@ function ChatRoom(roomProps: ChatRoomProps) {
     return () => {
       socket.off('chat:typing:start', startTyping);
       socket.off('chat:typing:stop', stopTyping);
+    };
+  }, [roomProps.chat.chatId]);
+
+  useEffect(() => {
+    setIsTyping(false);
+  }, [roomProps.chat.chatId]);
+
+  useEffect(() => {
+    const handleUserReadMessages = (data: { chatId: string; messageId: string | null }) => {
+      console.log('Received last-read-message event:', data);
+      setOtherLastReadMessagesId((prev) =>
+        roomProps.chat.chatId === data.chatId ? data.messageId : prev
+      );
+    };
+
+    socket.on('chat:last-read-message', handleUserReadMessages);
+    return () => {
+      socket.off('chat:last-read-message', handleUserReadMessages);
     };
   }, []);
 
@@ -155,7 +176,12 @@ function ChatRoom(roomProps: ChatRoomProps) {
             {t('message.go-to-profile')}
           </button>
         </div>
-        <MessagesList me={me} chatId={roomProps.chat.chatId} messages={messages} />
+        <MessagesList
+          me={me}
+          chatId={roomProps.chat.chatId}
+          messages={messages}
+          otherLastReadMessagesId={otherLastReadMessagesId}
+        />
         {relationship.blockedByMe ? (
           <div className="input-group group-new-message my-3 mt-auto">
             <input

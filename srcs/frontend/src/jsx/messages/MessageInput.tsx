@@ -29,13 +29,6 @@ function MessageInput({
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const stopTyping = () => {
-    typingTimeoutRef.current = setTimeout(() => {
-      socket.emit('chat:typing:stop', { chatId: chatId, to: userId });
-      typingTimeoutRef.current = null;
-    }, 2000);
-  };
-
   const handleChange = async (e: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
     console.log(`chatId: ${chatId}; userId: ${userId}`);
@@ -54,7 +47,11 @@ function MessageInput({
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
-    stopTyping();
+
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit('chat:typing:stop', { chatId: chatId, to: userId });
+      typingTimeoutRef.current = null;
+    }, 2000);
   };
 
   useEffect(() => {
@@ -65,8 +62,9 @@ function MessageInput({
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (!disabled) {
+        socket.emit('chat:typing:stop', { chatId: chatId, to: userId });
+        typingTimeoutRef.current = null;
         onSend();
-        stopTyping();
       }
     }
   };
@@ -77,8 +75,9 @@ function MessageInput({
 
   const handleSendClick = () => {
     if (!disabled) {
+      socket.emit('chat:typing:stop', { chatId: chatId, to: userId });
+      typingTimeoutRef.current = null;
       onSend();
-      stopTyping();
     }
   };
 

@@ -18,6 +18,11 @@ export async function handleMessageRead(socket: Socket, payload: lastReadInput) 
       },
     });
 
+    socket.broadcast.emit('chat:last-read-message', {
+      chatId: chatId,
+      messageId: messageId,
+    });
+
     return lastReadMessage;
   } catch (error) {
     console.error('Error save message', error);

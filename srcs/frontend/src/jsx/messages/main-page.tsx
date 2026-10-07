@@ -26,6 +26,7 @@ function Messages() {
   const [loadingChats, setLoadingChats] = useState(false);
   const [chatList, setChatList] = useState<IChatPreview[]>([]);
   const [error, setError] = useState<Error | null>(null);
+  // const lastReadMessageTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -86,11 +87,11 @@ function Messages() {
         return { ...chat, unreadCount: 0 };
       }
 
-      if (!chat.lastReadMessagesId) {
+      if (!chat.mylastReadMessagesId) {
         return { ...chat, unreadCount: messages.length };
       }
 
-      const idx = messages.findIndex((m) => m.id === chat.lastReadMessagesId);
+      const idx = messages.findIndex((m) => m.id === chat.mylastReadMessagesId);
       return {
         ...chat,
         unreadCount: idx === -1 ? messages.length : messages.length - idx - 1,
@@ -102,6 +103,8 @@ function Messages() {
     const handleNewMessage = async (newMessage: IMessage) => {
       const chatId = newMessage.chatId;
       const messageId = newMessage.id;
+      console.log('Received new message:', newMessage);
+      console.log('ActiveChatId:', activeChat?.chatId);
 
       try {
         if (!chatId || !messageId) throw new Error('Bad message');
@@ -109,7 +112,7 @@ function Messages() {
         const newChat = {
           chatId: chatId,
           user: newMessage.sender,
-          lastReadMessagesId: null,
+          mylastReadMessagesId: null,
           unreadCount: 0,
         };
         setChatList((prev) => {
@@ -132,7 +135,7 @@ function Messages() {
     return () => {
       socket.off('new-chat-message', handleNewMessage);
     };
-  }, [chatList, allMessages]);
+  }, [chatList, allMessages, activeChat]);
 
   const addMessage = useCallback((newMessage: IMessage) => {
     setAllMessages((prev) => {
@@ -151,7 +154,7 @@ function Messages() {
         chat.chatId === chatId
           ? {
               ...chat,
-              lastReadMessagesId: messageId,
+              mylastReadMessagesId: messageId,
             }
           : chat
       )
@@ -163,6 +166,10 @@ function Messages() {
       messageId: messageId,
     });
   };
+
+  useEffect(() => {
+    console.log('setActiveChat', activeChat?.chatId, activeChat?.user.pseudo);
+  }, [activeChat]);
 
   if (!me) {
     return <div>Something went wrong. Please try again later.</div>;
@@ -189,6 +196,7 @@ function Messages() {
             messages={allMessages}
             onAddMessage={addMessage}
             updateLastReadMessageId={updateLastReadMessageId}
+            otherLastReadMessagesId={activeChat.otherlastReadMessagesId}
           />
         )}
         {activeView === 'new message' && (

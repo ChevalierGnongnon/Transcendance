@@ -9,12 +9,16 @@ interface MessagesListProps {
   me: User;
   chatId: string;
   messages: IMessage[];
+  otherLastReadMessagesId: string | null;
 }
 
-function MessagesList({ me, chatId, messages }: MessagesListProps) {
+function MessagesList({ me, chatId, messages, otherLastReadMessagesId }: MessagesListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const lastReadIndex = otherLastReadMessagesId
+    ? messages.findIndex((m) => m.id === otherLastReadMessagesId)
+    : -1;
 
   const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
     messagesEndRef.current?.scrollIntoView({
@@ -74,16 +78,20 @@ function MessagesList({ me, chatId, messages }: MessagesListProps) {
         }}
       >
         <ul className="px-3">
-          {messages.map((msg, index) => (
-            <Message
-              key={index}
-              userId={me.id}
-              profilePhoto={msg.sender.profilePhoto}
-              senderId={msg.sender.id}
-              content={msg.content}
-              type={msg.type}
-            />
-          ))}
+          {messages.map((msg, index) => {
+            const isRead = lastReadIndex !== -1 && index <= lastReadIndex;
+            return (
+              <Message
+                key={msg.id || index}
+                userId={me.id}
+                profilePhoto={msg.sender.profilePhoto}
+                senderId={msg.sender.id}
+                content={msg.content}
+                type={msg.type}
+                isRead={isRead}
+              />
+            );
+          })}
         </ul>
         <div ref={messagesEndRef} style={{ height: '2px' }} />
       </div>
