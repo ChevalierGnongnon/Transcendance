@@ -147,22 +147,43 @@ function FileImport(fileImportComponent: FileImportComponent){
                     let request = new XMLHttpRequest();
                     if (fileImportComponent.mode === 'avatar')
                         url = '/api/avatar';
-                    else if (fileImportComponent.mode === 'message')
-                        url = '/api/message';
                     else
                         return ;
                     request.open('POST', url);
                     request.onload = () =>{
                         if (request.status === 201){
                             const id = JSON.parse(request.responseText);
-                            if (fileImportComponent.onUploaded)
+                            if (fileImportComponent.onUploaded){
                                 fileImportComponent.onUploaded(id.file_id);
+                                
+                            }
+                            // setPreviewURL(null);
+                            setErrorMessage(null);
+                            setUploadProgress(0);
+                            setConfirmed(false);
                         }
+                        else {
+                            try{
+                                const error = JSON.parse(request.responseText);
+                                setErrorMessage(error?.error ?? 'INTERNAL_SERVER_ERROR');
+                            } catch {
+                                if (request.status === 413)
+                                    setErrorMessage('INVALID_FILE_SIZE');
+                                else
+                                    setErrorMessage('INTERNAL_SERVER_ERROR');
+                                
+                            }
+                            
+                        }
+
                     }
                     request.upload.onprogress = (event) =>{
                         let progress = (event.loaded / event.total) * 100;
                         setUploadProgress(progress);
                     }
+                    request.onerror = () => {
+                        setErrorMessage('DATABASE_ERROR');
+                    };
                     request.send(form);
                 }
             }/>

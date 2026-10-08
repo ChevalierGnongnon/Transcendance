@@ -22,10 +22,11 @@ export const registrationValidator = [
     .isLength({ max: 50 })
     .withMessage('FIRST_NAME_TOO_LONG'),
   body('last_name')
+    .trim()
     .notEmpty()
     .withMessage('LAST_NAME_REQUIRED')
     .isLength({ max: 50 })
-    .withMessage('LAST_NAME_REQUIRED'),
+    .withMessage('LAST_NAME_TOO_LONG'),
   body('email')
     .notEmpty()
     .withMessage('EMAIL_REQUIRED')
@@ -37,7 +38,7 @@ export const registrationValidator = [
     .notEmpty()
     .withMessage('PASSWORD_WEAK')
     .isLength({ max: 255 })
-    .withMessage('')
+    .withMessage('PASSWORD_TOO_LONG')
     .matches(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{12,}$/)
     .withMessage('PASSWORD_WEAK'),
   body('passwordVerify').custom((value, { req }) => {

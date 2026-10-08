@@ -116,6 +116,8 @@ function SearchBar(props: SearchBarProps){
                                             const end = field.slice(len, field.length)
                                             
                                             
+                                        
+                                            
                                             return (
                                                     
                                                     <span key={index}  className={`field-name ${index < 2 ? 'd-none d-xl-inline' : ''}`}>
