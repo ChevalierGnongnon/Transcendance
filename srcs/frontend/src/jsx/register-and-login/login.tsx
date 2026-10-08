@@ -14,19 +14,23 @@ function Login() {
 	const { login: authLogin } = useAuth();
 	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const response = await fetch('/api/login', {
-			method: 'POST',
-			headers: { 'Content-type': 'application/json' },
-			credentials: 'include',
-			body: JSON.stringify({ login, password })
-		});
-		const data = await response.json();
-		if (response.ok) {
-			authLogin();
-			navigate('/personalpage');
+		try{
+			const response = await fetch('/api/login', {
+				method: 'POST',
+				headers: { 'Content-type': 'application/json' },
+				credentials: 'include',
+				body: JSON.stringify({ login, password })
+			});
+			const data = await response.json();
+			if (response.ok) {
+				authLogin();
+				navigate('/personalpage');
+			}
+			else
+				setError(data?.error ?? 'DATABASE_ERROR');
+		} catch {
+			setError('DATABASE_ERROR');
 		}
-		else if (!response.ok)
-			setError(data.error);
 	}
 
 	const { t } = useTranslation();

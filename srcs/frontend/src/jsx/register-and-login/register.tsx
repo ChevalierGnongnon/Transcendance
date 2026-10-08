@@ -60,8 +60,17 @@ function Register() {
 					navigate('/personalpage')
 				}
 				else {
-					const error = JSON.parse(response.responseText);
-					setError(error.error);
+					try{
+						const error = JSON.parse(response.responseText);
+						setError(error?.error ?? 'INTERNAL_SERVER_ERROR');
+					} catch {
+						if (response.status === 413)
+							setError('INVALID_FILE_SIZE')
+						else
+							setError('DATABASE_ERROR');
+					}
+					
+					
 				}
 			}
 			response.upload.onprogress = (event)=>{
