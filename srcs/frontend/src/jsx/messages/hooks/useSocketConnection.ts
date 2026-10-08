@@ -5,12 +5,18 @@ export function useSocketConnection(enabled = true) {
   const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
 
   useEffect(() => {
+    if (!socket.connected) {
+      socket.connect();
+      console.log('🔄 Attempting to connect...');
+    }
     function onConnect() {
       setIsConnected(true);
+      console.log('✅ Socket is connected');
     }
 
     function onDisconnect() {
       setIsConnected(false);
+      console.log('❌ Socket disconnected');
     }
 
     socket.on('connect', onConnect);

@@ -1,9 +1,10 @@
 import './scss/gomoku.scss';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useGomoku from './useGomoku';
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { socket } from '../../jsx/messages/socket';
 
 type GomokuPlayer = {
   id: string;
@@ -43,7 +44,32 @@ function Gomoku({
     reset
   } = useGomoku(playersData, boardSize, mode, gameId, myUserId, isConnected);
 
+  const [isClosed, setIsClosed] = useState(false);
   const currentPlayer = players[currentPlayerIndex];
+
+  useEffect(() => {
+    if (mode !== 'online' || !gameId) return;
+
+    const handleClosed = ({ gameId: closedGameId }: { gameId?: string }) => {
+      if (closedGameId === gameId) {
+        setIsClosed(true);
+        navigate('/game/gomoku', { replace: true });
+      }
+    };
+
+    socket.on('game:closed', handleClosed);
+    return () => socket.off('game:closed', handleClosed);
+  }, [gameId, mode, navigate]);
+
+  const handleCloseGame = () => {
+    if (mode === 'online' && gameId) {
+      socket.emit('game:close', { gameId });
+      setIsClosed(true);
+      navigate('/game/gomoku', { replace: true });
+      return;
+    }
+    navigate('/game/gomoku');
+  };
 
   return (
     <div className="d-flex justify-content-center py-3">
@@ -99,7 +125,7 @@ function Gomoku({
           >
             {t('game.new_game')}
           </button>
-          <button className="btn btn-primary gomoku-reset-btn ms-3" onClick={() => navigate('/game/gomoku')}>
+          <button className="btn btn-primary gomoku-reset-btn ms-3" onClick={handleCloseGame} disabled={isClosed}>
             {t('game.finish')}
           </button>
         </div>

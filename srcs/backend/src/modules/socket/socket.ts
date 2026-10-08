@@ -2,6 +2,8 @@ import { Server, Socket } from 'socket.io';
 
 import {
   gameAcceptSchema,
+  gameCloseSchema,
+  gameDeclineSchema,
   gameMoveSchema,
   gameStateSchema,
   lastReadSchema,
@@ -15,6 +17,8 @@ import { handleMessageRead } from './chat/handleLastReadMessage.js';
 import { handleStartChat } from './chat/handleStartChat.js';
 import {
   handleGameAccept,
+  handleGameClose,
+  handleGameDecline,
   handleGameGetState,
   handleGameMove,
   handleGameRestart,
@@ -38,12 +42,18 @@ export const setupSocketConnection = (io: Server) => {
     onValidated(socket, 'game:accept', gameAcceptSchema, (currentSocket, payload) =>
       handleGameAccept(io, currentSocket, payload)
     );
+    onValidated(socket, 'game:decline', gameDeclineSchema, (currentSocket, payload) =>
+      handleGameDecline(io, currentSocket, payload)
+    );
     onValidated(socket, 'game:get-state', gameStateSchema, handleGameGetState);
     onValidated(socket, 'game:new-round', gameStateSchema, (currentSocket, payload) =>
       handleGameRestart(io, currentSocket, payload)
     );
     onValidated(socket, 'game:move', gameMoveSchema, (currentSocket, payload) =>
       handleGameMove(io, currentSocket, payload)
+    );
+    onValidated(socket, 'game:close', gameCloseSchema, (currentSocket, payload) =>
+      handleGameClose(io, currentSocket, payload)
     );
 
     socket.on('disconnect', (reason) => {

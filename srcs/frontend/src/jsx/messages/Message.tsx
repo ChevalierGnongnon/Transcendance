@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MessageProps } from './types.js';
 import { socket } from './socket.js';
@@ -9,6 +10,29 @@ export const Message = (props: MessageProps) => {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
+  const [resolvedState, setResolvedState] = useState<'accepted' | 'declined' | null>(null);
+
+  useEffect(() => {
+    const handleAccepted = ({ invitationId }: { invitationId?: string }) => {
+      if (invitationId === props.messageId) {
+        setResolvedState('accepted');
+      }
+    };
+
+    const handleDeclined = ({ invitationId }: { invitationId?: string }) => {
+      if (invitationId === props.messageId) {
+        setResolvedState('declined');
+      }
+    };
+
+    socket.on('game:accepted', handleAccepted);
+    socket.on('game:declined', handleDeclined);
+
+    return () => {
+      socket.off('game:accepted', handleAccepted);
+      socket.off('game:declined', handleDeclined);
+    };
+  }, [props.messageId]);
 
   return (
     <>
@@ -38,12 +62,20 @@ export const Message = (props: MessageProps) => {
         {props.type === 'invitation' && (
           <>
             <div className="game-invite-box card p-2 m-2">
-              <span className="text-message">You invited to play Gomoku</span>
+              <span className="text-message">
+                {resolvedState === 'accepted'
+                  ? 'Invitation accepted'
+                  : resolvedState === 'declined'
+                    ? 'Invitation declined'
+                    : 'You invited to play Gomoku'}
+              </span>
               <div className="invite-actions">
                 <button
                   className="btn btn-success"
-                  disabled={props.senderId === props.userId || !props.messageId}
+                  disabled={Boolean(resolvedState) || props.senderId === props.userId || !props.messageId}
                   onClick={() => {
+                    if (resolvedState) return;
+                    setResolvedState('accepted');
                     socket.emit("game:accept", {
                       invitationId: props.messageId,
                       chatId: props.chatId,
@@ -58,9 +90,18 @@ export const Message = (props: MessageProps) => {
 
                 <button
                   className="btn btn-danger"
-
-                  onClick={() => socket.emit("game:decline", '')}
-
+                  disabled={Boolean(resolvedState)}
+                  onClick={() => {
+                    if (resolvedState) return;
+                    setResolvedState('declined');
+                    socket.emit("game:decline", {
+                      invitationId: props.messageId,
+                      chatId: props.chatId,
+                      fromUserId: props.senderId,
+                      toUserId: props.userId,
+                      boardSize: Number(props.content),
+                    });
+                  }}
                 >
                   Decline
                 </button>

@@ -1,7 +1,13 @@
 import type { Server, Socket } from 'socket.io';
 
 import { prisma } from '@/lib/prisma.js';
-import type { gameAcceptInput, gameMoveInput, gameStateInput } from '../schemas.js';
+import type {
+  gameAcceptInput,
+  gameCloseInput,
+  gameDeclineInput,
+  gameMoveInput,
+  gameStateInput,
+} from '../schemas.js';
 
 type Board = (string | null)[][];
 
@@ -75,6 +81,11 @@ export async function handleGameAccept(
 		throw new Error('Not authorized to accept this game invitation');
 	}
 
+	const existingGame = await prisma.game.findUnique({ where: { invitationId } });
+	if (existingGame) {
+		throw new Error('This invitation has already been accepted');
+	}
+
 	const invitation = await prisma.message.findUnique({
 		where: { id: invitationId },
 		select: {
@@ -124,12 +135,86 @@ export async function handleGameAccept(
 
 	const acceptedPayload = {
 		...gameSnapshot(game),
+		invitationId,
 		fromUserId,
 		toUserId,
 	};
 
 	io.to(`user-${fromUserId}`).emit('game:accepted', acceptedPayload);
 	io.to(`user-${toUserId}`).emit('game:accepted', acceptedPayload);
+}
+
+export async function handleGameDecline(
+	io: Server,
+	socket: Socket,
+	payload: gameDeclineInput
+): Promise<void> {
+	const { invitationId, chatId, fromUserId, toUserId, boardSize } = payload;
+
+	if (!socket.userId || socket.userId !== toUserId || fromUserId === toUserId) {
+		throw new Error('Not authorized to decline this game invitation');
+	}
+
+	const existingGame = await prisma.game.findUnique({ where: { invitationId } });
+	if (existingGame) {
+		throw new Error('This invitation has already been resolved');
+	}
+
+	const invitation = await prisma.message.findUnique({
+		where: { id: invitationId },
+		select: {
+			chatId: true,
+			senderId: true,
+			content: true,
+			type: true,
+			chat: {
+				select: {
+					members: { select: { userId: true } },
+				},
+			},
+		},
+	});
+
+	const participants = invitation?.chat.members.map((member) => member.userId) ?? [];
+	if (
+		!invitation ||
+		invitation.chatId !== chatId ||
+		invitation.senderId !== fromUserId ||
+		invitation.type !== 'invitation' ||
+		invitation.content !== String(boardSize) ||
+		participants.length !== 2 ||
+		!participants.includes(fromUserId) ||
+		!participants.includes(toUserId)
+	) {
+		throw new Error('Game invitation is invalid or no longer available');
+	}
+
+	const declinePayload = {
+		invitationId,
+		chatId,
+		fromUserId,
+		toUserId,
+		boardSize,
+	};
+
+	io.to(`user-${fromUserId}`).emit('game:declined', declinePayload);
+	io.to(`user-${toUserId}`).emit('game:declined', declinePayload);
+}
+
+export async function handleGameClose(
+	io: Server,
+	socket: Socket,
+	payload: gameCloseInput
+): Promise<void> {
+	const game = await getAuthorizedGame(payload.gameId, socket.userId);
+	const closePayload = {
+		gameId: game.id,
+		closedByUserId: socket.userId,
+		players: [game.playerXId, game.playerOId],
+	};
+
+	io.to(`user-${game.playerXId}`).emit('game:closed', closePayload);
+	io.to(`user-${game.playerOId}`).emit('game:closed', closePayload);
 }
 
 export async function handleGameGetState(
