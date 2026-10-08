@@ -1,7 +1,7 @@
 import { prisma } from '../../lib/prisma.js';
 import { NotFoundError } from '../../common/errors.js';
 import FileService  from '../files/files.services.ts';
-import { updateProfilePhoto } from './users.controllers.ts';
+
 class UsersService {
   async getUserById(userId: string) {
     const user = await prisma.user.findUnique({
@@ -12,7 +12,6 @@ class UsersService {
         id: true,
         firstName: true,
         lastName: true,
-        // email: true,
         pseudo: true,
 
         profilePhoto: {
@@ -39,7 +38,6 @@ class UsersService {
         pseudo: true,
         firstName: true,
         lastName: true
-        // email: true,
       },
       take: 20,
     });

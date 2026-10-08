@@ -1,5 +1,4 @@
-import { Navigate, useNavigate } from "react-router-dom";
-import i18n from "../../../localisation/i18n";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../auth/auth-context";
 import "../../scss/footer.scss"

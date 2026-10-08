@@ -13,10 +13,10 @@ import { multerErrorManager } from './modules/files/files.middlewares.ts';
 
 const app = express();
 
-// every requests passed by nginx before express. so express sees nginx ip for everyone.
-// rate-limiter counting by ips, he would consider every user as a single person, 20 requests for 
-// making a research would break the limit and block everyone.
-// that tells to express: 1 proxy ahead. trust the header  X-Forwarded-For for knowing real ip.
+// all requests go through nginx before express, so express sees nginx ip for everyone.
+// rate-limiter counts per IP, it would consider every user as a single person, 20 search requests 
+// would hit the limit and block everyone.
+// this tells express there is 1 proxy in front: trust the X-Forwarded-For header to get the real IP.
 app.set('trust proxy', 1);
 
 

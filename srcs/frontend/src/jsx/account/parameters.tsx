@@ -1,8 +1,6 @@
 import "../../scss/common-classes.scss";
 import "../../scss/parameters.scss";
-import i18n from "../../../localisation/i18n";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import FileImport from "../files/file-import";
 import ErrorMessage from "../others/error-message";
 import { useState, useEffect } from "react";
@@ -128,7 +126,7 @@ function Parameters() {
 									mode="avatar"
 									onUploaded={(fileId) => setAvatar(fileId)}
 									onSelectedChange={setHasCustomFile}
-									inputPlaceHolder="Importer une nouvelle image"
+									inputPlaceHolder={t('common.import-image')}
 								/>
 							}
 

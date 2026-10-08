@@ -2,7 +2,7 @@ import "../../scss/common-classes.scss";
 import "../../scss/profile-page.scss";
 import i18n from "../../../localisation/i18n";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import messageIcon from "../../assets/icons/icon-messages.png";
 import parametersIcon from "../../assets/icons/icon-parameters.png";
@@ -18,7 +18,6 @@ import '../../scss/headers.scss'
 interface User {
 	firstName: string;
 	lastName: string;
-	email: string;
 	pseudo: string;
 	profilePhoto: {
 		id: string;
