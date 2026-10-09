@@ -13,6 +13,7 @@ import { useAuth } from "../auth/auth-context";
 import { useParams } from "react-router-dom";
 import { useApiFetch } from "../auth/use-api-fetch";
 import { useFriendships } from "../friends/useFriendships";
+import PageNotFound from "../others/404-not-found";
 
 interface User {
 	id: string;
@@ -33,12 +34,17 @@ function PersonalPage() {
 	const navigate = useNavigate();
 	const { pseudo } = useParams();
 	const { getStatus } = useFriendships(); 
-
+	const [unfoundable, setUnfoundable] = useState<boolean>(false);
 	useEffect (() => {
 		async function checkProfileOwner(){
+			setUnfoundable(false);
 			if (pseudo !== undefined){
 				const displayedUserInfos = await fetch(`/api/users/${pseudo}`, {credentials: "include"});
 				if (!displayedUserInfos.ok) {
+					if (displayedUserInfos.status === 404){
+						setUnfoundable(true);
+						return ;
+					}
 					setDisplayedUser(null);
 					return;
 				}
@@ -76,8 +82,12 @@ function PersonalPage() {
 
 	const isMine = pseudo === undefined || user?.pseudo === pseudo;
 
+	if (unfoundable)
+		return (<PageNotFound></PageNotFound>)
+
 	if (!displayedUser)
 		return (<p>{t("common.loading")}</p>);
+	
 	return (
 		<>
 			<main className="d-flex flex-column justify-content-center align-items-center">
