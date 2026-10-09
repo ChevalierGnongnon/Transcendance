@@ -28,3 +28,7 @@ export function validate(req: Request, res: Response, next: NextFunction) {
 
   next();
 }
+
+export function notFoundCall(req: Request, res: Response) {
+  return (res.status(404).json({error: 'NOT_FOUND'}))
+}
