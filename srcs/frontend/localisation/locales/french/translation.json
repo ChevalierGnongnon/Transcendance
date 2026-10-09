@@ -119,6 +119,7 @@
     "FETCH_DEFAULT_AVATARS_ERROR": "Les avatars par défaut n'ont pas pu être importés",
     "AVATAR_REQUIRED": "Veuillez choisir ou importer un avatar",
     "INTERNAL_SERVER_ERROR": "Erreur serveur, veuillez réessayer plus tard",
+    "IMPOSSIBLE_LOADING_ACCOUNT": "Impossible de charger votre compte",
     "LOGIN_REQUIRED": "Le nom d'utilisateur est requis.",
     "LOGIN_TOO_LONG": "Le nom d'utilisateur est trop long",
     "FIRST_NAME_REQUIRED": "Le prénom est requis.",

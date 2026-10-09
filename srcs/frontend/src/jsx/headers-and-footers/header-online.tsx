@@ -14,6 +14,7 @@ import { useApiFetch } from "../auth/use-api-fetch";
 import langIcon from "../../assets/icons/lang_icon.png";
 import SearchBar from "../others/search-bar";
 import '../../scss/headers.scss'
+import ErrorMessage from "../others/error-message";
 
 interface User {
 	firstName: string;
@@ -30,19 +31,27 @@ function HeaderOnline() {
 	const { t } = useTranslation();
 	const { logout } = useAuth();
 	const apiFetch = useApiFetch();
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         apiFetch("/api/my-profile", { credentials: "include" })
             .then((res) => {
                 if (!res.ok) {
-                    logout();
+                    if (res.status === 401)
+                        logout();
+                    else
+                        setError('IMPOSSIBLE_LOADING_ACCOUNT');
                     return;
                 }
                 return res.json();
             })
             .then((data) => {
-                if (data) setUser(data);
-        });
+                if (data)
+                    setUser(data);
+            })
+            .catch(
+                () => setError('IMPOSSIBLE_LOADING_ACCOUNT')
+            )
     }, []);
 
 	const navigate = useNavigate();
@@ -50,8 +59,11 @@ function HeaderOnline() {
 		await logout();
 		navigate("/login");
 	};
-    if (!user)
+    if (!user) {
+        if (error !== null)
+            return (<ErrorMessage error={error}></ErrorMessage>)
         return <p>{t('common.loading')}</p>;
+    }
     return (
         <>
             <header className="profile-page-header py-3 px-4">

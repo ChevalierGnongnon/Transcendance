@@ -67,15 +67,20 @@ function PersonalPage() {
 
 	useEffect(() => {
 		async function loadProfile() {
-			const res = await fetch('/api/my-profile', {
-				credentials: "include"
-			});
-			if (!res.ok){
-				await logout();
-				return ;
+			try {
+				const res = await fetch('/api/my-profile', {
+					credentials: "include"
+				});
+				if (!res.ok){
+					if (res.status === 401)
+						await logout();
+					return ;
+				}
+				const data = await res.json();
+				setUser(data);
+			} catch (err) {
+				console.error('my-profile error:', err);
 			}
-			const data = await res.json();
-			setUser(data);
 		}
 		loadProfile();
 	}, []);
