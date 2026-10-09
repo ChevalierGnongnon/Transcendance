@@ -82,4 +82,11 @@ export const registrationValidator = [
     }
     return true;
   }),
+  body('avatar')
+    .optional({ values: 'falsy' })
+    .isString()
+    .withMessage('INVALID_AVATAR')
+    .bail()
+    .isUUID()
+    .withMessage('INVALID_AVATAR'),
 ];
