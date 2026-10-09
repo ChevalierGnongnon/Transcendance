@@ -35,8 +35,8 @@ function HeaderOnline() {
         apiFetch("/api/my-profile", { credentials: "include" })
             .then((res) => {
                 if (!res.ok) {
-                logout();
-                return;
+                    logout();
+                    return;
                 }
                 return res.json();
             })

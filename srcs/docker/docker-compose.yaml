@@ -6,7 +6,7 @@ services:
       - "8443:443"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d/:ro
-      - ../frontend/src/404-page-not-found.html:/usr/share/nginx/html/404-page-not-found.html:ro
+      - ./nginx/404-page-not-found.html:/usr/share/nginx/html/404-page-not-found.html:ro
     networks:
       - transcendance
     env_file:

@@ -1,5 +1,8 @@
 {
   "common": {
+    "page-not-found": "Seite nicht gefunden",
+    "go-back-my-page": "Zurück zu meiner Seite",
+    "go-back-login": "Zurück zur Anmeldung",
     "login": "Anmelden",
     "logout": "Abmelden",
     "password": "Passwort",

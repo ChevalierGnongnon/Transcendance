@@ -19,6 +19,7 @@ import GamePage from "../../game/gomoku/GamePage";
 import FileImport from "../files/file-import";
 import MyStats from "../stats/my-stats";
 import Footer from "../headers-and-footers/footer";
+import PageNotFound from "../others/404-not-found";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -31,13 +32,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/personalpage" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/parameters" element={<RequireAuth><Parameters /></RequireAuth>} />
 					<Route path="/messages" element={<RequireAuth><Messages /></RequireAuth>} />
-					<Route path="/addfriend" element={<RequireAuth><AddFriend /></RequireAuth>} />
+					{/* <Route path="/addfriend" element={<RequireAuth><AddFriend /></RequireAuth>} /> */}
 					<Route path="/mystats" element={<RequireAuth><MyStats /></RequireAuth>} />
 					<Route path="/myfriends" element={<RequireAuth><MyFriends /></RequireAuth>} />
 					<Route path="/profile/:pseudo" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
 					<Route path="/game/gomoku" element={<RequireAuth><GameStart /></RequireAuth>} />
 					<Route path="/game" element={<RequireAuth><GamePage /></RequireAuth>} />
+					<Route path="*" element={<PageNotFound />} />
 				</Routes>
 				<Footer />
 			</AuthProvider>

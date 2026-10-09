@@ -1,5 +1,8 @@
 {
   "common": {
+    "page-not-found": "Сторінку не знайдено",
+    "go-back-my-page": "Повернутися на мою сторінку",
+    "go-back-login": "Повернутися до входу",
     "login": "Вхід",
     "logout": "Вихід",
     "password": "Пароль",
