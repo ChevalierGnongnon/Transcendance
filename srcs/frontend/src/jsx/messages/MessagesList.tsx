@@ -80,6 +80,7 @@ function MessagesList({ me, chatId, messages, otherLastReadMessagesId }: Message
         <ul className="px-3">
           {messages.map((msg, index) => {
             const isRead = lastReadIndex !== -1 && index <= lastReadIndex;
+            const status = msg.status === 'error' ? 'error' : isRead ? 'read' : msg.status;
             return (
               <Message
                 key={msg.id || index}
@@ -88,6 +89,7 @@ function MessagesList({ me, chatId, messages, otherLastReadMessagesId }: Message
                 senderId={msg.sender.id}
                 content={msg.content}
                 type={msg.type}
+                status={status}
                 isRead={isRead}
               />
             );

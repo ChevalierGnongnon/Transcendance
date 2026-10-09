@@ -111,7 +111,8 @@
     "start-chat": "Start chat",
     "go-to-profile": "Go to profile",
     "back": "Back",
-    "info": "Info"
+    "info": "Info",
+    "failed-to-send": "Failed to send. Message will be deleted after the update."
   },
   "friends": {
     "send-friend-request": "Send a friend request",

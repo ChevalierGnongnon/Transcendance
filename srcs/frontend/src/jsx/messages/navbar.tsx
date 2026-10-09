@@ -27,10 +27,10 @@ function NavBar({ activeView, setActiveView }: NavBarProps) {
         <div className="icon-message-message m-2" onClick={() => setActiveView('block')}>
           <img src={blockIcon} alt="block" />
         </div>
-        <span onClick={() => setActiveView('block')}>{t('message.block')}</span>
+        {/*<span onClick={() => setActiveView('block')}>{t('message.block')}</span>
         <div className="icon-message-message m-2" onClick={() => setActiveView('imaginaryfriend')}>
           <img src={geminiIcon} alt="gemini" />
-        </div>
+          </div>*/}
         <span onClick={() => setActiveView('imaginaryfriend')}>
           {t('message.imaginary-friend')}
         </span>

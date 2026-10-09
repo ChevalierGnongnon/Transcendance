@@ -110,7 +110,8 @@
     "start-chat": "Chat starten",
     "go-to-profile": "Zum Profil gehen",
     "back": "Zurück",
-    "info": "Info"
+    "info": "Info",
+    "failed-to-send": "Senden fehlgeschlagen. Die Nachricht wird nach dem Update gelöscht."
   },
   "friends": {
     "send-friend-request": "Freundschaftsanfrage senden",

@@ -25,7 +25,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
     blockedMe: false,
   });
   const chatId = roomProps.chat.chatId;
-  const messages = chatId ? (roomProps.messages.get(chatId) ?? []) : [];
+  const messages = roomProps.messages;
   const [otherLastReadMessagesId, setOtherLastReadMessagesId] = useState<string | null>(
     roomProps.chat.otherlastReadMessagesId
   );
@@ -73,17 +73,23 @@ function ChatRoom(roomProps: ChatRoomProps) {
     const content = fileId ?? messageText.trim();
     const messageType = fileId ? 'file' : 'text';
     const messageToSend: IMessage = {
+      id: crypto.randomUUID(),
       chatId: roomProps.chat.chatId,
       recipientId: roomProps.chat.user.id,
       sender: { id: me.id, profilePhoto: me.profilePhoto },
       content: content,
       type: messageType,
+      status: 'sending',
     };
+
+    roomProps.onAddMessage(messageToSend);
 
     socket.emit('new-chat-message', messageToSend, (res: any) => {
       if (res.ok) {
         console.log(JSON.stringify(res));
-        roomProps.onAddMessage(res.data);
+        roomProps.onUpdateMessage(res.data, 'sent');
+      } else {
+        roomProps.onUpdateMessage(messageToSend, 'error');
       }
     });
 
@@ -134,7 +140,6 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
   useEffect(() => {
     const handleUserReadMessages = (data: { chatId: string; messageId: string | null }) => {
-      console.log('Received last-read-message event:', data);
       setOtherLastReadMessagesId((prev) =>
         roomProps.chat.chatId === data.chatId ? data.messageId : prev
       );

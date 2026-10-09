@@ -110,7 +110,8 @@
     "start-chat": "Démarrer la chat",
     "go-to-profile": "Aller au profil",
     "back": "Retour",
-    "info": "Info"
+    "info": "Info",
+    "failed-to-send": "Échec de l'envoi. Le message sera supprimé après la mise à jour."
   },
   "friends": {
     "send-friend-request": "Envoyer une demande d'ami",

@@ -20,11 +20,13 @@ export interface IMessage {
   recipientId?: string;
   sender: {
     id: string;
+    pseudo?: string;
     profilePhoto: { name: string; id: string };
   };
   content: string;
   type: MessageType;
   createdAt?: string;
+  status?: MessageStatus;
 }
 
 export interface MessageProps {
@@ -35,7 +37,7 @@ export interface MessageProps {
   senderId: string;
   type: MessageType;
   isRead?: boolean;
-  // status?: MessageStatus;
+  status?: MessageStatus;
 }
 
 export interface IChatPreview {
@@ -57,8 +59,10 @@ export interface ChatRoomProps {
   me: User;
   chat: IChatPreview;
   setActiveView: (view: ActiveView) => void;
-  messages: Map<string, IMessage[]>;
+  // messages: Map<string, IMessage[]>;
+  messages: IMessage[];
   onAddMessage: (message: IMessage) => void;
+  onUpdateMessage: (message: IMessage, status: MessageStatus) => void;
   updateLastReadMessageId: (chatId: string, messageId: string | null) => void;
   otherLastReadMessagesId: string | null;
 }

@@ -3,8 +3,9 @@ import type { MessageProps } from './types.js';
 import { socket } from './socket.js';
 import { useEffect, useState } from 'react';
 import ErrorMessage from '../others/error-message.js';
+// import { Route } from 'react-router-dom';
 
-const previewable = ['image/png', 'image/webp', 'image/jpeg', 'image/gif', 'application/pdf'];
+// const previewable = ['image/png', 'image/webp', 'image/jpeg', 'image/gif', 'application/pdf'];
 
 export const Message = (props: MessageProps) => {
   const { t } = useTranslation();
@@ -65,13 +66,19 @@ export const Message = (props: MessageProps) => {
               className={`${isOwnMessage ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
             >
               {props.content}
+              {isOwnMessage && props.status === 'error' && (
+                <div className="d-flex message-error card p-1 m-1 border-danger bg-light text-start">
+                  <span className="text-danger fw-bold">{t('message.failed-to-send')}</span>
+                </div>
+              )}
+
               {isOwnMessage && (
                 <div className="message-status-badge">
-                  {props.isRead ? (
+                  {props.status === 'read' ? (
                     <span className="status-icon read">✓✓</span>
-                  ) : (
+                  ) : props.status === 'sent' ? (
                     <span className="status-icon sent">✓</span>
-                  )}
+                  ) : null}
                 </div>
               )}
             </div>

@@ -3,14 +3,14 @@ import '../../scss/messages.scss';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
+import { socket } from './socket.js';
 import ChatRoom from './ChatRoom';
 import NavBar from './navbar';
 import NewChat from './new-chat';
 import Block from './block';
 import ChatList from './ChatList';
-import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
-import { ActiveView, IChatPreview, IMessage } from './types';
+import { ActiveView, IChatPreview, IMessage, MessageStatus } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
 import { useSocketConnection } from './hooks/useSocketConnection';
 
@@ -101,30 +101,44 @@ function Messages() {
 
   useEffect(() => {
     const handleNewMessage = async (newMessage: IMessage) => {
-      const chatId = newMessage.chatId;
-      const messageId = newMessage.id;
-      console.log('Received new message:', newMessage);
-      console.log('ActiveChatId:', activeChat?.chatId);
+      // const chatId = newMessage.chatId;
+      // const messageId = newMessage.id;
+      const { chatId, id: messageId, sender } = newMessage;
+      console.log(JSON.stringify(newMessage));
+      console.log(chatId);
+      console.log(sender);
+      // console.log('Received new message:', newMessage);
+      // console.log('ActiveChatId:', activeChat?.chatId);
 
       try {
         if (!chatId || !messageId) throw new Error('Bad message');
 
-        const newChat = {
-          chatId: chatId,
-          user: newMessage.sender,
-          mylastReadMessagesId: null,
-          unreadCount: 0,
-        };
+        // const newChat = {
+        //   chatId: chatId,
+        //   user: newMessage.sender,
+        //   mylastReadMessagesId: null,
+        //   unreadCount: 0,
+        // };
         setChatList((prev) => {
           const exist = prev.some((m) => m.chatId === chatId);
-          return exist ? prev : [newChat, ...prev];
+          if (exist) return prev;
+          return [
+            {
+              chatId: chatId,
+              user: sender,
+              pseudo: sender.pseudo ?? 'Unknown',
+              mylastReadMessagesId: null,
+              unreadCount: 0,
+            },
+            ...prev,
+          ];
         });
 
         addMessage(newMessage);
 
-        if (activeChat && chatId === activeChat.chatId) {
-          updateLastReadMessageId(chatId, messageId);
-        }
+        // if (activeChat && chatId === activeChat.chatId) {
+        //   updateLastReadMessageId(chatId, messageId);
+        // }
       } catch (error) {
         console.error('Failed to handle new messages', error);
       }
@@ -135,7 +149,19 @@ function Messages() {
     return () => {
       socket.off('new-chat-message', handleNewMessage);
     };
-  }, [chatList, allMessages, activeChat]);
+  }, []);
+
+  useEffect(() => {
+    if (activeChat) {
+      const messages = allMessages.get(activeChat.chatId) ?? [];
+      if (messages.length > 0) {
+        const lastMessageId = messages[messages.length - 1].id;
+        if (lastMessageId) {
+          updateLastReadMessageId(activeChat.chatId, lastMessageId);
+        }
+      }
+    }
+  }, [activeChat, allMessages]);
 
   const addMessage = useCallback((newMessage: IMessage) => {
     setAllMessages((prev) => {
@@ -143,6 +169,23 @@ function Messages() {
 
       const currentMessages = next.get(newMessage.chatId) ?? [];
       next.set(newMessage.chatId, [...currentMessages, newMessage]);
+
+      return next;
+    });
+  }, []);
+
+  const updateMessage = useCallback((message: IMessage, status: MessageStatus) => {
+    console.log('Call updateMessage with status: ', status);
+    setAllMessages((prev) => {
+      const next = new Map(prev);
+      const messages = next.get(message.chatId) ?? [];
+
+      const index = messages.findIndex((m) => m.id === message.id);
+      if (index === -1) return prev;
+
+      const updated = [...messages];
+      updated[index] = { ...updated[index], status: status };
+      next.set(message.chatId, updated);
 
       return next;
     });
@@ -167,10 +210,6 @@ function Messages() {
     });
   };
 
-  useEffect(() => {
-    console.log('setActiveChat', activeChat?.chatId, activeChat?.user.pseudo);
-  }, [activeChat]);
-
   if (!me) {
     return <div>Something went wrong. Please try again later.</div>;
   }
@@ -193,8 +232,9 @@ function Messages() {
             me={me}
             chat={activeChat}
             setActiveView={setActiveView}
-            messages={allMessages}
+            messages={allMessages.get(activeChat.chatId) ?? []}
             onAddMessage={addMessage}
+            onUpdateMessage={updateMessage}
             updateLastReadMessageId={updateLastReadMessageId}
             otherLastReadMessagesId={activeChat.otherlastReadMessagesId}
           />
@@ -206,7 +246,7 @@ function Messages() {
             setChatList={setChatList}
           />
         )}
-        {activeView === 'block' && <Block />}
+        {/*{activeView === 'block' && <Block />}*/}
         {activeView === 'imaginaryfriend'}
       </div>
     </>
