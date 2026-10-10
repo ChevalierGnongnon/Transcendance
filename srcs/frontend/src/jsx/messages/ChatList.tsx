@@ -2,8 +2,8 @@ import { useTranslation } from 'react-i18next';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
-import { ChatItem } from './ChatItem';
-import { ChatListProps, IChatPreview, IMessage, User } from './types';
+import ChatItem from './ChatItem';
+import type { ChatListProps } from './types';
 
 function ChatList(props: ChatListProps) {
   const { t } = useTranslation();

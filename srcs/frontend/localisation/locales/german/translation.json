@@ -87,7 +87,8 @@
     "game-invite": "Sie wurden zu einer Partie Gomoku eingeladen",
     "board-size": "Spielfeldgröße: {{size}}",
     "accept": "Annehmen",
-    "decline": "Ablehnen"
+    "decline": "Ablehnen",
+    "failed-to-send": "Senden fehlgeschlagen. Die Nachricht wird nach dem Update gelöscht."
   },
   "friends": {
     "send-friend-request": "Freundschaftsanfrage senden",

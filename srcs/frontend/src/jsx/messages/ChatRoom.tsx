@@ -9,6 +9,7 @@ import { socket } from './socket';
 import type { IMessage, ChatRoomProps, MessageType } from './types.js';
 import MessagesList from './MessagesList';
 import { useAuth } from '../auth/auth-context';
+import ChatRoomHeader from './ChatRoomHeader';
 
 function ChatRoom(roomProps: ChatRoomProps) {
   const { t } = useTranslation();
@@ -24,7 +25,10 @@ function ChatRoom(roomProps: ChatRoomProps) {
     blockedMe: false,
   });
   const chatId = roomProps.chat.chatId;
-  const messages = chatId ? (roomProps.messages.get(chatId) ?? []) : [];
+  const messages = roomProps.messages;
+  const [otherLastReadMessagesId, setOtherLastReadMessagesId] = useState<string | null>(
+    roomProps.chat.otherlastReadMessagesId
+  );
 
   const loadRelationship = useCallback(async () => {
     const userId = roomProps.chat?.user?.id;
@@ -52,10 +56,11 @@ function ChatRoom(roomProps: ChatRoomProps) {
     loadRelationship();
   }, [loadRelationship]);
 
+  // Check
   useEffect(() => {
     if (messages.length > 0) {
       const lastMessageId = messages[messages.length - 1].id ?? null;
-      const lastMessageIdinChat = roomProps.chat.lastReadMessagesId;
+      const lastMessageIdinChat = roomProps.chat.mylastReadMessagesId;
       if (lastMessageId !== lastMessageIdinChat) {
         roomProps.updateLastReadMessageId(roomProps.chat.chatId, lastMessageId);
       }
@@ -69,15 +74,24 @@ function ChatRoom(roomProps: ChatRoomProps) {
     const content = fileId ?? messageText.trim();
     const messageType = fileId ? 'file' : 'text';
     const messageToSend: IMessage = {
+      id: crypto.randomUUID(),
       chatId: roomProps.chat.chatId,
       recipientId: roomProps.chat.user.id,
       sender: { id: me.id, profilePhoto: me.profilePhoto },
       content: content,
       type: messageType,
+      status: 'sending',
     };
 
-    socket.emit('new-chat-message', messageToSend);
     roomProps.onAddMessage(messageToSend);
+
+    socket.emit('new-chat-message', messageToSend, (res: any) => {
+      if (res.ok) {
+        roomProps.onUpdateMessage(res.data, 'sent');
+      } else {
+        roomProps.onUpdateMessage(messageToSend, 'error');
+      }
+    });
 
     setMessageText('');
   };
@@ -101,29 +115,34 @@ function ChatRoom(roomProps: ChatRoomProps) {
     }
   };
 
+  useEffect(() => {
+    const handleUserReadMessages = (data: { chatId: string; messageId: string | null }) => {
+      setOtherLastReadMessagesId((prev) =>
+        roomProps.chat.chatId === data.chatId ? data.messageId : prev
+      );
+    };
+
+    socket.on('chat:last-read-message', handleUserReadMessages);
+    return () => {
+      socket.off('chat:last-read-message', handleUserReadMessages);
+    };
+  }, []);
+
   return (
     <>
       <div className="chat-list chat-list-right my-2">
-        <div className="chat-header fs-1 d-flex align-items-center justify-content-between px-3">
-          <button
-            className="btn btn-link text-secondary fs-6 text-decoration-none p-0"
-            onClick={() => {
-              roomProps.setActiveView('chats');
-            }}
-          >
-            {t('message.back')}
-          </button>
-          <div>{roomProps.chat.user.pseudo}</div>
-          <button
-            className="btn btn-link text-secondary fs-6 text-decoration-none p-0"
-            onClick={() => {
-              navigate(`/profile/${roomProps.chat.user.pseudo}`);
-            }}
-          >
-            {t('message.go-to-profile')}
-          </button>
-        </div>
-        <MessagesList me={me} chatId={roomProps.chat.chatId} messages={messages} />
+        <ChatRoomHeader
+          pseudo={roomProps.chat.user.pseudo}
+          onSetActiveView={roomProps.setActiveView}
+        />
+
+        <MessagesList
+          me={me}
+          chatId={roomProps.chat.chatId}
+          messages={messages}
+          otherLastReadMessagesId={otherLastReadMessagesId}
+        />
+
         {relationship.blockedByMe ? (
           <div className="input-group group-new-message my-3 mt-auto">
             <input
@@ -141,6 +160,8 @@ function ChatRoom(roomProps: ChatRoomProps) {
             value={messageText}
             onChange={setMessageText}
             onSend={handleSendMessage}
+            // onAddMessage
+            // onUpdateMessage
           />
         )}
       </div>

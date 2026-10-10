@@ -4,8 +4,19 @@ import { prisma } from '@/lib/prisma.js';
 import type { newMessageInput } from '../schemas.js';
 
 export async function handleMessages(socket: Socket, payload: newMessageInput) {
-  const { chatId, recipientId, sender, content, type } = payload;
+  const { id, chatId, recipientId, sender, content, type } = payload;
   try {
+    const isblocked = await prisma.block.findFirst({
+      where: {
+        OR: [
+          { blockerId: sender.id, blockedId: payload.recipientId },
+          { blockerId: payload.recipientId, blockedId: sender.id },
+        ],
+      },
+    });
+
+    if (isblocked) return;
+
     const chat = await prisma.chat.findFirst({
       where: {
         id: chatId,
@@ -19,9 +30,10 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
     });
 
     if (!chat) throw new Error('Chat not found or access denied');
+    // throw new Error();
 
     const savedMessage = await prisma.message.create({
-      data: { chatId, senderId: sender.id, content, type },
+      data: { id, chatId, senderId: sender.id, content, type },
       select: {
         id: true,
         chatId: true,
@@ -45,21 +57,14 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
 
     if (!savedMessage) throw new Error('Can not save message');
 
+    await new Promise((resolve) => setTimeout(resolve, 5000)); // for test
+
     socket.to(`user-${recipientId}`).emit('new-chat-message', savedMessage);
 
-    return 'Message saved and send to recipient';
+    return savedMessage;
   } catch (error) {
     console.error('Error save message', error);
 
     throw new Error('Error sending message, save in DB');
-
-    // return {
-    //   ok: false,
-    //   data: {
-    //     event: 'new-chat-message',
-    //     code: 'DB_SAVE_ERROR',
-    //     message: 'Error sending message, save in DB',
-    //   },
-    // };
   }
 }

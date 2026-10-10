@@ -3,27 +3,10 @@ import { useTranslation } from 'react-i18next';
 
 import '../../scss/messages.scss';
 import { socket } from './socket';
-import { IChatPreview, ActiveView } from './types';
 import SearchBar from '../others/search-bar';
+import { SearchResult, newChatProps } from './types';
 
-interface SearchResult {
-  id: string;
-  firstName: string;
-  lastName: string;
-  pseudo: string;
-  profilePhoto: {
-    id: string;
-    name: string;
-  };
-}
-
-export interface nProps {
-  setActiveView: (view: ActiveView) => void;
-  setActiveChat: (chat: IChatPreview | null) => void;
-  setChatList: (chatList: IChatPreview[]) => void;
-}
-
-function NewChat({ setActiveChat, setActiveView, setChatList }: nProps) {
+function NewChat({ setActiveChat, setActiveView, setChatList }: newChatProps) {
   const { t } = useTranslation();
 
   const [user, setUser] = useState<SearchResult | null>(null);
@@ -56,13 +39,12 @@ function NewChat({ setActiveChat, setActiveView, setChatList }: nProps) {
       <h3>{t('message.search-user')} : </h3>
       <SearchBar
         ClassName="search-bar"
-        PlaceHolder={t('common.search')}
+        PlaceHolder={t('common.find-user')}
         ListClassName="header-search-results"
         BreakPoint={768}
         onSelectUser={(user) => {
           setUser(user);
         }}
-        PlaceHolder={t('common.find-user')}
       />
       {user && (
         <div className="row g-4 justify-content-center shortcut-grid">
