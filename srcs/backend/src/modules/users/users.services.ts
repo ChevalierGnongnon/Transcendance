@@ -148,45 +148,75 @@ class UsersService {
     return (res);
   }
   async updateLastName(userId: string, newLastName: string){
-    await prisma.user.update({ 
-      where: { 
+    const userToUpdate = await prisma.user.findUnique({
+      where:{
         id: userId,
       },
-      data: { 
-        lastName: newLastName,
-      },
+      select:{
+        lastName:true
+      }
     })
+    if (!userToUpdate)
+      throw new NotFoundError('ACCOUNT_NOT_FOUND');
+    if (userToUpdate.lastName !== newLastName){
+      await prisma.user.update({ 
+        where: { 
+          id: userId,
+        },
+        data: { 
+          lastName: newLastName,
+        },
+      })
+    }
+   
   }
 
   async updateFirstName(userId: string, newFirstName: string){
-    await prisma.user.update({ 
-      where: { 
+    const userToUpdate = await prisma.user.findUnique({
+      where:{
         id: userId,
       },
-      data: { 
-        firstName: newFirstName,
-      },
+      select:{
+        firstName:true
+      }
     })
+    if (!userToUpdate)
+      throw new NotFoundError('ACCOUNT_NOT_FOUND');
+    if (userToUpdate.firstName !== newFirstName){
+      await prisma.user.update({ 
+        where: { 
+          id: userId,
+        },
+        data: { 
+          firstName: newFirstName,
+        },
+      })
+    }
   }
 
   async updatePseudo(userId: string, newPseudo: string){
     const res = await prisma.user.findUnique({
       where:{
         pseudo: newPseudo,
+      },
+      select:{
+        id: true,
       }
     })
     if (!res){
-      await prisma.user.update({ 
-        where: { 
+      await prisma.user.update({
+        where: {
           id: userId,
         },
-        data: { 
+        data: {
           pseudo: newPseudo,
         },
       })
+      return ;
     }
-    else
+    if (res.id !== userId)
       throw new Error('PSEUDO_EXISTS');
+      
   }
 }
 
