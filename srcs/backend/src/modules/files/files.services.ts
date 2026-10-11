@@ -51,10 +51,15 @@ class FileService {
             profilePhotoId: true,
           },
         });
-        const result = await sharp(fileBuffer).toFormat('webp').toBuffer();
+        let result: Buffer;
+        try{
+          result = await sharp(fileBuffer).toFormat('webp').toBuffer();
+
+        } catch (err){
+          throw new UnsupportedFileTypeError('CORRUPTED_IMAGE');
+        }
         const id = randomUUID();
         const fileName = `${id}.webp`;
-
         fs.writeFileSync(`/app/uploads/${fileName}`, result);
 
         await prisma.$transaction([
@@ -81,7 +86,7 @@ class FileService {
           try {
             await this.deleteFile(previousUser.profilePhotoId, userId);
           } catch (err) {
-            // best-effort: ignore (ex: ancien avatar par défaut)
+            
           }
         }
         return id;
@@ -91,7 +96,11 @@ class FileService {
         const expiredDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
         if (avatarWhiteList.includes(fileType.mime) || fileType.mime === 'image/gif') {
-          bufferToWrite = await sharp(fileBuffer).toFormat('webp').toBuffer();
+          try {
+            bufferToWrite = await sharp(fileBuffer).toFormat('webp').toBuffer();
+          } catch {
+            throw new UnsupportedFileTypeError('CORRUPTED_IMAGE');
+          }
           extension = 'webp';
         }
 

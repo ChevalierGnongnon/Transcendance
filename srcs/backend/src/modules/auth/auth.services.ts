@@ -98,7 +98,17 @@ class authService {
     });
 
     if (userData.fileBuffer){
-      await FileService.createFile(userData.fileBuffer, newUser.id, 'profile_photo');
+      try{
+        await FileService.createFile(userData.fileBuffer, newUser.id, 'profile_photo');
+      } catch (err) {
+        await prisma.user.delete({
+          where:{
+            id: newUser.id,
+          }
+        })
+        throw err;
+      
+      }
     }
 
     const accessToken = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET!, {
