@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useRef } from "react";
+import { useAuth } from "../auth/auth-context";
 import ErrorMessage from "../others/error-message";
 import "../../scss/files.scss"
 interface FileImportComponent{
@@ -38,7 +39,7 @@ function FileImport(fileImportComponent: FileImportComponent){
     const [uploadProgress, setUploadProgress] = useState<number>(0)
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [confirmed, setConfirmed] = useState(false);
-
+    const {markDisconnected} = useAuth();
     return (
         <div className="file_component p-2 d-flex flex-column">
             <input
@@ -157,11 +158,12 @@ function FileImport(fileImportComponent: FileImportComponent){
                                 fileImportComponent.onUploaded(id.file_id);
                                 
                             }
-                            // setPreviewURL(null);
                             setErrorMessage(null);
                             setUploadProgress(0);
                             setConfirmed(false);
                         }
+                        else if (request.status === 401)
+                            markDisconnected();
                         else {
                             try{
                                 const error = JSON.parse(request.responseText);
@@ -178,8 +180,10 @@ function FileImport(fileImportComponent: FileImportComponent){
 
                     }
                     request.upload.onprogress = (event) =>{
-                        let progress = (event.loaded / event.total) * 100;
-                        setUploadProgress(progress);
+                        if (event.lengthComputable === true){
+                            let progress = (event.loaded / event.total) * 100;
+                            setUploadProgress(progress);
+                        }   
                     }
                     request.onerror = () => {
                         setErrorMessage('DATABASE_ERROR');

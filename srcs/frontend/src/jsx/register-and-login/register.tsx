@@ -74,9 +74,11 @@ function Register() {
 				}
 			}
 			response.upload.onprogress = (event)=>{
-				const progress = (event.loaded / event.total) * 100;
-				setUploadProgress(progress);
-			}
+				if (event.lengthComputable === true){
+					let progress = (event.loaded / event.total) * 100;
+					setUploadProgress(progress);
+				}   
+	}
 			response.onerror = () => {
 				setError('DATABASE_ERROR');
 			};
