@@ -102,7 +102,7 @@ function HeaderOnline() {
                         ListClassName="header-search-results"
                         BreakPoint={768}
                         onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
-                    ></SearchBar>   
+                    />
                 </section>
                 <section className="d-xl-none header-middle">
                     <SearchBar

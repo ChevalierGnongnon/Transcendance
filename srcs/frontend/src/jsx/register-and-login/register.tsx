@@ -52,19 +52,19 @@ function Register() {
 				if (avatar)
 					formData.append('avatar', avatar);
 			}
-			const response = new XMLHttpRequest();
-			response.open('POST', '/api/register');
-			response.onload = () =>{
-				if (response.status === 201){
+			const request = new XMLHttpRequest();
+			request.open('POST', '/api/register');
+			request.onload = () =>{
+				if (request.status === 201){
 					login();
 					navigate('/personalpage')
 				}
 				else {
 					try{
-						const error = JSON.parse(response.responseText);
+						const error = JSON.parse(request.responseText);
 						setError(error?.error ?? 'INTERNAL_SERVER_ERROR');
 					} catch {
-						if (response.status === 413)
+						if (request.status === 413)
 							setError('INVALID_FILE_SIZE')
 						else
 							setError('DATABASE_ERROR');
@@ -73,16 +73,16 @@ function Register() {
 					
 				}
 			}
-			response.upload.onprogress = (event)=>{
+			request.upload.onprogress = (event)=>{
 				if (event.lengthComputable === true){
 					let progress = (event.loaded / event.total) * 100;
 					setUploadProgress(progress);
 				}   
 	}
-			response.onerror = () => {
+			request.onerror = () => {
 				setError('DATABASE_ERROR');
 			};
-			response.send(formData);
+			request.send(formData);
 		} catch (err) {
 			setError('DATABASE_ERROR');
 		}

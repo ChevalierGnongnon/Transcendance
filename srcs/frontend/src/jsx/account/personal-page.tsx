@@ -35,19 +35,19 @@ function PersonalPage() {
 	const navigate = useNavigate();
 	const { pseudo } = useParams();
 	const { getStatus } = useFriendships(); 
-	const [unfoundable, setUnfoundable] = useState<boolean>(false);
+	const [notFound, setNotFound] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect (() => {
 		async function checkProfileOwner(){
-			setUnfoundable(false);
+			setNotFound(false);
 			setError(null);
 			try{
 				if (pseudo !== undefined){
 					const displayedUserInfos = await fetch(`/api/users/${pseudo}`, {credentials: "include"});
 					if (!displayedUserInfos.ok) {
 						if (displayedUserInfos.status === 404){
-							setUnfoundable(true);
+							setNotFound(true);
 							return ;
 						}
 						setDisplayedUser(null);
@@ -98,7 +98,7 @@ function PersonalPage() {
 
 	const isMine = pseudo === undefined || user?.pseudo === pseudo;
 
-	if (unfoundable)
+	if (notFound)
 		return (<PageNotFound></PageNotFound>)
 
 	if (!displayedUser){

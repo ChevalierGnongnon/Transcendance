@@ -45,7 +45,7 @@ export function AuthProvider({children}:{children:ReactNode}){
         }
     }, [isAuthenticated])
 
-    // To handle deconnexion in all tabs if one logged out 
+    // To handle logout in all tabs if one logged out 
     useEffect(() => {
         window.addEventListener('storage', refresh)
         return () => window.removeEventListener('storage', refresh);
@@ -76,7 +76,7 @@ export function AuthProvider({children}:{children:ReactNode}){
         setIsAuthenticated(true);
     }
 
-    // When user disconnects himself volontarly (clicks on logout)
+    // When user disconnects himself volontarily (clicks on logout)
     const logout = async() => {
         await fetch('/api/logout', {
             method: 'POST',
@@ -96,7 +96,7 @@ export function AuthProvider({children}:{children:ReactNode}){
     }
 
     return (
-        //returns value + usefull functions
+        //returns value + useful functions
         <context.Provider value={{ isAuthenticated, login, logout, markDisconnected, refresh, onlineFriends }}>
             {children}
         </context.Provider>

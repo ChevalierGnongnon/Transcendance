@@ -46,10 +46,10 @@ class UsersService {
     }
     return users;
   }
-  async updateProfilePhoto(UserId: string, FileId: string){
+  async updateProfilePhoto(userId: string, fileId: string){
     const oldPpId = await prisma.user.findUnique({
       where:{
-        id: UserId,
+        id: userId,
       },
       select: {
         profilePhotoId: true,
@@ -57,7 +57,7 @@ class UsersService {
     })
     const checkNewFileId = await prisma.file.findUnique({
       where:{
-        id: FileId,
+        id: fileId,
       }
     });
 
@@ -67,16 +67,16 @@ class UsersService {
     
     await prisma.user.update({ 
       where: { 
-        id: UserId
+        id: userId
       },
       data: { 
-        profilePhotoId: FileId
+        profilePhotoId: fileId
       }
     })
   
     if (oldPpId?.profilePhotoId){
       try {
-        await FileService.deleteFile(oldPpId.profilePhotoId, UserId);
+        await FileService.deleteFile(oldPpId.profilePhotoId, userId);
       } catch (err) {
 
       }

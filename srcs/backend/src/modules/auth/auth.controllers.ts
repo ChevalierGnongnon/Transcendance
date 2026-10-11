@@ -7,9 +7,9 @@ import { UnsupportedFileTypeError } from '../../common/errors.js';
 export async function login(req: Request, res: Response) {
   try {
     const { login, password } = req.body;
-    const AuthPayload = await authService.login(login, password);
+    const authPayload = await authService.login(login, password);
 
-    res.cookie('token', AuthPayload.token, {
+    res.cookie('token', authPayload.token, {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',

@@ -76,7 +76,8 @@ export function validate(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
-//Only for files since we can download (default_avatar) files when register, don't use it anywhere else then in this situation
+// Only for files since we can download (default_avatar)
+// files when register, don't use it anywhere else than in this situation
 export function attachUserIfPresent(req: Request, res: Response, next:NextFunction){
   const token = req.cookies.token;
 

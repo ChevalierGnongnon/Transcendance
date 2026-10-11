@@ -27,7 +27,7 @@ class authService {
     const passwordValid = await bcrypt.compare(password, user.passwordHash);
 
     if (!passwordValid) {
-      throw new NotFoundError('Passwod not correct');
+      throw new NotFoundError('Password not correct');
     }
     const token = jwt.sign(
       {

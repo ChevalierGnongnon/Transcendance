@@ -2,12 +2,12 @@ import type { Request, Response, NextFunction } from 'express';
 import rateLimiter from 'express-rate-limit';
 import { validationResult } from 'express-validator';
 
-export function RateLimiter(time: number, trys: number, message: string, skipIfSuccessfull = false) {
+export function RateLimiter(time: number, tries: number, message: string, skipIfSuccessful = false) {
   const limiter = rateLimiter({
     windowMs: time * 60 * 1000,
-    max: trys,
+    max: tries,
     message: { error: message },
-    skipSuccessfulRequests: skipIfSuccessfull
+    skipSuccessfulRequests: skipIfSuccessful
   });
   return limiter;
 }
