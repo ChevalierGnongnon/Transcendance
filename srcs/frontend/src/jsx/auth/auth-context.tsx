@@ -56,7 +56,11 @@ export function AuthProvider({children}:{children:ReactNode}){
             setOnlineFriends(data.onlineFriends);
         }
         function handleUserOnline(data: {userId: string}){
-            setOnlineFriends(prev => [...prev, data.userId]);
+            setOnlineFriends(prev => {
+                if (prev.includes(data.userId))
+                    return (prev);
+                return [...prev, data.userId];
+            });
         }
 
         function handleUserOffline(data: {userId: string}){
