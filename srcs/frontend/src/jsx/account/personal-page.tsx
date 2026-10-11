@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { useApiFetch } from "../auth/use-api-fetch";
 import { useFriendships } from "../friends/useFriendships";
 import PageNotFound from "../others/404-not-found";
+import ErrorMessage from "../others/error-message";
 
 interface User {
 	id: string;
@@ -35,32 +36,42 @@ function PersonalPage() {
 	const { pseudo } = useParams();
 	const { getStatus } = useFriendships(); 
 	const [unfoundable, setUnfoundable] = useState<boolean>(false);
+	const [error, setError] = useState<string | null>(null);
+
 	useEffect (() => {
 		async function checkProfileOwner(){
 			setUnfoundable(false);
-			if (pseudo !== undefined){
-				const displayedUserInfos = await fetch(`/api/users/${pseudo}`, {credentials: "include"});
-				if (!displayedUserInfos.ok) {
-					if (displayedUserInfos.status === 404){
-						setUnfoundable(true);
-						return ;
+			setError(null);
+			try{
+				if (pseudo !== undefined){
+					const displayedUserInfos = await fetch(`/api/users/${pseudo}`, {credentials: "include"});
+					if (!displayedUserInfos.ok) {
+						if (displayedUserInfos.status === 404){
+							setUnfoundable(true);
+							return ;
+						}
+						setDisplayedUser(null);
+						setError('IMPOSSIBLE_LOADING_ACCOUNT')
+						return;
 					}
-					setDisplayedUser(null);
-					return;
+					const data = await displayedUserInfos.json();
+					setDisplayedUser(data);
 				}
-				const data = await displayedUserInfos.json();
-				setDisplayedUser(data);
-			}
-			else {
-				const res = await fetch('/api/my-profile', { credentials: "include" });
-				if (!res.ok) {
-					setDisplayedUser(null);
-					return;
+				else {
+					const res = await fetch('/api/my-profile', { credentials: "include" });
+					if (!res.ok) {
+						setDisplayedUser(null);
+						setError('IMPOSSIBLE_LOADING_ACCOUNT');
+						return;
+					}
+					const data = await res.json();
+					setDisplayedUser(data);
 				}
-				const data = await res.json();
-				setDisplayedUser(data);
+			} catch (err) {
+				console.error('my-profile error:', err);
+				setDisplayedUser(null);
+				setError('IMPOSSIBLE_LOADING_ACCOUNT');
 			}
-
 		}
 		checkProfileOwner();
 	}, [pseudo])
@@ -90,9 +101,13 @@ function PersonalPage() {
 	if (unfoundable)
 		return (<PageNotFound></PageNotFound>)
 
-	if (!displayedUser)
-		return (<p>{t("common.loading")}</p>);
-	
+	if (!displayedUser){
+		if (error === null)
+			return (<p>{t("common.loading")}</p>);
+		else
+			return(<ErrorMessage error={error}></ErrorMessage>)
+	}
+
 	return (
 		<>
 			<main className="d-flex flex-column justify-content-center align-items-center">

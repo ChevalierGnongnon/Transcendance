@@ -43,7 +43,7 @@ function HeaderOnline() {
                         setError('IMPOSSIBLE_LOADING_ACCOUNT');
                     return;
                 }
-                return res.json();
+                return (res.json());
             })
             .then((data) => {
                 if (data)
@@ -62,7 +62,7 @@ function HeaderOnline() {
     if (!user) {
         if (error !== null)
             return (<ErrorMessage error={error}></ErrorMessage>)
-        return <p>{t('common.loading')}</p>;
+        return (<p>{t('common.loading')}</p>);
     }
     return (
         <>
