@@ -2,8 +2,11 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import { prisma } from '../../lib/prisma.js';
-import { NotFoundError } from '../../common/errors.js';
+import { NotFoundError, UnsupportedFileTypeError } from '../../common/errors.js';
 import FileService from '../files/files.services.ts'
+import { fileTypeFromBuffer } from 'file-type';
+import { avatarWhiteList } from '../files/files.middlewares.ts';
+
 
 class authService {
   async login(login: string, password: string) {
@@ -75,6 +78,11 @@ class authService {
       if (!checkNewFileId || checkNewFileId.type !== 'default_avatar') {
         throw new Error('INVALID_AVATAR');
       }
+    }
+    if (userData.fileBuffer !== undefined){
+      const type = await fileTypeFromBuffer(userData.fileBuffer);
+      if (type === undefined || !avatarWhiteList.includes(type.mime))
+        throw new UnsupportedFileTypeError('WRONG_FILE_TYPE');
     }
     const password_hash = await bcrypt.hash(password, 12);
      const newUser = await prisma.user.create({

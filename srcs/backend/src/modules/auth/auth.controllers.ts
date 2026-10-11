@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import { Prisma } from '@/generated/prisma/client.js';
 import authService from './auth.services.ts';
 import { NotFoundError } from '../../common/errors.js';
+import { UnsupportedFileTypeError } from '../../common/errors.js';
 
 export async function login(req: Request, res: Response) {
   try {
@@ -85,7 +86,10 @@ export async function register(req: Request, res: Response) {
       return (res.status(409).json({ error: 'PSEUDO_EXISTS' }));
     }
     if (error.message === 'INVALID_AVATAR'){
-      return (res.status(400).json({error: 'INVALID_AVATAR'}));
+      return (res.status(400).json({ error: 'INVALID_AVATAR'}));
+    }
+    if (error instanceof UnsupportedFileTypeError){
+      return (res.status(415).json({ error: 'WRONG_FILE_TYPE'}));
     }
     else {
       return (res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' }));
