@@ -21,9 +21,14 @@ function Messages() {
   const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
   const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
   const [loadingChats, setLoadingChats] = useState(false);
-  const [loadingMessages, setLoadingMessages] = useState(false);
   const [chatList, setChatList] = useState<IChatPreview[]>([]);
   const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    if (activeChat && activeView === 'chats') {
+      setActiveChat(null);
+    }
+  }, [activeView]);
 
   useEffect(() => {
     let cancelled = false;
@@ -137,7 +142,9 @@ function Messages() {
     if (activeChat) {
       const messages = allMessages.get(activeChat.chatId) ?? [];
       if (messages.length > 0) {
-        const lastMessageId = messages[messages.length - 1].id;
+        const lastMessage = messages[messages.length - 1];
+        if (lastMessage.sender.id === me?.id) return;
+        const lastMessageId = lastMessage?.id;
         if (lastMessageId) {
           updateLastReadMessageId(activeChat.chatId, lastMessageId);
         }
@@ -173,6 +180,7 @@ function Messages() {
   }, []);
 
   const updateLastReadMessageId = (chatId: string, messageId: string | null) => {
+    console.log('Call updateLastReadMessageId');
     setChatList((prev) =>
       prev.map((chat) =>
         chat.chatId === chatId
@@ -185,6 +193,34 @@ function Messages() {
     );
 
     socket.emit('last-read-message', { chatId, userId: me?.id, messageId });
+  };
+
+  useEffect(() => {
+    const handleUserReadMessages = (data: { chatId: string; messageId: string | null }) => {
+      if (!data.chatId || !data.messageId) return;
+
+      setChatList((prev) =>
+        prev.map((chat) =>
+          chat.chatId === data.chatId
+            ? {
+                ...chat,
+                otherlastReadMessagesId: data.messageId,
+              }
+            : chat
+        )
+      );
+    };
+
+    socket.on('chat:last-read-message', handleUserReadMessages);
+    return () => {
+      socket.off('chat:last-read-message', handleUserReadMessages);
+    };
+  }, []);
+
+  const getLastReadMessageId = () => {
+    const chat = chatList.find((c) => c.chatId === activeChat.chatId);
+    const id = chat?.otherlastReadMessagesId;
+    return id;
   };
 
   if (!me) {
@@ -209,11 +245,11 @@ function Messages() {
             me={me}
             chat={activeChat}
             setActiveView={setActiveView}
+            setChatList={setChatList}
             messages={allMessages.get(activeChat.chatId) ?? []}
             onAddMessage={addMessage}
             onUpdateMessage={updateMessage}
-            updateLastReadMessageId={updateLastReadMessageId}
-            otherLastReadMessagesId={activeChat.otherlastReadMessagesId}
+            otherLastReadMessagesId={getLastReadMessageId()}
           />
         )}
         {activeView === 'new message' && (

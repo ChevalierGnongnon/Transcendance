@@ -4,19 +4,21 @@ import { useNavigate } from 'react-router-dom';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
-import MessageInput from './MessageInput';
 import { socket } from './socket';
-import type { IMessage, ChatRoomProps, MessageType } from './types.js';
-import MessagesList from './MessagesList';
 import { useAuth } from '../auth/auth-context';
+import MessageInput from './MessageInput';
+import MessagesList from './MessagesList';
 import ChatRoomHeader from './ChatRoomHeader';
+import type { IMessage, ChatRoomProps, MessageType } from './types.js';
+import ChatRoomFooter from './ChatRoomFooter';
 
 function ChatRoom(roomProps: ChatRoomProps) {
+  console.log('Render ChatRoom');
+  console.log(roomProps.otherLastReadMessagesId);
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { logout } = useAuth();
-  const [messageText, setMessageText] = useState<string>('');
-  const me = roomProps.me;
+  // const [messageText, setMessageText] = useState<string>('');
   const [relationship, setRelationship] = useState({
     isFriend: false,
     requestSent: false,
@@ -24,11 +26,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
     blockedByMe: false,
     blockedMe: false,
   });
-  const chatId = roomProps.chat.chatId;
-  const messages = roomProps.messages;
-  const [otherLastReadMessagesId, setOtherLastReadMessagesId] = useState<string | null>(
-    roomProps.chat.otherlastReadMessagesId
-  );
+  const { me, chat, messages, onAddMessage, onUpdateMessage, otherLastReadMessagesId } = roomProps;
 
   const loadRelationship = useCallback(async () => {
     const userId = roomProps.chat?.user?.id;
@@ -50,83 +48,59 @@ function ChatRoom(roomProps: ChatRoomProps) {
     } catch (e) {
       console.error('Error get relationship', e);
     }
-  }, [roomProps.chat?.user?.id, logout]);
+  }, [chat?.user?.id, logout]);
 
   useEffect(() => {
     loadRelationship();
   }, [loadRelationship]);
 
-  // Check
-  useEffect(() => {
-    if (messages.length > 0) {
-      const lastMessageId = messages[messages.length - 1].id ?? null;
-      const lastMessageIdinChat = roomProps.chat.mylastReadMessagesId;
-      if (lastMessageId !== lastMessageIdinChat) {
-        roomProps.updateLastReadMessageId(roomProps.chat.chatId, lastMessageId);
-      }
-    }
-  }, [roomProps.chat?.chatId]);
-
-  const handleSendMessage = (fileId?: string) => {
-    if (!socket?.connected) return;
-    if (!fileId && !messageText.trim()) return;
-
-    const content = fileId ?? messageText.trim();
-    const messageType = fileId ? 'file' : 'text';
-    const messageToSend: IMessage = {
-      id: crypto.randomUUID(),
-      chatId: roomProps.chat.chatId,
-      recipientId: roomProps.chat.user.id,
-      sender: { id: me.id, profilePhoto: me.profilePhoto },
-      content: content,
-      type: messageType,
-      status: 'sending',
-    };
-
-    roomProps.onAddMessage(messageToSend);
-
-    socket.emit('new-chat-message', messageToSend, (res: any) => {
-      if (res.ok) {
-        roomProps.onUpdateMessage(res.data, 'sent');
-      } else {
-        roomProps.onUpdateMessage(messageToSend, 'error');
-      }
-    });
-
-    setMessageText('');
-  };
-
-  const unBlockUser = async (userId: string) => {
-    try {
-      const res = await fetch(`/api/social/blocks/${userId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-
-      if (res.status === 401) {
-        logout();
-        throw new Error('Unauthorized, logging out...');
-      }
-      if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-
-      await loadRelationship();
-    } catch (e) {
-      console.error('Error unBlockUser', e);
-    }
-  };
-
-  useEffect(() => {
-    const handleUserReadMessages = (data: { chatId: string; messageId: string | null }) => {
-      setOtherLastReadMessagesId((prev) =>
-        roomProps.chat.chatId === data.chatId ? data.messageId : prev
-      );
-    };
-
-    socket.on('chat:last-read-message', handleUserReadMessages);
-    return () => {
-      socket.off('chat:last-read-message', handleUserReadMessages);
-    };
-  }, []);
+  //   const handleSendMessage = (fileId?: string) => {
+  //     if (!socket?.connected) return;
+  //     if (!fileId && !messageText.trim()) return;
+  //
+  //     const content = fileId ?? messageText.trim();
+  //     const messageType = fileId ? 'file' : 'text';
+  //     const messageToSend: IMessage = {
+  //       id: crypto.randomUUID(),
+  //       chatId: roomProps.chat.chatId,
+  //       recipientId: roomProps.chat.user.id,
+  //       sender: { id: me.id, profilePhoto: me.profilePhoto },
+  //       content: content,
+  //       type: messageType,
+  //       status: 'sending',
+  //     };
+  //
+  //     roomProps.onAddMessage(messageToSend);
+  //
+  //     socket.emit('new-chat-message', messageToSend, (res: any) => {
+  //       if (res.ok) {
+  //         roomProps.onUpdateMessage(res.data, 'sent');
+  //       } else {
+  //         roomProps.onUpdateMessage(messageToSend, 'error');
+  //       }
+  //     });
+  //
+  //     setMessageText('');
+  //   };
+  //
+  //   const unBlockUser = async (userId: string) => {
+  //     try {
+  //       const res = await fetch(`/api/social/blocks/${userId}`, {
+  //         method: 'DELETE',
+  //         credentials: 'include',
+  //       });
+  //
+  //       if (res.status === 401) {
+  //         logout();
+  //         throw new Error('Unauthorized, logging out...');
+  //       }
+  //       if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+  //
+  //       await loadRelationship();
+  //     } catch (e) {
+  //       console.error('Error unBlockUser', e);
+  //     }
+  //   };
 
   return (
     <>
@@ -138,12 +112,22 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
         <MessagesList
           me={me}
-          chatId={roomProps.chat.chatId}
+          chatId={chat.chatId}
           messages={messages}
           otherLastReadMessagesId={otherLastReadMessagesId}
         />
 
-        {relationship.blockedByMe ? (
+        <ChatRoomFooter
+          chatId={chat.chatId}
+          userId={chat.user.id}
+          sender={me}
+          isBlocked={relationship.blockedByMe}
+          onAddMessage={onAddMessage}
+          onUpdateMessage={onUpdateMessage}
+          onLoadRelationship={loadRelationship}
+        />
+
+        {/*{relationship.blockedByMe ? (
           <div className="input-group group-new-message my-3 mt-auto">
             <input
               type="button"
@@ -156,14 +140,14 @@ function ChatRoom(roomProps: ChatRoomProps) {
           </div>
         ) : (
           <MessageInput
-            chatId={roomProps.chat.chatId}
+            chatId={chat.chatId}
             value={messageText}
             onChange={setMessageText}
             onSend={handleSendMessage}
             // onAddMessage
             // onUpdateMessage
           />
-        )}
+        )}*/}
       </div>
     </>
   );

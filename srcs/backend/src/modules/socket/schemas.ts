@@ -7,6 +7,7 @@ export const messageSchema = z.object({
   sender: z.object({
     id: z.uuid(),
     profilePhoto: z.object({
+      id: z.uuid(),
       name: z.string(),
     }),
   }),
