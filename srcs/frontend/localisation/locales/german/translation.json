@@ -120,6 +120,8 @@
     "IMPOSSIBLE_LOADING_ACCOUNT": "Ihr Konto konnte nicht geladen werden",
     "LOGIN_REQUIRED": "Benutzername ist erforderlich.",
     "LOGIN_TOO_LONG": "Benutzername ist zu lang",
+    "LOGIN_INVALID": "Ungültiger Benutzername",
+    "PASSWORD_INVALID": "Ungültiges Passwort",
     "USER_NOT_FOUND": "Kein Benutzer mit diesen Anmeldeinformationen gefunden",
     "INVALID_CREDENTIALS": "Ungültige Anmeldedaten",
     "FIRST_NAME_REQUIRED": "Vorname ist erforderlich.",

@@ -120,6 +120,8 @@
     "IMPOSSIBLE_LOADING_ACCOUNT": "Unable to load your account",
     "LOGIN_REQUIRED": "Login is required.",
     "LOGIN_TOO_LONG": "Login is too long",
+    "LOGIN_INVALID": "Invalid login",
+    "PASSWORD_INVALID": "Invalid password",
     "USER_NOT_FOUND": "No user found with these credentials",
     "INVALID_CREDENTIALS": "Invalid credentials",
     "FIRST_NAME_REQUIRED": "First name is required.",

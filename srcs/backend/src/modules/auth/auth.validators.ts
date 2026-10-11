@@ -2,16 +2,23 @@ import { body } from 'express-validator';
 
 export const loginValidator = [
   body('login')
+    .isString()
+    .withMessage('LOGIN_INVALID')
+    .bail()
     .trim()
     .notEmpty()
     .withMessage('LOGIN_REQUIRED')
     .isLength({ max: 255 })
     .withMessage('LOGIN_TOO_LONG'),
   body('password')
+    .isString()
+    .withMessage('PASSWORD_INVALID')
+    .bail()
+    .customSanitizer((value) => (typeof value === 'string' ? value.normalize('NFKC') : value))
     .notEmpty()
     .withMessage('PASSWORD_REQUIRED')
-    .isLength({ max: 255 })
-    .withMessage('PASSWORD_TOO_LONG'),
+    .isLength({ max: 64 })
+    .withMessage('PASSWORD_TOO_LONG')
 ];
 
 export const registrationValidator = [
@@ -35,13 +42,17 @@ export const registrationValidator = [
     .isEmail()
     .withMessage('EMAIL_INVALID'),
   body('password')
+    .customSanitizer((value) => (typeof value === 'string' ? value.normalize('NFKC') : value))
     .notEmpty()
-    .withMessage('PASSWORD_WEAK')
-    .isLength({ max: 255 })
+    .withMessage('PASSWORD_REQUIRED')
+    // reduced from 255 to 64 because bcrypt only takes 72 octets
+    // (a-z: 1 octet, non-ascii: could be more:
+    // (accents / cyrillic: 2, emojis: 4))
+    .isLength({ max: 64 })
     .withMessage('PASSWORD_TOO_LONG')
     .matches(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{12,}$/)
     .withMessage('PASSWORD_WEAK'),
-  body('passwordVerify').custom((value, { req }) => {
+  body('passwordVerify').customSanitizer((value) => (typeof value === 'string' ? value.normalize('NFKC') : value)).custom((value, { req }) => {
     if (value !== req.body.password) {
       throw new Error('PASSWORDS_DO_NOT_MATCH');
     }

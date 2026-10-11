@@ -122,6 +122,8 @@
     "IMPOSSIBLE_LOADING_ACCOUNT": "Impossible de charger votre compte",
     "LOGIN_REQUIRED": "Le nom d'utilisateur est requis.",
     "LOGIN_TOO_LONG": "Le nom d'utilisateur est trop long",
+    "LOGIN_INVALID": "Identifiant invalide",
+    "PASSWORD_INVALID": "Mot de passe invalide",
     "FIRST_NAME_REQUIRED": "Le prénom est requis.",
     "FIRST_NAME_TOO_LONG": "Le prénom est trop long",
     "PASSWORD_REQUIRED": "Le mot de passe est requis",

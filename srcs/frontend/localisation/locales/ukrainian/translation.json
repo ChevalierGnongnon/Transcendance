@@ -120,6 +120,8 @@
     "IMPOSSIBLE_LOADING_ACCOUNT": "Не вдалося завантажити ваш обліковий запис",
     "LOGIN_REQUIRED": "Логін є обов'язковим.",
     "LOGIN_TOO_LONG": "Логін занадто довгий",
+    "LOGIN_INVALID": "Недійсний логін",
+    "PASSWORD_INVALID": "Недійсний пароль",
     "USER_NOT_FOUND": "Користувача з цими даними не знайдено",
     "INVALID_CREDENTIALS": "Невірні облікові дані",
     "FIRST_NAME_REQUIRED": "Ім'я є обов'язковим.",

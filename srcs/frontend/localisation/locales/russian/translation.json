@@ -120,6 +120,8 @@
     "IMPOSSIBLE_LOADING_ACCOUNT": "Не удалось загрузить ваш аккаунт",
     "LOGIN_REQUIRED": "Логин обязателен.",
     "LOGIN_TOO_LONG": "Логин слишком длинный",
+    "LOGIN_INVALID": "Недопустимый логин",
+    "PASSWORD_INVALID": "Недопустимый пароль",
     "USER_NOT_FOUND": "Пользователь с этими данными не найден",
     "INVALID_CREDENTIALS": "Неверные учётные данные",
     "FIRST_NAME_REQUIRED": "Имя обязательно.",
