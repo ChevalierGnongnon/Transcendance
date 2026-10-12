@@ -26,6 +26,12 @@ export const startNewChatSchema = z.object({
   recipientId: z.uuid(),
 });
 
+export const typingMessageSchema = z.object({
+  chatId: z.uuid(),
+  to: z.uuid(),
+});
+
 export type newMessageInput = z.infer<typeof messageSchema>;
 export type lastReadInput = z.infer<typeof lastReadSchema>;
 export type startNewChat = z.infer<typeof startNewChatSchema>;
+export type typingMessage = z.infer<typeof typingMessageSchema>;

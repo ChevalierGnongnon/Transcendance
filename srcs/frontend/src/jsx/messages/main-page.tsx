@@ -178,7 +178,6 @@ function Messages() {
   }, []);
 
   const updateLastReadMessageId = (chatId: string, messageId: string | null) => {
-    console.log('Call updateLastReadMessageId');
     setChatList((prev) =>
       prev.map((chat) =>
         chat.chatId === chatId
