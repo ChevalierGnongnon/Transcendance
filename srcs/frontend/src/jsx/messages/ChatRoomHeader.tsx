@@ -2,20 +2,50 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-// import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 import { socket } from './socket';
 import type { ActiveView } from './types';
 import { Ban, CircleUserRound, CircleX, UserRoundPen } from 'lucide-react';
+import { useAuth } from '../auth/auth-context';
 
 export interface ChatRoomHeader {
+  chatId: string;
+  userId: string;
   pseudo: string;
   onSetActiveView: (view: ActiveView) => void;
+  onLoadRelationship: () => Promise<void>;
 }
 
-function ChatRoomHeader({ pseudo, onSetActiveView }: ChatRoomHeader) {
+function ChatRoomHeader({
+  chatId,
+  userId,
+  pseudo,
+  onSetActiveView,
+  onLoadRelationship,
+}: ChatRoomHeader) {
   const { t } = useTranslation();
+  const { logout } = useAuth();
   const navigate = useNavigate();
+
+  const blockUser = async (userId: string) => {
+    try {
+      const res = await fetch(`/api/social/blocks/${userId}`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (res.status === 401) {
+        logout();
+        throw new Error('Unauthorized, logging out...');
+      }
+      console.log(res);
+      if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+
+      await onLoadRelationship();
+    } catch (e) {
+      console.error('Error unBlockUser', e);
+    }
+  };
 
   return (
     <>
@@ -36,7 +66,7 @@ function ChatRoomHeader({ pseudo, onSetActiveView }: ChatRoomHeader) {
             className="btn btn-link text-secondary fs-6 text-decoration-none p-0"
             title={t('message.block')}
             onClick={() => {
-              navigate(`/profile/${pseudo}`);
+              blockUser(userId);
             }}
           >
             <Ban size={32} />

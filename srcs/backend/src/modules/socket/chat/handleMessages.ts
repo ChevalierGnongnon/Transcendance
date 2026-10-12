@@ -15,7 +15,7 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
       },
     });
 
-    if (isblocked) return;
+    if (isblocked) throw new Error('You are blocked');
 
     const chat = await prisma.chat.findFirst({
       where: {
@@ -30,7 +30,6 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
     });
 
     if (!chat) throw new Error('Chat not found or access denied');
-    // throw new Error();
 
     const savedMessage = await prisma.message.create({
       data: { id, chatId, senderId: sender.id, content, type },
@@ -56,8 +55,6 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
     });
 
     if (!savedMessage) throw new Error('Can not save message');
-
-    // await new Promise((resolve) => setTimeout(resolve, 5000)); // for test
 
     socket.to(`user-${recipientId}`).emit('new-chat-message', savedMessage);
 

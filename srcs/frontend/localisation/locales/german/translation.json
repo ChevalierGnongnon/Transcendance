@@ -88,7 +88,8 @@
     "board-size": "Spielfeldgröße: {{size}}",
     "accept": "Annehmen",
     "decline": "Ablehnen",
-    "failed-to-send": "Senden fehlgeschlagen. Die Nachricht wird nach dem Update gelöscht."
+    "failed-to-send": "Senden fehlgeschlagen. Die Nachricht wird nach dem Update gelöscht.",
+    "you-are-blocked": "Sie wurden blockiert"
   },
   "friends": {
     "send-friend-request": "Freundschaftsanfrage senden",

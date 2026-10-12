@@ -1,25 +1,16 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
-import { socket } from './socket';
 import { useAuth } from '../auth/auth-context';
-import MessageInput from './MessageInput';
 import MessagesList from './MessagesList';
 import ChatRoomHeader from './ChatRoomHeader';
-import type { IMessage, ChatRoomProps, MessageType } from './types.js';
 import ChatRoomFooter from './ChatRoomFooter';
+import type { ChatRoomProps, Relationship } from './types.js';
 
 function ChatRoom(roomProps: ChatRoomProps) {
-  console.log('Render ChatRoom');
-  console.log(roomProps.otherLastReadMessagesId);
-  const { t } = useTranslation();
-  // const navigate = useNavigate();
   const { logout } = useAuth();
-  // const [messageText, setMessageText] = useState<string>('');
-  const [relationship, setRelationship] = useState({
+  const [relationship, setRelationship] = useState<Relationship>({
     isFriend: false,
     requestSent: false,
     requestReceived: false,
@@ -54,60 +45,15 @@ function ChatRoom(roomProps: ChatRoomProps) {
     loadRelationship();
   }, [loadRelationship]);
 
-  //   const handleSendMessage = (fileId?: string) => {
-  //     if (!socket?.connected) return;
-  //     if (!fileId && !messageText.trim()) return;
-  //
-  //     const content = fileId ?? messageText.trim();
-  //     const messageType = fileId ? 'file' : 'text';
-  //     const messageToSend: IMessage = {
-  //       id: crypto.randomUUID(),
-  //       chatId: roomProps.chat.chatId,
-  //       recipientId: roomProps.chat.user.id,
-  //       sender: { id: me.id, profilePhoto: me.profilePhoto },
-  //       content: content,
-  //       type: messageType,
-  //       status: 'sending',
-  //     };
-  //
-  //     roomProps.onAddMessage(messageToSend);
-  //
-  //     socket.emit('new-chat-message', messageToSend, (res: any) => {
-  //       if (res.ok) {
-  //         roomProps.onUpdateMessage(res.data, 'sent');
-  //       } else {
-  //         roomProps.onUpdateMessage(messageToSend, 'error');
-  //       }
-  //     });
-  //
-  //     setMessageText('');
-  //   };
-  //
-  //   const unBlockUser = async (userId: string) => {
-  //     try {
-  //       const res = await fetch(`/api/social/blocks/${userId}`, {
-  //         method: 'DELETE',
-  //         credentials: 'include',
-  //       });
-  //
-  //       if (res.status === 401) {
-  //         logout();
-  //         throw new Error('Unauthorized, logging out...');
-  //       }
-  //       if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-  //
-  //       await loadRelationship();
-  //     } catch (e) {
-  //       console.error('Error unBlockUser', e);
-  //     }
-  //   };
-
   return (
     <>
       <div className="chat-list chat-list-right my-2">
         <ChatRoomHeader
-          pseudo={roomProps.chat.user.pseudo}
+          chatId={chat.chatId}
+          userId={chat.user.id}
+          pseudo={chat.user.pseudo}
           onSetActiveView={roomProps.setActiveView}
+          onLoadRelationship={loadRelationship}
         />
 
         <MessagesList
@@ -121,33 +67,11 @@ function ChatRoom(roomProps: ChatRoomProps) {
           chatId={chat.chatId}
           userId={chat.user.id}
           sender={me}
-          isBlocked={relationship.blockedByMe}
+          relationship={relationship}
           onAddMessage={onAddMessage}
           onUpdateMessage={onUpdateMessage}
           onLoadRelationship={loadRelationship}
         />
-
-        {/*{relationship.blockedByMe ? (
-          <div className="input-group group-new-message my-3 mt-auto">
-            <input
-              type="button"
-              value={t('friends.unblock')}
-              className="accept-button px-2"
-              onClick={() => {
-                unBlockUser(roomProps.chat.user.id);
-              }}
-            />
-          </div>
-        ) : (
-          <MessageInput
-            chatId={chat.chatId}
-            value={messageText}
-            onChange={setMessageText}
-            onSend={handleSendMessage}
-            // onAddMessage
-            // onUpdateMessage
-          />
-        )}*/}
       </div>
     </>
   );

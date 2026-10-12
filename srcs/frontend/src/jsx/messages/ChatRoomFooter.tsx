@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import '../../scss/common-classes.scss';
 import { socket } from './socket';
 import { useAuth } from '../auth/auth-context';
-import type { IMessage, MessageStatus, User } from './types';
 import MessageInput from './MessageInput';
+import type { IMessage, MessageStatus, User, Relationship } from './types';
 
 interface ChatRoomFooterProps {
   chatId: string;
   userId: string;
   sender: User;
-  isBlocked: boolean;
+  relationship: Relationship;
   onAddMessage: (message: IMessage) => void;
   onUpdateMessage: (message: IMessage, status: MessageStatus) => void;
   onLoadRelationship: () => Promise<void>;
@@ -20,7 +21,7 @@ function ChatRoomFooter({
   chatId,
   userId,
   sender,
-  isBlocked,
+  relationship,
   onAddMessage,
   onUpdateMessage,
   onLoadRelationship,
@@ -78,18 +79,26 @@ function ChatRoomFooter({
     }
   };
 
-  if (isBlocked) {
+  if (relationship.blockedByMe || relationship.blockedMe) {
     return (
-      <div className="input-group group-new-message my-3 mt-auto">
-        <input
-          type="button"
-          value={t('friends.unblock')}
-          className="accept-button px-2"
-          onClick={() => {
-            unBlockUser(userId);
-          }}
-        />
-      </div>
+      <>
+        {relationship.blockedByMe && (
+          <div className="input-group group-new-message my-3 mt-auto">
+            <input
+              type="button"
+              value={t('friends.unblock')}
+              className="accept-button px-2"
+              onClick={() => {
+                unBlockUser(userId);
+              }}
+            />
+          </div>
+        )}
+
+        {relationship.blockedMe && (
+          <div className="alert alert-danger error-message">{t('message.you-are-blocked')}</div>
+        )}
+      </>
     );
   }
 

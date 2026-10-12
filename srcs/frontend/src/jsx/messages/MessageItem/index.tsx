@@ -7,7 +7,6 @@ import MessageFileItem from './MessageFileItem';
 import MessageInvitationItem from './MessageInvitationItem';
 
 function Message(props: MessageProps) {
-  const { t } = useTranslation();
   const fileId = props.type === 'file' ? props.content : '';
   const isOwnMessage = props.senderId === props.userId;
 
@@ -44,11 +43,6 @@ function Message(props: MessageProps) {
           className={`${isOwnMessage ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
         >
           {renderContent()}
-          {/*{props.type === 'text' && props.content}*/}
-
-          {/*{props.type === 'invitation' && <MessageInvitationItem content={props.content} />}*/}
-
-          {/*{props.type === 'file' && <MessageFileItem fileId={fileId} isOwnMessage={isOwnMessage} />}*/}
 
           <MessageStatus status={props.status} isOwnMessage={isOwnMessage} />
         </div>

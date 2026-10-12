@@ -88,7 +88,8 @@
     "board-size": "Board size: {{size}}",
     "accept": "Accept",
     "decline": "Decline",
-    "failed-to-send": "Failed to send. Message will be deleted after the update."
+    "failed-to-send": "Failed to send. Message will be deleted after the update.",
+    "you-are-blocked": "You are blocked"
   },
   "friends": {
     "send-friend-request": "Send a friend request",

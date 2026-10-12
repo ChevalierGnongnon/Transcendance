@@ -1,6 +1,13 @@
 export type ActiveView = 'chats' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
 export type MessageType = 'text' | 'invitation' | 'file';
 export type MessageStatus = 'sending' | 'sent' | 'read' | 'error';
+export type Relationship = {
+  isFriend: false;
+  requestSent: false;
+  requestReceived: false;
+  blockedByMe: false;
+  blockedMe: false;
+};
 
 export interface User {
   id: string;
