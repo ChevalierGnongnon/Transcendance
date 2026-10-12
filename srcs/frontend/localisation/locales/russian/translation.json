@@ -113,7 +113,7 @@
   "errors": {
     "INVALID_TOKEN": "Недействительная сессия",
     "DATABASE_ERROR": "Ошибка сервера, попробуйте позже",
-    "WRONG_FILE_TYPE": "Неверный тип файла (только: png, jpg, jpeg или webp)",
+    "WRONG_FILE_TYPE": "Неверный тип файла",
     "FETCH_DEFAULT_AVATARS_ERROR": "Не удалось загрузить аватары по умолчанию",
     "AVATAR_REQUIRED": "Пожалуйста, выберите или загрузите аватар",
     "INTERNAL_SERVER_ERROR": "Ошибка сервера, пожалуйста, попробуйте позже",

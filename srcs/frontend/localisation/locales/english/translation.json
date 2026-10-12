@@ -113,7 +113,7 @@
   "errors": {
     "INVALID_TOKEN": "Invalid session",
     "DATABASE_ERROR": "Server error, please try again later",
-    "WRONG_FILE_TYPE": "Bad file type (only: png, jpg, jpeg or webp)",
+    "WRONG_FILE_TYPE": "Bad file type",
     "FETCH_DEFAULT_AVATARS_ERROR": "Failed to fetch default avatars",
     "AVATAR_REQUIRED": "Please choose or upload an avatar",
     "INTERNAL_SERVER_ERROR": "Server error, please try again later",
