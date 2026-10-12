@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import FileImport from "../files/file-import";
 import ErrorMessage from "../others/error-message";
 import { useState, useEffect } from "react";
+import { useApiFetch } from "../auth/use-api-fetch";
 
 interface DefaultAvatar {
 	id: string;
@@ -12,6 +13,7 @@ interface DefaultAvatar {
 
 function Parameters() {
 	const { t } = useTranslation();
+	const apiFetch = useApiFetch();
 	const [avatarError, setAvatarError] = useState<string | null>(null);
 	const [accountError, setAccountError] = useState<string | null>(null);
 	const [defaultAvatars, setDefaultAvatars] = useState<DefaultAvatar[]>([]);
@@ -26,7 +28,7 @@ function Parameters() {
 
 	const manageAvatarUpdate = async () => {
 		try {
-			const response = await fetch("/api/my-profile/avatar", {
+			const response = await apiFetch("/api/my-profile/avatar", {
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -50,7 +52,7 @@ function Parameters() {
 			if (lastName) body.last_name = lastName;
 			if (pseudo) body.pseudo = pseudo;
 
-			const response = await fetch("/api/my-profile", {
+			const response = await apiFetch("/api/my-profile", {
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
