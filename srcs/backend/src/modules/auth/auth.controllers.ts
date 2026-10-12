@@ -1,8 +1,14 @@
-import type { Request, Response } from 'express';
+import type { Request, Response, CookieOptions } from 'express';
 import { Prisma } from '@/generated/prisma/client.js';
 import authService from './auth.services.ts';
 import { NotFoundError } from '../../common/errors.js';
 import { UnsupportedFileTypeError } from '../../common/errors.js';
+
+const cookieOptions : CookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'strict',
+};
 
 export async function login(req: Request, res: Response) {
   try {
@@ -10,10 +16,8 @@ export async function login(req: Request, res: Response) {
     const authPayload = await authService.login(login, password);
 
     res.cookie('token', authPayload.token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      ...cookieOptions,
+      maxAge:  24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({ success: true });
@@ -29,11 +33,7 @@ export async function login(req: Request, res: Response) {
 }
 
 export function logout(_req: Request, res: Response) {
-  res.clearCookie('token', {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'strict',
-  });
+  res.clearCookie('token', cookieOptions)
 
   return res.status(200).json({
     authenticated: false,
@@ -59,10 +59,8 @@ export async function register(req: Request, res: Response) {
       fileBuffer: req.file?.buffer,
     });
     res.cookie('token', token.accessToken, {
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
+      maxAge:  24 * 60 * 60 * 1000,
+      ...cookieOptions,
     });
 
     return res.status(201).json({ success: true });

@@ -6,7 +6,13 @@ import { NotFoundError, UnsupportedFileTypeError } from '../../common/errors.js'
 import FileService from '../files/files.services.ts'
 import { fileTypeFromBuffer } from 'file-type';
 import { avatarWhiteList } from '../files/files.middlewares.ts';
+import { userInfo } from 'os';
 
+
+function createToken(userId: string){
+  const token = jwt.sign({ userId: userId }, process.env.JWT_SECRET!, {expiresIn: 24 * 60 * 60});
+  return (token);
+}
 
 class authService {
   async login(login: string, password: string) {
@@ -29,15 +35,7 @@ class authService {
     if (!passwordValid) {
       throw new NotFoundError('Password not correct');
     }
-    const token = jwt.sign(
-      {
-        userId: user.id,
-      },
-      process.env.JWT_SECRET!,
-      {
-        expiresIn: '24h',
-      }
-    );
+    const token = createToken(user.id);
     return {
       token,
       userId: user.id,
@@ -111,9 +109,7 @@ class authService {
       }
     }
 
-    const accessToken = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET!, {
-      expiresIn: '24h',
-    });
+    const accessToken = createToken(newUser.id);
 
     const { passwordHash, ...userWithoutPassword } = newUser;
 
