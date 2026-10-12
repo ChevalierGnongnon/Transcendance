@@ -97,7 +97,7 @@ class FileService {
 
         if (avatarWhiteList.includes(fileType.mime) || fileType.mime === 'image/gif') {
           try {
-            bufferToWrite = await sharp(fileBuffer).toFormat('webp').toBuffer();
+            bufferToWrite = await sharp(fileBuffer, {animated: true}).toFormat('webp').toBuffer();
           } catch {
             throw new UnsupportedFileTypeError('CORRUPTED_IMAGE');
           }
