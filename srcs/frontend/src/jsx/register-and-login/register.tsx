@@ -86,9 +86,15 @@ function Register() {
 	}
 	useEffect(() => {
 			fetch('/api/default-avatars')
-				.then(res => res.json())
-				.then((data: DefaultAvatar[]) => setDefaultAvatars(data))
-				.catch(() => setError('FETCH_DEFAULT_AVATARS_ERROR'));
+			.then(res =>{
+				if (!res.ok){
+					throw new Error('FETCH_DEFAULT_AVATARS_ERROR')
+				}
+				return (res.json());
+			} )
+			.then((data: DefaultAvatar[]) => setDefaultAvatars(data))
+			.catch(() => setError('FETCH_DEFAULT_AVATARS_ERROR'));
+			
 	}, []);
 
 	return (
