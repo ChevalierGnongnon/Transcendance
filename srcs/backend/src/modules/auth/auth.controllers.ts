@@ -26,7 +26,8 @@ export async function login(req: Request, res: Response) {
       return res.status(401).json({ error: 'INVALID_CREDENTIALS' });
     }
 
-    return res.status(500).json({
+    console.error('login error: ', error)
+    return (res.status(500).json)({
       error: 'INTERNAL_SERVER_ERROR',
     });
   }
@@ -90,7 +91,9 @@ export async function register(req: Request, res: Response) {
       return (res.status(415).json({ error: 'WRONG_FILE_TYPE'}));
     }
     else {
+      console.error('register error: ', error)
       return (res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' }));
+
     }
   }
 }

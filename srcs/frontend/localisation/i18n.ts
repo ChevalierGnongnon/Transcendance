@@ -22,4 +22,12 @@ i18n.use(initReactI18next).init({
     fallbackLng: 'en',
 });
 
+function updateHTMLLang(lang: string){
+    document.documentElement.lang = lang;
+}
+
+i18n.on('languageChanged', updateHTMLLang);
+
+updateHTMLLang(i18n.language);
+
 export default i18n;
