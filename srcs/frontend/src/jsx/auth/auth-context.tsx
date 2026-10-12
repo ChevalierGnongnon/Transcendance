@@ -31,6 +31,8 @@ export function AuthProvider({children}:{children:ReactNode}){
         .catch(() => setIsAuthenticated(false));
     }
 
+    
+
     // useEffect: used to trigger checkauth() one time, when the app is starting.
     // [] at the end is for "trigger it once, never restarted after"
     useEffect(() => {
@@ -48,8 +50,12 @@ export function AuthProvider({children}:{children:ReactNode}){
 
     // To handle logout in all tabs if one logged out 
     useEffect(() => {
-        window.addEventListener('storage', refresh)
-        return () => window.removeEventListener('storage', refresh);
+        function listenToStorage(event: StorageEvent){
+            if (event.key === 'auth-sync')
+                refresh();
+        }
+        window.addEventListener('storage', listenToStorage)
+        return () => window.removeEventListener('storage', listenToStorage);
     }, [])
 
     useEffect(() => {
