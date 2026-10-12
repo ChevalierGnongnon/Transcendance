@@ -18,9 +18,7 @@ export const validateChatRequest = [
         .notEmpty()
         .withMessage("message cannot be empty")
         .isLength({ max: MAX_MESSAGE_LENGTH })
-        .withMessage(
-            `message must not exceed ${MAX_MESSAGE_LENGTH} characters`
-        ),
+        .withMessage(`message must not exceed ${MAX_MESSAGE_LENGTH} characters`),
 
     (req: Request, res: Response, next: NextFunction) => {
         const errors = validationResult(req);
