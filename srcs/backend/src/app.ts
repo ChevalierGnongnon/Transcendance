@@ -9,8 +9,7 @@ import filesRoutes from './modules/files/files.routes.js';
 import chatRoutes from './modules/chat/chat.routes.js';
 import socialRoutes from './modules/social/social.routes.ts';
 import healthRouter from './modules/health.js';
-import { multerErrorManager } from './modules/files/files.middlewares.ts';
-import { notFoundCall } from './common/common-middlewares.ts';
+import { errorManager, notFoundCall} from './common/common-middlewares.ts';
 
 const app = express();
 
@@ -32,7 +31,7 @@ app.use('/api', healthRouter);
 app.use('/api', chatRoutes);
 app.use('/api', socialRoutes);
 app.use(notFoundCall);
-app.use(multerErrorManager)
+app.use(errorManager)
 
 export default app;
  

@@ -51,6 +51,8 @@ function FileImport(fileImportComponent: FileImportComponent){
                 placeholder={fileImportComponent.inputPlaceHolder}
                 onChange={
                     (e)=>{
+                        if (previewURL)
+                            URL.revokeObjectURL(previewURL);
                         setUploadProgress(0);
                         setConfirmed(false);
                         const file = e.target.files?.[0];
@@ -161,6 +163,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                             setErrorMessage(null);
                             setUploadProgress(0);
                             setConfirmed(false);
+                            
                         }
                         else if (request.status === 401)
                             markDisconnected();
@@ -204,7 +207,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                         fileInputRef.current.value = '';
                     setSelectedFile(null);
                     if (previewURL)
-                        URL.revokeObjectURL(previewURL)
+                        URL.revokeObjectURL(previewURL);
                     setPreviewURL(null);
                     setErrorMessage(null);
                     setUploadProgress(0);

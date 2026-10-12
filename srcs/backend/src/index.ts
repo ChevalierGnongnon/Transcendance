@@ -8,6 +8,13 @@ import { fileManager } from './scripts/file-manager.ts';
 import { setupSocketConnection } from './modules/socket/socket.ts';
 import { setIo } from './modules/socket/socket-register.ts';
 
+
+// check if jwt secret is present otherwise don't start anything
+if (!process.env.JWT_SECRET){
+  console.error('JWT_SECRET is missing');
+  process.exit(1);
+}
+
 cron.schedule('0 * * * *', fileManager);
 
 const httpServer = createServer(app);
@@ -25,6 +32,8 @@ setIo(io);
 setupSocketConnection(io);
 
 const PORT = Number(process.env.EXPRESS_PORT) || 3000;
+
+
 
 const server = httpServer.listen(PORT, '0.0.0.0', () => {
   console.log(`Express server started on port ${PORT}`);

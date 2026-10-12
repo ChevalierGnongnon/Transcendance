@@ -91,6 +91,18 @@ class FileService {
         }
         return id;
       } else if (type === 'message' && messageFileWhiteList.includes(fileType.mime) && chatId) {
+        const member = await prisma.chatMember.findUnique({
+          where: {
+            chatId_userId: {
+              chatId: chatId,
+              userId: userId,
+            },
+          },
+        });
+
+        if (!member) {
+          throw new ForbiddenRightsError('User is not a member of this chat');
+        }
         let bufferToWrite = fileBuffer;
         let extension = fileType.ext;
         const expiredDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
@@ -108,18 +120,7 @@ class FileService {
         const fileName = `${id}.${extension}`;
 
         // check user is member of the chat BEFORE create the file in the volume
-        const member = await prisma.chatMember.findUnique({
-          where: {
-            chatId_userId: {
-              chatId: chatId,
-              userId: userId,
-            },
-          },
-        });
-
-        if (!member) {
-          throw new ForbiddenRightsError('User is not a member of this chat');
-        }
+        
 
         fs.writeFileSync(`/app/uploads/${fileName}`, bufferToWrite);
 
