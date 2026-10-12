@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useAuth } from "../auth/auth-context";
 import ErrorMessage from "../others/error-message";
 import "../../scss/files.scss"

@@ -11,7 +11,6 @@ import iconFriendList from "../../assets/icons/icon-friend-list.png";
 import statsShortcut from "../../assets/icons/stats.png"
 import { useAuth } from "../auth/auth-context";
 import { useParams } from "react-router-dom";
-import { useApiFetch } from "../auth/use-api-fetch";
 import { useFriendships } from "../friends/useFriendships";
 import PageNotFound from "../others/404-not-found";
 import ErrorMessage from "../others/error-message";

@@ -1,13 +1,8 @@
 import express from 'express';
-import type { Request, Response } from 'express';
 
-import { uploadImageConfig } from './files.middlewares.js';
 import { attachUserIfPresent, requireAuth } from '../auth/auth.middlewares.js';
-import { downloadFile, uploadAvatar } from './files.controllers.js';
-import { deleteFile } from './files.controllers.js';
-import { uploadMessageFile } from './files.controllers.js';
-import { uploadAttachmentConfig } from './files.middlewares.ts';
-import { getDefaultAvatars } from './files.controllers.js';
+import { deleteFile, uploadMessageFile, downloadFile, uploadAvatar, getDefaultAvatars} from './files.controllers.js';
+import { uploadAttachmentConfig, uploadImageConfig} from './files.middlewares.ts';
 import { validateChatIdUuid } from './files.validators.js';
 import { validate } from '@/common/common-middlewares.js';
 

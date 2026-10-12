@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { socket } from "../messages/socket";
+
 // Shape of the info shared everywhere in the app (via AuthProvider):
 // whether or not the user is connected,
 // and functions to change its status and check if it changed
@@ -82,12 +83,17 @@ export function AuthProvider({children}:{children:ReactNode}){
 
     // When user disconnects himself volontarily (clicks on logout)
     const logout = async() => {
-        await fetch('/api/logout', {
-            method: 'POST',
-            credentials: 'include'
-        });
-        localStorage.setItem('auth-sync', Date.now().toString());
-        setIsAuthenticated(false);
+        try{
+            await fetch('/api/logout', {
+                method: 'POST',
+                credentials: 'include'
+            });
+        } catch (err){
+            console.error('logout error : ', err);
+        } finally {
+            localStorage.setItem('auth-sync', Date.now().toString());
+            setIsAuthenticated(false);
+        }   
     }
     // When user fetch api receives a 401 or 403, like invalid cookie, expired cookie...
     function markDisconnected(){

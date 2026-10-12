@@ -111,8 +111,7 @@ function HeaderOnline() {
                         ListClassName="mini-search-list"
                         BreakPoint={null}
                         onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
-                    >
-                    </SearchBar>
+                    />
                 </section>
                 <section className="header-right">
                     <div className="d-none d-xl-flex d-flex gap-4">

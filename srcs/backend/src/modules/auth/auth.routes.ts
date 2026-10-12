@@ -1,5 +1,4 @@
 import express from 'express';
-import type { Request, Response } from 'express';
 
 import { requireAuth, validate} from './auth.middlewares.js';
 import { loginValidator, registrationValidator} from './auth.validators.js';

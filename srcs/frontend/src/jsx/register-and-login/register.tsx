@@ -25,7 +25,6 @@ function Register() {
 	const [pseudo, setPseudo] = useState("");
 	const [avatar, setAvatar] = useState<string | null>(null);
 	const [defaultAvatars, setDefaultAvatars] = useState<DefaultAvatar[]>([]);
-	// const [error, setError] = useState<string | null>(null);
 	const [hasCustomFile, setHasCustomFile] = useState<boolean>(false);
 	const [pickedDefault, setPickedDefault] = useState<boolean>(false);
 	const [avatarFile, setAvatarFile] = useState<File | null>(null)
@@ -69,8 +68,6 @@ function Register() {
 						else
 							setError('DATABASE_ERROR');
 					}
-					
-					
 				}
 			}
 			request.upload.onprogress = (event)=>{
@@ -78,7 +75,7 @@ function Register() {
 					let progress = (event.loaded / event.total) * 100;
 					setUploadProgress(progress);
 				}   
-	}
+			}
 			request.onerror = () => {
 				setError('DATABASE_ERROR');
 			};
@@ -119,7 +116,6 @@ function Register() {
 						{!pickedDefault && (
 							<FileImport
 								mode="avatar"
-								onUploaded={(fileId) => setAvatar(fileId)}
 								onSelectedChange={setHasCustomFile}
 								deferUpload={true}
 								externalProgress={uploadProgress}
