@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./scss/gamestart.scss";
 import { socket } from "../../jsx/messages/socket";
@@ -24,6 +24,21 @@ function GameStart() {
   const [boardSize, setBoardSize] = useState(10);
   const [error, setError] = useState(false);
   const [mode, setMode] = useState<"local" | "online">("local");
+  const [invitationState, setInvitationState] = useState<'idle' | 'sending' | 'waiting' | 'declined' | 'cancelled' | 'error'>('idle');
+  const [isCancellingInvitation, setIsCancellingInvitation] = useState(false);
+  const [declinedByName, setDeclinedByName] = useState('');
+  const invitationIdRef = useRef<string | null>(null);
+  const pendingInvitationChatRef = useRef<string | null>(null);
+  const earlyResponseRef = useRef<{
+    event: 'accepted' | 'declined';
+    payload: {
+      invitationId: string;
+      gameId?: string;
+      boardSize?: number;
+      fromUserId: string;
+      toUserId: string;
+    };
+  } | null>(null);
 
   console.log(isConnected);
 
@@ -34,6 +49,30 @@ function GameStart() {
       setChatId(incomingChatId);
     }
   }, [incomingOpponentId, incomingChatId]);
+
+  useEffect(() => {
+    if (!me || !opponentId || mode !== 'online' || !isConnected) return;
+    let isCurrentLookup = true;
+
+    socket.emit(
+      'game:get-pending-invitation',
+      { opponentId },
+      (response: {
+        ok: boolean;
+        data?: { invitationId: string; chatId: string; boardSize: number } | null;
+      }) => {
+        if (!isCurrentLookup || !response.ok || !response.data) return;
+        invitationIdRef.current = response.data.invitationId;
+        setChatId(response.data.chatId);
+        setBoardSize(response.data.boardSize);
+        setInvitationState('waiting');
+      }
+    );
+
+    return () => {
+      isCurrentLookup = false;
+    };
+  }, [me, opponentId, mode, isConnected]);
 
   // --- homeUser profile ---
   useEffect(() => {
@@ -51,31 +90,98 @@ function GameStart() {
       .catch(err => console.error("users error:", err));
   }, []);
 
+  const openAcceptedGame = (payload: {
+    gameId: string;
+    boardSize: number;
+    fromUserId: string;
+    toUserId: string;
+  }) => {
+    if (!me) return;
+    const acceptedOpponentId = payload.fromUserId === me.id ? payload.toUserId : payload.fromUserId;
+    navigate(`/game?gameId=${payload.gameId}&opponentId=${acceptedOpponentId}&boardSize=${payload.boardSize}`, {
+      state: {
+        gameId: payload.gameId,
+        boardSize: payload.boardSize,
+        me,
+        opponentId: acceptedOpponentId,
+        mode: "online",
+      },
+    });
+  };
+
+  const handleInvitationDeclined = (payload: { invitationId: string; fromUserId: string; toUserId: string }) => {
+    if (payload.invitationId !== invitationIdRef.current || payload.fromUserId !== me?.id) return;
+    const declinedUser = users.find((user) => user.id === payload.toUserId);
+    setDeclinedByName(declinedUser?.pseudo ?? t('game.opponent'));
+    setInvitationState('declined');
+    invitationIdRef.current = null;
+  };
+
   useEffect(() => {
-    const handleAccepted = ({ gameId, boardSize, fromUserId, toUserId }: {
+    if (!me) return;
+
+    const handleAccepted = (payload: {
+      invitationId: string;
       gameId: string;
       boardSize: number;
       fromUserId: string;
       toUserId: string;
     }) => {
-      const acceptedOpponentId = fromUserId === me?.id ? toUserId : fromUserId;
-      navigate(`/game?gameId=${gameId}&opponentId=${acceptedOpponentId}&boardSize=${boardSize}`, {
-        state: {
-          gameId,
-          boardSize,
-          me,
-          opponentId: acceptedOpponentId,
-          mode: "online",
-        },
-      });
+      if (payload.fromUserId === me.id) {
+        if (payload.invitationId === invitationIdRef.current) openAcceptedGame(payload);
+        else if (!invitationIdRef.current) earlyResponseRef.current = { event: 'accepted', payload };
+        return;
+      }
+      if (payload.toUserId === me.id) openAcceptedGame(payload);
+    };
+
+    const handleDeclined = (payload: { invitationId: string; fromUserId: string; toUserId: string }) => {
+      if (payload.fromUserId !== me.id) return;
+      if (payload.invitationId === invitationIdRef.current) handleInvitationDeclined(payload);
+      else if (!invitationIdRef.current) earlyResponseRef.current = { event: 'declined', payload };
+    };
+
+    const handleInvitationCreated = ({ invitationId, chatId }: { invitationId: string; chatId: string }) => {
+      if (chatId !== pendingInvitationChatRef.current) return;
+      invitationIdRef.current = invitationId;
+      pendingInvitationChatRef.current = null;
+      setInvitationState('waiting');
+
+      const earlyResponse = earlyResponseRef.current;
+      if (!earlyResponse) return;
+      earlyResponseRef.current = null;
+      if (earlyResponse.payload.invitationId !== invitationId) return;
+      if (earlyResponse.event === 'accepted' && earlyResponse.payload.gameId && earlyResponse.payload.boardSize) {
+        openAcceptedGame(earlyResponse.payload as {
+          gameId: string;
+          boardSize: number;
+          fromUserId: string;
+          toUserId: string;
+        });
+      } else if (earlyResponse.event === 'declined') {
+        handleInvitationDeclined(earlyResponse.payload);
+      }
+    };
+
+    const handleInvitationCancelled = ({ invitationId }: { invitationId: string }) => {
+      if (invitationId !== invitationIdRef.current) return;
+      invitationIdRef.current = null;
+      setInvitationState('cancelled');
+      setIsCancellingInvitation(false);
     };
 
     socket.on("game:accepted", handleAccepted);
+    socket.on("game:declined", handleDeclined);
+    socket.on("game:invitation-created", handleInvitationCreated);
+    socket.on("game:cancelled", handleInvitationCancelled);
 
     return () => {
       socket.off("game:accepted", handleAccepted);
+      socket.off("game:declined", handleDeclined);
+      socket.off("game:invitation-created", handleInvitationCreated);
+      socket.off("game:cancelled", handleInvitationCancelled);
     };
-  }, [navigate, me]);
+  }, [me, navigate, users, t]);
 
 
 
@@ -104,7 +210,10 @@ function GameStart() {
 
 
   const handleSendInvitation = async () => {
-    if (!me) return;
+    if (!me || !isConnected) {
+      setInvitationState('error');
+      return;
+    }
 
     const finalChatId = chatId || await getOrCreateChatId(me.id, opponentId);
 
@@ -118,8 +227,28 @@ function GameStart() {
         content: `${boardSize}`
       };
 
-      socket.emit("new-chat-message", msg);
+    setInvitationState('sending');
+    invitationIdRef.current = null;
+    pendingInvitationChatRef.current = finalChatId;
+    earlyResponseRef.current = null;
+    socket.emit("new-chat-message", msg, (response: { ok: boolean }) => {
+      if (response.ok) return;
+      pendingInvitationChatRef.current = null;
+      setInvitationState('error');
+    });
     };
+
+  const cancelInvitation = () => {
+    if (!invitationIdRef.current || isCancellingInvitation) return;
+    setIsCancellingInvitation(true);
+    socket.emit(
+      'game:cancel-invitation',
+      { invitationId: invitationIdRef.current },
+      (response: { ok: boolean }) => {
+        if (!response.ok) setIsCancellingInvitation(false);
+      }
+    );
+  };
 
   
 
@@ -142,31 +271,8 @@ function GameStart() {
 
     // ONLINE MODE → send invite
     if (mode === "online") {
-     
+      setDeclinedByName('');
       await handleSendInvitation();
-
-      
-      
-      //     socket.on("game:invite_answer", handleAccepted);
-      //     return () => socket.off("game:accepted", handleAccepted);
-      //   }, [navigate, me]);
-      
-      //   // Handle invite decline → system message
-      //   useEffect(() => {
-      //     const handleDeclined = ({ invite }) => {
-      //       roomProps.onAddMessage({
-      //         id: Date.now(),
-      //         finalChatId,
-      //         type: "system",
-      //         sender: { id: 0, profilePhoto: { name: "system.png" } },
-      //         content: `${invite.toUserName} declined the game invite.`
-      //       });
-      //     };
-      
-      //     socket.on("game:decline", handleDeclined);
-      //     return () => socket.off("game:decline", handleDeclined);
-      //   }, [chatId]);
-
     }
   };
 
@@ -184,6 +290,7 @@ function GameStart() {
         <select
           className={`form-input select-opponent ${error ? "error-frame" : ""}`}
           value={opponentId}
+          disabled={invitationState === 'sending' || invitationState === 'waiting'}
           onChange={e => {
             setOpponentId(e.target.value);
             setError(false);
@@ -225,15 +332,32 @@ function GameStart() {
           max="20"
           step="1"
           value={boardSize}
+          disabled={invitationState === 'sending' || invitationState === 'waiting'}
           onChange={e => setBoardSize(Number(e.target.value))}
           className="form-input board-slider"
         />
       </div>
 
       {/* Start button */}
-      <button className="form-button start-btn" onClick={startGame}>
+      <button
+        className="form-button start-btn"
+        onClick={startGame}
+        disabled={invitationState === 'sending' || invitationState === 'waiting'}
+      >
         {t('game.send_invite')}
       </button>
+      {invitationState === 'sending' && <p role="status">{t('game.invitation_sending', 'Sending invitation...')}</p>}
+      {invitationState === 'waiting' && <p role="status">{t('game.invitation_waiting', 'Invitation sent - waiting for response.')}</p>}
+      {invitationState === 'declined' && <p role="status">{t('game.invitation_declined', '{{user}} declined your invite.', { user: declinedByName })}</p>}
+      {invitationState === 'cancelled' && <p role="status">{t('game.invitation_cancelled', 'Invitation cancelled.')}</p>}
+      {invitationState === 'error' && <p role="alert">{t('game.invitation_send_error', 'Could not send invitation. Check your connection and try again.')}</p>}
+      {invitationState === 'waiting' && (
+        <button className="form-button" onClick={cancelInvitation} disabled={isCancellingInvitation}>
+          {isCancellingInvitation
+            ? t('game.invitation_cancelling', 'Cancelling...')
+            : t('game.cancel_invitation', 'Cancel invitation')}
+        </button>
+      )}
     </div>
   );
 }

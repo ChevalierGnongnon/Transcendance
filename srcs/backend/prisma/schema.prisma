@@ -41,6 +41,11 @@ model User {
   receivedFriendships Friendship[] @relation("ReceivedFriendships")
   chatMembers         ChatMember[]
 
+  gamesPlayedAsX Game[] @relation("gamesPlayedAsX")
+  gamesPlayedAsO Game[] @relation("gamesPlayedAsO")
+
+  gamesWinned Game[] @relation("gamesWinned")
+
   @@map("user")
 }
 
@@ -128,8 +133,16 @@ model Game {
   winnerId          String?  @map("winner_id") @db.Char(36)
   isDraw            Boolean  @default(false) @map("is_draw")
   winningLine       Json     @map("winning_line")
+  closedAt          DateTime? @map("closed_at")
+  playerXLeftAt     DateTime? @map("player_x_left_at")
+  playerOLeftAt     DateTime? @map("player_o_left_at")
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @updatedAt @map("updated_at")
+
+  playerX User @relation("gamesPlayedAsX", fields: [playerXId], references: [id])
+  playerO User @relation("gamesPlayedAsO", fields: [playerOId], references: [id])
+
+  gamesWinned User? @relation("gamesWinned", fields: [winnerId], references: [id])
 
   @@map("games")
 }

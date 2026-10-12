@@ -4,6 +4,10 @@ import {
   gameAcceptSchema,
   gameCloseSchema,
   gameDeclineSchema,
+  gameInvitationStatusSchema,
+  gamePendingInvitationSchema,
+  gameCancelInvitationSchema,
+  gameRequestRematchSchema,
   gameMoveSchema,
   gameStateSchema,
   lastReadSchema,
@@ -19,9 +23,12 @@ import {
   handleGameAccept,
   handleGameClose,
   handleGameDecline,
+  handleGameCancelInvitation,
+  handleGameGetPendingInvitation,
   handleGameGetState,
+  handleGameGetInvitationStatus,
   handleGameMove,
-  handleGameRestart,
+  handleGameRequestRematch,
 } from './game/socket-game.js';
 
 export const setupSocketConnection = (io: Server) => {
@@ -45,9 +52,16 @@ export const setupSocketConnection = (io: Server) => {
     onValidated(socket, 'game:decline', gameDeclineSchema, (currentSocket, payload) =>
       handleGameDecline(io, currentSocket, payload)
     );
-    onValidated(socket, 'game:get-state', gameStateSchema, handleGameGetState);
-    onValidated(socket, 'game:new-round', gameStateSchema, (currentSocket, payload) =>
-      handleGameRestart(io, currentSocket, payload)
+    onValidated(socket, 'game:get-invitation-status', gameInvitationStatusSchema, handleGameGetInvitationStatus);
+    onValidated(socket, 'game:get-pending-invitation', gamePendingInvitationSchema, handleGameGetPendingInvitation);
+    onValidated(socket, 'game:cancel-invitation', gameCancelInvitationSchema, (currentSocket, payload) =>
+      handleGameCancelInvitation(io, currentSocket, payload)
+    );
+    onValidated(socket, 'game:get-state', gameStateSchema, (currentSocket, payload) =>
+      handleGameGetState(io, currentSocket, payload)
+    );
+    onValidated(socket, 'game:request-rematch', gameRequestRematchSchema, (currentSocket, payload) =>
+      handleGameRequestRematch(io, currentSocket, payload)
     );
     onValidated(socket, 'game:move', gameMoveSchema, (currentSocket, payload) =>
       handleGameMove(io, currentSocket, payload)
@@ -55,10 +69,20 @@ export const setupSocketConnection = (io: Server) => {
     onValidated(socket, 'game:close', gameCloseSchema, (currentSocket, payload) =>
       handleGameClose(io, currentSocket, payload)
     );
+    onValidated(socket, 'game:leave', gameCloseSchema, (currentSocket, payload) =>
+      handleGameClose(io, currentSocket, payload)
+    );
 
     socket.on('disconnect', (reason) => {
       console.log('User disconnected:', socket.id);
       console.log(`reason: ${reason}`);
+      const activeGameId = socket.data.activeGameId as string | undefined;
+      if (activeGameId) {
+        socket.data.activeGameId = undefined;
+        void handleGameClose(io, socket, { gameId: activeGameId }).catch((error) => {
+          console.error('Failed to persist game departure after disconnect:', error);
+        });
+      }
     });
   });
 };

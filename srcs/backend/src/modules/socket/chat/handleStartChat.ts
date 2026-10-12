@@ -9,6 +9,18 @@ export async function handleStartChat(socket: Socket, payload: startNewChat) {
 
     const currUserId = socket.userId;
     if (!currUserId) throw new Error('Internal server error');
+    if (currUserId === recipientId) throw new Error('Cannot start a chat with yourself');
+
+    const users = await prisma.user.findMany({
+      where: { id: { in: [currUserId, recipientId] } },
+      select: { id: true },
+    });
+    if (!users.some((user) => user.id === currUserId)) {
+      throw new Error('Your account no longer exists. If the database was reset, register again.');
+    }
+    if (!users.some((user) => user.id === recipientId)) {
+      throw new Error('Selected user no longer exists. Refresh and choose another user.');
+    }
 
     const user = await prisma.user.findUnique({
       where: {

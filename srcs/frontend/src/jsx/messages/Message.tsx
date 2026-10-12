@@ -10,29 +10,56 @@ export const Message = (props: MessageProps) => {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
-  const [resolvedState, setResolvedState] = useState<'accepted' | 'declined' | null>(null);
+  const [resolvedState, setResolvedState] = useState<'accepted' | 'declined' | 'expired' | null>(null);
+  const [isResponding, setIsResponding] = useState(false);
 
   useEffect(() => {
+    if (props.type !== 'invitation' || !props.messageId) return;
+
+    socket.emit(
+      'game:get-invitation-status',
+      { invitationId: props.messageId },
+      (response: { ok: boolean; data?: { status: string } }) => {
+        if (!response.ok) return;
+        if (response.data?.status === 'accepted' || response.data?.status === 'declined') {
+          setResolvedState(response.data.status);
+        } else if (response.data?.status !== 'pending') {
+          setResolvedState('expired');
+        }
+      }
+    );
+
     const handleAccepted = ({ invitationId }: { invitationId?: string }) => {
       if (invitationId === props.messageId) {
         setResolvedState('accepted');
+        setIsResponding(false);
       }
     };
 
     const handleDeclined = ({ invitationId }: { invitationId?: string }) => {
       if (invitationId === props.messageId) {
         setResolvedState('declined');
+        setIsResponding(false);
+      }
+    };
+
+    const handleCancelled = ({ invitationId }: { invitationId?: string }) => {
+      if (invitationId === props.messageId) {
+        setResolvedState('expired');
+        setIsResponding(false);
       }
     };
 
     socket.on('game:accepted', handleAccepted);
     socket.on('game:declined', handleDeclined);
+    socket.on('game:cancelled', handleCancelled);
 
     return () => {
       socket.off('game:accepted', handleAccepted);
       socket.off('game:declined', handleDeclined);
+      socket.off('game:cancelled', handleCancelled);
     };
-  }, [props.messageId]);
+  }, [props.messageId, props.type]);
 
   return (
     <>
@@ -67,21 +94,25 @@ export const Message = (props: MessageProps) => {
                   ? 'Invitation accepted'
                   : resolvedState === 'declined'
                     ? 'Invitation declined'
+                    : resolvedState === 'expired'
+                      ? 'Invitation expired'
                     : 'You invited to play Gomoku'}
               </span>
               <div className="invite-actions">
                 <button
                   className="btn btn-success"
-                  disabled={Boolean(resolvedState) || props.senderId === props.userId || !props.messageId}
+                  disabled={Boolean(resolvedState) || isResponding || props.senderId === props.userId || !props.messageId}
                   onClick={() => {
-                    if (resolvedState) return;
-                    setResolvedState('accepted');
+                    if (resolvedState || isResponding) return;
+                    setIsResponding(true);
                     socket.emit("game:accept", {
                       invitationId: props.messageId,
                       chatId: props.chatId,
                       fromUserId: props.senderId,
                       toUserId: props.userId,
                       boardSize: Number(props.content),
+                    }, (response: { ok: boolean }) => {
+                      if (!response.ok) setIsResponding(false);
                     });
                   }}
                 >
@@ -90,16 +121,18 @@ export const Message = (props: MessageProps) => {
 
                 <button
                   className="btn btn-danger"
-                  disabled={Boolean(resolvedState)}
+                  disabled={Boolean(resolvedState) || isResponding || props.senderId === props.userId || !props.messageId}
                   onClick={() => {
-                    if (resolvedState) return;
-                    setResolvedState('declined');
+                    if (resolvedState || isResponding) return;
+                    setIsResponding(true);
                     socket.emit("game:decline", {
                       invitationId: props.messageId,
                       chatId: props.chatId,
                       fromUserId: props.senderId,
                       toUserId: props.userId,
                       boardSize: Number(props.content),
+                    }, (response: { ok: boolean }) => {
+                      if (!response.ok) setIsResponding(false);
                     });
                   }}
                 >

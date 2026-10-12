@@ -75,6 +75,22 @@ function PersonalPage() {
 
 	const isMine = pseudo === undefined || user?.pseudo === pseudo;
 
+	const handlePlay = async () => {
+		try {
+			const response = await fetch('/api/my-active-game', { credentials: 'include' });
+			if (response.ok) {
+				const activeGame = await response.json();
+				if (activeGame?.gameId && activeGame?.opponentId && activeGame?.boardSize) {
+					navigate(`/game?gameId=${activeGame.gameId}&opponentId=${activeGame.opponentId}&boardSize=${activeGame.boardSize}`);
+					return;
+				}
+			}
+		} catch (error) {
+			console.error('Failed to check for an active game:', error);
+		}
+		navigate('/game/gomoku');
+	};
+
 	if (!displayedUser)
 		return (<p>{t("common.loading")}</p>);
 	return (
@@ -144,7 +160,7 @@ function PersonalPage() {
 										<span>{t("common.parameters")}</span>
 									</figure>
 								</div>
-								<div className="col-12 col-md-6 col-xl-4" onClick={() => navigate('/game/gomoku')}>
+								<div className="col-12 col-md-6 col-xl-4" onClick={handlePlay}>
 									<figure className="shortcut-icon justify-content-center">
 										<img src={playShortcut} alt="play-shortcut" />
 										<span>{t("common.play")}</span>

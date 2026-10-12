@@ -19,10 +19,17 @@ function NewChat({ ausers, setActiveChat, setActiveView, setChatList }: nProps) 
   // const [searchTerm, setSearchTerm] = useState('');
   // const [searchResults, setSearchResults] = useState('');
   const [userId, setUserId] = useState('');
+  const [startChatError, setStartChatError] = useState('');
   const users = ausers;
   const me = useUser();
 
   const startChat = () => {
+    if (!userId || !socket.connected) {
+      setStartChatError(t('message.chat-connection-error', 'Select a user and make sure you are connected.'));
+      return;
+    }
+
+    setStartChatError('');
     socket.emit('start-new-chat', { recipientId: userId }, (res: any) => {
       if (res.ok) {
         const newChat = res.data;
@@ -34,8 +41,9 @@ function NewChat({ ausers, setActiveChat, setActiveView, setChatList }: nProps) 
         setActiveChat(newChat);
         setActiveView('conversation');
       } else {
-        console.log(res);
-        console.log(res);
+        setStartChatError(
+          res.error?.message ?? t('message.chat-start-error', 'Could not start chat. Refresh the page and try again.')
+        );
       }
     });
   };
@@ -58,7 +66,10 @@ function NewChat({ ausers, setActiveChat, setActiveView, setChatList }: nProps) 
           <select
             className="form-input select-opponent"
             value={userId}
-            onChange={(e) => setUserId(e.target.value)}
+            onChange={(e) => {
+              setUserId(e.target.value);
+              setStartChatError('');
+            }}
           >
             <option value="">-- choose partner --</option>
 
@@ -70,9 +81,10 @@ function NewChat({ ausers, setActiveChat, setActiveView, setChatList }: nProps) 
           </select>
         </div>
 
-        <button className="form-button start-btn" onClick={startChat}>
+        <button className="form-button start-btn" onClick={startChat} disabled={!userId}>
           Start Chat
         </button>
+        {startChatError && <p role="alert">{startChatError}</p>}
       </div>
     </div>
   );

@@ -41,6 +41,22 @@ export const gameDeclineSchema = z.object({
   boardSize: z.number().int().min(10).max(20),
 });
 
+export const gameInvitationStatusSchema = z.object({
+  invitationId: z.uuid(),
+});
+
+export const gamePendingInvitationSchema = z.object({
+  opponentId: z.uuid(),
+});
+
+export const gameCancelInvitationSchema = z.object({
+  invitationId: z.uuid(),
+});
+
+export const gameRequestRematchSchema = z.object({
+  gameId: z.uuid(),
+});
+
 export const gameMoveSchema = z.object({
   gameId: z.uuid(),
   row: z.number().int().nonnegative(),
@@ -60,6 +76,10 @@ export type lastReadInput = z.infer<typeof lastReadSchema>;
 export type startNewChat = z.infer<typeof startNewChatSchema>;
 export type gameAcceptInput = z.infer<typeof gameAcceptSchema>;
 export type gameDeclineInput = z.infer<typeof gameDeclineSchema>;
+export type gameInvitationStatusInput = z.infer<typeof gameInvitationStatusSchema>;
+export type gamePendingInvitationInput = z.infer<typeof gamePendingInvitationSchema>;
+export type gameCancelInvitationInput = z.infer<typeof gameCancelInvitationSchema>;
+export type gameRequestRematchInput = z.infer<typeof gameRequestRematchSchema>;
 export type gameMoveInput = z.infer<typeof gameMoveSchema>;
 export type gameStateInput = z.infer<typeof gameStateSchema>;
 export type gameCloseInput = z.infer<typeof gameCloseSchema>;

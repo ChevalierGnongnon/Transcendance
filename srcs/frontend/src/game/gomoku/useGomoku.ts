@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { socket } from '../../jsx/messages/socket';
 
 type Player = {
@@ -21,12 +21,15 @@ function createEmptyBoard(boardSize: number): Board {
 
 type GameSnapshot = {
   gameId: string;
+  chatId: string | null;
   board: Board;
   currentTurnUserId: string;
   players: { userId: string; symbol: string }[];
   winnerId: string | null;
   isDraw: boolean;
   winningLine: number[][];
+  leftUserIds: string[];
+  isClosed: boolean;
 };
 
 function useGomoku(
@@ -43,6 +46,10 @@ function useGomoku(
   const [winner, setWinner] = useState<Player | null>(null);
   const [winningLine, setWinningLine] = useState<number[][]>([]);
   const [isDraw, setIsDraw] = useState(false);
+  const [chatId, setChatId] = useState<string | null>(null);
+  const [opponentLeft, setOpponentLeft] = useState(false);
+  const [isClosed, setIsClosed] = useState(false);
+  const leaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (mode !== 'online' || !gameId) return;
@@ -64,15 +71,44 @@ function useGomoku(
       setWinner(snapshot.winnerId ? players.find((player) => player.id === snapshot.winnerId) ?? null : null);
       setIsDraw(snapshot.isDraw);
       setWinningLine(snapshot.winningLine);
+      setChatId(snapshot.chatId);
+      setOpponentLeft(snapshot.leftUserIds.some((leftUserId) => leftUserId !== myUserId));
+      setIsClosed(snapshot.isClosed);
+    };
+
+    const handleOpponentLeft = ({ gameId: changedGameId }: { gameId: string }) => {
+      if (changedGameId === gameId) setOpponentLeft(true);
+    };
+
+    const handleOpponentReturned = ({ gameId: changedGameId }: { gameId: string }) => {
+      if (changedGameId === gameId) setOpponentLeft(false);
     };
 
     socket.on('game:state', handleGameState);
+    socket.on('game:opponent-left', handleOpponentLeft);
+    socket.on('game:opponent-returned', handleOpponentReturned);
     if (isConnected) socket.emit('game:get-state', { gameId });
 
     return () => {
       socket.off('game:state', handleGameState);
+      socket.off('game:opponent-left', handleOpponentLeft);
+      socket.off('game:opponent-returned', handleOpponentReturned);
     };
   }, [gameId, isConnected, mode, myUserId, players]);
+
+  useEffect(() => {
+    if (mode !== 'online' || !gameId) return;
+    if (leaveTimerRef.current !== null) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
+    }
+    return () => {
+      leaveTimerRef.current = setTimeout(() => {
+        socket.emit('game:leave', { gameId });
+        leaveTimerRef.current = null;
+      }, 0);
+    };
+  }, [gameId, mode]);
 
   const checkWin = (board: Board, row: number, col: number, symbol: string) => {
     const directions = [
@@ -170,6 +206,9 @@ function useGomoku(
     currentPlayerIndex,
     winner,
     isDraw,
+    chatId,
+    opponentLeft,
+    isClosed,
     winningLine,
     handleClick,
     reset

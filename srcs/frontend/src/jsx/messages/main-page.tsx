@@ -142,6 +142,9 @@ function Messages() {
       const next = new Map(prev);
 
       const currentMessages = next.get(newMessage.chatId) ?? [];
+      if (newMessage.id && currentMessages.some((message) => message.id === newMessage.id)) {
+        return prev;
+      }
       next.set(newMessage.chatId, [...currentMessages, newMessage]);
 
       return next;
