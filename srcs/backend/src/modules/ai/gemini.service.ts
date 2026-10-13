@@ -6,8 +6,11 @@ import { storeAiUsage } from "./ai.service.ts";
 // Create a reusable Gemini API client using the API key
 const ai = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
 
-// Convert application chat messages into the format expected by Gemini.
-// Gemini uses "model" for AI responses, while our application uses "assistant".
+/**
+ * Convert application chat message history into the format expected by Gemini.
+ * Gemini uses "model" for AI responses, while our application uses "assistant".
+ * @param history 
+ */
 function convertToGeminiHistory(history: ChatMessage[]) {
     return history.map((message) => ({
         role: message.role === "assistant" ? "model" : "user",
@@ -19,8 +22,13 @@ function convertToGeminiHistory(history: ChatMessage[]) {
     }));
 }
 
-//Generates an AI response using Gemini and streams the 
-// * response back to the caller as individual text chunks.
+/**
+ * gemini service function which returns the response stream. 
+ * Chunk by Chunk and gives us the Metadata for further analysis.
+ * @param history 
+ * @param message 
+ * @param onUsage 
+ */ 
 export async function *generateResponseStream(history: ChatMessage[], message: string, onUsage: (usage: AiUsageData) => void) 
 {
     const previousMessages = convertToGeminiHistory(history);
@@ -53,16 +61,16 @@ export async function *generateResponseStream(history: ChatMessage[], message: s
                 text = "";
             else
                 text = chunk.text;
-            console.log('GEMINI CHUNK:', text);
+            // console.log('GEMINI CHUNK:', text);
             if (chunk.usageMetadata)
             {
-                console.log("USAGE METADATA:", chunk.usageMetadata);
+                // console.log("USAGE METADATA:", chunk.usageMetadata);
                usageMetadata = chunk.usageMetadata;
             }
             if (text)
                 yield text;
          }
-         console.log("FINAL USAGE METADATA:", usageMetadata);
+        //  console.log("FINAL USAGE METADATA:", usageMetadata);
          // If usageMetadata exist callback function 
          if (usageMetadata) 
             {

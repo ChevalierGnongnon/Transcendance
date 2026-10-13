@@ -3,6 +3,14 @@ import { generateResponseStream } from "./gemini.service.ts";
 import type{ AiUsageData } from "./ai.types.ts";
 import { emitAnalyticsUpdated } from '../socket/socket-events.ts';
 
+
+/**
+ * Main service function which loads Conversation history. 
+ * saves user message and await the generated AI response 
+ * @param userId 
+ * @param conversationId 
+ * @param message 
+ */
 export async function* streamChat(userId: string, conversationId: string, message: string) 
 {
     // 1. Load previous conversation history
@@ -26,7 +34,7 @@ export async function* streamChat(userId: string, conversationId: string, messag
     let usage: AiUsageData | null = null;
     for await (const chunk of generateResponseStream(history,message,(metadata) => {usage = metadata;}))
     {
-        console.log('SERVICE CHUNK:', chunk);
+        // console.log('SERVICE CHUNK:', chunk);
         fullResponse += chunk;
         yield chunk;
     }
@@ -44,18 +52,17 @@ export async function* streamChat(userId: string, conversationId: string, messag
     }
     // 5. Save AI usage
     if (usage) {
-    console.log("SAVING AI USAGE:", {
-        userId,
-        conversationId,
-        usage,
-    });
-
-    await storeAiUsage(userId, conversationId, usage);
-
-    console.log("AI USAGE SAVED");
-}
+        await storeAiUsage(userId, conversationId, usage);
+        // console.log("AI USAGE SAVED");
+    }
 }
 
+/**
+ * Store a usage into the Database and update for sockets 
+ * @param userId 
+ * @param conversationId 
+ * @param usage 
+ */
 export async function storeAiUsage(userId: string, conversationId: string, usage: AiUsageData) {
     await prisma.aiUsage.create({
         data: {

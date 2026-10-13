@@ -23,7 +23,9 @@ export async function createConversation(req: Request, res: Response){
 }
 
 
-// Controller just gets the conversation_id and message and passes it to the service
+/**
+ *  Main controller function who gets the conversation_id and message and passes it to the service
+*/ 
 export async function chatbot(req: Request, res: Response) {
     const {conversation_id, message} = req.body; 
     const userId = req.userId;
@@ -36,15 +38,14 @@ export async function chatbot(req: Request, res: Response) {
         // Write chunk by chunk of stream 
         for await (const chunk of stream)
         {
-            console.log('AI CHUNK:', chunk);
+            // console.log('AI CHUNK:', chunk);
             res.write(chunk)
         }
         res.end();
     } 
     catch (error)
-{
-    console.error("Streaming error:", error);
-
+    {
+    //console.error("Streaming error:", error);
     if (error instanceof AppError && error.statusCode === 429)
     {
         if (res.headersSent)
@@ -58,9 +59,14 @@ export async function chatbot(req: Request, res: Response) {
         return;
     }
     throw error;
-}
+    }
 }
 
+/**
+ * Function to get conversation by ConversationID 
+ * @param req 
+ * @param res 
+ */
 export async function getConversationMessages(req: Request, res: Response)
 {
     const userId = req.userId;
@@ -79,8 +85,8 @@ export async function getConversationMessages(req: Request, res: Response)
     });
     if (!conversation)
         throw new AppError("Conversation not found",404);
-    console.log("Conversation ID:", conversationId);
-    console.log("User ID:", userId);
+    // console.log("Conversation ID:", conversationId);
+    // console.log("User ID:", userId);
 
     const messages =
         await prisma.aiMessage.findMany({

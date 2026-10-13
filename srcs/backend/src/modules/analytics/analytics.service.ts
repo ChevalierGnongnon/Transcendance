@@ -169,6 +169,13 @@ async function getGamesSummary(userId: string, from: Date, to: Date): Promise<Ga
     };
 }
 
+/**
+ * Central Analytics service which get all data Summaries for further analysis  
+ * @param userId 
+ * @param from 
+ * @param to 
+ * @returns 
+ */
 export async function getAnalytics(userId: string, from: Date, to: Date): Promise<AnalyticsData>
 {
     const overview = await getOverview(userId, from, to);

@@ -1,9 +1,9 @@
-// Wie lesen wir den stream
-
-export async function readAiResponseStream(
-  response: Response,
-  onChunk: (text: string) => void
-) {
+/**
+ * Reading the ai Response stream check for limits on which to handle on 
+ * @param response 
+ * @param onChunk 
+ */
+export async function readAiResponseStream( response: Response,onChunk: (text: string) => void) {
   if (!response.body) {
     throw new Error(
       'Streaming is not supported by this response.'

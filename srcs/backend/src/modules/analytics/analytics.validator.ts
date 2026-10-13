@@ -1,5 +1,8 @@
 import { query } from "express-validator";
 
+/**
+ * AnalyticsValidator function 
+ */
 export const analyticsValidator = [
     query("from")
         .isISO8601()

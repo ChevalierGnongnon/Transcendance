@@ -3,7 +3,9 @@ import type { Request, Response, NextFunction } from "express";
 
 const MAX_MESSAGE_LENGTH = 200;
 
-// validator to verify correct request for the ai chatbot
+/**
+ * validator to verify correct request for the ai chatbot
+ */
 export const validateChatRequest = [
     body("conversation_id")
         .isString()
