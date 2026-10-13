@@ -60,3 +60,26 @@ export async function getMyChats(req: Request, res: Response) {
     });
   }
 }
+
+export async function getChatByUserId(req: Request<{ userId: string }>, res: Response) {
+  try {
+    const currentUserId = req.userId!;
+    const otherUserId = req.params.userId;
+
+    if (!currentUserId) throw new Error('Current userId is Empty');
+
+    const chat = await chatServices.getChatByUserId(currentUserId, otherUserId);
+
+    return res.status(200).json(chat);
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return res.status(404).json({
+        error: 'CHAT_NOT_FOUND',
+      });
+    }
+
+    return res.status(500).json({
+      error: 'INTERNAL_SERVER_ERROR',
+    });
+  }
+}
