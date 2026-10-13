@@ -31,58 +31,68 @@ function Register() {
 	const {login} = useAuth();
 	const navigate = useNavigate();
 	const [uploadProgress, setUploadProgress] = useState<number>(0);
+	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		setError(null);
-		try {
-			const formData = new FormData();
-			formData.append('name', name);
-			formData.append('last_name', last_name);
-			formData.append('email', email);
-			formData.append('password', password);
-			formData.append('passwordVerify', passwordVerify);
-			formData.append('birthdate', birthdate);
-			formData.append('pseudo', pseudo);
+		if (isSubmitting === true)
+			return ;
+		else {
 			
-			if (avatarFile){
-				formData.append('avatar', avatarFile);
-			}
-			else {
-				if (avatar)
-					formData.append('avatar', avatar);
-			}
-			const request = new XMLHttpRequest();
-			request.open('POST', '/api/register');
-			request.onload = () =>{
-				if (request.status === 201){
-					login();
-					navigate('/personalpage')
+			setError(null);
+			try {
+				const formData = new FormData();
+				formData.append('name', name);
+				formData.append('last_name', last_name);
+				formData.append('email', email);
+				formData.append('password', password);
+				formData.append('passwordVerify', passwordVerify);
+				formData.append('birthdate', birthdate);
+				formData.append('pseudo', pseudo);
+				
+				if (avatarFile){
+					formData.append('avatar', avatarFile);
 				}
 				else {
-					try{
-						const error = JSON.parse(request.responseText);
-						setError(error?.error ?? 'INTERNAL_SERVER_ERROR');
-					} catch {
-						if (request.status === 413)
-							setError('INVALID_FILE_SIZE')
-						else
-							setError('DATABASE_ERROR');
+					if (avatar)
+						formData.append('avatar', avatar);
+				}
+				const request = new XMLHttpRequest();
+				request.open('POST', '/api/register');
+				request.onload = () =>{
+					if (request.status === 201){
+						login();
+						navigate('/personalpage')
+					}
+					else {
+						setIsSubmitting(false);
+						try{
+							const error = JSON.parse(request.responseText);
+							setError(error?.error ?? 'INTERNAL_SERVER_ERROR');
+						} catch {
+							if (request.status === 413)
+								setError('INVALID_FILE_SIZE')
+							else
+								setError('DATABASE_ERROR');
+						}
 					}
 				}
-			}
-			request.upload.onprogress = (event)=>{
-				if (event.lengthComputable === true){
-					let progress = (event.loaded / event.total) * 100;
-					setUploadProgress(progress);
-				}   
-			}
-			request.onerror = () => {
+				request.upload.onprogress = (event)=>{
+					if (event.lengthComputable === true){
+						let progress = (event.loaded / event.total) * 100;
+						setUploadProgress(progress);
+					}   
+				}
+				request.onerror = () => {
+					setIsSubmitting(false);
+					setError('DATABASE_ERROR');
+				};
+				setIsSubmitting(true);
+				request.send(formData);
+			} catch (err) {
 				setError('DATABASE_ERROR');
-			};
-			request.send(formData);
-		} catch (err) {
-			setError('DATABASE_ERROR');
+			}
 		}
+		
 	}
 	useEffect(() => {
 			fetch('/api/default-avatars')
@@ -156,12 +166,13 @@ function Register() {
 							<input
 								type="button"
 								value={t('common.import-file-instead')}
-								onClick={()=>{ setPickedDefault(false); setAvatar(null); }}
+								onClick={()=>{ setPickedDefault(false); setAvatar(null);}}
 								className="file-delete-button"
+								
 							/>
 						)}
 						<ErrorMessage error={error} />
-						<button type="submit" className="btn btn-primary register-button">{t('common.register')}</button>
+						<button type="submit" className="btn btn-primary register-button" disabled={isSubmitting}>{t('common.register')} </button>
 					</div>
 				</div>
 				<p className="login-text">{t('register.already-have-account')}</p>
