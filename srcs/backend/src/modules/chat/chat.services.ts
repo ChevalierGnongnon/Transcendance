@@ -81,6 +81,24 @@ class chatService {
     }
     return messages;
   }
+
+  async getChatByUserId(currentUserId: string, otherUserId: string) {
+    const chat = await prisma.chat.findFirst({
+      where: {
+        members: {
+          every: { userId: { in: [currentUserId, otherUserId] } },
+        },
+        AND: [
+          { members: { some: { userId: currentUserId } } },
+          { members: { some: { userId: otherUserId } } },
+        ],
+      },
+    });
+
+    if (!chat) throw new NotFoundError('Chat with this user not found');
+
+    return chat;
+  }
 }
 
 export default new chatService();

@@ -98,6 +98,7 @@ export interface ChatListProps {
 }
 
 export interface newChatProps {
+  chatList: IChatPreview[];
   setActiveView: (view: ActiveView) => void;
   setActiveChat: (chat: IChatPreview | null) => void;
   setChatList: (chatList: IChatPreview[]) => void;
