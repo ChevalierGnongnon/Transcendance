@@ -116,7 +116,7 @@ export const Message = (props: MessageProps) => {
                     });
                   }}
                 >
-                  Accept
+                  t{'game.accept'};
                 </button>
 
                 <button
@@ -136,7 +136,7 @@ export const Message = (props: MessageProps) => {
                     });
                   }}
                 >
-                  Decline
+                  t{'game.decline'};
                 </button>
               </div>
             </div>

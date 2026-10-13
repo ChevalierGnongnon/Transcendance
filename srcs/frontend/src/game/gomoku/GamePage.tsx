@@ -42,7 +42,7 @@ function GamePage() {
       .catch(err => console.error("users error:", err));
   }, [opponentId]);
   
-  if (!opponent || !me || (mode === 'online' && !gameId)) return <p>Loading game...</p>;
+  if (!opponent || !me || (mode === 'online' && !gameId)) return <p>{t('game.loading')}</p>;
 
 
   const playersData = [

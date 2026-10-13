@@ -88,14 +88,14 @@ function Gomoku({
       if (invitationId !== rematchInvitation?.invitationId) return;
       setRematchInvitation(null);
       setIsRematchSending(false);
-      setRematchError(`${players[1]?.username ?? t('game.opponent')} declined the rematch invitation.`);
+      setRematchError(`${players[1]?.username ?? t('game.opponent')} ${t('game.rematch_decline')}`);
     };
 
     const handleRematchCancelled = ({ invitationId }: { invitationId: string }) => {
       if (invitationId !== rematchInvitation?.invitationId) return;
       setRematchInvitation(null);
       setIsRematchSending(false);
-      setRematchError('Rematch invitation cancelled.');
+      setRematchError(t('game.rematch_invite_cancel'));
     };
 
     socket.on('game:closed', handleClosed);
@@ -131,7 +131,7 @@ function Gomoku({
     }) => {
       setIsRematchSending(false);
       if (!response.ok || !response.data) {
-        setRematchError(response.error?.message ?? 'Could not send rematch invitation.');
+        setRematchError(response.error?.message ?? t('game.rematch_invite_error'));
         return;
       }
       setRematchInvitation(response.data);
@@ -145,7 +145,7 @@ function Gomoku({
       error?: { message?: string };
     }) => {
       if (!response.ok) {
-        setRematchError(response.error?.message ?? 'This invitation is no longer available.');
+        setRematchError(response.error?.message ?? t('game.rematch_invite_expired'));
         return;
       }
       if (!accept) setRematchInvitation(null);
@@ -159,7 +159,7 @@ function Gomoku({
       error?: { message?: string };
     }) => {
       if (!response.ok) {
-        setRematchError(response.error?.message ?? 'Could not cancel invitation.');
+        setRematchError(response.error?.message ?? t('game.rematch_cancel_error'));
         return;
       }
       setRematchInvitation(null);
@@ -185,11 +185,11 @@ function Gomoku({
             {winner ? (
               <>{t('game.winner')}:<br />{winner.username}</>
             ) : isDraw ? (
-              t('game.draw', 'Draw')
+              t('game.draw')
             ) : opponentLeft ? (
-              t('game.opponent_left', 'Opponent left the game')
+              t('game.opponent_left')
             ) : gameIsClosed ? (
-              t('game.game_finished', 'Game finished')
+              t('game.game_finished')
             ) : currentPlayer?.id === myUserId ? (
               t('game.your_turn')
             ) : (
@@ -224,8 +224,8 @@ function Gomoku({
           <div className="game-invite-box card p-3 m-2">
             <span className="text-message">
               {rematchInvitation.fromUserId === myUserId
-                ? 'Rematch invitation sent - waiting for response.'
-                : `${players[1]?.username ?? t('game.opponent')} invites you to a new game.`}
+                ? t('game.rematch_pending_response')
+                : `${players[1]?.username ?? t('game.opponent')} ${t('game.rematch_new_invite')}`}
             </span>
             {rematchInvitation.toUserId === myUserId && (
               <div className="invite-actions mt-2">
@@ -233,25 +233,25 @@ function Gomoku({
                   className="btn btn-success me-2"
                   onClick={() => respondToRematch(true)}
                 >
-                  Accept
+                  {t('game.accept')}
                 </button>
                           
                 <button
                   className="btn btn-danger"
                   onClick={() => respondToRematch(false)}
                 >
-                  Decline
+                  {t('game.decline')}
                 </button>
               </div>
             )}
             {rematchInvitation.fromUserId === myUserId && (
-              <button className="btn btn-danger mt-2" onClick={cancelRematch}>Cancel invitation</button>
+              <button className="btn btn-danger mt-2" onClick={cancelRematch}>{t('game.invite_cancel')}</button>
             )}
           </div>
         ) : null}
         {isFinished && !rematchInvitation && (
           <div className="game-invite-box card p-3 m-2 text-center">
-            {rematchError || (winner ? `${winner.username} won.` : t('game.draw', 'Draw'))}
+            {rematchError || (winner ? `${winner.username} ${t('game.won')}` : t('game.draw'))}
           </div>
         )}
         <div

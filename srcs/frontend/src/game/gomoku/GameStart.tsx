@@ -23,7 +23,7 @@ function GameStart() {
   const [chatId, setChatId] = useState("");
   const [boardSize, setBoardSize] = useState(10);
   const [error, setError] = useState(false);
-  const [mode, setMode] = useState<"local" | "online">("local");
+  const [mode, setMode] = useState<"local" | "online">("online");
   const [invitationState, setInvitationState] = useState<'idle' | 'sending' | 'waiting' | 'declined' | 'cancelled' | 'error'>('idle');
   const [isCancellingInvitation, setIsCancellingInvitation] = useState(false);
   const [declinedByName, setDeclinedByName] = useState('');
@@ -254,6 +254,8 @@ function GameStart() {
 
   const startGame = async () => {
     if (!me) return;
+    if (mode === 'local')
+        setOpponentId(me.id);
     if (!opponentId) {
       setError(true);
       return;
@@ -263,6 +265,7 @@ function GameStart() {
 
     // LOCAL MODE → go directly to game
     if (mode === "local") {
+
       navigate("/game", {
         state: { me, opponentId, boardSize, mode, }
       });
@@ -282,9 +285,26 @@ function GameStart() {
     <div className="game-start-wrapper common-head">
       <h1 className="game-start-title">{t('game.start_gomoku_game')}</h1>
 
-      {/* Opponent selection */}
-  
+      {/* Game mode */}
+
       <div className="section">
+        <h3 className="form-text">{t('game.game_mode')}</h3>
+
+        <select
+          className="form-input"
+          value={mode}
+          onChange={e => {setMode(e.target.value as "online" | "local")
+            setOpponentId(e.target.value === "local" ? "me.id" : "")
+          }}
+        >
+          <option value="online">{t('game.play_online')}</option>
+          <option value="local">{t('game.play_local')}</option>
+        </select>
+      </div>
+
+      {/* Opponent selection */}
+
+      {mode === 'online' && <div className="section">
         <h3 className="form-text">{t('game.choose_opponent')}</h3>
 
         <select
@@ -298,27 +318,15 @@ function GameStart() {
         >
           <option value="">{t('game.select_opponent')}</option>
 
-          {users.map(u => (
-            <option key={u.id} value={u.id}>
-              {u.pseudo} {u.id === me.id ? "(you)" : ""}
-            </option>
-          ))}
+          {users
+            .filter(u => u.id !== me.id)
+            .map(u => (
+              <option key={u.id} value={u.id}>
+                {u.pseudo}
+              </option>
+            ))}
         </select>
-      </div>
-
-      {/* Game mode */}
-      <div className="section">
-        <h3 className="form-text">{t('game.game_mode')}</h3>
-
-        <select
-          className="form-input"
-          value={mode}
-          onChange={e => setMode(e.target.value as "local" | "online")}
-        >
-          <option value="local">{t('game.play_local')}</option>
-          <option value="online">{t('game.play_online')}</option>
-        </select>
-      </div>
+      </div>}
 
       {/* Board size */}
       <div className="section">
@@ -346,16 +354,16 @@ function GameStart() {
       >
         {t('game.send_invite')}
       </button>
-      {invitationState === 'sending' && <p role="status">{t('game.invitation_sending', 'Sending invitation...')}</p>}
-      {invitationState === 'waiting' && <p role="status">{t('game.invitation_waiting', 'Invitation sent - waiting for response.')}</p>}
-      {invitationState === 'declined' && <p role="status">{t('game.invitation_declined', '{{user}} declined your invite.', { user: declinedByName })}</p>}
-      {invitationState === 'cancelled' && <p role="status">{t('game.invitation_cancelled', 'Invitation cancelled.')}</p>}
-      {invitationState === 'error' && <p role="alert">{t('game.invitation_send_error', 'Could not send invitation. Check your connection and try again.')}</p>}
+      {invitationState === 'sending' && <p role="status">{t('game.invitation_sending')}</p>}
+      {invitationState === 'waiting' && <p role="status">{t('game.invitation_waiting')}</p>}
+      {invitationState === 'declined' && <p role="status">{t('game.invitation_declined', { user: declinedByName })}</p>}
+      {invitationState === 'cancelled' && <p role="status">{t('game.invitation_cancelled')}</p>}
+      {invitationState === 'error' && <p role="alert">{t('game.invitation_send_error')}</p>}
       {invitationState === 'waiting' && (
         <button className="form-button" onClick={cancelInvitation} disabled={isCancellingInvitation}>
           {isCancellingInvitation
-            ? t('game.invitation_cancelling', 'Cancelling...')
-            : t('game.cancel_invitation', 'Cancel invitation')}
+            ? t('game.invitation_cancelling')
+            : t('game.cancel_invitation')}
         </button>
       )}
     </div>
