@@ -29,7 +29,6 @@
 }
 .delete-button{
     @include bordered-btn(white, $red-color);
-    width: 60%;
     appearance: none;
     -webkit-appearance: none;
     padding: 8px 12px;

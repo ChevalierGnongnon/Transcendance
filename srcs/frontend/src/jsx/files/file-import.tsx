@@ -4,13 +4,12 @@ import ErrorMessage from "../others/error-message";
 import "../../scss/files.scss"
 interface FileImportComponent{
     mode: 'avatar' | 'message';
-    onUploaded?: (fileId: string) => void;
+    onUploaded: (fileId: string) => void;
     onSelectedChange?:(hasFile: boolean)=> void;
     initialPreviewUrl?: string; 
     deferUpload?: boolean;
     onFileReady?: (file: File | null) => void;
     externalProgress?: number;
-    inputPlaceHolder: string | undefined
 }
 
 const avatarWhiteList = [
@@ -40,14 +39,13 @@ function FileImport(fileImportComponent: FileImportComponent){
     const [confirmed, setConfirmed] = useState(false);
 
     return (
-        <div className="file_component p-2 d-flex flex-column">
+        <div className="file_component d-flex flex-column">
             <input
                 type="file"
-                name="file_input"
+                name="file_input" 
                 id="file_input"
-                className="d-none"
+                className="upload_file"
                 ref={fileInputRef}
-                placeholder={fileImportComponent.inputPlaceHolder}
                 onChange={
                     (e)=>{
                         setUploadProgress(0);
@@ -91,40 +89,11 @@ function FileImport(fileImportComponent: FileImportComponent){
                         }
                     }
                 }/>
-            <div className="upload_file" onClick={() => fileInputRef.current?.click()}>
-                <span className="upload_file-label">{t('common.import-file-instead')}</span>
-                {selectedFile && <span className="upload_file-name">{selectedFile.name}</span>}
-            </div>
-
+            
             <figure className="file_preview_frame">
-                {   previewURL && selectedFile?.type.startsWith('image/') &&
+                {   previewURL &&
                     <img className="avatar-preview" src={previewURL ?? ''} alt="file-preview" />
                 }
-
-                {selectedFile?.type === 'application/pdf' &&
-                    <div className="icon-preview">
-                        <img src="/pdf-icon.svg" alt="icon-pdf" />
-                    </div>
-                }
-
-                {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' &&
-                    <div className="icon-preview">
-                        <img src="/docx-icon.svg" alt="icon-docx" />
-                    </div>
-                }
-
-                {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
-                    <div className="icon-preview">
-                        <img src="/xlsx-icon.svg" alt="icon-xlsx" />
-                    </div>
-                }
-
-                {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' &&
-                    <div className="icon-preview">
-                        <img src="/pptx-icon.svg" alt="icon-pptx" />
-                    </div>
-                }
-                
             </figure>
             <progress className="w-25 mx-auto" value={fileImportComponent.externalProgress ?? uploadProgress} max={100}></progress>
             <input
@@ -155,8 +124,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                     request.onload = () =>{
                         if (request.status === 201){
                             const id = JSON.parse(request.responseText);
-                            if (fileImportComponent.onUploaded)
-                                fileImportComponent.onUploaded(id.file_id);
+                            fileImportComponent.onUploaded(id.file_id);
                         }
                     }
                     request.upload.onprogress = (event) =>{

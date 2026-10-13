@@ -11,39 +11,48 @@
     "my-friends": "Mes amis",
     "send-game-invitation": "Envoyer une invitation à jouer",
     "send-message": "Envoyer un message",
+    "notifications": "Notifications",
     "parameters": "Paramètres",
     "name": "Nom",
     "lastname": "Prénom",
+    "pseudo": "Pseudo",
     "email": "Email",
     "languages": "Langues",
     "play": "Jouer",
+    "update-my-profile": "Modifier mon profil",
     "loading": "Chargement...",
+    "page-not-found": "Page non trouvée",
+    "chatting-with": "Vous discutez avec",
     "send": "Envoyer",
     "search-user": "Rechercher un utilisateur",
     "search": "Rechercher",
     "confirm": "Confirmer",
     "undo": "Annuler",
-    "import-file-instead": "Importer un fichier",
-    "download-file": "Télécharger",
-    "delete-file": "Supprimer",
+    "import-file-instead": "Importer un fichier à la place",
+    "download-file": "Télécharger le fichier",
     "ready": "Prêt",
     "updated": "Mis à jour",
     "my-stats": "Mes statistiques",
     "terms-of-service": "Conditions d'utilisation",
     "privacy-policy": "Politique de confidentialité",
-    "no-search-results": "Aucun profil avec ce nom, pseudo ou prénom",
-    "something-went-wrong": "Une erreur est survenue. Veuillez réessayer plus tard.",
-    "import-image": "Importer une image",
-    "find-user": "Rechercher un utilisateur",
-    "import-file": "Importer un fichier"
+    "no-search-results": "Aucun profil avec ce nom, pseudo ou prénom"
   },
   "login": {
     "mail-or-pseudo": "Mail ou pseudo",
+    "log-google": "Se connecter avec Google",
+    "log-github": "Se connecter avec GitHub",
+    "log-fourty-two": "Se connecter avec 42",
+    "login-with": "Se connecter avec :",
+    "register-with": "S'inscrire avec :",
+    "or": "OU",
     "no-account": "Pas encore de compte ?",
     "create-account": "Créez un compte"
   },
   "register": {
     "birthdate": "Date de naissance",
+    "register-google": "S'inscrire avec Google",
+    "register-github": "S'inscrire avec GitHub",
+    "register-fourty-two": "S'inscrire avec 42",
     "already-have-account": "Vous avez déjà un compte ?"
   },
   "complete-your-profile": {
@@ -60,21 +69,38 @@
     "add-friend": "Ajouter un ami",
     "send-friendship-invitation": "Envoyer une demande d'ami",
     "friend-list": "Ma liste d'amis",
+    "games-played": "Parties jouées",
+    "games-won": "Parties gagnées",
+    "games-lost": "Parties perdues",
+    "best-score": "Meilleur score",
     "my-stats": "Mes statistiques"
   },
   "update-my-profile": {
+    "update-my-profile": "Mettre à jour mon profil",
+    "change-my-password": "Changer mon mot de passe",
+    "old-password": "Ancien mot de passe",
+    "new-password": "Nouveau mot de passe",
+    "confirm-password": "Confirmez le nouveau mot de passe",
     "change-account-infos": "Modifier les informations du compte",
     "change-first-name": "Changer de prénom",
     "change-last-name": "Changer de nom de famille",
     "change-pseudo": "Changer de pseudo",
-    "change-profile-photo": "Changer de photo de profil"
+    "change-profile-photo": "Changer de photo de profil",
+    "display-name-and-last-name": "Afficher le nom et le prénom",
+    "danger-zone": "ZONE DANGEREUSE",
+    "delete-my-account": "Supprimer mon compte",
+    "delete-my-game-infos": "Supprimer mes statistiques de jeu"
   },
   "message": {
     "chats": "Chats",
+    "my-messages": "Mes messages",
     "new-message": "Nouveau message",
     "start-new-chat": "Démarrer une nouvelle discussion",
     "block": "Bloquer",
     "imaginary-friend": "Ami imaginaire",
+    "chat-with-friend": "Discuter avec un ami",
+    "type-your-message": "Écrivez votre message",
+    "upload-file": "Envoyer un fichier",
     "invite-to-game": "Inviter à jouer",
     "give-reason": "Donnez la raison :",
     "search-user": "Recherchez un utilisateur pour démarrer une discussion",
@@ -82,35 +108,36 @@
     "start-chat": "Démarrer la chat",
     "go-to-profile": "Aller au profil",
     "back": "Retour",
-    "open-chat": "Ouvrez une conversation",
-    "type-your-message": "Écrivez votre message ici",
-    "game-invite": "Vous êtes invité à jouer au Gomoku",
-    "board-size": "Taille du plateau : {{size}}",
-    "accept": "Accepter",
-    "decline": "Refuser"
+    "info": "Info"
   },
   "friends": {
     "send-friend-request": "Envoyer une demande d'ami",
     "my-friends": "Mes amis",
     "delete-friend": "Supprimer l'ami",
     "delete-confirm-title": "Supprimer \"{{name}}\" de la liste d'amis",
+    "delete-reason-placeholder": "Expliquez pourquoi vous n'êtes plus amis",
+    "delete": "Supprimer",
     "pending-requests": "Demandes en attente",
     "accept": "Accepter",
     "refuse": "Refuser",
     "your-requests": "Vos demandes",
+    "disable": "Désactiver",
     "avatar-alt": "Avatar de l'ami",
     "cancel": "Annuler",
     "add-friend": "Ajouter un ami",
     "block": "Bloquer",
     "no-friends": "Vous n'avez pas encore d'amis ni de demandes d'ami.",
-    "no-friends-hint": "Trouvez quelqu'un à l'aide de la barre de recherche et cliquez sur Ajouter un ami pour lui envoyer une demande d'ami.",
-    "blocked-users": "Utilisateurs bloqués",
-    "unblock": "Débloquer"
+    "no-friends-hint": "Trouvez quelqu'un à l'aide de la barre de recherche et cliquez sur Ajouter un ami pour lui envoyer une demande d'ami."
   },
   "errors": {
+    "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
     "USER_NOT_FOUND": "Aucun utilisateur trouvé avec ces identifiants",
     "INVALID_TOKEN": "Session invalide",
     "DATABASE_ERROR": "Erreur serveur, merci de réessayer plus tard",
+    "INVALID_CREDENTIALS": "Identifiants invalides",
+    "NO_FILE_UPLOADED": "Aucun fichier n'a été téléchargé",
+    "SERVER_MISCONFIGURED": "Mauvaise configuration serveur",
+    "UPLOAD_FAILED": "Le téléchargement a échoué",
     "WRONG_FILE_TYPE": "Mauvais type de fichier (uniquement : png, jpg, jpeg ou webp)",
     "FETCH_DEFAULT_AVATARS_ERROR": "Les avatars par défaut n'ont pas pu être importés",
     "AVATAR_REQUIRED": "Veuillez choisir ou importer un avatar",
@@ -124,7 +151,10 @@
     "LAST_NAME_REQUIRED": "Le nom est requis",
     "LAST_NAME_TOO_LONG": "Le nom est trop long",
     "PASSWORD_WEAK": "Mot de passe invalide (12 caractères minimum, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial)",
+    "PASSWORD_CONFIRM_REQUIRED": "La confirmation du mot de passe est requise",
     "PASSWORDS_DO_NOT_MATCH": "La confirmation du mot de passe doit correspondre",
+    "BIRTHDATE_REQUIRED": "La date de naissance est requise",
+    "DATE_INVALID": "La date est invalide",
     "AGE_REQUIREMENT": "Vous devez avoir au moins 18 ans",
     "PSEUDO_REQUIRED": "Le nom d'utilisateur est requis",
     "PSEUDO_INVALID": "Le nom d'utilisateur doit contenir 3 à 30 caractères et utiliser uniquement des lettres, chiffres, underscores et tirets",
@@ -132,21 +162,267 @@
     "EMAIL_REQUIRED": "L'email est requis",
     "EMAIL_TOO_LONG": "L'email est trop long",
     "EMAIL_INVALID": "L'email est invalide",
-    "EMAIL_EXISTS": "Cet email est déjà utilisé",
-    "FILE_DELETED": "Ce fichier a été supprimé.",
-    "INVALID_AVATAR": "L'avatar est invalide",
-    "ENTRY_TOO_LONG": "L'entrée est trop longue",
-    "QUERY_REQUIRED": "Veuillez saisir une entrée",
-    "ALREADY_FRIENDS": "Vous êtes déjà amis",
-    "ALREADY_SENT": "Vous avez déjà envoyé la demande",
-    "INCOMING_EXISTS": "Cette personne vous a déjà envoyé une demande d'ami.",
-    "CANNOT_ADD_SELF": "Vous ne pouvez pas être ami avec vous-même.",
-    "FRIENDSHIP_NOT_FOUND": "Cette amitié n'existe pas",
-    "FILE_NOT_FOUND": "Fichier introuvable",
-    "FORBIDDEN": "Accès au fichier interdit",
-    "INVALID_FILE_ID": "Identifiant du fichier invalide",
-    "NO_FILE_PROVIDED": "Aucun fichier fourni",
-    "CHATID_REQUIRED": "L'identifiant de la conversation est requis",
-    "TOO_MANY_REQUESTS": "Trop de requêtes, veuillez réessayer dans quelques instants"
+    "EMAIL_EXISTS": "Cet email est déjà utilisé"
+  },
+  "privacy-policy": {
+    "title": "Politique de confidentialité",
+    "last-updated": "Dernière mise à jour : septembre 2026",
+
+    "introduction": {
+      "title": "1. Introduction",
+      "text": "Cette politique de confidentialité explique comment notre application collecte, utilise, stocke et protège les données personnelles lorsque vous utilisez nos services."
+    },
+
+    "information": {
+      "title": "2. Informations que nous collectons",
+
+      "account": {
+        "title": "Informations du compte",
+        "text": "Lorsque vous créez un compte, nous pouvons collecter des informations telles que votre nom d'utilisateur, vos données d'authentification et les autres informations nécessaires à la création et à la gestion de votre compte."
+      },
+
+      "profile": {
+        "title": "Informations du profil",
+        "text": "Les utilisateurs peuvent fournir des informations pour leur profil, telles qu'une photo de profil ou d'autres informations personnelles."
+      },
+
+      "messages": {
+        "title": "Messages et fonctionnalités sociales",
+        "text": "Lorsque vous utilisez les fonctionnalités de messagerie et d'amitié, nous traitons les informations nécessaires à la fourniture de ces services, notamment les messages, les participants aux conversations et les relations d'amitié."
+      },
+
+      "game": {
+        "title": "Données de jeu",
+        "text": "Lorsque vous jouez à des jeux sur l'application, nous pouvons enregistrer des informations relatives à vos parties, telles que les résultats, les coups, les scores ou toute autre information nécessaire aux fonctionnalités de jeu et de statistiques."
+      },
+
+      "ai": {
+        "title": "Conversations avec l'IA",
+        "text": "L'application propose une fonctionnalité utilisant l'intelligence artificielle appelée \"Imaginary Friend\". Lorsque vous utilisez cette fonctionnalité, vos messages sont traités afin de générer des réponses de l'IA."
+      },
+
+      "analytics": {
+        "title": "Données d'analyse et d'utilisation",
+        "text": "Nous pouvons collecter des informations relatives à votre propre activité dans l'application, telles que l'utilisation de l'IA, les jeux, les messages ou d'autres statistiques affichées dans les fonctionnalités d'analyse de l'application."
+      },
+
+      "technical": {
+        "title": "Informations techniques",
+        "text": "L'application peut traiter les informations techniques nécessaires à son fonctionnement et à sa sécurité, telles que les informations d'authentification, les informations de session, les adresses IP ou les journaux des serveurs."
+      }
+    },
+
+    "usage": {
+      "title": "3. Comment nous utilisons les informations",
+      "intro": "Nous utilisons les informations que nous traitons notamment pour :",
+      "items": {
+        "accounts": "créer et gérer les comptes utilisateurs ;",
+        "authentication": "authentifier les utilisateurs ;",
+        "messaging": "fournir les fonctionnalités de messagerie et d'amitié ;",
+        "games": "fournir les jeux et les statistiques de jeu ;",
+        "ai": "fournir les fonctionnalités utilisant l'intelligence artificielle ;",
+        "analytics": "afficher les statistiques personnelles d'utilisation ;",
+        "security": "protéger l'application contre les abus et les accès non autorisés ;",
+        "rate-limits": "appliquer des limites d'utilisation et des mesures de sécurité ;",
+        "maintenance": "maintenir et améliorer l'application."
+      }
+    },
+
+    "ai-services": {
+      "title": "4. Services d'intelligence artificielle",
+      "text": "Notre application utilise un service d'intelligence artificielle externe pour générer des réponses pour la fonctionnalité \"Imaginary Friend\". Les messages envoyés à cette fonctionnalité peuvent être transmis au fournisseur du service d'IA afin d'être traités.",
+      "accuracy": "Les réponses générées par l'IA sont produites automatiquement et peuvent être inexactes, incomplètes ou inappropriées. Les utilisateurs ne doivent pas considérer les réponses générées par l'IA comme des conseils médicaux, juridiques, financiers ou autres conseils professionnels.",
+      "sensitive-data": "Les utilisateurs doivent éviter de fournir des informations personnelles hautement sensibles ou inutiles à la fonctionnalité d'IA."
+    },
+
+    "third-party": {
+      "title": "5. Services de tiers",
+      "text": "L'application peut utiliser des services fournis par des tiers pour certaines fonctionnalités, notamment des services d'intelligence artificielle ou des fournisseurs d'authentification. Lorsque des services tiers traitent des informations personnelles, leur traitement peut également être soumis à leurs propres politiques de confidentialité et conditions d'utilisation."
+    },
+
+    "cookies": {
+      "title": "6. Authentification et cookies",
+      "text": "L'application utilise des mécanismes d'authentification, notamment des cookies ou des technologies similaires, afin de maintenir les sessions authentifiées et de protéger les comptes utilisateurs. Ces technologies sont nécessaires aux fonctionnalités principales telles que la connexion et l'accès aux fonctionnalités protégées."
+    },
+
+    "retention": {
+      "title": "7. Conservation des données",
+      "text": "Les données personnelles sont conservées uniquement pendant la durée nécessaire à la fourniture des fonctionnalités concernées, au fonctionnement de l'application, au respect des obligations applicables ou à la résolution des problèmes de sécurité et de fonctionnement. La durée exacte de conservation peut dépendre du type de données et de la fonctionnalité concernée. Lorsque les données ne sont plus nécessaires, elles peuvent être supprimées ou anonymisées lorsque cela est approprié."
+    },
+
+    "security": {
+      "title": "8. Sécurité des données",
+      "text": "Nous utilisons des mesures techniques et organisationnelles raisonnables afin de protéger les informations personnelles contre les accès non autorisés, les modifications, les divulgations ou les destructions. Ces mesures peuvent inclure des contrôles d'authentification, le hachage des mots de passe, des contrôles d'accès, des vérifications d'autorisation, des limitations de requêtes et des mécanismes de communication sécurisés. Toutefois, aucun service en ligne ne peut garantir une sécurité absolue."
+    },
+
+    "rights": {
+      "title": "9. Droits des utilisateurs",
+      "intro": "Selon la législation applicable en matière de protection des données, les utilisateurs peuvent disposer de certains droits concernant leurs informations personnelles, notamment :",
+      "items": {
+        "access": "le droit d'accéder à leurs informations personnelles ;",
+        "correction": "le droit de demander la correction des informations inexactes ;",
+        "deletion": "le droit de demander la suppression de leurs informations personnelles ;",
+        "restriction": "le droit de demander la limitation du traitement ;",
+        "objection": "le droit de s'opposer à certains traitements ;",
+        "portability": "le droit à la portabilité des données lorsque la loi le prévoit."
+      },
+      "contact": "Les utilisateurs peuvent contacter l'équipe du projet pour toute demande concernant leurs informations personnelles."
+    },
+
+    "deletion": {
+      "title": "10. Suppression des données",
+      "text": "Les utilisateurs peuvent demander la suppression de leur compte et des informations personnelles associées lorsque cela est applicable. Certaines informations peuvent devoir être conservées pour des raisons de sécurité, légales ou techniques."
+    },
+
+    "changes": {
+      "title": "11. Modifications de cette politique de confidentialité",
+      "text": "Nous pouvons mettre à jour cette politique de confidentialité lorsque l'application ou ses pratiques de traitement des données évoluent. En cas de modification, la version mise à jour sera publiée sur cette page avec une nouvelle date de dernière mise à jour."
+    },
+
+    "contact": {
+      "title": "12. Contact",
+      "text": "Si vous avez des questions concernant cette politique de confidentialité ou le traitement de vos informations personnelles, vous pouvez contacter l'équipe du projet à l'adresse suivante :",
+      "email": "VOTRE ADRESSE E-MAIL"
+    }
+  },
+
+  "terms-of-service": {
+    "title": "Conditions d'utilisation",
+    "last-updated": "Dernière mise à jour : septembre 2026",
+
+    "acceptance": {
+      "title": "1. Acceptation des présentes conditions",
+      "text": "En créant un compte ou en utilisant l'application, vous acceptez les présentes conditions d'utilisation."
+    },
+
+    "service": {
+      "title": "2. Description du service",
+      "text": "L'application est une plateforme web sociale et de jeux."
+    },
+
+    "accounts": {
+      "title": "3. Comptes utilisateurs",
+      "text": "Les utilisateurs sont responsables de la sécurité de leurs identifiants de connexion."
+    },
+
+    "acceptable-use": {
+      "title": "4. Utilisation autorisée",
+      "intro": "Vous acceptez d'utiliser l'application de manière responsable et conforme à la loi."
+    },
+
+    "content": {
+      "title": "5. Contenu créé par les utilisateurs",
+      "text": "Les utilisateurs peuvent créer ou télécharger du contenu tel que des informations de profil, des photos de profil et des messages."
+    },
+
+    "messaging": {
+      "title": "6. Messagerie et fonctionnalités sociales",
+      "text": "Les fonctionnalités de messagerie et d'amitié sont destinées à permettre la communication entre les utilisateurs."
+    },
+
+    "games": {
+      "title": "7. Jeux",
+      "text": "L'application peut proposer des jeux en ligne tels que le Gomoku."
+    },
+
+    "ai": {
+      "title": "8. Fonctionnalités d'intelligence artificielle",
+      "text": "L'application propose des fonctionnalités utilisant l'intelligence artificielle via la fonction \"Imaginary Friend\". Les réponses de l'IA sont générées automatiquement et peuvent contenir des erreurs ou des informations inexactes. La fonctionnalité d'IA ne doit pas être considérée comme un remplacement d'un conseil professionnel. Les utilisateurs ne doivent pas utiliser cette fonctionnalité à des fins illégales ni tenter d'abuser du service d'IA, de contourner ses restrictions ou de le surcharger. L'application peut appliquer des limites d'utilisation de l'IA."
+    },
+
+    "third-party": {
+      "title": "9. Services de tiers",
+      "text": "Certaines fonctionnalités de l'application peuvent dépendre de services fournis par des tiers. Ces tiers peuvent disposer de leurs propres conditions d'utilisation et politiques de confidentialité."
+    },
+
+    "availability": {
+      "title": "10. Disponibilité du service",
+      "text": "Nous nous efforçons de maintenir l'application disponible et fonctionnelle, mais nous ne garantissons pas que le service sera toujours disponible, ininterrompu ou exempt d'erreurs. Des opérations de maintenance, des problèmes techniques, des incidents de sécurité ou d'autres circonstances peuvent affecter temporairement sa disponibilité."
+    },
+
+    "termination": {
+      "title": "11. Suspension et résiliation des comptes",
+      "text": "Nous pouvons restreindre, suspendre ou résilier un compte lorsque cela est nécessaire, notamment en cas de violation des présentes conditions d'utilisation, d'abus envers d'autres utilisateurs, de tentative de compromission de la sécurité de l'application, d'activité frauduleuse ou illégale, ou de perturbation volontaire du service."
+    },
+
+    "intellectual-property": {
+      "title": "12. Propriété intellectuelle",
+      "text": "L'application, notamment ses logiciels, son design, son interface, ses logos et ses autres éléments originaux, peut être protégée par les lois applicables en matière de propriété intellectuelle."
+    },
+
+    "liability": {
+      "title": "13. Limitation de responsabilité",
+      "text": "L'application est fournie selon sa disponibilité. Dans la mesure permise par la loi applicable, l'équipe du projet ne peut être tenue responsable des pertes résultant d'une mauvaise utilisation de l'application, d'informations générées par l'IA qui seraient inexactes, d'interruptions temporaires du service ou de circonstances indépendantes du contrôle raisonnable du projet. Rien dans ces conditions ne limite les droits ou protections qui ne peuvent légalement être exclus."
+    },
+
+    "changes": {
+      "title": "14. Modifications des présentes conditions",
+      "text": "Ces conditions d'utilisation peuvent être mises à jour lorsque l'application ou ses fonctionnalités évoluent. La version mise à jour sera publiée sur cette page avec une nouvelle date de dernière mise à jour."
+    },
+
+    "contact": {
+      "title": "15. Contact",
+      "text": "Si vous avez des questions concernant ces conditions d'utilisation, vous pouvez contacter l'équipe du projet à l'adresse suivante :",
+      "email": "mknoll@student.42mulhouse.fr"
+    }
+  },
+  "analytics": {
+  "title": "Tableau de bord analytique",
+  "description": "Vue d'ensemble de votre activité et de votre utilisation de l'IA.",
+
+  "filters": {
+    "from": "Du :",
+    "to": "Au :",
+    "7-days": "7 jours",
+    "14-days": "14 jours",
+    "30-days": "30 jours",
+    "apply": "Appliquer",
+    "export-csv": "Exporter en CSV"
+  },
+
+  "errors": {
+    "load-failed": "Impossible de charger les données analytiques.",
+    "invalid-date-range": "La date de début ne peut pas être postérieure à la date de fin."
+  },
+
+  "loading": "Chargement des données analytiques...",
+  "no-data": "Aucune donnée analytique disponible.",
+
+  "overview": {
+    "games-played": "Parties jouées",
+    "games-won": "Parties gagnées",
+    "games-lost": "Parties perdues",
+    "win-rate": "Taux de victoire",
+    "ai-requests": "Requêtes IA",
+    "total-tokens": "Total des tokens"
+  },
+
+  "charts": {
+    "activity-over-time": "Activité au fil du temps",
+    "distribution": "Répartition",
+
+    "ai-usage-over-time": "Utilisation de l'IA au fil du temps",
+    "games-over-time": "Parties au fil du temps",
+
+    "ai-token-usage": "Utilisation des tokens IA",
+    "games-played": "Parties jouées",
+
+    "input-tokens": "Tokens d'entrée",
+    "output-tokens": "Tokens de sortie",
+    "thinking-tokens": "Tokens de raisonnement",
+
+    "won": "Gagnées",
+    "lost": "Perdues",
+
+    "total-tokens": "Total des tokens",
+    "total-games": "Total des parties"
   }
+}, 
+"imaginary-friend": {
+  "loading": "Ton ami imaginaire est en cours de démarrage...",
+  "title": "Ami imaginaire",
+  "rate-limit": "Tu pourras envoyer un autre message dans {{seconds}} secondes.",
+  "placeholder": "Écris un message...",
+  "send": "Envoyer"
+}
 }

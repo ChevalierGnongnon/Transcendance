@@ -1,13 +1,9 @@
 @use "./common-variables.scss" as *;
 
 .search{
-    width: 100%;
+    width: 70%;
     margin-left: auto;
     margin-right: auto;
-
-    @media (min-width: 1200px) {
-        width: 70%;
-    }
 }
 
 .search-bar{
@@ -15,20 +11,15 @@
     display: block;
     border-top-left-radius: $radius-md;
     border-top-right-radius: $radius-md;
-    text-align: center;
+    padding: 1%;
 }
 
 .header-middle{
     width: 50%;
     margin: 0 auto;
-
-    @media (min-width: 1200px) {
-        width: 60%;
-    }
 }
 
-.header-search-results,
-.mini-search-list {
+.header-search-results {
     background-color: $navy-hover;
     color: white;
     padding: 0;
@@ -40,8 +31,7 @@
     overflow-y: auto;
 }
 
-.header-search-results li,
-.mini-search-list li {
+.header-search-results li {
     border-bottom: 1px solid white;
     padding: 1%;
     &:hover{
@@ -49,44 +39,19 @@
     }
 }
 
-.header-search-results li figure,
-.mini-search-list li figure {
+.header-search-results li figure {
     margin: 0;
 }
 
 
-.header-search-results li img,
-.mini-search-list li img {
+.header-search-results li img {
     height: 80px;
     width: 80px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid white;
     &:hover{
         transform: scale(1.1, 1.1);
     }
-}
-
-.search-result-name {
-    min-width: 0;
-    overflow: hidden;
-
-    .field-name {
-        display: inline-block;
-        max-width: 100%;
-        min-width: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        vertical-align: bottom;
-    }
-}
-
-.mini-search-bar{
-    width: 100%;
-    border-top-left-radius: $radius-md;
-    border-top-right-radius: $radius-md;
-    text-align: center;
-    appearance: none;
-    -webkit-appearance: none;
 }
 

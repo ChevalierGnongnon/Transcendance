@@ -4,7 +4,7 @@ import "../../scss/headers.scss";
 import { useState , useEffect, useRef} from "react";
 import { useApiFetch } from "../auth/use-api-fetch";
 import { useTranslation } from 'react-i18next';
-import { useFriendships } from "../friends/useFriendships";
+
 interface SearchResult{
     id: string;
     firstName: string;
@@ -19,8 +19,7 @@ interface SearchResult{
 interface SearchBarProps {
     ClassName: string, 
     ListClassName: string, 
-    BreakPoint : number | null,
-    PlaceHolder: string | undefined,
+    BreakPoint : number
     onSelectUser: (result: SearchResult) => void;
 }
 
@@ -32,14 +31,8 @@ function SearchBar(props: SearchBarProps){
     const ref = useRef<HTMLDivElement>(null);
     const apiFetch = useApiFetch();
 
-    const { getStatus } = useFriendships()
     useEffect(() => {
         async function search() {
-            if (input.trim() === "") {
-                setResult(null);
-                return;
-            }
-
             try {
                 const res = await apiFetch("/api/users/search?q=" + encodeURIComponent(input), { credentials: "include" });
                 if (!res.ok) {
@@ -87,7 +80,7 @@ function SearchBar(props: SearchBarProps){
                     id="search-bar"
                     className={props.ClassName}
                     value={input}
-                    placeholder={props.PlaceHolder}
+                    placeholder={t('common.search-user')}
                     onChange={
                         function startResearch(event){
                             setResearchStarted(true);
@@ -100,24 +93,23 @@ function SearchBar(props: SearchBarProps){
                     <li className="search-no-result">{t('common.no-search-results')}</li>
                     ) : (
                         result.map((user)=>
-                            <li className="d-flex align-items-center justify-content-center gap-2 gap-md-5 px-3" key={user.id} onClick={(()=> props.onSelectUser(user))}>
-                                <figure className="d-none d-xl-block">
+                            <li className="d-flex align-items-center justify-content-center gap-5 px-3" key={user.id} onClick={(()=> props.onSelectUser(user))}>
+                                <figure>
                                     <img
                                         src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'}
                                         alt="avatar"
-                                        className={`avatar-msg ${getStatus(user.id)}-avatar`}
                                     />
                                 </figure>
-                                <span className="d-flex search-result-name">
+                                <span className="d-flex">
                                     {
                                         [user.lastName, user.firstName, user.pseudo].map((field, index) => {
                                             const len = input.length;
                                             const boldPart = field.slice(0, len);
                                             const end = field.slice(len, field.length)
                                             return (
-                                                    <span key={index}  className={`field-name ${index < 2 ? 'd-none d-xl-inline' : ''}`}>
-                                                        { index > 0 &&
-                                                            <span className="mx-4 d-none d-xl-inline"> | </span>
+                                                    <span key={index}>
+                                                        { index > 0 && 
+                                                            <span className="mx-4"> | </span> 
                                                         }
                                                         { boldPart.toLowerCase() === input.toLowerCase() &&
                                                             <>
