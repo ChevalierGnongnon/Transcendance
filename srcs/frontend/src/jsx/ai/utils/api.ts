@@ -1,6 +1,3 @@
-// Wie kommunizieren wir mit dem backend 
-
-
 // function to return the amoutn of request available 
 function getRateLimitInfo(response: Response) {
   const header = response.headers.get('RateLimit');
