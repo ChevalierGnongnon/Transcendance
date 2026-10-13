@@ -169,6 +169,7 @@
     "play_local": "Lokal spielen (nur gegen dich selbst)",
     "play_online": "Online spielen (Gegner einladen)",
     "table_size": "Spielfeldgröße:",
+    "invite_message": "Du wurdest zu einer Gomoku-Partie eingeladen",
     "invitation_sending": "Einladung wird gesendet...",
     "invitation_waiting": "Einladung gesendet - Antwort wird erwartet.",
     "invitation_declined": "{{user}} hat deine Einladung abgelehnt.",

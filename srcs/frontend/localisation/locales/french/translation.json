@@ -165,6 +165,7 @@
     "play_local": "Jouer en local (uniquement contre vous-même)",
     "play_online": "Jouer en ligne (inviter un adversaire)",
     "table_size": "Taille du plateau :",
+    "invite_message": "Vous avez été invité à jouer à Gomoku",
     "invitation_sending": "Envoi de l'invitation...",
     "invitation_waiting": "Invitation envoyée - en attente d'une réponse.",
     "invitation_declined": "{{user}} a refusé votre invitation.",

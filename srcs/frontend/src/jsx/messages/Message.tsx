@@ -96,7 +96,7 @@ export const Message = (props: MessageProps) => {
                     ? 'Invitation declined'
                     : resolvedState === 'expired'
                       ? 'Invitation expired'
-                    : 'You invited to play Gomoku'}
+                    : t('game.invite_message')}
               </span>
               <div className="invite-actions">
                 <button
@@ -116,7 +116,7 @@ export const Message = (props: MessageProps) => {
                     });
                   }}
                 >
-                  t{'game.accept'};
+                  {t('game.accept')}
                 </button>
 
                 <button
@@ -136,7 +136,7 @@ export const Message = (props: MessageProps) => {
                     });
                   }}
                 >
-                  t{'game.decline'};
+                  {t('game.decline')}
                 </button>
               </div>
             </div>
