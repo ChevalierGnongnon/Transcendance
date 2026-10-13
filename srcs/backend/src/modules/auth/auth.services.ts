@@ -8,11 +8,13 @@ import { fileTypeFromBuffer } from 'file-type';
 import { avatarWhiteList } from '../files/files.middlewares.ts';
 import { userInfo } from 'os';
 
+const DUMMY_HASH = bcrypt.hashSync('pjm5UrwVZgJxXa3eyc79dZsNeZcJsFwL0l1U81521XjMv3FXvw8NIVkHQuIpk4jmpAuA77fD', 12);
 
 function createToken(userId: string){
   const token = jwt.sign({ userId: userId }, process.env.JWT_SECRET!, {expiresIn: 24 * 60 * 60});
   return (token);
 }
+
 
 class authService {
   async login(login: string, password: string) {
@@ -27,6 +29,7 @@ class authService {
     });
 
     if (!user) {
+      await bcrypt.compare(password, DUMMY_HASH);
       throw new NotFoundError('User not found');
     }
 

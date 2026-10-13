@@ -62,26 +62,36 @@ class FileService {
         const fileName = `${id}.webp`;
         fs.writeFileSync(`/app/uploads/${fileName}`, result);
 
-        await prisma.$transaction([
-          prisma.file.create({
-            data: {
-              id: id,
-              name: fileName,
-              type: type,
-              userId: userId,
-              mimeType: 'image/webp',
-              expiresAt: null,
-            },
-          }),
-          prisma.user.update({
-            where: {
-              id: userId,
-            },
-            data: {
-              profilePhotoId: id,
-            },
-          }),
-        ]);
+        try{
+          await prisma.$transaction([
+            prisma.file.create({
+              data: {
+                id: id,
+                name: fileName,
+                type: type,
+                userId: userId,
+                mimeType: 'image/webp',
+                expiresAt: null,
+              },
+            }),
+            prisma.user.update({
+              where: {
+                id: userId,
+              },
+              data: {
+                profilePhotoId: id,
+              },
+            }),
+          ]);
+        } catch (err) {
+          try{
+            fs.unlinkSync(`/app/uploads/${fileName}`);
+          }
+          catch { }
+          
+          throw (err);
+        }
+        
         if (previousUser?.profilePhotoId) {
           try {
             await this.deleteFile(previousUser.profilePhotoId, userId);
@@ -124,17 +134,27 @@ class FileService {
 
         fs.writeFileSync(`/app/uploads/${fileName}`, bufferToWrite);
 
-        await prisma.file.create({
-          data: {
-            id: id,
-            name: fileName,
-            type: type,
-            userId: userId,
-            chatId: chatId,
-            mimeType: extension === 'webp' ? 'image/webp' : fileType.mime,
-            expiresAt: expiredDate,
-          },
-        });
+        try{
+          await prisma.file.create({
+            data: {
+              id: id,
+              name: fileName,
+              type: type,
+              userId: userId,
+              chatId: chatId,
+              mimeType: extension === 'webp' ? 'image/webp' : fileType.mime,
+              expiresAt: expiredDate,
+            },
+          });
+        } catch (err){
+          try{
+            fs.unlinkSync(`/app/uploads/${fileName}`);
+          }
+          catch { }
+          
+          throw (err);
+        }
+        
         return id;
       } else {
         throw new UnsupportedFileTypeError('File type is not in whitelist');
