@@ -52,8 +52,6 @@
   "complete-your-profile": {
     "title": "Заполните свой профиль",
     "enter-a-pseudo": "Введите псевдоним",
-    "confirm": "Подтвердить",
-    "upload-avatar": "Загрузить аватар",
     "choose-an-avatar": "Или выберите аватар по умолчанию :"
   },
   "profile-page": {

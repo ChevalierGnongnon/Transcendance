@@ -52,8 +52,6 @@
   "complete-your-profile": {
     "title": "Complete your profile",
     "enter-a-pseudo": "Enter a pseudo",
-    "confirm": "Confirm",
-    "upload-avatar": "Upload an avatar",
     "choose-an-avatar": "Or choose a default one :"
   },
   "profile-page": {
