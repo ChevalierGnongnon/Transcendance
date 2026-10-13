@@ -38,8 +38,11 @@ function FileImport(fileImportComponent: FileImportComponent){
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [uploadProgress, setUploadProgress] = useState<number>(0)
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [confirmed, setConfirmed] = useState(false);
+    const [confirmed, setConfirmed] = useState<boolean>(false);
+    const [isUploading, setIsUploading] = useState<boolean>(false);
     const {markDisconnected} = useAuth();
+
+
     return (
         <div className="file_component p-2 d-flex flex-column">
             <input
@@ -134,64 +137,77 @@ function FileImport(fileImportComponent: FileImportComponent){
                 type="button"
                 value={t('common.confirm')}
                 className="file-accept-button"
+                disabled={isUploading}
                 onClick={()=>{
-                    setUploadProgress(0);
-                    let url ;
-                    if (selectedFile === null)
-                        return ;
-                    if (fileImportComponent.deferUpload){
-                        if (fileImportComponent.onFileReady)
-                            fileImportComponent.onFileReady(selectedFile);
-                        setConfirmed(true);
+                    if (isUploading === true)
                         return;
-                    }
-                    let form = new FormData();
-                    form.append('file', selectedFile);
-                    let request = new XMLHttpRequest();
-                    if (fileImportComponent.mode === 'avatar')
-                        url = '/api/avatar';
-                    else
-                        return ;
-                    request.open('POST', url);
-                    request.onload = () =>{
-                        if (request.status === 201){
-                            const id = JSON.parse(request.responseText);
-                            if (fileImportComponent.onUploaded){
-                                fileImportComponent.onUploaded(id.file_id);
+                    else {
+                        setIsUploading(true);
+                        setUploadProgress(0);
+                        let url ;
+                        if (selectedFile === null){
+                            setIsUploading(false);
+                            return ;
+                        }
+                            
+                        if (fileImportComponent.deferUpload){
+                            if (fileImportComponent.onFileReady)
+                                fileImportComponent.onFileReady(selectedFile);
+                            setConfirmed(true);
+                            setIsUploading(false);
+                            return;
+                        }
+                        let form = new FormData();
+                        form.append('file', selectedFile);
+                        let request = new XMLHttpRequest();
+                        if (fileImportComponent.mode === 'avatar')
+                            url = '/api/avatar';
+                        else{
+                            setIsUploading(false);
+                            return ;
+                        }
+                        request.open('POST', url);
+                        request.onload = () =>{
+                            if (request.status === 201){
+                                const id = JSON.parse(request.responseText);
+                                if (fileImportComponent.onUploaded){
+                                    fileImportComponent.onUploaded(id.file_id);
+                                    
+                                }
+                                setErrorMessage(null);
+                                setUploadProgress(0);
+                                setConfirmed(false);
                                 
                             }
-                            setErrorMessage(null);
-                            setUploadProgress(0);
-                            setConfirmed(false);
-                            
-                        }
-                        else if (request.status === 401)
-                            markDisconnected();
-                        else {
-                            try{
-                                const error = JSON.parse(request.responseText);
-                                setErrorMessage(error?.error ?? 'INTERNAL_SERVER_ERROR');
-                            } catch {
-                                if (request.status === 413)
-                                    setErrorMessage('INVALID_FILE_SIZE');
-                                else
-                                    setErrorMessage('INTERNAL_SERVER_ERROR');
-                                
+                            else if (request.status === 401)
+                                markDisconnected();
+                            else {
+                                try{
+                                    const error = JSON.parse(request.responseText);
+                                    setErrorMessage(error?.error ?? 'INTERNAL_SERVER_ERROR');
+                                } catch {
+                                    if (request.status === 413)
+                                        setErrorMessage('INVALID_FILE_SIZE');
+                                    else
+                                        setErrorMessage('INTERNAL_SERVER_ERROR');
+                                    
+                                }
                             }
-                            
-                        }
+                            setIsUploading(false);
 
+                        }
+                        request.upload.onprogress = (event) =>{
+                            if (event.lengthComputable === true){
+                                let progress = (event.loaded / event.total) * 100;
+                                setUploadProgress(progress);
+                            }   
+                        }
+                        request.onerror = () => {
+                            setErrorMessage('DATABASE_ERROR');
+                            setIsUploading(false);
+                        };
+                        request.send(form);
                     }
-                    request.upload.onprogress = (event) =>{
-                        if (event.lengthComputable === true){
-                            let progress = (event.loaded / event.total) * 100;
-                            setUploadProgress(progress);
-                        }   
-                    }
-                    request.onerror = () => {
-                        setErrorMessage('DATABASE_ERROR');
-                    };
-                    request.send(form);
                 }
             }/>
             {confirmed && <span className="d-block text-center text-white">✓ {t('common.ready')}</span>}
