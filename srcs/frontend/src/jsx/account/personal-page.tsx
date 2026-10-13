@@ -180,7 +180,7 @@ function PersonalPage() {
 
 					{isMine &&
 						<>
-							<span>{t("profile-page.go-to")}</span>
+							<span>{t("profile-page.navigate")}</span>
 							<div className="row g-4 justify-content-center shortcut-grid">
 								<div className="col-12 col-md-6 col-xl-4">
 									<figure className="shortcut-icon justify-content-center">

@@ -153,7 +153,7 @@ function HeaderOnline() {
                     </div>
                     <div className="dropdown d-xl-none">
                         <button className="btn btn-secondary btn-sm dropdown-toggle header-btn-right" type="button" data-bs-toggle="dropdown">
-                            {t('profile-page.go-to')}
+                            {t('profile-page.navigate')}
                         </button>
                         <ul className="dropdown-menu">
                             <li>

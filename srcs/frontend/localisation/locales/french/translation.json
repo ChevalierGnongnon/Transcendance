@@ -1,7 +1,7 @@
 {
   "common": {
     "page-not-found": "Page introuvable",
-    "go-back-my-page": "Retour à ma page",
+    "go-back-my-page": "Retour à ma page personelle",
     "go-back-login": "Retour à la connexion",
     "login": "Se connecter",
     "logout": "Se déconnecter",
@@ -52,13 +52,11 @@
   "complete-your-profile": {
     "title": "Complétez votre profil",
     "enter-a-pseudo": "Entrez un pseudo",
-    "confirm": "Confirmer",
-    "upload-avatar": "Téléchargez un avatar",
     "choose-an-avatar": "Ou choisissez-en un par défaut :"
   },
   "profile-page": {
     "game-stats": "Statistiques de jeu",
-    "go-to": "Aller vers",
+    "navigate": "Naviguer",
     "my-friends": "Mes amis",
     "add-friend": "Ajouter un ami",
     "send-friendship-invitation": "Envoyer une demande d'ami",
@@ -83,7 +81,7 @@
     "search-user": "Recherchez un utilisateur pour démarrer une discussion",
     "file-received": "Fichier reçu",
     "start-chat": "Démarrer la chat",
-    "go-to-profile": "Aller au profil",
+    "go-to-profile": "Aller sur le profil",
     "back": "Retour",
     "open-chat": "Ouvrez une conversation",
     "type-your-message": "Écrivez votre message ici",
@@ -107,7 +105,7 @@
     "block": "Bloquer",
     "no-friends": "Vous n'avez pas encore d'amis ni de demandes d'ami.",
     "no-friends-hint": "Trouvez quelqu'un à l'aide de la barre de recherche et cliquez sur Ajouter un ami pour lui envoyer une demande d'ami.",
-    "blocked-users": "Utilisateurs bloqués",
+    "blocked-users": "Utilisateurs bloqués :",
     "unblock": "Débloquer"
   },
   "errors": {
