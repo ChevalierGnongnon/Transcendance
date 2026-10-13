@@ -20,14 +20,15 @@ function Parameters() {
 	const [avatar, setAvatar] = useState<string | null>(null);
 	const [hasCustomFile, setHasCustomFile] = useState<boolean>(false);
 	const [pickedDefault, setPickedDefault] = useState<boolean>(false);
-	const [updated, setUpdated] = useState<boolean>(false);
-
+	const [avatarUpdated, setAvatarUpdated] = useState<boolean>(false);
+	const [infosUpdated, setInfosUpdated] = useState<boolean>(false);
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [pseudo, setPseudo] = useState("")
 
 	const manageAvatarUpdate = async () => {
 		try {
+			setAvatarUpdated(false);
 			const response = await apiFetch("/api/my-profile/avatar", {
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
@@ -36,7 +37,7 @@ function Parameters() {
 			});
 			const data = await response.json();
 			if (response.ok) {
-				setUpdated(true);
+				setAvatarUpdated(true);
 			} else {
 				setAvatarError(data.error);
 			}
@@ -46,12 +47,17 @@ function Parameters() {
 	};
 
 	const manageUpdate = async() =>{
+
 		try{
 			const body: Record<string, string> = {};
-			if (firstName) body.first_name = firstName;
-			if (lastName) body.last_name = lastName;
-			if (pseudo) body.pseudo = pseudo;
-
+			if (firstName)
+				body.first_name = firstName;
+			if (lastName)
+				body.last_name = lastName;
+			if (pseudo)
+				body.pseudo = pseudo;
+			setAccountError(null);
+			setInfosUpdated(false);
 			const response = await apiFetch("/api/my-profile", {
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
@@ -61,6 +67,12 @@ function Parameters() {
 			const data = await response.json();
 			if (!response.ok) {
 				setAccountError(data.error);
+			}
+			else {
+				setInfosUpdated(true);
+				setFirstName('');
+				setLastName('');
+				setPseudo('');
 			}
 		}
 		catch(err){
@@ -120,6 +132,7 @@ function Parameters() {
 								className="btn btn-primary update-button text-wrap"
 								onClick={manageUpdate}
 							/>
+							{infosUpdated && <span className="d-block text-center text-white">✓ {t('common.updated')}</span>}
 							<ErrorMessage error={accountError} />
 						</form>
 					</div>
@@ -147,7 +160,7 @@ function Parameters() {
 												src={`/api/${item.id}/download`}
 												alt={item.name}
 												className={`img-avatar-completeProfile ${avatar === item.id ? "selected" : ""}`}
-												onClick={() => { setAvatar(item.id); setPickedDefault(true); setUpdated(false); }}
+												onClick={() => { setAvatar(item.id); setPickedDefault(true); setAvatarUpdated(false); }}
 											/>
 										))}
 									</div>
@@ -159,7 +172,7 @@ function Parameters() {
 									<input
 										type="button"
 										value={t('common.import-file-instead')}
-										onClick={()=>{ setPickedDefault(false); setAvatar(null); setUpdated(false); }}
+										onClick={()=>{ setPickedDefault(false); setAvatar(null); setAvatarUpdated(false); }}
 										className="file-delete-button"
 									/>
 									<input
@@ -168,7 +181,7 @@ function Parameters() {
 										className="btn btn-primary update-button text-wrap"
 										onClick={manageAvatarUpdate}
 									/>
-									{updated && <span className="d-block text-center text-white">✓ {t('common.updated')}</span>}
+									{avatarUpdated && <span className="d-block text-center text-white">✓ {t('common.updated')}</span>}
 								</>
 							)}
 							<ErrorMessage error={avatarError} />
