@@ -20,7 +20,7 @@ app.use('/api', usersRoutes);
 app.use('/api', filesRoutes);
 app.use('/api', healthRouter);
 app.use('/api', chatRoutes);
-app.use("/api/chat", chatRoutes);
+// app.use("/api/chat", chatRoutes);
 
 
 export default app;

@@ -220,6 +220,7 @@ function GameStart() {
     setChatId(finalChatId);
    
       const msg = {
+        id: crypto.randomUUID(),
         chatId: finalChatId,
         recipientId: opponentId,
         sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },

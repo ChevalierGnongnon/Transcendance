@@ -16,7 +16,7 @@ router.get('/messages/:chatId', validateUuid, messages);
 // router.get('/messages/:chat_id', messages);
 
 
-router.get("/find", requireAuth, findChat);
-router.post("/create", requireAuth, createChat);
+router.get("/chat/find", requireAuth, findChat);
+router.post("/chat/create", requireAuth, createChat);
 
 export default router;
