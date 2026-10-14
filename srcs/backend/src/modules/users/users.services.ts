@@ -137,7 +137,6 @@ class UsersService {
         pseudo: pseudo,
       }, 
       select: {
-        id: true,
         pseudo: true,
         firstName: true, 
         lastName: true,

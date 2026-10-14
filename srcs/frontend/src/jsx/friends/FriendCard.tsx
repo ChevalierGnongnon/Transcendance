@@ -1,12 +1,7 @@
-import { useTranslation } from "react-i18next";
-import { useAuth } from "../auth/auth-context";
-// import ""
 type FriendCardProps = {
-  userId: string;
   name: string;
   profilePhotoId?: string;
-  isFriend: boolean;
-  
+
   buttonValue: string;
   buttonClassName?: string;
   onButtonClick?: () => void;
@@ -16,34 +11,21 @@ type FriendCardProps = {
   onSecondButtonClick?: () => void;
 };
 
+export const FriendCard = ({
+  name,
+  profilePhotoId,
+  buttonValue,
+  buttonClassName,
+  onButtonClick,
 
-function FriendCard({
-    name,
-    profilePhotoId,
-    buttonValue,
-    buttonClassName,
-    onButtonClick,
-
-    secondButtonValue,
-    secondButtonClassName,
-    onSecondButtonClick,
-    userId,
-    isFriend
-  }: FriendCardProps) {
-  const { t } = useTranslation();
-  const {onlineFriends} = useAuth();
-  
-  let isOnline = onlineFriends.includes(userId);
-
-  
+  secondButtonValue,
+  secondButtonClassName,
+  onSecondButtonClick,
+}: FriendCardProps) => {
   return (
     <div className="col-12 col-md-6 col-xl-4">
       <figure className="friend-card py-2 px-1 justify-content-center">
-        <img
-          src={`/api/${profilePhotoId}/download`}
-          alt={t('friends.avatar-alt')}
-          className={!isFriend ? 'not-friend-avatar' : isOnline ? 'online-avatar' : 'offline-avatar'}
-        />
+        <img src={`/api/${profilePhotoId}/download`} alt="Friend avatar" />
         <span>{name}</span>
 
         {buttonValue && (
@@ -66,6 +48,4 @@ function FriendCard({
       </figure>
     </div>
   );
-}
-
-export default FriendCard;
+};

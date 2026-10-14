@@ -5,17 +5,19 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "buil": "tsc",
     "start": "node dist/index.js",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:deploy": "npx prisma migrate deploy",
-    "db:seed": "tsx src/scripts/db-seed.ts"
+    "db:seed": "tsx src/scripts/db-seed.ts",
+    "analytics:seed": "tsx scripts/seedAnalytics.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@google/genai": "^2.21.0",
     "@prisma/adapter-mariadb": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "bcrypt": "^6.0.0",

@@ -38,15 +38,15 @@ model User {
   profilePhoto File?        @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
   messages     Message[]    @relation("MessageSender")
   chatMembers  ChatMember[]
+  aiConversations AiConversation[]
+  aiUsage AiUsage[]
+  
+  sentFriendships     Friendship[] @relation("SentFriendships")
+  receivedFriendships Friendship[] @relation("ReceivedFriendships")
 
-  sentFriendRequests     FriendRequest[] @relation("sentFriendRequests")
-  receivedFriendRequests FriendRequest[] @relation("receivedFriendRequests")
-
-  friendshipsAsUser   Friendship[] @relation("friendshipsAsUser")
-  friendshipsAsFriend Friendship[] @relation("friendshipsAsFriend")
-
-  blocksCreated  Block[] @relation("blocksCreated")
-  blocksReceived Block[] @relation("blocksReceived")
+  gamesPlayedAsX Game[] @relation("gamesPlayedAsX")
+  gamesPlayedAsO Game[] @relation("gamesPlayedAsO")
+  gamesWinned Game[] @relation("gamesWinned")
 
   @@map("user")
 }
@@ -62,7 +62,7 @@ model File {
   name       String    @map("file_name") @db.VarChar(255)
   type       FileType
   userId     String    @map("user_id") @db.Char(36)
-  chatId     String?   @map("chat_id") @db.Char(36)
+  chatId     String?   @map("chat_id")
   mimeType   String    @map("mime_type") @db.VarChar(100)
   expiresAt  DateTime? @map("expires_at")
   uploadedAt DateTime  @default(now()) @map("uploaded_at")
@@ -70,7 +70,7 @@ model File {
   uploader User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   profileFor User[] @relation("UserProfilePhoto")
-  chat       Chat?  @relation(fields: [chatId], references: [id], onDelete: SetNull)
+  chat       Chat?   @relation(fields: [chatId], references: [id], onDelete: SetNull)
 
   @@unique([name, type])
   @@map("file")
@@ -127,46 +127,109 @@ model Message {
   @@map("messages")
 }
 
-model Friendship {
+
+
+enum AiMessageRole {
+  user
+  assistant
+}
+
+model AiConversation {
   id        String   @id @default(uuid()) @db.Char(36)
   userId    String   @map("user_id") @db.Char(36)
-  friendId  String   @map("friend_id") @db.Char(36)
-  createdAt DateTime @default(now())
+  title     String?  @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
 
-  user   User @relation("friendshipsAsUser", fields: [userId], references: [id])
-  friend User @relation("friendshipsAsFriend", fields: [friendId], references: [id])
+  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages AiMessage[]
+  usage AiUsage[]
 
-  @@unique([userId, friendId])
-  @@index([friendId])
-  @@map("friendships")
+  @@index([userId])
+  @@map("ai_conversations")
 }
 
-model FriendRequest {
+model AiMessage {
+  id             String         @id @default(uuid()) @db.Char(36)
+  role           AiMessageRole
+  conversationId String         @map("conversations_id") @db.Char(36)
+  content        String         @db.Text
+  createdAt      DateTime       @default(now()) @map("created_at")
+
+  conversation AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@map("ai_messages")
+}
+
+model AiUsage {
   id String @id @default(uuid()) @db.Char(36)
 
-  senderId   String @map("sender_id") @db.Char(36)
-  receiverId String @map("receiver_id") @db.Char(36)
+  userId         String @map("user_id") @db.Char(36)
+  conversationId String @map("conversation_id") @db.Char(36)
 
-  sender   User @relation("sentFriendRequests", fields: [senderId], references: [id])
-  receiver User @relation("receivedFriendRequests", fields: [receiverId], references: [id])
+  inputTokens    Int
+  outputTokens   Int
+  totalTokens    Int
+  thinkingTokens Int
 
-  createdAt DateTime @default(now())
+  createdAt      DateTime @default(now())
 
-  @@unique([senderId, receiverId])
-  @@index([receiverId])
-  @@map("friend_request")
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation   AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([conversationId])
+  @@index([createdAt])
+  @@map("ai_usage")
 }
 
-model Block {
-  id        String   @id @default(uuid()) @db.Char(36)
-  blockerId String   @map("blocker_id") @db.Char(36)
-  blockedId String   @map("blocked_id") @db.Char(36)
-  createdAt DateTime @default(now())
+model Game {
+  id                String   @id @default(uuid()) @db.Char(36)
+  invitationId      String   @unique @map("invitation_id") @db.Char(36)
+  boardSize         Int      @map("board_size")
+  playerXId         String   @map("player_x_id") @db.Char(36)
+  playerOId         String   @map("player_o_id") @db.Char(36)
+  currentTurnUserId String   @map("current_turn_user_id") @db.Char(36)
+  board             Json
+  winnerId          String?  @map("winner_id") @db.Char(36)
+  isDraw            Boolean  @default(false) @map("is_draw")
+  winningLine       Json     @map("winning_line")
+  closedAt          DateTime? @map("closed_at")
+  playerXLeftAt     DateTime? @map("player_x_left_at")
+  playerOLeftAt     DateTime? @map("player_o_left_at")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
-  blocker User @relation("blocksCreated", fields: [blockerId], references: [id])
-  blocked User @relation("blocksReceived", fields: [blockedId], references: [id])
+  playerX User @relation("gamesPlayedAsX", fields: [playerXId], references: [id])
+  playerO User @relation("gamesPlayedAsO", fields: [playerOId], references: [id])
 
-  @@unique([blockerId, blockedId])
-  @@index([blockedId])
-  @@map("block")
+  gamesWinned User? @relation("gamesWinned", fields: [winnerId], references: [id])
+
+  @@map("games")
+}
+
+enum FriendshipStatus {
+  pending
+  accepted
+  refused
+  cancelled
+  blocked
+}
+
+model Friendship {
+  id       String           @id @default(uuid())
+  userId   String           @map("user_id")
+  friendId String           @map("friend_id")
+  status   FriendshipStatus @default(pending)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  user   User @relation("SentFriendships", fields: [userId], references: [id], onDelete: Cascade)
+  friend User @relation("ReceivedFriendships", fields: [friendId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, friendId])
+  @@index([userId, status])
+  @@index([friendId, status])
+  @@map("friendships")
 }

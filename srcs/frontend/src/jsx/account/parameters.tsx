@@ -41,7 +41,7 @@ function Parameters() {
 				setAvatarError(data.error);
 			}
 		} catch (err) {
-			setAvatarError('DATABASE_ERROR');
+			setAvatarError("DATABASE_ERROR");
 		}
 	};
 
@@ -64,7 +64,7 @@ function Parameters() {
 			}
 		}
 		catch(err){
-			setAccountError('DATABASE_ERROR');
+			setAccountError("DATABASE_ERROR");
 		}
 	}
 	useEffect(() => {
@@ -119,7 +119,7 @@ function Parameters() {
 						</form>
 					</div>
 
-					<div className="col-12 col-lg-6 d-flex flex-column align-items-center gap-3 h-100">
+					<div className="col-12 col-lg-4 d-flex flex-column align-items-center gap-3 h-100">
 						<form className="parameters-form d-flex flex-column align-items-center justify-content-center gap-3">
 							<h3>{t("update-my-profile.change-profile-photo")}</h3>
 							
@@ -128,7 +128,6 @@ function Parameters() {
 									mode="avatar"
 									onUploaded={(fileId) => setAvatar(fileId)}
 									onSelectedChange={setHasCustomFile}
-									inputPlaceHolder="Importer une nouvelle image"
 								/>
 							}
 
@@ -169,7 +168,14 @@ function Parameters() {
 							<ErrorMessage error={avatarError} />
 						</form>
 
-						
+						<form className="danger-zone d-flex flex-column align-items-center justify-content-center gap-3 flex-fill">
+							<h3>{t("update-my-profile.danger-zone")}</h3>
+							<input
+								type="button"
+								value={t("update-my-profile.delete-my-game-infos")}
+								className="delete-button"
+							/>
+						</form>
 						
 					</div>
 					
