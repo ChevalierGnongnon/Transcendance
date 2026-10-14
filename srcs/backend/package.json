@@ -10,7 +10,7 @@
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:deploy": "npx prisma migrate deploy",
     "db:seed": "tsx src/scripts/db-seed.ts",
-    "analytics:seed": "tsx scripts/analytics-seed.ts"
+    "analytics:seed": "tsx scripts/seedAnalytics.ts"
   },
   "keywords": [],
   "author": "",

@@ -17,6 +17,10 @@ function GamesPlayedPieChart({data, totalGames,}: GamesPlayedPieChartProps){
 			name: "Lost",
 			value: data.lost,
 		},
+		{
+			name: "Drawn",
+			value: data.drawn,
+		}
 	];
 
 	return(
@@ -37,6 +41,8 @@ function GamesPlayedPieChart({data, totalGames,}: GamesPlayedPieChartProps){
 					>
 						<Cell fill="#169b4d" />
                         <Cell fill="#c13323" />
+						<Cell fill="#b3abab
+						"/>
 					</Pie>
 					<Tooltip/>
 					<Legend/>

@@ -33,6 +33,12 @@ function GamesOverTimeChart({
 					name="Lost"
 					fill="#c13323"				
 				/>
+				<Bar
+					dataKey="drawn"
+					stackId="games"
+					name="Drawn"
+					fill="#b3abab"				
+				/>
 
 			</BarChart>
 			</ResponsiveContainer>

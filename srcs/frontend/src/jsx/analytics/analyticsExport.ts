@@ -59,6 +59,7 @@ function createDailyAnalyticsData(analytics: AnalyticsData) {
             gamesPlayed: gameDay?.played ?? 0,
             gamesWon: gameDay?.won ?? 0,
             gamesLost: gameDay?.lost ?? 0,
+			gamesDrawn: gameDay?.drawn ?? 0,
             aiRequests: aiDay?.requests ?? 0,
             inputTokens: aiDay?.inputTokens ?? 0,
             outputTokens: aiDay?.outputTokens ?? 0,
@@ -78,12 +79,13 @@ export function exportAnalyticsToCsv(
 	
 	const dailyData = createDailyAnalyticsData(analytics);
 
-	// Create ehader row
+	// Create hader row
     const header = [
 		"Date", 
 		"Games Played", 
 		"Games Won", 
 		"Games Lost",
+		"Games Drawn",
 		"AI requests", 
 		"Input Tokens", 
 		"Output Tokens", 
@@ -98,6 +100,7 @@ export function exportAnalyticsToCsv(
 			row.gamesPlayed,
 			row.gamesWon,
 			row.gamesLost,
+			row.gamesDrawn,
 			row.aiRequests,
 			row.inputTokens,
 			row.outputTokens,

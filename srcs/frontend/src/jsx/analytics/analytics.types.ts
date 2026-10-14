@@ -6,6 +6,7 @@ export interface AnalyticsOverview {
     gamesPlayed: number;
     gamesWon: number;
     gamesLost: number;
+    gamesDrawn: number;
     winRate: number;
 
     aiRequests: number;
@@ -30,6 +31,7 @@ export interface GamesOverTime {
     date: string;
     played: number;
     won: number;
+    drawn: number;
     lost: number;
 }
 
@@ -37,6 +39,7 @@ export interface GamesOverTime {
 export interface GamesSummary {
     won: number;
     lost: number;
+    drawn: number;
 }
 
 export interface AiTokenUsage {

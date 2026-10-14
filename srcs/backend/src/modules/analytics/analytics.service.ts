@@ -114,6 +114,7 @@ async function getOverview(userId: string, from: Date, to: Date): Promise<Analyt
     return {
         gamesPlayed,
         gamesWon: gameStats.gamesWon,
+        gamesDrawn: gameStats.gamesDrawn,
         gamesLost: gameStats.gamesLost,
         winRate,
 
@@ -163,13 +164,16 @@ async function getGamesOverTime(userId: string, from: Date, to: Date): Promise<G
                 played: 0,
                 won: 0,
                 lost: 0,
+                drawn: 0,
             });
         }
 
         const stats = grouped.get(date)!;
         stats.played++;
 
-        if (game.winnerId === userId)
+        if (game.isDraw)
+            stats.drawn++;
+        else if (game.winnerId === userId)
             stats.won++;
         else if (game.winnerId !== null && !game.isDraw)
             stats.lost++;
@@ -216,6 +220,7 @@ async function getGamesSummary(userId: string, from: Date, to: Date): Promise<Ga
     return {
         won: gameStats.gamesWon,
         lost: gameStats.gamesLost,
+        drawn: gameStats.gamesDrawn,
     };
 }
 
