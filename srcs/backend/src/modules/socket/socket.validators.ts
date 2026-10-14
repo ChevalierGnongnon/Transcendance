@@ -29,6 +29,7 @@ export function onValidated<T, R = void>(
       const data = await handler(socket, result.data);
       ack?.({ ok: true, data });
     } catch (err) {
+      console.error(err instanceof Error ? err.message : 'Unknown error');
       ack?.({
         ok: false,
         error: { message: err instanceof Error ? err.message : 'Unknown error' },

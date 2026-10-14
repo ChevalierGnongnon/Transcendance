@@ -3,6 +3,7 @@ import '../../scss/messages.scss';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 import ChatRoom from './ChatRoom';
 import NavBar from './navbar';
@@ -11,12 +12,18 @@ import Block from './block';
 import ChatList from './ChatList';
 import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
-import type { ActiveView, IChatPreview, IMessage, MessageStatus } from './types';
+import type { ActiveView, IChatPreview, IMessage, MessageStatus, NewChatState } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
+import { Loading } from './Loading';
 
 function Messages() {
   const me = useUser();
   const { t } = useTranslation();
+
+  const location = useLocation();
+  const state = location.state as NewChatState | null;
+  const [autoStartChat, setAutoStartChat] = useState<boolean>(state?.autoStart ?? false);
+
   const [activeView, setActiveView] = useState<ActiveView>('chats');
   const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
   const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
@@ -45,6 +52,12 @@ function Messages() {
       });
     return () => {
       cancelled = true;
+      // setAllMessages(new Map());
+      setChatList([]);
+      setActiveChat(null);
+      setActiveView('chats');
+      // setAutoStartChat(false);
+      // console.log('Leave Messages');
     };
   }, []);
 
@@ -102,6 +115,31 @@ function Messages() {
   }, [chatList, allMessages, activeChat, me?.id]);
 
   useEffect(() => {
+    setChatList((prev) =>
+      prev.map((chat) => {
+        const messages = allMessages.get(chat.chatId) ?? [];
+        const last = messages[messages.length - 1];
+
+        let unreadCount = 0;
+        if (
+          messages.length > 0 &&
+          last?.sender.id !== me?.id &&
+          activeChat?.chatId !== chat.chatId
+        ) {
+          if (!chat.mylastReadMessagesId) {
+            unreadCount = messages.length;
+          } else {
+            const idx = messages.findIndex((m) => m.id === chat.mylastReadMessagesId);
+            unreadCount = idx === -1 ? messages.length : messages.length - idx - 1;
+          }
+        }
+
+        return unreadCount === chat.unreadCount ? chat : { ...chat, unreadCount };
+      })
+    );
+  }, [allMessages, activeChat, me?.id]);
+
+  useEffect(() => {
     const handleNewMessage = async (newMessage: IMessage) => {
       const { chatId, id: messageId, sender } = newMessage;
 
@@ -111,6 +149,20 @@ function Messages() {
         setChatList((prev) => {
           const exist = prev.some((m) => m.chatId === chatId);
           if (exist) return prev;
+          const emptyIdx = prev.findIndex((c) => c.user.id === sender.id);
+          if (emptyIdx !== -1) {
+            const empty = prev[emptyIdx];
+            const replaced: IChatPreview = {
+              ...empty,
+              chatId,
+              user: sender,
+              pseudo: sender.pseudo ?? 'Unknown',
+            };
+            const rest = prev.filter((_, i) => i !== emptyIdx);
+            if (activeView === 'conversation' && activeChat?.user.id === replaced.user.id)
+              setActiveChat(replaced);
+            return [replaced, ...rest];
+          }
           return [
             {
               chatId: chatId,
@@ -224,6 +276,10 @@ function Messages() {
     return <div>{t('common.something-went-wrong')}</div>;
   }
 
+  if (loadingChats) {
+    return <Loading text={t('common.loading')} />;
+  }
+
   return (
     <>
       <NavBar activeView={activeView} setActiveView={setActiveView}></NavBar>
@@ -233,7 +289,7 @@ function Messages() {
           align={activeView === 'chats' ? 'center' : 'left'}
           setActiveView={setActiveView}
           setActiveChat={setActiveChat}
-          chatList={chatListWithUnread}
+          chatList={chatList}
           loading={loadingChats}
           error={error}
         />
@@ -249,14 +305,25 @@ function Messages() {
             otherLastReadMessagesId={getLastReadMessageId()}
           />
         )}
-        {activeView === 'new message' && (
+        {(activeView === 'new message' || autoStartChat) && (
           <NewChat
+            autoStartUser={state?.user ? state?.user : null}
+            autoStart={autoStartChat}
+            setAutoStart={setAutoStartChat}
+            chatList={chatList}
+            setChatList={setChatList}
             setActiveChat={setActiveChat}
             setActiveView={setActiveView}
-            setChatList={setChatList}
           />
         )}
-        {activeView === 'block' && <Block />}
+        {/*{activeView === 'new message' && !autoStartChat && (
+          <NewChat
+            chatList={chatList}
+            setChatList={setChatList}
+            setActiveChat={setActiveChat}
+            setActiveView={setActiveView}
+          />
+        )}*/}
         {activeView === 'imaginaryfriend'}
       </div>
     </>

@@ -1,17 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import '../../scss/messages.scss';
-import { socket } from './socket';
 import SearchBar from '../others/search-bar';
 import { SearchResult, newChatProps } from './types';
-import { useAuth } from '../auth/auth-context';
-import { apiFetch } from './utils/apiFetch';
 
-function NewChat({ chatList, setActiveChat, setActiveView, setChatList }: newChatProps) {
+function NewChat({
+  autoStartUser = null,
+  autoStart = false,
+  setAutoStart,
+  chatList,
+  setChatList,
+  setActiveView,
+  setActiveChat,
+}: newChatProps) {
   const { t } = useTranslation();
-
-  const [user, setUser] = useState<SearchResult | null>(null);
+  const startedRef = useRef(false);
+  const [user, setUser] = useState<SearchResult | null>(autoStart ? autoStartUser : null);
+  console.log('Call new Chat');
+  console.log(`chatLIstSize: ${chatList.length}`);
 
   const startChat = () => {
     const userId = user?.id;
@@ -20,6 +27,12 @@ function NewChat({ chatList, setActiveChat, setActiveView, setChatList }: newCha
       return;
     }
     const chat = chatList.find((c) => c.user.id === user?.id);
+    if (chat) {
+      setActiveChat(chat);
+      setActiveView('conversation');
+      return;
+    }
+
     const chatId = chat?.chatId ?? crypto.randomUUID();
 
     const newChat = {
@@ -36,9 +49,20 @@ function NewChat({ chatList, setActiveChat, setActiveView, setChatList }: newCha
     });
     setActiveChat(newChat);
     setActiveView('conversation');
-
-    console.log(chatId);
   };
+
+  useEffect(() => {
+    if (autoStart && autoStartUser && !startedRef.current) {
+      startedRef.current = true;
+      startChat();
+    }
+    return () => {
+      setAutoStart(false);
+      setUser(null);
+    };
+  }, []);
+
+  if (autoStart && autoStartUser) return null;
 
   return (
     <form className="form-new-chat p-3 my-2 gap-3 d-flex flex-column justify-content-center align-items-center">
