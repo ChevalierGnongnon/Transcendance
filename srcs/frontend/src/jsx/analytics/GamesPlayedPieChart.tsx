@@ -1,6 +1,7 @@
 
 import { GamesSummary } from "./analytics.types";
 import { PieChart, Pie, Tooltip, Legend, ResponsiveContainer, Cell } from "recharts";
+import { useTranslation } from "react-i18next";
 
 interface GamesPlayedPieChartProps {
 	data: GamesSummary;
@@ -8,17 +9,18 @@ interface GamesPlayedPieChartProps {
 }
 
 function GamesPlayedPieChart({data, totalGames,}: GamesPlayedPieChartProps){
+	const { t } = useTranslation();
 	const chartData = [
 		{
-			name: "Won",
+			name: t("analytics.charts.won"),
 			value: data.won,
 		},
 		{
-			name: "Lost",
+			name: t("analytics.charts.lost"),
 			value: data.lost,
 		},
 		{
-			name: "Drawn",
+			name: t("analytics.charts.drawn"),
 			value: data.drawn,
 		}
 	];

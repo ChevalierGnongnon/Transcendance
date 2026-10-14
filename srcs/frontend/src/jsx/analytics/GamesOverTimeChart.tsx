@@ -5,8 +5,7 @@ interface GamesOverTimeChartProps {
 	data: GamesOverTime[];
 }
 
-function GamesOverTimeChart({
-	data, }: GamesOverTimeChartProps )
+function GamesOverTimeChart({data, }: GamesOverTimeChartProps )
 {
 	return (
 		<div>

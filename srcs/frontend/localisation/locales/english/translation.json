@@ -393,6 +393,7 @@
 
     "won": "Won",
     "lost": "Lost",
+    "drawn": "Drawn",
 
     "total-tokens": "Total Tokens",
     "total-games": "Total Games"

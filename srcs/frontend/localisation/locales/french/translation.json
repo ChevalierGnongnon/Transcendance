@@ -413,6 +413,7 @@
 
     "won": "Gagnées",
     "lost": "Perdues",
+    "drawn": "match nul",
 
     "total-tokens": "Total des tokens",
     "total-games": "Total des parties"
