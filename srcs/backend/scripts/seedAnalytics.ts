@@ -1,3 +1,4 @@
+
 import "dotenv/config";
 
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
@@ -5,8 +6,8 @@ import {
     PrismaClient,
     UserRole,
     AiMessageRole,
-    GameResult,
 } from "../src/generated/prisma/client";
+import { randomUUID } from "node:crypto";
 
 const adapter = new PrismaMariaDb({
     host: "127.0.0.1",
@@ -21,14 +22,9 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
     console.log("Creating analytics mock data...");
 
-    // --------------------------------------------------
-    // 1. Create or reset test user
-    // --------------------------------------------------
-
+    // 1. Create or find two test users
     const user = await prisma.user.upsert({
-        where: {
-            email: "analytics@test.com",
-        },
+        where: { email: "analytics@test.com" },
         update: {},
         create: {
             type: UserRole.user,
@@ -41,65 +37,94 @@ async function main() {
         },
     });
 
-    console.log(`User ready: ${user.email}`);
+    const opponent = await prisma.user.upsert({
+        where: { email: "analytics-opponent@test.com" },
+        update: {},
+        create: {
+            type: UserRole.user,
+            email: "analytics-opponent@test.com",
+            firstName: "Analytics",
+            lastName: "Opponent",
+            passwordHash: "mock-password-hash",
+            pseudo: "analytics_opponent",
+            birthdate: new Date("1994-01-01"),
+        },
+    });
 
-    // --------------------------------------------------
-    // 2. Remove old test data
-    // --------------------------------------------------
+    console.log(`Analytics user: ${user.email}`);
+    console.log(`Opponent user: ${opponent.email}`);
 
+    // 2. Remove old analytics data for this user
     await prisma.aiUsage.deleteMany({
+        where: { userId: user.id },
+    });
+
+    await prisma.aiMessage.deleteMany({
         where: {
-            userId: user.id,
+            conversation: { userId: user.id },
         },
     });
 
     await prisma.aiConversation.deleteMany({
-        where: {
-            userId: user.id,
-        },
+        where: { userId: user.id },
     });
 
+    // A game belongs to two players, not to a single userId.
     await prisma.game.deleteMany({
         where: {
-            userId: user.id,
+            OR: [
+                { playerXId: user.id },
+                { playerOId: user.id },
+            ],
         },
     });
 
-    console.log("Old test data removed.");
+    console.log("Old analytics data removed.");
 
-    // --------------------------------------------------
-    // 3. Create games
-    // --------------------------------------------------
-
+    // 3. Create 100 games with realistic outcomes
     const gamesToCreate = 100;
     const gamesWon = 63;
-    const gamesLost = 37;
+    const gamesLost = 27;
+    const gamesDrawn = 10;
 
     for (let i = 0; i < gamesToCreate; i++) {
-        const result =
-            i < gamesWon
-                ? GameResult.won
-                : GameResult.lost;
-
         const createdAt = randomDateForLast30Days();
+
+        let winnerId: string | null = null;
+        let isDraw = false;
+
+        if (i < gamesWon) {
+            winnerId = user.id;
+        } else if (i < gamesWon + gamesLost) {
+            winnerId = opponent.id;
+        } else {
+            isDraw = true;
+        }
 
         await prisma.game.create({
             data: {
-                userId: user.id,
-                result,
+                invitationId: randomUUID(),
+                boardSize: 15,
+                playerXId: user.id,
+                playerOId: opponent.id,
+                currentTurnUserId: user.id,
+                board: createEmptyBoard(15),
+                winnerId,
+                isDraw,
+                winningLine: [],
                 createdAt,
+                updatedAt: createdAt,
+                closedAt: createdAt,
             },
         });
     }
 
     console.log(
-        `${gamesToCreate} games created (${gamesWon} won, ${gamesLost} lost).`
+        `Games created: ${gamesToCreate} ` +
+        `(${gamesWon} won, ${gamesLost} lost, ${gamesDrawn} drawn).`
     );
 
-    // --------------------------------------------------
-    // 4. Create conversations
-    // --------------------------------------------------
-
+    // 4. Create AI conversations
     const conversationTitles = [
         "First conversation",
         "Learning TypeScript",
@@ -123,13 +148,9 @@ async function main() {
 
     console.log(`${conversations.length} conversations created.`);
 
-    // --------------------------------------------------
-    // 5. Create AI usage data for the last 30 days
-    // --------------------------------------------------
-
+    // 5. Create AI usage for the last 30 days
     for (let day = 0; day < 30; day++) {
         const date = new Date();
-
         date.setDate(date.getDate() - day);
         date.setHours(12, 0, 0, 0);
 
@@ -146,9 +167,7 @@ async function main() {
             const thinkingTokens = randomNumber(100, 1000);
 
             const totalTokens =
-                inputTokens +
-                outputTokens +
-                thinkingTokens;
+                inputTokens + outputTokens + thinkingTokens;
 
             await prisma.aiUsage.create({
                 data: {
@@ -166,10 +185,7 @@ async function main() {
 
     console.log("AI usage data created.");
 
-    // --------------------------------------------------
-    // 6. Create messages
-    // --------------------------------------------------
-
+    // 6. Create sample messages
     for (const conversation of conversations) {
         await prisma.aiMessage.createMany({
             data: [
@@ -189,18 +205,22 @@ async function main() {
 
     console.log("AI messages created.");
 
-    // --------------------------------------------------
     // 7. Summary
-    // --------------------------------------------------
-
     console.log("\nMock data successfully created!");
     console.log("--------------------------------");
     console.log(`User: ${user.email}`);
     console.log(`Games won: ${gamesWon}`);
     console.log(`Games lost: ${gamesLost}`);
+    console.log(`Games drawn: ${gamesDrawn}`);
     console.log(`Games played: ${gamesToCreate}`);
-    console.log("--------------------------------");
     console.log(`User ID: ${user.id}`);
+    console.log("--------------------------------");
+}
+
+function createEmptyBoard(size: number): (string | null)[][] {
+    return Array.from({ length: size }, () =>
+        Array.from({ length: size }, () => null)
+    );
 }
 
 function randomNumber(min: number, max: number): number {
@@ -223,9 +243,7 @@ function randomDateForDay(day: Date): Date {
 function randomDateForLast30Days(): Date {
     const date = new Date();
 
-    date.setDate(
-        date.getDate() - randomNumber(0, 29)
-    );
+    date.setDate(date.getDate() - randomNumber(0, 29));
 
     date.setHours(
         randomNumber(8, 22),

@@ -40,9 +40,13 @@ model User {
   chatMembers  ChatMember[]
   aiConversations AiConversation[]
   aiUsage AiUsage[]
-  games Game[]
+  
   sentFriendships     Friendship[] @relation("SentFriendships")
   receivedFriendships Friendship[] @relation("ReceivedFriendships")
+
+  gamesPlayedAsX Game[] @relation("gamesPlayedAsX")
+  gamesPlayedAsO Game[] @relation("gamesPlayedAsO")
+  gamesWinned Game[] @relation("gamesWinned")
 
   @@map("user")
 }
@@ -124,10 +128,6 @@ model Message {
 }
 
 
-enum GameResult {
-    won
-    lost
-}
 
 enum AiMessageRole {
   user
@@ -184,17 +184,30 @@ model AiUsage {
 }
 
 model Game {
-    id        String     @id @default(uuid()) @db.Char(36)
-    userId    String     @map("user_id") @db.Char(36)
-    result    GameResult
-    createdAt DateTime   @default(now()) @map("created_at")
+  id                String   @id @default(uuid()) @db.Char(36)
+  invitationId      String   @unique @map("invitation_id") @db.Char(36)
+  boardSize         Int      @map("board_size")
+  playerXId         String   @map("player_x_id") @db.Char(36)
+  playerOId         String   @map("player_o_id") @db.Char(36)
+  currentTurnUserId String   @map("current_turn_user_id") @db.Char(36)
+  board             Json
+  winnerId          String?  @map("winner_id") @db.Char(36)
+  isDraw            Boolean  @default(false) @map("is_draw")
+  winningLine       Json     @map("winning_line")
+  closedAt          DateTime? @map("closed_at")
+  playerXLeftAt     DateTime? @map("player_x_left_at")
+  playerOLeftAt     DateTime? @map("player_o_left_at")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  playerX User @relation("gamesPlayedAsX", fields: [playerXId], references: [id])
+  playerO User @relation("gamesPlayedAsO", fields: [playerOId], references: [id])
 
-    @@index([userId])
-    @@index([createdAt])
-    @@map("games")
+  gamesWinned User? @relation("gamesWinned", fields: [winnerId], references: [id])
+
+  @@map("games")
 }
+
 enum FriendshipStatus {
   pending
   accepted

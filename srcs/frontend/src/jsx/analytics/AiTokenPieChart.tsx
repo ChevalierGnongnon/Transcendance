@@ -1,15 +1,5 @@
 import type { AiTokenUsage } from "./analytics.types";
-
-import {
-    PieChart,
-    Pie,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
-    Cell,
-} from "recharts";
-
-import { useTransition } from "react";
+import { PieChart,Pie,Tooltip,Legend,ResponsiveContainer,Cell,} from "recharts";
 import { useTranslation } from "react-i18next";
 
 interface AiTokenUsagePieChartProps {
