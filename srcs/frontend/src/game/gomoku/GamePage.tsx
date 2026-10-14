@@ -3,6 +3,8 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import Gomoku from "./gomoku";
 import { useSocketConnection } from "../../jsx/messages/hooks/useSocketConnection";
 import type { User } from "../../jsx/messages/types";
+import { useTranslation } from "react-i18next";
+
 
 type GameRouteState = {
   gameId?: string;
@@ -13,6 +15,7 @@ type GameRouteState = {
 };
 
 function GamePage() {
+  const {t} = useTranslation();
   const { state: routeState } = useLocation();
   const state = (routeState ?? {}) as GameRouteState;
   const [searchParams] = useSearchParams();
