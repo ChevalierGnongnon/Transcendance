@@ -1,0 +1,10 @@
+@use "./common-variables.scss" as *;
+
+.analytics {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px;
+
+    background: #f7f8fa;
+    border-radius: 16px;
+}

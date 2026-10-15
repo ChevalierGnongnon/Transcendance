@@ -1,20 +1,24 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useLocation} from 'react-router-dom';
 
-import "../../scss/common-classes.scss";
-import "../../scss/messages.scss";
-import MoreOptions from "./options";
-import { Message } from "./Message";
-import { socket } from "./socket";
-
-import type { IMessage, ChatRoomProps } from "./types.js";
+import '../../scss/common-classes.scss';
+import '../../scss/messages.scss';
+import MoreOptions from './options';
+import { Message } from './Message';
+import { socket } from './socket';
+import type { IMessage, ChatRoomProps, MessageType } from './types.js';
 
 function ChatRoom(roomProps: ChatRoomProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
+
+  const [messageText, setMessageText] = useState<string>('');
+  const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState<Error | null>(null);
   const me = roomProps.me;
   const chatId = roomProps.chat.chatId;
   const messages = chatId ? roomProps.messages.get(chatId) ?? [] : [];
@@ -43,7 +47,8 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
   const handleScroll = useCallback(() => checkIfAtBottom(), [checkIfAtBottom]);
 
-    useEffect(() => {
+  // scroll if changed chat
+  useEffect(() => {
     if (roomProps.chat?.chatId) {
       setTimeout(() => {
         scrollToBottom('auto');
@@ -51,43 +56,45 @@ function ChatRoom(roomProps: ChatRoomProps) {
     }
   }, [roomProps.chat?.chatId, scrollToBottom]);
 
+  // scroll if new message
+  useEffect(() => {
+    if (isAtBottom) {
+      scrollToBottom('smooth');
+    }
+  }, [roomProps.chat?.chatId, scrollToBottom]);
+
   useEffect(() => {
     if (isAtBottom) scrollToBottom("smooth");
   }, [messages, isAtBottom, scrollToBottom]);
 
-  // Join chat room
   useEffect(() => {
-    const handleChatJoined = (answer: { chatId: string; userId: string }) => {};
-
-    // send request to join chat
-    socket.emit('join-chat-request', { chatId: roomProps.chat.chatId, userId: me.id });
-    // socket.on('chat-room-joined', handleChatJoined);
-
-    // scrollToBottom();
-    // send put to update last_read_chats_id
-    return () => {
-      console.log('Cleanup: removing handler for chatId', roomProps.chat.chatId);
-      socket.off('chat-room-joined', handleChatJoined); // ←  Remove joind ...
-      socket.emit('leave-chat-request', { chatId: roomProps.chat.chatId });
-    };
-  }, [roomProps.chat.chatId]);
-
-  // Send text message
-  const handleSendMessage = () => {
-    if (messageText.trim() && socket?.connected) {
-      const messageToSend: IMessage = {
-        chatId: roomProps.chat.chatId,
-        recipientId: roomProps.chat.user.id,
-        sender: { id: me.id, profilePhoto: me.profilePhoto },
-        content: messageText,
-        type: "text"
-      };
-      socket.emit('new-chat-message', messageToSend);
-
-      roomProps.onAddMessage(messageToSend);
-      // scrollToBottom();
-      setMessageText('');
+    if (messages.length > 0) {
+      const lastMessageId = messages[messages.length - 1].id ?? null;
+      const lastMessageIdinChat = roomProps.chat.lastReadMessagesId;
+      if (lastMessageId !== lastMessageIdinChat) {
+        roomProps.updateLastReadMessageId(roomProps.chat.chatId, lastMessageId);
+      }
     }
+  }, [roomProps.chat?.chatId]);
+
+  const handleSendMessage = (fileId?: string) => {
+    if (!socket?.connected) return;
+    if (!fileId && !messageText.trim()) return;
+
+    const content = fileId ?? messageText.trim();
+    const messageType = fileId ? 'file' : 'text';
+    const messageToSend: IMessage = {
+      chatId: roomProps.chat.chatId,
+      recipientId: roomProps.chat.user.id,
+      sender: { id: me.id, profilePhoto: me.profilePhoto },
+      content: content,
+      type: messageType,
+    };
+
+    socket.emit('new-chat-message', messageToSend);
+    roomProps.onAddMessage(messageToSend);
+
+    setMessageText('');
   };
 
   useEffect(() => {
@@ -131,9 +138,24 @@ function ChatRoom(roomProps: ChatRoomProps) {
   return (
     <>
       <div className="chat-list chat-list-right my-2">
-        <div className="chat-header fs-1">
-          {/*{t('common.chatting-with')} {`${roomProps.chat.pseudo}`}*/}
-          {roomProps.chat.user.pseudo}
+        <div className="chat-header fs-1 d-flex align-items-center justify-content-between px-3">
+          <button
+            className="btn btn-link text-secondary fs-6 text-decoration-none p-0"
+            onClick={() => {
+              roomProps.setActiveView('chats');
+            }}
+          >
+            {t('message.back')}
+          </button>
+          <div>{roomProps.chat.user.pseudo}</div>
+          <button
+            className="btn btn-link text-secondary fs-6 text-decoration-none p-0"
+            onClick={() => {
+              navigate(`/profile/${roomProps.chat.user.pseudo}`);
+            }}
+          >
+            {t('message.go-to-profile')}
+          </button>
         </div>
         <div
           ref={containerRef}
@@ -157,8 +179,6 @@ function ChatRoom(roomProps: ChatRoomProps) {
                 senderId={msg.sender.id}
                 content={msg.content}
                 type={msg.type}
-
-
               />
             ))}
           </ul>
@@ -174,12 +194,14 @@ function ChatRoom(roomProps: ChatRoomProps) {
               +
             </button>
             {showMoreOptions && (
-            <MoreOptions
-              opponentId={roomProps.chat.user.id}
-              chatId={roomProps.chat.chatId}
-              navigate={navigate}
-            />
-          )}
+              <MoreOptions
+                chatId={roomProps.chat.chatId}
+                onClose={() => setShowMoreOptions((prev) => !prev)}
+                onSendMessage={handleSendMessage}
+                opponentId={roomProps.chat.user.id}
+                navigate={navigate}
+              />
+            )}
           </div>
 
           <textarea
@@ -196,7 +218,12 @@ function ChatRoom(roomProps: ChatRoomProps) {
               }
             }}
           ></textarea>
-          <button className="btn send-message" onClick={handleSendMessage}>
+          <button
+            className="btn send-message"
+            onClick={() => {
+              handleSendMessage();
+            }}
+          >
             {t('common.send')}
           </button>
         </div>

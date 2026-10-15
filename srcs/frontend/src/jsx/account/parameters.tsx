@@ -14,13 +14,17 @@ interface DefaultAvatar {
 
 function Parameters() {
 	const { t } = useTranslation();
-	const [error, setError] = useState<string | null>(null);
-
+	const [avatarError, setAvatarError] = useState<string | null>(null);
+	const [accountError, setAccountError] = useState<string | null>(null);
 	const [defaultAvatars, setDefaultAvatars] = useState<DefaultAvatar[]>([]);
 	const [avatar, setAvatar] = useState<string | null>(null);
 	const [hasCustomFile, setHasCustomFile] = useState<boolean>(false);
 	const [pickedDefault, setPickedDefault] = useState<boolean>(false);
 	const [updated, setUpdated] = useState<boolean>(false);
+
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [pseudo, setPseudo] = useState("")
 
 	const manageAvatarUpdate = async () => {
 		try {
@@ -34,18 +38,40 @@ function Parameters() {
 			if (response.ok) {
 				setUpdated(true);
 			} else {
-				setError(data.error);
+				setAvatarError(data.error);
 			}
 		} catch (err) {
-			setError("DATABASE_ERROR");
+			setAvatarError("DATABASE_ERROR");
 		}
 	};
 
+	const manageUpdate = async() =>{
+		try{
+			const body: Record<string, string> = {};
+			if (firstName) body.first_name = firstName;
+			if (lastName) body.last_name = lastName;
+			if (pseudo) body.pseudo = pseudo;
+
+			const response = await fetch("/api/my-profile", {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				credentials: "include",
+				body: JSON.stringify(body),
+			});
+			const data = await response.json();
+			if (!response.ok) {
+				setAccountError(data.error);
+			}
+		}
+		catch(err){
+			setAccountError("DATABASE_ERROR");
+		}
+	}
 	useEffect(() => {
 		fetch("/api/default-avatars")
 			.then((res) => res.json())
 			.then((data: DefaultAvatar[]) => setDefaultAvatars(data))
-			.catch(() => setError("FETCH_DEFAULT_AVATARS_ERROR"));
+			.catch(() => setAvatarError("FETCH_DEFAULT_AVATARS_ERROR"));
 	}, []);
 	return (
 		<>
@@ -61,6 +87,8 @@ function Parameters() {
 								name="first_name"
 								id="first_name"
 								className="update-input form-control"
+								value={firstName}
+								onChange={(e) => setFirstName(e.target.value)}
 							/>
 							<span>{t("update-my-profile.change-last-name")}:</span>
 							<input
@@ -68,6 +96,8 @@ function Parameters() {
 								name="last_name"
 								id="last_name"
 								className="update-input form-control"
+								value={lastName}
+								onChange={(e) => setLastName(e.target.value)}
 							/>
 							<span>{t("update-my-profile.change-pseudo")}:</span>
 							<input
@@ -75,21 +105,17 @@ function Parameters() {
 								name="pseudo"
 								id="pseudo"
 								className="update-input form-control"
+								value={pseudo}
+								onChange={(e) => setPseudo(e.target.value)}
 							/>
-							<div className="form-check d-flex align-items-center justify-content-center gap-2">
-								<input
-									type="radio"
-									name=""
-									id=""
-									className="form-check-input mt-0"
-								/>
-								<span>{t("update-my-profile.display-name-and-last-name")}</span>
-							</div>
+							
 							<input
 								type="button"
 								value={t("update-my-profile.change-account-infos")}
 								className="btn btn-primary update-button text-wrap"
+								onClick={manageUpdate}
 							/>
+							<ErrorMessage error={accountError} />
 						</form>
 					</div>
 
@@ -139,9 +165,7 @@ function Parameters() {
 									{updated && <span className="d-block text-center text-white">✓ {t('common.updated')}</span>}
 								</>
 							)}
-							<ErrorMessage error={error} />
-							
-							
+							<ErrorMessage error={avatarError} />
 						</form>
 
 						<form className="danger-zone d-flex flex-column align-items-center justify-content-center gap-3 flex-fill">
@@ -152,8 +176,11 @@ function Parameters() {
 								className="delete-button"
 							/>
 						</form>
+						
 					</div>
+					
 				</div>
+				
 			</main>
 		</>
 	);

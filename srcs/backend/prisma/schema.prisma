@@ -35,6 +35,7 @@ model User {
 
   uploadedFiles File[]
 
+<<<<<<< HEAD
   profilePhoto        File?        @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
   messages            Message[]    @relation("MessageSender")
   sentFriendships     Friendship[] @relation("SentFriendships")
@@ -44,6 +45,19 @@ model User {
   gamesPlayedAsX Game[] @relation("gamesPlayedAsX")
   gamesPlayedAsO Game[] @relation("gamesPlayedAsO")
 
+=======
+  profilePhoto File?        @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
+  messages     Message[]    @relation("MessageSender")
+  chatMembers  ChatMember[]
+  aiConversations AiConversation[]
+  aiUsage AiUsage[]
+  
+  sentFriendships     Friendship[] @relation("SentFriendships")
+  receivedFriendships Friendship[] @relation("ReceivedFriendships")
+
+  gamesPlayedAsX Game[] @relation("gamesPlayedAsX")
+  gamesPlayedAsO Game[] @relation("gamesPlayedAsO")
+>>>>>>> main
   gamesWinned Game[] @relation("gamesWinned")
 
   @@map("user")
@@ -60,6 +74,7 @@ model File {
   name       String    @map("file_name") @db.VarChar(255)
   type       FileType
   userId     String    @map("user_id") @db.Char(36)
+  chatId     String?   @map("chat_id")
   mimeType   String    @map("mime_type") @db.VarChar(100)
   expiresAt  DateTime? @map("expires_at")
   uploadedAt DateTime  @default(now()) @map("uploaded_at")
@@ -67,6 +82,7 @@ model File {
   uploader User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   profileFor User[] @relation("UserProfilePhoto")
+  chat       Chat?   @relation(fields: [chatId], references: [id], onDelete: SetNull)
 
   @@unique([name, type])
   @@map("file")
@@ -79,6 +95,7 @@ model Chat {
 
   members  ChatMember[]
   messages Message[]
+  file     File[]
 
   @@map("chats")
 }
@@ -145,6 +162,60 @@ model GameInvitation {
   @@index([status, createdAt])
   @@index([chatId, status])
   @@map("game_invitations")
+}
+
+enum AiMessageRole {
+  user
+  assistant
+}
+
+model AiConversation {
+  id        String   @id @default(uuid()) @db.Char(36)
+  userId    String   @map("user_id") @db.Char(36)
+  title     String?  @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages AiMessage[]
+  usage AiUsage[]
+
+  @@index([userId])
+  @@map("ai_conversations")
+}
+
+model AiMessage {
+  id             String         @id @default(uuid()) @db.Char(36)
+  role           AiMessageRole
+  conversationId String         @map("conversations_id") @db.Char(36)
+  content        String         @db.Text
+  createdAt      DateTime       @default(now()) @map("created_at")
+
+  conversation AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@map("ai_messages")
+}
+
+model AiUsage {
+  id String @id @default(uuid()) @db.Char(36)
+
+  userId         String @map("user_id") @db.Char(36)
+  conversationId String @map("conversation_id") @db.Char(36)
+
+  inputTokens    Int
+  outputTokens   Int
+  totalTokens    Int
+  thinkingTokens Int
+
+  createdAt      DateTime @default(now())
+
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation   AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([conversationId])
+  @@index([createdAt])
+  @@map("ai_usage")
 }
 
 model Game {

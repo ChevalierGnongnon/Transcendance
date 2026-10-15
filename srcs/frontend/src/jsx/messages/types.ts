@@ -1,5 +1,6 @@
-export type ActiveView =
-  'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
+export type ActiveView = 'chats' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
+
+export type MessageType = 'text' | 'invitation' | 'file';
 
 export interface User {
   id: string;
@@ -22,7 +23,11 @@ export interface IMessage {
     profilePhoto: { name: string; id: string };
   };
   content: string;
+<<<<<<< HEAD
   type: 'text' | 'invitation' | 'file';
+=======
+  type: MessageType;
+>>>>>>> main
   createdAt?: string;
 }
 
@@ -33,7 +38,11 @@ export interface MessageProps {
   content: string;
   profilePhoto: { name: string; id: string };
   senderId: string;
+<<<<<<< HEAD
   type: 'text' | 'invitation' | 'file';
+=======
+  type: MessageType;
+>>>>>>> main
 }
 
 export interface IChatPreview {
@@ -54,6 +63,7 @@ export interface ChatRoomProps {
   me: User;
   chat: IChatPreview;
   setActiveChat: (chat: IChatPreview | null) => void;
+  setActiveView: (view: ActiveView) => void;
   messages: Map<string, IMessage[]>;
   onAddMessage: (message: IMessage) => void;
   updateLastReadMessageId: (chatId: string, messageId: string | null) => void;

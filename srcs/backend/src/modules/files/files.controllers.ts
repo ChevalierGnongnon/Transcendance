@@ -25,34 +25,33 @@ export async function getDefaultAvatars(req: Request, res: Response) {
   });
 }
 
-export async function uploadAvatar(req: Request, res: Response){
-  try{
-    if (!req.file)
-      return (res.status(400).json({error: 'NO_FILE_PROVIDED'}));
-    if (!req.userId)
-      return (res.status(401).json({error: 'USER_NOT_FOUND'}));
-    const id = await FileService.createFile(req.file.buffer, req.userId, 'profile_photo');
-    return (res.status(201).json({ file_id: id }));
+export async function uploadAvatar(req: Request, res: Response) {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'NO_FILE_PROVIDED' });
+    if (!req.userId) return res.status(401).json({ error: 'USER_NOT_FOUND' });
 
-  }catch(error){
+    const id = await FileService.createFile(req.file.buffer, req.userId, 'profile_photo');
+
+    return res.status(201).json({ file_id: id });
+  } catch (error) {
     console.error('Upload avatar error:', error);
 
     if (error instanceof UnsupportedFileTypeError) {
       return res.status(415).json({ error: 'WRONG_FILE_TYPE' });
     }
+
     return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
   }
 }
 
-export async function deleteFile(req: Request, res: Response){
-  try{
-    if (!req.userId)
-      return (res.status(401).json({error: 'USER_NOT_FOUND'}));
+export async function deleteFile(req: Request, res: Response) {
+  try {
+    if (!req.userId) return res.status(401).json({ error: 'USER_NOT_FOUND' });
     if (typeof req.params.id !== 'string')
       return res.status(400).json({ error: 'INVALID_FILE_ID' });
     await FileService.deleteFile(req.params.id, req.userId);
     return res.status(204).send();
-  } catch (error){
+  } catch (error) {
     console.error('Delete file error:', error);
 
     if (error instanceof NotFoundError) {
@@ -65,18 +64,16 @@ export async function deleteFile(req: Request, res: Response){
   }
 }
 
-export async function downloadFile(req: Request, res: Response){
+export async function downloadFile(req: Request, res: Response) {
   try {
     if (typeof req.params.id !== 'string')
-      return (res.status(400).json({ error: 'INVALID_FILE_ID' }));
+      return res.status(400).json({ error: 'INVALID_FILE_ID' });
     const file = await FileService.getFileDownload(req.params.id, req.userId);
-    
-    if (avatarWhiteList.includes(file.mimeType))
-      res.set('Content-Disposition', 'inline');
-    else 
-      res.set('Content-Disposition', `attachment; filename="${file.name}"`);
+
+    if (avatarWhiteList.includes(file.mimeType)) res.set('Content-Disposition', 'inline');
+    else res.set('Content-Disposition', `attachment; filename="${file.name}"`);
     res.set('Content-Type', file.mimeType);
-    res.send(fs.readFileSync(`/app/uploads/${file.name}`))
+    res.send(fs.readFileSync(`/app/uploads/${file.name}`));
   } catch (error) {
     console.error('Download file error:', error);
     if (error instanceof NotFoundError) {
@@ -92,17 +89,25 @@ export async function downloadFile(req: Request, res: Response){
   }
 }
 
-export async function uploadMessageFile(req: Request, res: Response){
-  try{
-    if (!req.file)
-      return (res.status(400).json({error: 'NO_FILE_PROVIDED'}));
-    if (!req.userId)
-      return (res.status(401).json({error: 'USER_NOT_FOUND'}));
-    const id = await FileService.createFile(req.file.buffer, req.userId, 'message');
-    return (res.status(201).json({ file_id: id }));
+export async function uploadMessageFile(req: Request<{ chatId: string }>, res: Response) {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'NO_FILE_PROVIDED' });
+    if (!req.userId) return res.status(401).json({ error: 'USER_NOT_FOUND' });
 
-  }catch(error){
+    const id = await FileService.createFile(
+      req.file.buffer,
+      req.userId,
+      'message',
+      req.params.chatId
+    );
+
+    return res.status(201).json({ file_id: id });
+  } catch (error) {
     console.error('Upload file error:', error);
+
+    if (error instanceof ForbiddenRightsError) {
+      return res.status(403).json({ error: 'FORBIDDEN' });
+    }
 
     if (error instanceof UnsupportedFileTypeError) {
       return res.status(415).json({ error: 'WRONG_FILE_TYPE' });
@@ -110,5 +115,3 @@ export async function uploadMessageFile(req: Request, res: Response){
     return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
   }
 }
-
-
