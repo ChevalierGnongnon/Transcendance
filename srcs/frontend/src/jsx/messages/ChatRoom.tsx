@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import "../../scss/common-classes.scss";
 import "../../scss/messages.scss";
-
 import MoreOptions from "./options";
 import { Message } from "./Message";
 import { socket } from "./socket";

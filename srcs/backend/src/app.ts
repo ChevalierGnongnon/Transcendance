@@ -7,6 +7,7 @@ import authRoutes from './modules/auth/auth.routes.js';
 import usersRoutes from './modules/users/users.routes.js';
 import filesRoutes from './modules/files/files.routes.js';
 import chatRoutes from './modules/chat/chat.routes.js';
+import socialRoutes from './modules/social/social.routes.ts';
 import healthRouter from './modules/health.js';
 
 const app = express();
@@ -20,7 +21,6 @@ app.use('/api', usersRoutes);
 app.use('/api', filesRoutes);
 app.use('/api', healthRouter);
 app.use('/api', chatRoutes);
-// app.use("/api/chat", chatRoutes);
-
+app.use('/api', socialRoutes);
 
 export default app;

@@ -33,8 +33,6 @@ import {
 
 export const setupSocketConnection = (io: Server) => {
 
-  console.log("setupSocketConnection called");
-
   io.use(requireAuth);
 
   io.on('connection', (socket: Socket) => {

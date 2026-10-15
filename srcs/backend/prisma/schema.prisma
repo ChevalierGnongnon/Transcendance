@@ -105,6 +105,14 @@ enum MessageType {
   invitation
 }
 
+enum GameInvitationStatus {
+  pending
+  accepted
+  declined
+  expired
+  cancelled
+}
+
 model Message {
   id        String      @id @default(uuid()) @db.Char(36)
   chatId    String      @map("chat_id") @db.Char(36)
@@ -120,6 +128,23 @@ model Message {
 
   @@index([chatId, createdAt])
   @@map("messages")
+}
+
+model GameInvitation {
+  invitationId String               @id @map("invitation_id") @db.Char(36)
+  status       GameInvitationStatus @default(pending)
+  createdAt    DateTime             @default(now()) @map("created_at")
+  resolvedAt   DateTime?            @map("resolved_at")
+  senderId     String?              @map("sender_id") @db.Char(36)
+  recipientId  String?              @map("recipient_id") @db.Char(36)
+  chatId       String?              @map("chat_id") @db.Char(36)
+  boardSize    Int?                 @map("board_size")
+
+  game Game?
+
+  @@index([status, createdAt])
+  @@index([chatId, status])
+  @@map("game_invitations")
 }
 
 model Game {
@@ -139,6 +164,7 @@ model Game {
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @updatedAt @map("updated_at")
 
+  invitation GameInvitation @relation(fields: [invitationId], references: [invitationId], onDelete: Restrict, onUpdate: Cascade)
   playerX User @relation("gamesPlayedAsX", fields: [playerXId], references: [id])
   playerO User @relation("gamesPlayedAsO", fields: [playerOId], references: [id])
 
