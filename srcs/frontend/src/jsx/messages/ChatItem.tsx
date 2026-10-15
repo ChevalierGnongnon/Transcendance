@@ -1,32 +1,33 @@
-import type { ChatProps } from './types.js';
 import { useFriendships } from '../friends/useFriendships.js';
+import Badge from './Badge.js';
+import type { IChatPreview } from './types.js';
 
-function ChatItem({ chat, setActiveView, setActiveChat }: ChatProps) {
+export interface ChatItemProps {
+  chat: IChatPreview;
+  onOpenChat: (chat: IChatPreview | null) => void;
+}
+
+function ChatItem({ chat, onOpenChat }: ChatItemProps) {
   const { getStatus } = useFriendships();
+  const { user, unreadCount = 0 } = chat;
+  const { pseudo, profilePhoto } = user;
 
   return (
     <>
       <li
         className="message-block d-flex"
         onClick={() => {
-          setActiveView('conversation');
-          setActiveChat(chat);
+          onOpenChat(chat);
         }}
       >
-        <figure className={`avatar-msg ${getStatus(chat.user.id)}-avatar`}>
+        <figure className={`avatar-msg ${getStatus(user.id)}-avatar`}>
           <img
-            src={
-              chat.user.profilePhoto.id
-                ? `/api/${chat.user.profilePhoto.id}/download`
-                : '/default-avatar.png'
-            }
-            alt="avatar"
+            src={profilePhoto?.id ? `/api/${profilePhoto.id}/download` : '/default-avatar.png'}
+            alt={pseudo}
           />
         </figure>
-        <div className="p-2 message-text fw-semibold fs-3">{chat.user.pseudo}</div>
-        {chat.unreadCount > 0 && (
-          <span className="badge rounded-pill bg-success me-2 text-start ">{chat.unreadCount}</span>
-        )}
+        <div className="p-2 message-text fw-semibold fs-3">{pseudo}</div>
+        <Badge count={unreadCount} />
       </li>
     </>
   );
