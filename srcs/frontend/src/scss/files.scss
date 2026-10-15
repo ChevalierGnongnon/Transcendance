@@ -1,6 +1,10 @@
 @use "./common-variables.scss" as *;
 @use "./mixins.scss" as *;
 
+.file_component{
+    width: 100%;
+}
+
 .avatar-preview{
     display: block;
     margin-left: auto;
@@ -12,16 +16,52 @@
     border-radius: 50%;
 }
 
+.icon-preview{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid white;
+    border-radius: 50%;
+    img{
+        width: 60%;
+        height: 60%;
+        object-fit: contain;
+    }
+}
+
 .upload_file{
     background-color: rgb(205, 205, 205);
+    color: black;
     border: 2px solid white;
     border-radius: 12px;
-    display: block;
-    max-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 90%;
+    max-width: 90%;
+    box-sizing: border-box;
     margin-left: auto;
     margin-right: auto;
     margin-top: 1%;
     margin-bottom: 3%;
+    padding: 8px 12px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.upload_file-label{
+    flex-shrink: 0;
+}
+
+.upload_file-name{
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .file-accept-button{
@@ -31,6 +71,7 @@
     padding: 8px 12px;
     display: block;
     margin: 1% auto;
+    width: 60%;
 }
 
 .file-delete-button{
@@ -40,5 +81,11 @@
     padding: 8px 12px;
     display: block;
     margin: 1% auto;
+    width: 60%;
 }
 
+.file_component{
+    background-color: $background-common-color;
+    border: 1px solid white;
+    border-radius: $radius-md;
+}

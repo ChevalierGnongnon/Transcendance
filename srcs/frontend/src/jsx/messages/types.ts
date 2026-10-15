@@ -52,7 +52,6 @@ export interface IChatPreview {
 export interface ChatRoomProps {
   me: User;
   chat: IChatPreview;
-  setActiveChat: (chat: IChatPreview | null) => void;
   setActiveView: (view: ActiveView) => void;
   messages: Map<string, IMessage[]>;
   onAddMessage: (message: IMessage) => void;

@@ -6,7 +6,6 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import ChatRoom from './ChatRoom';
 import NavBar from './navbar';
 import NewChat from './new-chat';
-import MoreOptions from './options';
 import Block from './block';
 import ChatList from './ChatList';
 import ImaginaryFriend from '../ai/ImaginaryFriend';
@@ -14,11 +13,13 @@ import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
 import { ActiveView, IChatPreview, IMessage } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
-import { useSocketConnection } from './hooks/useSocketConnection';
+import { useTranslation } from 'react-i18next';
+
 
 function Messages() {
   const me = useUser();
-  const isConnected = useSocketConnection();
+
+  // const isConnected = useSocketConnection();
   const [activeView, setActiveView] = useState<ActiveView>('chats');
 
   const [loadingMessages, setLoadingMessages] = useState(false);
@@ -29,6 +30,8 @@ function Messages() {
   const [chatList, setChatList] = useState<IChatPreview[]>([]);
   const [error, setError] = useState<Error | null>(null);
 
+  const {t} = useTranslation();
+  
   useEffect(() => {
     let cancelled = false;
     setLoadingChats(true);
@@ -104,9 +107,10 @@ function Messages() {
     const handleNewMessage = async (newMessage: IMessage) => {
       const chatId = newMessage.chatId;
       const messageId = newMessage.id;
-      if (!chatId || !messageId) throw new Error('Bad message');
 
       try {
+        if (!chatId || !messageId) throw new Error('Bad message');
+
         const newChat = {
           chatId: chatId,
           user: newMessage.sender,
@@ -166,7 +170,7 @@ function Messages() {
   };
 
   if (!me) {
-    return <div>Something went wrong. Please try again later.</div>;
+    return <div>{t('common.something-went-wrong')}</div>;
   }
 
   return (
@@ -186,7 +190,6 @@ function Messages() {
           <ChatRoom
             me={me}
             chat={activeChat}
-            setActiveChat={setActiveChat}
             setActiveView={setActiveView}
             messages={allMessages}
             onAddMessage={addMessage}

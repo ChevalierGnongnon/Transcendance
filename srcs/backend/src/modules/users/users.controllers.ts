@@ -55,7 +55,7 @@ export async  function getUserByPseudo(req: Request, res: Response) {
   try{
     const pseudo = req.params.pseudo;
     if (typeof pseudo !== 'string')
-      return (res.status(400).json({error: 'INVALID_PSEUDO'}))
+      return (res.status(400).json({error: 'PSEUDO_INVALID'}))
     const infos = await usersServices.getUserInfo(pseudo);
     return (res.status(200).json(infos))
   }catch (error){

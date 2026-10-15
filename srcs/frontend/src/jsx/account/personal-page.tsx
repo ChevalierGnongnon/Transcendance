@@ -13,8 +13,10 @@ import statsShortcut from "../../assets/icons/stats.png"
 import { useAuth } from "../auth/auth-context";
 import { useParams } from "react-router-dom";
 import { useApiFetch } from "../auth/use-api-fetch";
+import { useFriendships } from "../friends/useFriendships";
 
 interface User {
+	id: string;
 	firstName: string;
 	lastName: string;
 	email: string;
@@ -32,6 +34,7 @@ function PersonalPage() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const { pseudo } = useParams();
+	const { getStatus } = useFriendships(); 
 
 	useEffect (() => {
 		async function checkProfileOwner(){
@@ -81,21 +84,44 @@ function PersonalPage() {
 		<>
 			<main className="d-flex flex-column justify-content-center align-items-center">
 				<div className="profile-page d-flex flex-column gap-3 justify-content-center align-items-center min-vh-100">
-					<img
-						src={
-							displayedUser.profilePhoto?.id
-								? `/api/${displayedUser.profilePhoto.id}/download`
-								: "/default-avatar.png"
-						}
-						alt="avatar"
-						className="img-avatar-profile-page"
-					/>
-					<div className="d-flex flex-column">
-						<h1>{displayedUser.pseudo}</h1>
-						<span>
-							{displayedUser.firstName} {displayedUser.lastName}
-						</span>
-					</div>
+					{isMine &&
+						<>
+							<img
+								src={
+									displayedUser.profilePhoto?.id
+										? `/api/${displayedUser.profilePhoto.id}/download`
+										: "/default-avatar.png"
+								}
+								alt="avatar"
+								className="img-avatar-profile-page my-avatar"
+							/>
+							<div className="d-flex flex-column">
+								<h1>{displayedUser.pseudo}</h1>
+								<span>
+									{displayedUser.firstName} {displayedUser.lastName}
+								</span>
+							</div>
+						</>
+					}
+					{!isMine &&
+						<>
+							<img
+								src={
+									displayedUser.profilePhoto?.id
+										? `/api/${displayedUser.profilePhoto.id}/download`
+										: "/default-avatar.png"
+								}
+								alt="avatar"
+								className={`img-avatar-profile-page ${getStatus(displayedUser.id)}-avatar`}
+							/>
+							<div className="d-flex flex-column">
+								<h1>{displayedUser.pseudo}</h1>
+								<span>
+									{displayedUser.firstName} {displayedUser.lastName}
+								</span>
+							</div>
+						</>
+					}
 
 
 					{ !isMine &&
@@ -181,6 +207,7 @@ function PersonalPage() {
 									<span>Analytics</span>
 								</figure>
 							</div>
+
 						</>
 					}
 					

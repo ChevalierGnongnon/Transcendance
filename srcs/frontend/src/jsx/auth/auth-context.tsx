@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import { createAiConversation } from "../ai/utils/api";
 
+import { socket } from "../messages/socket";
 // Shape of the info shared everywhere in the app (via AuthProvider):
 // whether or not the user is connected,
 // and functions to change its status and check if it changed
@@ -10,6 +11,7 @@ type AuthContextType = {
     markDisconnected: () => void;
     logout: () => Promise<void>;
     refresh: () => Promise<void>;
+    onlineFriends: string[];
 };
 
 const context = createContext<AuthContextType | undefined>(undefined);
@@ -20,6 +22,7 @@ const context = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({children}:{children:ReactNode}){
     const [isAuthenticated, setIsAuthenticated] = useState<true | false | null>(null)
     const [conversationId, setAiConversationId] = useState<string | null>(null);
+    const [onlineFriends, setOnlineFriends] = useState<string[]>([]);
     //simple function to avoid code repetition, checks/fetches the current connection status
     const checkAuth = async() => {
         //calls check-auth route to know if the token cookie is still valid
@@ -37,6 +40,16 @@ export function AuthProvider({children}:{children:ReactNode}){
     }, []);
 
     useEffect(() => {
+        if (isAuthenticated === true)
+            socket.connect();
+        else{
+            setOnlineFriends([]);
+            socket.disconnect()
+        }
+    }, [isAuthenticated])
+
+    // To handle deconnexion in all tabs if one logged out 
+    useEffect(() => {
         window.addEventListener('storage', refresh)
         return () => window.removeEventListener('storage', refresh);
     }, [])
@@ -45,6 +58,27 @@ export function AuthProvider({children}:{children:ReactNode}){
 
         const conversationId = await createAiConversation();
         sessionStorage.setItem('aiConversationId', conversationId);
+    useEffect(() => {
+        function handleOnlineFriends(data: {onlineFriends: string[]}){
+            setOnlineFriends(data.onlineFriends);
+        }
+        function handleUserOnline(data: {userId: string}){
+            setOnlineFriends(prev => [...prev, data.userId]);
+        }
+
+        function handleUserOffline(data: {userId: string}){
+            setOnlineFriends(prev => prev.filter(id => id !== data.userId));
+        }
+        socket.on('online-friends', handleOnlineFriends);
+        socket.on('user-online', handleUserOnline);
+        socket.on('user-offline', handleUserOffline);
+        return () => {
+            socket.off('online-friends', handleOnlineFriends);
+            socket.off('user-online', handleUserOnline);
+            socket.off('user-offline', handleUserOffline);
+        }; 
+    }, [])
+    function login(){
         localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(true);
         setAiConversationId(conversationId);
@@ -73,7 +107,7 @@ export function AuthProvider({children}:{children:ReactNode}){
 
     return (
         //returns value + usefull functions
-        <context.Provider value={{ isAuthenticated, login, logout, markDisconnected, refresh }}>
+        <context.Provider value={{ isAuthenticated, login, logout, markDisconnected, refresh, onlineFriends }}>
             {children}
         </context.Provider>
     )

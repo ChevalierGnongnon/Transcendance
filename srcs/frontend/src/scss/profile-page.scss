@@ -5,12 +5,16 @@
 	height: 80px;
 	border-radius: 50%;
 	object-fit: cover;
-	border: 3px solid $connected-user-color;
 	background-color: rgb(92, 156, 185);
     cursor: pointer;
+    border: 3px solid white;
     &:hover{
         transform: scale(1.1,1.1);
     }
+}
+
+.my-avatar{
+    border: 3px solid white;
 }
 
 .img-avatar-profile-page{
@@ -18,9 +22,9 @@
     height: clamp(120px, 40vw, 300px);
     border-radius: 50%;
     object-fit: cover;
-	border: 3px solid $connected-user-color;
 	background-color: rgb(92, 156, 185);
     cursor: pointer;
+    // border: 3px solid white;
 }
 
 .lang-choice{
@@ -127,7 +131,7 @@
 
 .profile-page{
     background-color: $background-common-color;
-    width: 70%;
+    width: 90%;
     margin: auto;
     padding: 1%;
     color: white;
