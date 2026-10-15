@@ -60,7 +60,10 @@
     "add-friend": "Einen Freund hinzufügen",
     "send-friendship-invitation": "Freundschaftsanfrage senden",
     "friend-list": "Meine Freundesliste",
-    "my-stats": "Meine Statistiken"
+    "my-stats": "Meine Statistiken",
+    "block-user": "Benutzer blockieren",
+    "unblock-user": "Benutzer entsperren",
+    "remove-friend": "Aus Freunden entfernen"
   },
   "update-my-profile": {
     "change-account-infos": "Kontoinformationen ändern",

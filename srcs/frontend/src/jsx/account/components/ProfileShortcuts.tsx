@@ -187,7 +187,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
         {!relationship.blockedByMe && !relationship.blockedMe && relationship.isFriend && (
           <ShortcutCard
             icon={addFriendsIcon}
-            label={t('profile-page.delete-friend')}
+            label={t('profile-page.remove-friend')}
             onClick={() => {
               deleteFriendship(user.id);
             }}
@@ -225,7 +225,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
         {!relationship.blockedByMe && (
           <ShortcutCard
             icon={addFriendsIcon}
-            label={t('friends.block')}
+            label={t('profile-page.block-user')}
             onClick={() => {
               blockUser(user.id);
             }}
@@ -236,7 +236,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
         {relationship.blockedByMe && (
           <ShortcutCard
             icon={addFriendsIcon}
-            label={t('friends.unblock')}
+            label={t('profile-page.unblock-user')}
             onClick={() => {
               unBlockUser(user.id);
             }}

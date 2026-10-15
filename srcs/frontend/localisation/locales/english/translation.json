@@ -60,7 +60,10 @@
     "add-friend": "Add a friend",
     "send-friendship-invitation": "Send friend request",
     "friend-list": "My friend list",
-    "my-stats": "My stats"
+    "my-stats": "My stats",
+    "block-user": "Block user",
+    "unblock-user": "Unblock user",
+    "remove-friend": "Remove from friends"
   },
   "update-my-profile": {
     "change-account-infos": "Change account information",
