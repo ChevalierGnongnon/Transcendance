@@ -35,7 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/personalpage" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/parameters" element={<RequireAuth><Parameters /></RequireAuth>} />
 					<Route path="/messages" element={<RequireAuth><Messages /></RequireAuth>} />
-					<Route path="/addfriend" element={<RequireAuth><AddFriend /></RequireAuth>} />
+					{/* <Route path="/addfriend" element={<RequireAuth><AddFriend /></RequireAuth>} /> */}
 					<Route path="/myfriends" element={<RequireAuth><MyFriends /></RequireAuth>} />
 					<Route path="/profile/:pseudo" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />

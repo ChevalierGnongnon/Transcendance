@@ -54,10 +54,6 @@ export function AuthProvider({children}:{children:ReactNode}){
     //     return () => window.removeEventListener('storage', refresh);
     // }, [])
 
-    async function login(){
-
-        const conversationId = await createAiConversation();
-        sessionStorage.setItem('aiConversationId', conversationId);
     useEffect(() => {
         function handleOnlineFriends(data: {onlineFriends: string[]}){
             setOnlineFriends(data.onlineFriends);
@@ -78,7 +74,10 @@ export function AuthProvider({children}:{children:ReactNode}){
             socket.off('user-offline', handleUserOffline);
         }; 
     }, [])
-    function login(){
+
+    async function login(){
+        const conversationId = await createAiConversation();
+        sessionStorage.setItem('aiConversationId', conversationId);
         localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(true);
         setAiConversationId(conversationId);
@@ -112,7 +111,7 @@ export function AuthProvider({children}:{children:ReactNode}){
         </context.Provider>
     )
 }
-}
+
 // useAuth: entry point every other component uses to read and act on the auth state
 // (isAuthenticated, login, logout, markdisconnected, refresh) without touching useContext directly,
 // it throws if called outside AuthProvider, so if it's missing, the  provider fails loudly
