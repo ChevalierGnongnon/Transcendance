@@ -79,7 +79,9 @@ class chatService {
     if (!messages) {
       throw new NotFoundError('Dont have messages in this chat');
     }
-    return messages;
+
+    const result = messages.map((m) => ({ ...m, status: 'sent' }));
+    return result;
   }
 
   async getChatByUserId(currentUserId: string, otherUserId: string) {
