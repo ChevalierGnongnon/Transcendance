@@ -1,4 +1,4 @@
-import type { GamesOverTime } from "./analytics.types";
+import type { GamesOverTime } from "../utils/analytics.types";
 import {
     BarChart,
     Bar,

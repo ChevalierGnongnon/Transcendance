@@ -1,6 +1,5 @@
 import type { AnalyticsData } from "./analytics.types";
 
-
 function downloadCsv(
 	csv:string,
 	filename: string

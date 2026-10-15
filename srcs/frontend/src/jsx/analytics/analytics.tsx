@@ -1,12 +1,12 @@
 import '../../scss/analytics.scss';
 
 import { useEffect, useState } from "react";
-import { getAnalytics } from "./analyticsApi";
-import type { AnalyticsData } from "./analytics.types";
+import { getAnalytics } from "./utils/analyticsApi";
+import type { AiUsageOverTime, AnalyticsData } from "./utils/analytics.types";
 import AnalyticsCard from "./AnalyticsCard";
-import LineChartSection from './LineChartSection';
-import PieChartSection from "./PieChartSection";
-import { exportAnalyticsToCsv } from './analyticsExport';
+import LineChartSection from './charts/LineChartSection';
+import PieChartSection from "./charts/PieChartSection";
+import { exportAnalyticsToCsv } from './utils/analyticsExport';
 import { useSocketConnection } from '../messages/hooks/useSocketConnection';
 import { socket } from '../messages/socket';
 import { useTranslation } from 'react-i18next';

@@ -2,11 +2,7 @@ import "../../scss/analytics-chart.scss";
 
 import { useState } from "react";
 
-import type {
-    AiUsageOverTime,
-    GamesOverTime,
-} from "./analytics.types";
-
+import type {AiUsageOverTime,GamesOverTime } from "../utils/analytics.types";
 import AiUsageChart from "./AiUsageChart";
 import GamesOverTimeChart from "./GamesOverTimeChart";
 import { useTranslation } from "react-i18next";
@@ -16,10 +12,8 @@ interface LineChartSectionProps {
     gamesData: GamesOverTime[];
 }
 
-function LineChartSection({
-    aiUsageData,
-    gamesData,
-}: LineChartSectionProps) {
+
+function LineChartSection({aiUsageData, gamesData, }: LineChartSectionProps) {
     const { t } = useTranslation();
     const [selectedChart, setSelectedChart] = useState("aiUsage");
 
@@ -55,7 +49,6 @@ function LineChartSection({
         {selectedChart === "games" && (
             <GamesOverTimeChart data={gamesData} />
         )}
-
         </div>
     </div>
     );
