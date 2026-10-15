@@ -60,7 +60,10 @@
     "add-friend": "Додати друга",
     "send-friendship-invitation": "Надіслати запит у друзі",
     "friend-list": "Мій список друзів",
-    "my-stats": "Моя статистика"
+    "my-stats": "Моя статистика",
+    "block-user": "Заблокувати користувача",
+    "unblock-user": "Розблокувати користувача",
+    "remove-friend": "Видалити з друзів"
   },
   "update-my-profile": {
     "change-account-infos": "Змінити інформацію про акаунт",
