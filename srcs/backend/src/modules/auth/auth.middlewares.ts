@@ -7,6 +7,9 @@ import { prisma } from '../../lib/prisma.js';
 export const requireAuth = async(req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.token;
 
+  // login page will return 401 on first
+  // website connexion if cookie is expired or no one has login.
+  // it is normal and attended.
   if (!token || typeof token !== 'string') {
     return res.status(401).json({
       error: 'INVALID_TOKEN',
@@ -26,11 +29,13 @@ export const requireAuth = async(req: Request, res: Response, next: NextFunction
     decoded = jwt.verify(token, secret);
 
   } catch (error) {
-      return res.status(401).json({error: 'INVALID_TOKEN',});
+    // token doesn't pass jwt verify (expired or modified)
+    return (res.status(401).json({error: 'INVALID_TOKEN',}));
   }
 
   if (typeof decoded === 'string' || typeof decoded.userId !== 'string') {
-    return res.status(401).json({ error: 'INVALID_TOKEN' });
+    // token is valid but its value doesn't have the good shape
+    return (res.status(401).json({ error: 'INVALID_TOKEN' }));
   }
 
   let user;
@@ -50,8 +55,10 @@ export const requireAuth = async(req: Request, res: Response, next: NextFunction
     });
   }
 
-  if (!user)
+  if (!user){
+    // user doesn't exist anymore in database
     return res.status(401).json({ error: 'INVALID_TOKEN' });
+  }
   req.jwtPayload = decoded;
   req.userId = decoded.userId;
 

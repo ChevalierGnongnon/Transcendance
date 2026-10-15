@@ -128,7 +128,7 @@ function Register() {
 						
 						<h1 className="login-title">{t('complete-your-profile.title')} :</h1>
 						<label htmlFor="pseudo" className="login-text">{t('complete-your-profile.enter-a-pseudo')}</label>
-						<input type="text" name="name" value={pseudo} placeholder={t('complete-your-profile.enter-a-pseudo')} className="form-control form-input" id="pseudo" onChange={(e) => setPseudo(e.target.value)} />
+						<input type="text" name="pseudo" value={pseudo} placeholder={t('complete-your-profile.enter-a-pseudo')} className="form-control form-input" id="pseudo" onChange={(e) => setPseudo(e.target.value)} />
 						{!pickedDefault && (
 							<FileImport
 								mode="avatar"

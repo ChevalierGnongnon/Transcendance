@@ -8,8 +8,11 @@ import { RateLimiter } from '@/common/common-middlewares.js';
 
 const router = express.Router();
 
+// 10 trys in 15 minutes, skips successfull requests for counting only bad requests
 router.post('/login', RateLimiter(15, 10, 'TOO_MANY_REQUESTS', true), loginValidator, validate, login);
 router.post('/logout', logout);
-router.post('/register', RateLimiter(60, 5, 'TOO_MANY_REQUESTS'),  uploadImageConfig.single('avatar'), registrationValidator, validate, register);
+// 20 trys per hour
+router.post('/register', RateLimiter(60, 20, 'TOO_MANY_REQUESTS'),  uploadImageConfig.single('avatar'), registrationValidator, validate, register);
 router.get('/check-auth', requireAuth, checkAuth);
+
 export default router;
