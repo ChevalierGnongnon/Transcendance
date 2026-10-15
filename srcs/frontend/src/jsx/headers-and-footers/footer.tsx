@@ -15,18 +15,18 @@ function Footer() {
   };
   return (
     <footer className="fixed-bottom common-footer d-flex flex-column align-items-center gap-3 p-2">
-      <div className="d-flex gap-2 mx-auto">
-        <a className="link" onClick={() => navigate("/termsofservice")}>
-          {t("common.terms-of-service")}
-        </Link>
-
-        <Link
-          className="link"
-          to="/privacypolicy"
+      <nav
+            className="d-flex flex-wrap justify-content-center gap-3"
+            aria-label={t("common.legal-navigation")}
         >
-          {t("common.privacy-policy")}
-        </Link>
-      </div>
+            <Link className="link" to="/termsofservice">
+                {t("common.terms-of-service")}
+            </Link>
+
+            <Link className="link" to="/privacypolicy">
+                {t("common.privacy-policy")}
+            </Link>
+        </nav>
 
       {isAuthenticated && (
         <div className="div-connected-only d-flex gap-2 d-none d-md-flex">

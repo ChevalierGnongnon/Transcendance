@@ -48,11 +48,11 @@ export function AuthProvider({children}:{children:ReactNode}){
         }
     }, [isAuthenticated])
 
-    // To handle deconnexion in all tabs if one logged out 
-    useEffect(() => {
-        window.addEventListener('storage', refresh)
-        return () => window.removeEventListener('storage', refresh);
-    }, [])
+    // // To handle deconnexion in all tabs if one logged out 
+    // useEffect(() => {
+    //     window.addEventListener('storage', refresh)
+    //     return () => window.removeEventListener('storage', refresh);
+    // }, [])
 
     async function login(){
 
@@ -112,7 +112,7 @@ export function AuthProvider({children}:{children:ReactNode}){
         </context.Provider>
     )
 }
-
+}
 // useAuth: entry point every other component uses to read and act on the auth state
 // (isAuthenticated, login, logout, markdisconnected, refresh) without touching useContext directly,
 // it throws if called outside AuthProvider, so if it's missing, the  provider fails loudly

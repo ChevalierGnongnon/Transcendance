@@ -25,7 +25,7 @@ app.use('/api', healthRouter);
 app.use('/api', chatRoutes);
 app.use('/api', aiRouter);
 app.use('/api', analyticsRouter);
-app.use('/api', friendshipsRoutes);
+// app.use('/api', friendshipsRoutes);
 app.use('/api', socialRoutes);
 
 export default app;
