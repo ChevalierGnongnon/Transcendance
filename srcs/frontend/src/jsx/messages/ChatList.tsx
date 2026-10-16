@@ -17,13 +17,6 @@ function ChatList({ chatList, loading, error, onOpenChat }: ChatListProps) {
 
   return (
     <>
-      {/*<div
-        className={
-          props.align === 'center'
-            ? 'chat-list mx-auto my-2'
-            : 'chat-list chat-list-side my-2 d-none d-md-block'
-        }
-      >*/}
       <div className="list-header pt-4">
         <h1>{t('message.chats')}</h1>
       </div>
@@ -38,7 +31,6 @@ function ChatList({ chatList, loading, error, onOpenChat }: ChatListProps) {
           ))}
         </ul>
       )}
-      {/*</div>*/}
     </>
   );
 }

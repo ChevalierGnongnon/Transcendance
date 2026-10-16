@@ -1,6 +1,5 @@
 import { useState, ChangeEvent, KeyboardEvent, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { socket } from './socket';
 
 import '../../scss/common-classes.scss';

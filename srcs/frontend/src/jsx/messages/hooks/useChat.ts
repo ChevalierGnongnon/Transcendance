@@ -3,7 +3,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { socket } from '../socket.js';
 import { fetchChats, fetchMessages } from '../utils/api';
 import { useUser } from './useUser';
-import type { ActiveView, IChatPreview, IMessage, User, MessageStatus } from '../types';
+import type {
+  ActiveView,
+  IChatPreview,
+  IMessage,
+  User,
+  MessageStatus,
+  SearchResult,
+} from '../types';
 
 export default function useChat() {
   const me = useUser();
@@ -13,6 +20,7 @@ export default function useChat() {
   const [loadingChats, setLoadingChats] = useState(false);
   const [chatList, setChatList] = useState<IChatPreview[]>([]);
   const [error, setError] = useState<Error | null>(null);
+  const [otherlastReadMessagesId, setOtherlastReadMessagesId] = useState<string | null>(null);
 
   useEffect(() => {
     if (activeChat && activeView === 'chats') {
@@ -35,12 +43,9 @@ export default function useChat() {
       });
     return () => {
       cancelled = true;
-      // setAllMessages(new Map());
       setChatList([]);
       setActiveChat(null);
       setActiveView('chats');
-      // setAutoStartChat(false);
-      // console.log('Leave Messages');
     };
   }, []);
 
@@ -250,11 +255,18 @@ export default function useChat() {
     [chatList, setChatList, setActiveChat, setActiveView]
   );
 
+  useEffect(() => {
+    const chat = chatList.find((c) => c.chatId === activeChat?.chatId);
+    const id = chat?.otherlastReadMessagesId ?? null;
+    setOtherlastReadMessagesId(id);
+  }, [chatList, activeChat]);
+
   return {
     me,
     activeView,
     activeChat,
     chatList,
+    otherlastReadMessagesId,
 
     setActiveView,
     setActiveChat,

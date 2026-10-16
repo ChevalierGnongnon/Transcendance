@@ -6,7 +6,24 @@ import { useAuth } from '../auth/auth-context';
 import MessagesList from './MessagesList';
 import ChatRoomHeader from './ChatRoomHeader';
 import ChatRoomFooter from './ChatRoomFooter';
-import type { ChatRoomProps, Relationship } from './types.js';
+import type {
+  User,
+  ActiveView,
+  IChatPreview,
+  IMessage,
+  MessageStatus,
+  Relationship,
+} from './types.js';
+
+export interface ChatRoomProps {
+  me: User;
+  chat: IChatPreview;
+  setActiveView: (view: ActiveView) => void;
+  messages: IMessage[];
+  onAddMessage: (message: IMessage) => void;
+  onUpdateMessage: (message: IMessage, status: MessageStatus) => void;
+  otherLastReadMessagesId: string | null;
+}
 
 function ChatRoom(roomProps: ChatRoomProps) {
   const { logout } = useAuth();
