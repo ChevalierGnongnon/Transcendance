@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { MessageType } from './types';
 import { useAuth } from '../auth/auth-context';
 import FileImport from '../files/file-import';
-import ErrorMessage from '../others/error-message';
 
 interface MoreOptionsProps {
   chatId: string;
@@ -20,11 +19,10 @@ function MoreOptions(props: MoreOptionsProps) {
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = async (file: File | null) => {
-    
+    setError(null);
     if (!file)
       return;
 
-    setError(null);
     const formData = new FormData();
     formData.append('file', file);
 
@@ -72,6 +70,8 @@ function MoreOptions(props: MoreOptionsProps) {
         deferUpload={true}
         onFileReady={(fileId) => handleChange(fileId)}
         externalProgress={uploadProgress}
+        externalError={error}
+        onSelectedChange={() => setError(null)}
         inputPlaceHolder={t('common.import-file')}
       ></FileImport>
       <input
@@ -79,7 +79,6 @@ function MoreOptions(props: MoreOptionsProps) {
         value={t('message.invite-to-game')}
         className="btn btn-primary more-options-btn"
       />
-      <ErrorMessage error={error} />
     </div>
   );
 }

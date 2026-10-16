@@ -10,10 +10,14 @@ function Login() {
 	const [login, setLogin] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState<string | null>(null);
+	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 	const navigate = useNavigate();
 	const { login: authLogin } = useAuth();
 	const manageSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		if (isSubmitting === true)
+			return ;
+		setIsSubmitting(true);
 		try{
 			const response = await fetch('/api/login', {
 				method: 'POST',
@@ -30,6 +34,8 @@ function Login() {
 				setError(data?.error ?? 'DATABASE_ERROR');
 		} catch {
 			setError('DATABASE_ERROR');
+		} finally {
+			setIsSubmitting(false);
 		}
 	}
 
@@ -43,10 +49,10 @@ function Login() {
 				<div className="d-flex flex-column flex-xl-row gap-2 w-100">
 					<div className="connect-options-div">
 						<label htmlFor="login" className="login-text">{t('login.mail-or-pseudo')}</label>
-						<input type="text" name="name" value={login} placeholder={t('login.mail-or-pseudo')} className="form-control form-input" id="login" onChange={(e) => setLogin(e.target.value)} />
+						<input type="text" name="login" value={login} placeholder={t('login.mail-or-pseudo')} className="form-control form-input" id="login" onChange={(e) => setLogin(e.target.value)} />
 						<label htmlFor="password" className="login-text">{t('common.password')}</label>
 						<input type="password" name="password" value={password} placeholder={t('common.password')} className="form-control form-input" id="password" onChange={(e) => setPassword(e.target.value)} />
-						<button type="submit" className="btn btn-primary login-button">{t('common.login')}</button>
+						<button type="submit" className="btn btn-primary login-button" disabled={isSubmitting}>{t('common.login')}</button>
 					</div>
 				</div>
 				<p className="login-text">{t('login.no-account')}</p>

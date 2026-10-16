@@ -217,12 +217,12 @@ function PersonalPage() {
 										<span>{t("profile-page.friend-list")}</span>
 									</figure>
 								</div>
-								<div className="col-12 col-md-6 col-xl-6">
+								{/* <div className="col-12 col-md-6 col-xl-6">
 									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/addfriend")}>
 										<img src={addFriendsIcon} alt="message-shortcut" />
 										<span>{t("profile-page.add-friend")}</span>
 									</figure>
-								</div>
+								</div> */}
 							</div>
 
 							<span>{t("profile-page.game-stats")}</span>

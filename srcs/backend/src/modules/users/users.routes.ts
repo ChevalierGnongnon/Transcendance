@@ -16,7 +16,7 @@ router.get('/my-profile', requireAuth, getMyProfile);
 router.get("/user/:id", requireAuth, getUser);
 router.get("/users", requireAuth, getAllUsers);
 router.get('/users/search', requireAuth, RateLimiter(1, 20, 'TOO_MANY_REQUESTS'), searchValidator, validate, searchUsers);
-router.get('/users/:pseudo', requireAuth, RateLimiter(1, 20, 'TOO_MANY_REQUESTS'), getUserByPseudo);
+router.get('/users/:pseudo', requireAuth, RateLimiter(1, 60, 'TOO_MANY_REQUESTS'), getUserByPseudo);
 router.patch('/my-profile/avatar', requireAuth, avatarUpdateValidator, validate, updateProfilePhoto);
 router.patch('/my-profile', requireAuth, updateValidator, validate, updateUser);
 

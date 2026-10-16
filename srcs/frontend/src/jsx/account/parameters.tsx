@@ -144,7 +144,7 @@ function Parameters() {
 							{ !pickedDefault && 
 								<FileImport
 									mode="avatar"
-									onUploaded={(fileId) => setAvatar(fileId)}
+									onUploaded={(fileId) => { setAvatar(fileId); setAvatarError(null); setAvatarUpdated(true); }}
 									onSelectedChange={setHasCustomFile}
 									inputPlaceHolder={t('common.import-image')}
 								/>
@@ -181,9 +181,9 @@ function Parameters() {
 										className="btn btn-primary update-button text-wrap"
 										onClick={manageAvatarUpdate}
 									/>
-									{avatarUpdated && <span className="d-block text-center text-white">✓ {t('common.updated')}</span>}
 								</>
 							)}
+							{avatarUpdated && <span className="d-block text-center text-white">✓ {t('common.updated')}</span>}
 							<ErrorMessage error={avatarError} />
 						</form>
 

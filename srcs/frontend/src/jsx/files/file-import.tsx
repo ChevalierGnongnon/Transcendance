@@ -3,6 +3,8 @@ import { useState, useRef } from "react";
 import { useAuth } from "../auth/auth-context";
 import ErrorMessage from "../others/error-message";
 import "../../scss/files.scss"
+
+
 interface FileImportComponent{
     mode: 'avatar' | 'message';
     onUploaded?: (fileId: string) => void;
@@ -11,6 +13,7 @@ interface FileImportComponent{
     deferUpload?: boolean;
     onFileReady?: (file: File | null) => void;
     externalProgress?: number;
+    externalError?: string | null;
     inputPlaceHolder: string | undefined
 }
 
@@ -60,32 +63,29 @@ function FileImport(fileImportComponent: FileImportComponent){
                         setConfirmed(false);
                         const file = e.target.files?.[0];
                         if (file){
-                            if (fileImportComponent.mode === 'avatar'
-                                && file.size <= (5 * 1024 * 1024)
-                                && avatarWhiteList.includes(file.type)){
-                                    setErrorMessage(null);
-                                    setSelectedFile(file);
-                                    const view = URL.createObjectURL(file);
-                                    setPreviewURL(view);
-                                    if (fileImportComponent.onSelectedChange)
-                                        fileImportComponent.onSelectedChange(true);
-                            }
-                            else if (fileImportComponent.mode === 'message'
-                                && file.size <= (10 * 1024 * 1024)
-                                && messageFileWhiteList.includes(file.type)){
-                                    setErrorMessage(null);
-                                    setSelectedFile(file);
-                                    const view = URL.createObjectURL(file);
-                                    setPreviewURL(view);
-                                    if (fileImportComponent.onSelectedChange)
-                                        fileImportComponent.onSelectedChange(true);
-                            }
-                            else {
-                                setErrorMessage('WRONG_FILE_TYPE');
+                            const whiteList = fileImportComponent.mode === 'avatar' ? avatarWhiteList : messageFileWhiteList;
+                            const maxSize = fileImportComponent.mode === 'avatar' ? 5 * 1024 * 1024 : 10 * 1024 * 1024;
+                            let fileError: string | null = null;
+
+                            if (!whiteList.includes(file.type))
+                                fileError = 'WRONG_FILE_TYPE';
+                            else if (file.size > maxSize)
+                                fileError = 'INVALID_FILE_SIZE';
+
+                            if (fileError) {
+                                setErrorMessage(fileError);
                                 setSelectedFile(null);
                                 setPreviewURL(null);
                                 if (fileImportComponent.onSelectedChange)
                                     fileImportComponent.onSelectedChange(false);
+                            }
+                            else {
+                                setErrorMessage(null);
+                                setSelectedFile(file);
+                                const view = URL.createObjectURL(file);
+                                setPreviewURL(view);
+                                if (fileImportComponent.onSelectedChange)
+                                    fileImportComponent.onSelectedChange(true);
                             }
                         }
                         else {
@@ -137,7 +137,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                 type="button"
                 value={t('common.confirm')}
                 className="file-accept-button"
-                disabled={isUploading}
+                disabled={isUploading || selectedFile === null}
                 onClick={()=>{
                     if (isUploading === true)
                         return;
@@ -177,7 +177,14 @@ function FileImport(fileImportComponent: FileImportComponent){
                                 setErrorMessage(null);
                                 setUploadProgress(0);
                                 setConfirmed(false);
-                                
+                                if (fileInputRef.current)
+                                    fileInputRef.current.value = '';
+                                setSelectedFile(null);
+                                if (previewURL)
+                                    URL.revokeObjectURL(previewURL);
+                                setPreviewURL(null);
+                                if (fileImportComponent.onSelectedChange)
+                                    fileImportComponent.onSelectedChange(false);
                             }
                             else if (request.status === 401)
                                 markDisconnected();
@@ -211,7 +218,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                 }
             }/>
             {confirmed && <span className="d-block text-center text-white">✓ {t('common.ready')}</span>}
-            <ErrorMessage error={errorMessage} />
+            <ErrorMessage error={errorMessage ?? fileImportComponent.externalError ?? null} />
             <input
                 type="button"
                 value={t('common.undo')}
