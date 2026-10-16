@@ -86,7 +86,8 @@ function MessagesList({ me, chatId, messages, otherLastReadMessagesId }: Message
                 senderId={msg.sender.id}
                 content={msg.content}
                 type={msg.type}
-                status={status ?? 'sending'}
+                // status={status ?? 'sending'}
+                status={status ?? 'sent'}
               />
             );
           })}

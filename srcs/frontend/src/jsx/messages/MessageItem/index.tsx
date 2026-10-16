@@ -17,7 +17,7 @@ function Message(props: MessageProps) {
       case 'invitation':
         return <MessageInvitationItem content={props.content} />;
       case 'file':
-        return <MessageFileItem fileId={fileId} isOwnMessage={isOwnMessage} />;
+        return <MessageFileItem fileId={fileId} isOwnMessage={isOwnMessage} status={props.status} />;
       default:
         return props.content;
     }
