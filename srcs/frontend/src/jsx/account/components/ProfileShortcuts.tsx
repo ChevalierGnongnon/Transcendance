@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 import messageIcon from '../../../assets/icons/icon-messages.png';
 import playShortcut from '../../../assets/icons/play-shortcut.png';
 import addFriendsIcon from '../../../assets/icons/icon-add-friends.png';
+import removeFriend from '../../../assets/icons/remove-friend.png';
+import block from '../../../assets/icons/block.png';
+import unBlock from '../../../assets/icons/unblock.png';
 import '../../../scss/common-classes.scss';
 import '../../../scss/profile-page.scss';
 import ShortcutCard from './ShortcutCard';
@@ -85,44 +88,12 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
     }
   };
 
-  const acceptFriendRequest = async (requestId: string) => {
+  const deleteFriend = async (userId: string) => {
     try {
-      const data = await apiFetch<Friend>(
-        `/api/social/friend-requests/${requestId}/accept`,
-        { method: 'POST' },
-        logout
-      );
-      const newFriend: Friend = data;
+      await apiFetchVoid(`/api/social/friends/${userId}`, { method: 'DELETE' }, logout);
       loadRelationship();
     } catch (err) {
-      console.error('Error cancelFriendRequest:', err);
-    }
-  };
-
-  const cancelFriendRequest = async (requestId: string) => {
-    try {
-      await apiFetchVoid(`/api/social/friend-requests/${requestId}`, { method: 'DELETE' }, logout);
-      loadRelationship();
-    } catch (err) {
-      console.error('Error cancelFriendRequest:', err);
-    }
-  };
-
-  const declineFriendRequest = async (requestId: string) => {
-    try {
-      await apiFetchVoid(`/api/social/friend-requests/${requestId}`, { method: 'DELETE' }, logout);
-      loadRelationship();
-    } catch (err) {
-      console.error('Error declineFriendRequest:', err);
-    }
-  };
-
-  const deleteFriendship = async (friendshipsId: string) => {
-    try {
-      await apiFetchVoid(`/api/social/friendships/${friendshipsId}`, { method: 'DELETE' }, logout);
-      loadRelationship();
-    } catch (err) {
-      console.error('Error declineFriendRequest:', err);
+      console.error('Error: Delete friend:', err);
     }
   };
 
@@ -186,10 +157,10 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
           )}
         {!relationship.blockedByMe && !relationship.blockedMe && relationship.isFriend && (
           <ShortcutCard
-            icon={addFriendsIcon}
+            icon={removeFriend}
             label={t('profile-page.remove-friend')}
             onClick={() => {
-              deleteFriendship(user.id);
+              deleteFriend(user.id);
             }}
             alt="delete-friend-shortcut"
           />
@@ -224,7 +195,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
 
         {!relationship.blockedByMe && (
           <ShortcutCard
-            icon={addFriendsIcon}
+            icon={block}
             label={t('profile-page.block-user')}
             onClick={() => {
               blockUser(user.id);
@@ -235,7 +206,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
 
         {relationship.blockedByMe && (
           <ShortcutCard
-            icon={addFriendsIcon}
+            icon={unBlock}
             label={t('profile-page.unblock-user')}
             onClick={() => {
               unBlockUser(user.id);
