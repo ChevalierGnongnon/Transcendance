@@ -37,7 +37,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
   const { me, chat, messages, onAddMessage, onUpdateMessage, otherLastReadMessagesId } = roomProps;
 
   const loadRelationship = useCallback(async () => {
-    const userId = roomProps.chat?.user?.id;
+    const userId = chat?.user?.id;
     if (!userId) return;
 
     try {

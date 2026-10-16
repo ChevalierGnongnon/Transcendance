@@ -96,6 +96,18 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
 
     if (!savedMessage) throw new Error('Can not save message');
 
+    if (type === 'file') {
+      const updated = await prisma.file.update({
+        where: {
+          id: savedMessage.content,
+        },
+        data: {
+          chatId: savedMessage.chatId,
+        },
+      });
+      if (!updated) throw new Error('Can not update chatId of file');
+    }
+
     socket.to(`user-${recipientId}`).emit('new-chat-message', savedMessage);
 
     return savedMessage;
