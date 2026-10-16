@@ -65,7 +65,7 @@ export async  function getUserByPseudo(req: Request, res: Response) {
   try{
     const pseudo = req.params.pseudo;
     if (typeof pseudo !== 'string')
-      return (res.status(400).json({error: 'INVALID_PSEUDO'}))
+      return (res.status(400).json({error: 'PSEUDO_INVALID'}))
     const infos = await usersServices.getUserInfo(pseudo);
     return (res.status(200).json(infos))
   }catch (error){
@@ -94,5 +94,30 @@ export async function getUser(req: Request, res: Response) {
   } catch (error) {
     console.error("Get user error:", error);
     return res.status(500).json({ error: "INTERNAL_SERVER_ERROR" });
+  }
+}
+
+export async function updateUser(req: Request, res: Response){
+  try {
+    const { first_name, last_name, pseudo } = req.body;
+    const userId = req.userId!;
+
+    if (last_name !== undefined){
+      await  UsersService.updateLastName(userId, last_name);
+    }
+
+    if (first_name !== undefined){
+      await  UsersService.updateFirstName(userId, first_name);
+    }
+
+    if (pseudo !== undefined){
+      await  UsersService.updatePseudo(userId, pseudo);
+    }
+    return (res.status(200).json({success:true}))
+  } catch (error) {
+    if (error instanceof Error && error.message === 'PSEUDO_EXISTS') {
+      return res.status(409).json({ error: 'PSEUDO_EXISTS' });
+    }
+    return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
   }
 }

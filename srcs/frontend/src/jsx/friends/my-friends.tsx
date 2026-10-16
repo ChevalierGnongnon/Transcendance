@@ -1,116 +1,230 @@
-import { useTranslation } from "react-i18next";
-import defaultAvatar from "../../../public/default-avatar.png"
-import AddFriend from "./add-friend";
-import "../../scss/friends.scss"
-function MyFriends() {
-    const { t } = useTranslation();
-    return (
-        <div className="friends-page m-2 p-2">
-            <h1>{t("friends.my-friends")}</h1>
-            <div className="row g-4 justify-content-center shortcut-grid">
-                <div className="col-12 col-md-6 col-xl-4">
-                    <figure className="friend-card py-2 px-1 justify-content-center">
-                        <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                        <span>Nokha</span>
-                        <input type="button" value={t("friends.delete-friend")} className="delete-button px-2" />
-                    </figure>
-                </div>
-                <div className="col-12 col-md-6 col-xl-4">
-                    <figure className="friend-card py-2 px-1 justify-content-center">
-                        <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                        <span>Chems</span>
-                        <input type="button" value={t("friends.delete-friend")} className="delete-button px-2" />
-                    </figure>
-                </div>
-                <div className="col-12 col-md-6 col-xl-4">
-                    <figure className="friend-card py-2 px-1 justify-content-center">
-                        <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                        <span>Moritz</span>
-                        <input type="button" value={t("friends.delete-friend")} className="delete-button px-2" />
-                    </figure>
-                </div>
-                <div className="col-12 col-md-6 col-xl-4">
-                    <figure className="friend-card py-2 px-1justify-content-center">
-                        <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                        <span>Oleksii</span>
-                        <input type="button" value={t("friends.delete-friend")} className="delete-button px-2" />
-                    </figure>
-                </div>
-                <div className="col-12 col-md-6 col-xl-4">
-                    <figure className="friend-card py-2 px-1 justify-content-center">
-                        <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                        <span>Michelle</span>
-                        <input type="button" value={t("friends.delete-friend")} className="delete-button px-2" />
-                    </figure>
-                </div>
-                <div className="col-12 col-md-6 col-xl-4">
-                    <figure className="friend-card py-2 px-1 justify-content-center">
-                        <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                        <span>Peter</span>
-                        <input type="button" value={t("friends.delete-friend")} className="delete-button px-2 " />
-                    </figure>
-                </div>
-                <div className="col-12 col-md-6 col-xl-4">
-                    <figure className="friend-card py-2 px-1 justify-content-center">
-                        <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                        <span>Gwen</span>
-                        <input type="button" value={t("friends.delete-friend")} className="delete-button px-2" />
-                    </figure>
-                </div>
-            </div>
-            {/* Only appears when button delete is selected */}
-            <div className="red-border p-2">
-                <div className="form-new-chat p-3 my-2 gap-3 d-flex flex-column justify-content-center align-items-center">
-                    <h1>{t("friends.delete-confirm-title", { name: "user" })}</h1>
-                    <textarea name="delete-reason" id="delete-reason" className="new-message" placeholder={t("friends.delete-reason-placeholder")}></textarea>
-                    <input type="button" value={t("friends.delete")} className="delete-friend-button " />
-                </div>
-            </div>
-            <div className="orange-border p-2">
-                <h1>{t("friends.pending-requests")}</h1>
-                <div className="row g-4 justify-content-center shortcut-grid">
-                    <div className="col-12 col-md-6 col-xl-4">
-                        <figure className="friend-card py-2 px-1 justify-content-center">
-                            <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                            <span>John</span>
-                            <input type="button" value={t("friends.accept")} className="accept-button" />
-                            <input type="button" value={t("friends.refuse")} className="delete-button" />
-                        </figure>
-                    </div>
-                    <div className="col-12 col-md-6 col-xl-4">
-                        <figure className="friend-card py-2 px-1 justify-content-center">
-                            <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                            <span>Maxie</span>
-                            <input type="button" value={t("friends.accept")} className="accept-button" />
-                            <input type="button" value={t("friends.refuse")} className="delete-button" />
-                        </figure>
-                    </div>
-                </div>
-            </div>
-            <div className="green-border p-2">
-                <h1>{t("friends.your-requests")}</h1>
-                <div className="row g-4 justify-content-center shortcut-grid">
-                    <div className="col-12 col-md-6 col-xl-4">
-                        <figure className="friend-card py-2 px-1 justify-content-center">
-                            <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                            <span>Dereck</span>
-                            <input type="button" value={t("friends.disable")} className="delete-button" />
-                        </figure>
-                    </div>
-                    <div className="col-12 col-md-6 col-xl-4">
-                        <figure className="friend-card py-2 px-1 justify-content-center">
-                            <img src={defaultAvatar} alt={t("friends.avatar-alt")} />
-                            <span>Duncan</span>
-                            <input type="button" value={t("friends.disable")} className="delete-button" />
-                        </figure>
-                    </div>
-                </div>
-            </div>
+import { useTranslation } from 'react-i18next';
+import { useEffect, useState, useMemo } from 'react';
 
+import '../../scss/friends.scss';
+import AddFriend from './add-friend';
+import FriendCard from './FriendCard';
+import { useAuth } from '../auth/auth-context';
+import { apiFetch, apiFetchVoid } from './apiFetch';
+import OutgoingList from './OutgoingRequestsList';
+import { Friend, OutgoingRequest, Relationships, BlockedUsers, IncomingRequests } from './types';
+import OutgoingRequestsList from './OutgoingRequestsList';
+import FriendsList from './FriendsList';
+import IncomingRequestsList from './IncomingRequestsList';
+import BlockList from './BlockList';
 
-            <AddFriend></AddFriend>
-
-        </div>
-    );
+interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  pseudo: string;
+  profilePhoto: {
+    id: string;
+    name: string;
+  };
 }
+
+function MyFriends() {
+  const { t } = useTranslation();
+  const { logout } = useAuth();
+  const [me, setMe] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [relationships, setRelationships] = useState<Relationships>({
+    friends: [],
+    incomingRequests: [],
+    outgoingRequests: [],
+    blockedUsers: [],
+  });
+
+  useEffect(() => {
+    apiFetch<User>('/api/my-profile', {}, logout)
+      .then((data) => {
+        setMe(data);
+      })
+      .catch((err) => {
+        console.error('my-profile error:', err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+
+    apiFetch<Relationships>('/api/social/state', {}, logout)
+      .then((data) => {
+        setRelationships(data);
+      })
+      .catch((err) => {
+        console.error('Error gettting relationships :', err);
+        setError('Can not download relationships');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  const sendFriendRequest = async (userId: string) => {
+    try {
+      const data = await apiFetch<OutgoingRequest>(
+        `/api/social/friend-requests/${userId}`,
+        { method: 'POST' },
+        logout
+      );
+
+      const newOutgoingRequest: OutgoingRequest = data;
+      setRelationships((prev) => ({
+        ...prev,
+        outgoingRequests: [...prev.outgoingRequests, newOutgoingRequest],
+      }));
+    } catch (err) {
+      console.error('Error sendFriendRequest:', err);
+    }
+  };
+
+  const acceptFriendRequest = async (requestId: string) => {
+    try {
+      const data = await apiFetch<Friend>(
+        `/api/social/friend-requests/${requestId}/accept`,
+        { method: 'POST' },
+        logout
+      );
+      const newFriend: Friend = data;
+      setRelationships((prev) => ({
+        ...prev,
+        incomingRequests: prev.incomingRequests.filter((req) => req.id !== requestId),
+        friends: [newFriend, ...prev.friends],
+      }));
+    } catch (err) {
+      console.error('Error cancelFriendRequest:', err);
+    }
+  };
+
+  const cancelFriendRequest = async (requestId: string) => {
+    try {
+      await apiFetchVoid(`/api/social/friend-requests/${requestId}`, { method: 'DELETE' }, logout);
+      setRelationships((prev) => ({
+        ...prev,
+        outgoingRequests: prev.outgoingRequests.filter((req) => req.id !== requestId),
+      }));
+    } catch (err) {
+      console.error('Error cancelFriendRequest:', err);
+    }
+  };
+
+  const declineFriendRequest = async (requestId: string) => {
+    try {
+      await apiFetchVoid(`/api/social/friend-requests/${requestId}`, { method: 'DELETE' }, logout);
+      setRelationships((prev) => ({
+        ...prev,
+        incomingRequests: prev.incomingRequests.filter((req) => req.id !== requestId),
+      }));
+    } catch (err) {
+      console.error('Error declineFriendRequest:', err);
+    }
+  };
+
+  const deleteFriendship = async (friendshipsId: string) => {
+    try {
+      await apiFetchVoid(`/api/social/friendships/${friendshipsId}`, { method: 'DELETE' }, logout);
+      setRelationships((prev) => ({
+        ...prev,
+        friends: prev.friends.filter((req) => req.id !== friendshipsId),
+      }));
+    } catch (err) {
+      console.error('Error declineFriendRequest:', err);
+    }
+  };
+
+  const blockUser = async (userId: string) => {
+    try {
+      const blocked = await apiFetch<BlockedUsers>(
+        `/api/social/blocks/${userId}`,
+        { method: 'POST' },
+        logout
+      );
+
+      const newBlockedUser: BlockedUsers = blocked;
+      setRelationships((prev) => ({
+        ...prev,
+        friends: prev.friends.filter((i) => i.friend.id !== userId),
+        incomingRequests: prev.incomingRequests.filter((i) => i.sender.id !== userId),
+        outgoingRequests: prev.outgoingRequests.filter((o) => o.receiver.id !== userId),
+        blockedUsers: [newBlockedUser, ...prev.blockedUsers],
+      }));
+    } catch (err) {
+      console.error('Error blockUser:', err);
+    }
+  };
+
+  const unBlockUser = async (userId: string) => {
+    try {
+      await apiFetchVoid(`/api/social/blocks/${userId}`, { method: 'DELETE' }, logout);
+      setRelationships((prev) => ({
+        ...prev,
+        blockedUsers: prev.blockedUsers.filter((req) => req.blocked.id !== userId),
+      }));
+    } catch (err) {
+      console.error('Error unblock user:', err);
+    }
+  };
+
+  const isRelationshipEmpty = (relationship: Relationships): boolean => {
+    return (
+      relationship.friends.length === 0 &&
+      relationship.outgoingRequests.length === 0 &&
+      relationship.incomingRequests.length === 0 &&
+      relationship.blockedUsers.length === 0
+    );
+  };
+
+  return (
+    <div className="friends-page m-2 p-2">
+      <AddFriend
+        sendRequest={sendFriendRequest}
+        acceptRequest={acceptFriendRequest}
+        declineRequest={declineFriendRequest}
+        blockUser={blockUser}
+        unblockUser={unBlockUser}
+      />
+      {loading && (
+        <div>
+          <p>{t('common.loading')}</p>
+        </div>
+      )}
+
+      {!loading && isRelationshipEmpty(relationships) && (
+        <div>
+          <p>{t('friends.no-friends')}</p>
+          <p>{t('friends.no-friends-hint')}</p>
+        </div>
+      )}
+
+      {!loading && !isRelationshipEmpty(relationships) && (
+        <div>
+          <FriendsList friends={relationships.friends} onDeleteFriend={deleteFriendship} />
+
+          <IncomingRequestsList
+            incomingRequests={relationships.incomingRequests}
+            onAcceptRequest={acceptFriendRequest}
+            onDeclineRequest={declineFriendRequest}
+          />
+
+          <OutgoingRequestsList
+            outgoingRequests={relationships.outgoingRequests}
+            onCancelRequest={cancelFriendRequest}
+          />
+
+          <BlockList blockedUsers={relationships.blockedUsers} onUnblockUser={unBlockUser} />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default MyFriends;

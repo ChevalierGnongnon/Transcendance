@@ -30,15 +30,26 @@ import {
   handleGameMove,
   handleGameRequestRematch,
 } from './game/socket-game.js';
+import {
+  showConnectedUsers,
+  connectUser,
+  disconnectUser,
+  announceOnline,
+  announceOffline,
+  filterAndEmit,
+} from './user_status/status_management.ts';
 
 export const setupSocketConnection = (io: Server) => {
-
   io.use(requireAuth);
 
   io.on('connection', (socket: Socket) => {
     console.log('User connected:', socket.id);
-
+    if (!socket.userId) throw new Error('Internal server error');
     const userRoom = `user-${socket.userId}`;
+    const isFirstConnection = connectUser(socket.userId);
+    if (isFirstConnection === true) announceOnline(socket.userId, socket);
+    filterAndEmit(socket.userId, socket);
+
     socket.join(userRoom);
 
     onValidated(socket, 'new-chat-message', messageSchema, handleMessages);
@@ -50,16 +61,32 @@ export const setupSocketConnection = (io: Server) => {
     onValidated(socket, 'game:decline', gameDeclineSchema, (currentSocket, payload) =>
       handleGameDecline(io, currentSocket, payload)
     );
-    onValidated(socket, 'game:get-invitation-status', gameInvitationStatusSchema, handleGameGetInvitationStatus);
-    onValidated(socket, 'game:get-pending-invitation', gamePendingInvitationSchema, handleGameGetPendingInvitation);
-    onValidated(socket, 'game:cancel-invitation', gameCancelInvitationSchema, (currentSocket, payload) =>
-      handleGameCancelInvitation(io, currentSocket, payload)
+    onValidated(
+      socket,
+      'game:get-invitation-status',
+      gameInvitationStatusSchema,
+      handleGameGetInvitationStatus
+    );
+    onValidated(
+      socket,
+      'game:get-pending-invitation',
+      gamePendingInvitationSchema,
+      handleGameGetPendingInvitation
+    );
+    onValidated(
+      socket,
+      'game:cancel-invitation',
+      gameCancelInvitationSchema,
+      (currentSocket, payload) => handleGameCancelInvitation(io, currentSocket, payload)
     );
     onValidated(socket, 'game:get-state', gameStateSchema, (currentSocket, payload) =>
       handleGameGetState(io, currentSocket, payload)
     );
-    onValidated(socket, 'game:request-rematch', gameRequestRematchSchema, (currentSocket, payload) =>
-      handleGameRequestRematch(io, currentSocket, payload)
+    onValidated(
+      socket,
+      'game:request-rematch',
+      gameRequestRematchSchema,
+      (currentSocket, payload) => handleGameRequestRematch(io, currentSocket, payload)
     );
     onValidated(socket, 'game:move', gameMoveSchema, (currentSocket, payload) =>
       handleGameMove(io, currentSocket, payload)
@@ -81,6 +108,9 @@ export const setupSocketConnection = (io: Server) => {
           console.error('Failed to persist game departure after disconnect:', error);
         });
       }
+      if (!socket.userId) throw new Error('Internal server error');
+      const isLastDeconnection = disconnectUser(socket.userId);
+      if (isLastDeconnection === true) announceOffline(socket.userId, socket);
     });
   });
 };

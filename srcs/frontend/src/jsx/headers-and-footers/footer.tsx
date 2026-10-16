@@ -14,55 +14,8 @@ function Footer() {
     navigate("/login");
   };
   return (
-    <footer className="common-footer d-flex flex-column align-items-center gap-3">
-      <div className="d-flex">
-        <input
-          type="button"
-          value="Fr"
-          className="btn btn-secondary header-btn btn-sm"
-          onClick={() => {
-            i18n.changeLanguage("fr");
-            localStorage.setItem("lang", "fr");
-          }}
-        />
-        <input
-          type="button"
-          value="Eng"
-          className="btn btn-secondary header-btn btn-sm"
-          onClick={() => {
-            i18n.changeLanguage("en");
-            localStorage.setItem("lang", "en");
-          }}
-        />
-        <input
-          type="button"
-          value="De"
-          className="btn btn-secondary header-btn btn-sm"
-          onClick={() => {
-            i18n.changeLanguage("de");
-            localStorage.setItem("lang", "de");
-          }}
-        />
-        <input
-          type="button"
-          value="Ru"
-          className="btn btn-secondary header-btn btn-sm"
-          onClick={() => {
-            i18n.changeLanguage("ru");
-            localStorage.setItem("lang", "ru");
-          }}
-        />
-        <input
-          type="button"
-          value="Ua"
-          className="btn btn-secondary header-btn btn-sm"
-          onClick={() => {
-            i18n.changeLanguage("uk");
-            localStorage.setItem("lang", "uk");
-          }}
-        />
-      </div>
-      <div className="d-flex gap-2">
+    <footer className="fixed-bottom common-footer d-flex flex-column align-items-center gap-3 p-2">
+      <div className="d-flex gap-2 mx-auto">
         <a className="link" onClick={() => navigate("/termsofservice")}>
           {t("common.terms-of-service")}
         </a>
@@ -72,7 +25,7 @@ function Footer() {
       </div>
 
       {isAuthenticated && (
-        <div className="div-connected-only d-flex gap-2">
+        <div className="div-connected-only d-flex gap-2 d-none d-md-flex">
           <input
             type="button"
             value={t("common.my-page")}

@@ -5,12 +5,12 @@
     border: 1px solid black;
     border-radius: 20px;
     background-color: $background-common-color;
-    width: 70%;
+    width: 95%;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 70vh;
     padding-bottom: 1rem;
 
 }
@@ -43,7 +43,7 @@
     max-width: 80%;
     color: rgb(20, 91, 197);
     text-align: left;
-    
+
 }
 
 .message-right{
@@ -56,7 +56,7 @@
 }
 .chat-header{
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     width: 100%;
     color: white;
@@ -111,8 +111,7 @@
     height: 60px;
     width: 60px;
     border-radius: 30px;
-    object-fit: cover;
-    border: 1px solid white;
+    object-fit: cover
 }
 
 .nav-bar{
@@ -142,6 +141,7 @@
     margin-right: auto;
     margin-top: 1%;
     display: block;
+    text-align: center;
 }
 
 .form-new-chat{
@@ -154,6 +154,7 @@
     flex-direction: column;
     flex: 1 1 0;
     color: white;
+    text-align: center;
 }
 
 .icon-message-message{
@@ -224,7 +225,7 @@
     margin-bottom: 8px;
     z-index: 10;
     border-radius: 12px;
-    width: 220px;
+    width: 300px;
     background-color: transparent;
 }
 
@@ -256,4 +257,26 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.bg-img-message{
+    background-image:
+        linear-gradient(45deg, #cdcdcd 25%, transparent 25%),
+        linear-gradient(-45deg, #cdcdcd 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #cdcdcd 75%),
+        linear-gradient(-45deg, transparent 75%, #cdcdcd 75%);
+    background-color: #d9d9d9;
+    background-size: cover;
+    max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-size:20px 20px;
+    background-position:0 0, 0 10px, 10px -10px, -10px 0px
+}
+
+.pdf-preview{
+    max-width: 70%;
+    max-height: 500px;
+
 }

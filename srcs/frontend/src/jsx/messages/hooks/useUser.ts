@@ -8,7 +8,6 @@ export const useUser = () => {
     fetch('/api/my-profile', { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setMe(data);
       })
       .catch((err) => console.error('my-profile error:', err));

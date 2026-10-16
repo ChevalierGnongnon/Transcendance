@@ -6,29 +6,29 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import ChatRoom from './ChatRoom';
 import NavBar from './navbar';
 import NewChat from './new-chat';
-import MoreOptions from './options';
 import Block from './block';
 import ChatList from './ChatList';
 import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
 import { ActiveView, IChatPreview, IMessage } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
-import { useSocketConnection } from './hooks/useSocketConnection';
+import { useTranslation } from 'react-i18next';
 
 function Messages() {
-  const [activeView, setActiveView] = useState<ActiveView>('my messages');
+  const me = useUser();
 
-  const [userId, setUserId] = useState('');
-  const [users, setUsers] = useState([]);
+  // const isConnected = useSocketConnection();
+  const [activeView, setActiveView] = useState<ActiveView>('chats');
+
   const [loadingMessages, setLoadingMessages] = useState(false);
 
-  const me = useUser();
-  const isConnected = useSocketConnection();
   const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
   const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
   const [loadingChats, setLoadingChats] = useState(false);
   const [chatList, setChatList] = useState<IChatPreview[]>([]);
   const [error, setError] = useState<Error | null>(null);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     let cancelled = false;
@@ -105,9 +105,10 @@ function Messages() {
     const handleNewMessage = async (newMessage: IMessage) => {
       const chatId = newMessage.chatId;
       const messageId = newMessage.id;
-      if (!chatId || !messageId) throw new Error('Bad message');
 
       try {
+        if (!chatId || !messageId) throw new Error('Bad message');
+
         const newChat = {
           chatId: chatId,
           user: newMessage.sender,
@@ -115,10 +116,9 @@ function Messages() {
           unreadCount: 0,
         };
         setChatList((prev) => {
-          const exist = chatList.some((m) => m.chatId === chatId);
+          const exist = prev.some((m) => m.chatId === chatId);
           return exist ? prev : [newChat, ...prev];
         });
-        console.log(newChat);
 
         addMessage(newMessage);
 
@@ -170,27 +170,17 @@ function Messages() {
     });
   };
 
-  useEffect(() => {
-    fetch('/api/users', { credentials: 'include' })
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error('users error:', err));
-  }, []);
-
   if (!me) {
-    return <div>Something went wrong. Please try again later.</div>;
+    return <div>{t('common.something-went-wrong')}</div>;
   }
 
   return (
     <>
       <NavBar activeView={activeView} setActiveView={setActiveView}></NavBar>
-      {/*<div className="socket-status justify-content-center">
-        {`Status: ${isConnected ? '🟢 Connected' : '🔴 Disconnect'}`}
-      </div>*/}
 
-      <div className={activeView !== 'my messages' ? 'd-flex' : ''}>
+      <div className={activeView !== 'chats' ? 'd-flex' : ''}>
         <ChatList
-          align={activeView === 'my messages' ? 'center' : 'left'}
+          align={activeView === 'chats' ? 'center' : 'left'}
           setActiveView={setActiveView}
           setActiveChat={setActiveChat}
           chatList={chatListWithUnread}
@@ -201,7 +191,7 @@ function Messages() {
           <ChatRoom
             me={me}
             chat={activeChat}
-            setActiveChat={setActiveChat}
+            setActiveView={setActiveView}
             messages={allMessages}
             onAddMessage={addMessage}
             updateLastReadMessageId={updateLastReadMessageId}
@@ -209,14 +199,13 @@ function Messages() {
         )}
         {activeView === 'new message' && (
           <NewChat
-            ausers={users}
             setActiveChat={setActiveChat}
             setActiveView={setActiveView}
             setChatList={setChatList}
           />
         )}
         {activeView === 'block' && <Block />}
-        {activeView === 'imaginaryfriend' && <MoreOptions />}
+        {activeView === 'imaginaryfriend'}
       </div>
     </>
   );

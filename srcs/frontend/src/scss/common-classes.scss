@@ -1,5 +1,20 @@
 @use "./common-variables.scss" as *;
 
+input.form-input {
+	background-color:	white;
+	border-radius:		12px;
+	border:				2px solid black;
+	width:				40%;
+	margin-left: 		auto;
+	margin-right: 		auto;
+
+	@media (max-width: 767px) {
+		width: 90%;
+	}
+}
+
+
+
 body{
 	padding-bottom: 140px;
 }
@@ -40,19 +55,7 @@ body{
 	margin: auto;
 }
 
-.form-input{
-	background-color:	white;
-	border-radius:		12px;
-	border:				2px solid black;
-	width:				50%;
-	margin-left: 		auto;
-	margin-right: 		auto;
-}
-
 @media (max-width: 767px) {
-    .form-input {
-        width: 90%;
-    }
 	.login-form {
 		width: 90%;
 	}
@@ -127,3 +130,17 @@ body{
 	border-radius: 12px;
 }
 
+.online-avatar{
+	border: 3px solid $green-color;
+	border-radius: 50%;
+}
+
+.offline-avatar{
+	border: 3px solid $red-color;
+	border-radius: 50%;
+}
+
+.not-friend-avatar{
+	border: 3px solid white;
+	border-radius: 50%;
+}

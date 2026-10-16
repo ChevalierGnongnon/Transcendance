@@ -1,14 +1,14 @@
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import { prisma } from './lib/prisma.js';
-import cron from 'node-cron'
+import cron from 'node-cron';
 
 import app from './app.js';
 import { fileManager } from './scripts/file-manager.ts';
 import { setupSocketConnection } from './modules/socket/socket.ts';
+import { setIo } from './modules/socket/socket-register.ts';
 
 cron.schedule('0 * * * *', fileManager);
-
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -19,16 +19,12 @@ const io = new Server(httpServer, {
   },
 });
 
+setIo(io);
+
+
 setupSocketConnection(io);
 
 const PORT = Number(process.env.EXPRESS_PORT) || 3000;
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('sendMessage', (data) => {
-    console.log('Получено сообщение:', data);
-  });
-});
 
 const server = httpServer.listen(PORT, '0.0.0.0', () => {
   console.log(`Express server started on port ${PORT}`);

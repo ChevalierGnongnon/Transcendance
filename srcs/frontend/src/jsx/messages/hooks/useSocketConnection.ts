@@ -25,7 +25,6 @@ export function useSocketConnection(enabled = true) {
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
-      if (enabled) socket.disconnect();
     };
   }, [enabled]);
 
