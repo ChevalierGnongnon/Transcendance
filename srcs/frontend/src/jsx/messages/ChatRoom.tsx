@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-import "../../scss/common-classes.scss";
-import "../../scss/messages.scss";
-import MoreOptions from "./options";
-import { Message } from "./Message";
-import { socket } from "./socket";
+import '../../scss/common-classes.scss';
+import '../../scss/messages.scss';
+import MoreOptions from './options';
+import { Message } from './Message';
+import { socket } from './socket';
 
-import type { IMessage, ChatRoomProps } from "./types.js";
+import type { IMessage, ChatRoomProps } from './types.js';
 
 function ChatRoom(roomProps: ChatRoomProps) {
   const { t } = useTranslation();
@@ -17,21 +17,18 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
   const me = roomProps.me;
   const chatId = roomProps.chat.chatId;
-  const messages = chatId ? roomProps.messages.get(chatId) ?? [] : [];
+  const messages = chatId ? (roomProps.messages.get(chatId) ?? []) : [];
 
-  const [messageText, setMessageText] = useState("");
+  const [messageText, setMessageText] = useState('');
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
 
-  const scrollToBottom = useCallback(
-    (behavior: ScrollBehavior = "smooth") => {
-      messagesEndRef.current?.scrollIntoView({ behavior, block: "end" });
-    },
-    []
-  );
+  const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
+    messagesEndRef.current?.scrollIntoView({ behavior, block: 'end' });
+  }, []);
 
   const checkIfAtBottom = useCallback(() => {
     if (!containerRef.current) return;
@@ -43,7 +40,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
   const handleScroll = useCallback(() => checkIfAtBottom(), [checkIfAtBottom]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (roomProps.chat?.chatId) {
       setTimeout(() => {
         scrollToBottom('auto');
@@ -52,7 +49,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
   }, [roomProps.chat?.chatId, scrollToBottom]);
 
   useEffect(() => {
-    if (isAtBottom) scrollToBottom("smooth");
+    if (isAtBottom) scrollToBottom('smooth');
   }, [messages, isAtBottom, scrollToBottom]);
 
   // Join chat room
@@ -80,7 +77,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
         recipientId: roomProps.chat.user.id,
         sender: { id: me.id, profilePhoto: me.profilePhoto },
         content: messageText,
-        type: "text"
+        type: 'text',
       };
       socket.emit('new-chat-message', messageToSend);
 
@@ -91,43 +88,42 @@ function ChatRoom(roomProps: ChatRoomProps) {
   };
 
   useEffect(() => {
-      const handleAccepted = ({
-        gameId,
-        boardSize,
-        fromUserId,
-        toUserId,
-      }: {
-        gameId: string;
-        boardSize: number;
-        fromUserId: string;
-        toUserId: string;
-      }) => {
-        const opponentId = fromUserId === me.id ? toUserId : fromUserId;
-        navigate(`/game?gameId=${gameId}&opponentId=${opponentId}&boardSize=${boardSize}`, {
-          state: {
-            gameId,
-            boardSize,
-            me,
-            opponentId,
-            mode: "online",
-          },
-        });
-      };
-    
-      socket.on("game:accepted", handleAccepted);
-    
-      return () => {
-        socket.off("game:accepted", handleAccepted);
-      };
-    }, [navigate, me]);
-  
+    const handleAccepted = ({
+      gameId,
+      boardSize,
+      fromUserId,
+      toUserId,
+    }: {
+      gameId: string;
+      boardSize: number;
+      fromUserId: string;
+      toUserId: string;
+    }) => {
+      const opponentId = fromUserId === me.id ? toUserId : fromUserId;
+      navigate(`/game?gameId=${gameId}&opponentId=${opponentId}&boardSize=${boardSize}`, {
+        state: {
+          gameId,
+          boardSize,
+          me,
+          opponentId,
+          mode: 'online',
+        },
+      });
+    };
+
+    socket.on('game:accepted', handleAccepted);
+
+    return () => {
+      socket.off('game:accepted', handleAccepted);
+    };
+  }, [navigate, me]);
 
   ///////////////////////////////////////////////////////////////////////////////////
-  
+
   if (!messages) {
-      return <div className="chat-placeholder">Open chat</div>;
-    }
-  
+    return <div className="chat-placeholder">Open chat</div>;
+  }
+
   return (
     <>
       <div className="chat-list chat-list-right my-2">
@@ -157,8 +153,6 @@ function ChatRoom(roomProps: ChatRoomProps) {
                 senderId={msg.sender.id}
                 content={msg.content}
                 type={msg.type}
-
-
               />
             ))}
           </ul>
@@ -174,12 +168,12 @@ function ChatRoom(roomProps: ChatRoomProps) {
               +
             </button>
             {showMoreOptions && (
-            <MoreOptions
-              opponentId={roomProps.chat.user.id}
-              chatId={roomProps.chat.chatId}
-              navigate={navigate}
-            />
-          )}
+              <MoreOptions
+                opponentId={roomProps.chat.user.id}
+                chatId={roomProps.chat.chatId}
+                navigate={navigate}
+              />
+            )}
           </div>
 
           <textarea
@@ -187,7 +181,6 @@ function ChatRoom(roomProps: ChatRoomProps) {
             name="new-message"
             placeholder="Type your message here"
             value={messageText}
-
             onChange={(e) => setMessageText(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {

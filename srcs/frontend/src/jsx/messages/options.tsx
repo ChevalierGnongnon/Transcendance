@@ -16,12 +16,9 @@ function MoreOptions(props: MoreOptionsProps) {
   const { logout } = useAuth();
   const handleSendMessage = props.onSendMessage;
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  
 
   const handleChange = async (file: File | null) => {
-    
-    if (!file)
-      return;
+    if (!file) return;
 
     const formData = new FormData();
     formData.append('file', file);
@@ -29,24 +26,23 @@ function MoreOptions(props: MoreOptionsProps) {
     const request = new XMLHttpRequest();
     request.open('POST', `/api/message/${props.chatId}`);
     request.withCredentials = true;
-    request.upload.onprogress = (event) =>{
-      setUploadProgress((event.loaded / event.total) * 100)
-    }
-    request.onload = () =>{
+    request.upload.onprogress = (event) => {
+      setUploadProgress((event.loaded / event.total) * 100);
+    };
+    request.onload = () => {
       if (!request || request.status == 401) {
         logout();
         return;
       }
-      if (request.status === 201){
-        const data = JSON.parse(request.responseText)
-        handleSendMessage(data.file_id)
-        props.onClose()
+      if (request.status === 201) {
+        const data = JSON.parse(request.responseText);
+        handleSendMessage(data.file_id);
+        props.onClose();
       }
-      
-    }
+    };
     request.send(formData);
   };
-  
+
   return (
     <div className="more-options-div gap-1 d-flex flex-column align-items-center">
       <FileImport

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MessageProps } from './types.js';
 import { socket } from './socket.js';
-import { useNavigate } from "react-router-dom";
-import MessageInvitationItem from "./MessageInvitationItem"
+import { useNavigate } from 'react-router-dom';
+import MessageInvitationItem from './MessageInvitationItem';
 
 const previewable = ['image/png', 'image/webp', 'image/jpeg', 'image/gif', 'application/pdf'];
 
@@ -11,12 +11,13 @@ export const Message = (props: MessageProps) => {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
-  const [resolvedState, setResolvedState] = useState<'accepted' | 'declined' | 'expired' | null>(null);
+  const [resolvedState, setResolvedState] = useState<'accepted' | 'declined' | 'expired' | null>(
+    null
+  );
   const [isResponding, setIsResponding] = useState(false);
 
   return (
     <>
-
       <li
         className={`d-flex align-items-start ${props.senderId === props.userId ? 'flex-row-reverse justify-content-start' : 'justify-content-start'}`}
       >
@@ -39,25 +40,22 @@ export const Message = (props: MessageProps) => {
             </div>
           </>
         )}
-        {props.type === 'invitation' && 
-          <MessageInvitationItem {...props} />
-        }
+        {props.type === 'invitation' && <MessageInvitationItem {...props} />}
 
-
-    {props.type === "file" &&
-      <>
-        <div
-          className={`${props.senderId === props.userId ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
-        >
-          <span className="text-message">{t('message.file-received')}</span>
-          { /* file preview here if not previewable just use file type icon */ }
-          <embed src="" type="" />
-          { /* download button */ }
-          <input type="button" className="btn btn-primary" value={t('common.download-file')} />
-        </div>
-      </>
-    }
-    </li>
+        {props.type === 'file' && (
+          <>
+            <div
+              className={`${props.senderId === props.userId ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}
+            >
+              <span className="text-message">{t('message.file-received')}</span>
+              {/* file preview here if not previewable just use file type icon */}
+              <embed src="" type="" />
+              {/* download button */}
+              <input type="button" className="btn btn-primary" value={t('common.download-file')} />
+            </div>
+          </>
+        )}
+      </li>
     </>
   );
 };

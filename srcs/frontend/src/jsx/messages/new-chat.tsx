@@ -25,7 +25,9 @@ function NewChat({ ausers, setActiveChat, setActiveView, setChatList }: nProps) 
 
   const startChat = () => {
     if (!userId || !socket.connected) {
-      setStartChatError(t('message.chat-connection-error', 'Select a user and make sure you are connected.'));
+      setStartChatError(
+        t('message.chat-connection-error', 'Select a user and make sure you are connected.')
+      );
       return;
     }
 
@@ -42,7 +44,8 @@ function NewChat({ ausers, setActiveChat, setActiveView, setChatList }: nProps) 
         setActiveView('conversation');
       } else {
         setStartChatError(
-          res.error?.message ?? t('message.chat-start-error', 'Could not start chat. Refresh the page and try again.')
+          res.error?.message ??
+            t('message.chat-start-error', 'Could not start chat. Refresh the page and try again.')
         );
       }
     });

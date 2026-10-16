@@ -1,5 +1,9 @@
 export type ActiveView =
-  'my messages' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
+  | 'my messages'
+  | 'new message'
+  | 'block'
+  | 'imaginaryfriend'
+  | 'conversation';
 
 export interface User {
   id: string;
