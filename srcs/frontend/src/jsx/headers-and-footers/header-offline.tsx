@@ -21,16 +21,16 @@ function HeaderOffline() {
 
 
                     <ul className="dropdown-menu">
-                        <li><input type="button" value="Fr" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
-                        <li><input type="button" value="Eng" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
-                        <li><input type="button" value="De" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
-                        <li><input type="button" value="Ru" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
-                        <li><input type="button" value="Ua" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
+                        <li><input type="button" value="Fr" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
+                        <li><input type="button" value="Eng" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
+                        <li><input type="button" value="De" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
+                        <li><input type="button" value="Ru" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
+                        <li><input type="button" value="Ua" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
                     </ul>
                 </div>
 
-                <Link to="/login" className="btn btn-secondary btn-sm header-btn">{t('common.login')}</Link>
-                <Link to="/register" className="btn btn-secondary btn-sm header-btn">{t('common.register')}</Link>
+                <Link to="/login" className="btn btn-secondary btn-sm header-btn header-btn-layout">{t('common.login')}</Link>
+                <Link to="/register" className="btn btn-secondary btn-sm header-btn header-btn-layout">{t('common.register')}</Link>
             </div>
 
         </header>

@@ -79,7 +79,7 @@ function HeaderOnline() {
                 <section className="d-xl-none">
                     <div className="dropdown pp-icons-header">
                         <button
-                            className="btn btn-secondary btn-sm dropdown-toggle header-btn header-btn-online"
+                            className="btn btn-secondary btn-sm dropdown-toggle header-btn header-btn-layout"
                             type="button"
                             data-bs-toggle="dropdown"
                         >
@@ -87,11 +87,11 @@ function HeaderOnline() {
                         </button>
 
                         <ul className="dropdown-menu">
-                            <li><input type="button" value="Fr" className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
-                            <li><input type="button" value="Eng" className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
-                            <li><input type="button" value="De" className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
-                            <li><input type="button" value="Ru" className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
-                            <li><input type="button" value="Ua" className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
+                            <li><input type="button" value="Fr" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
+                            <li><input type="button" value="Eng" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
+                            <li><input type="button" value="De" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
+                            <li><input type="button" value="Ru" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
+                            <li><input type="button" value="Ua" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
                         </ul>
                     </div>
                 </section>
@@ -117,7 +117,7 @@ function HeaderOnline() {
                     <div className="d-none d-xl-flex d-flex gap-4">
                             <div className="dropdown pp-icons-header">
                                 <button
-                                    className="btn btn-secondary btn-sm dropdown-toggle header-btn header-btn-online"
+                                    className="btn btn-secondary btn-sm dropdown-toggle header-btn header-btn-layout"
                                     type="button"
                                     data-bs-toggle="dropdown"
                                 >
@@ -127,11 +127,11 @@ function HeaderOnline() {
                                 <span>{t('common.languages')}</span>
                                 
                                 <ul className="dropdown-menu">
-                                    <li><input type="button" value="Fr" className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
-                                    <li><input type="button" value="Eng" className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
-                                    <li><input type="button" value="De" className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
-                                    <li><input type="button" value="Ru" className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
-                                    <li><input type="button" value="Ua" className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
+                                    <li><input type="button" value="Fr" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
+                                    <li><input type="button" value="Eng" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
+                                    <li><input type="button" value="De" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
+                                    <li><input type="button" value="Ru" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
+                                    <li><input type="button" value="Ua" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
                                 </ul>
                             </div>
                         <figure className="m-0 pp-icons-header" onClick={() => navigate('/messages')}>
@@ -157,15 +157,15 @@ function HeaderOnline() {
                         </button>
                         <ul className="dropdown-menu">
                             <li>
-                                <input type="button" value={t('common.messages')} className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => navigate('/messages')}/>
+                                <input type="button" value={t('common.messages')} className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => navigate('/messages')}/>
                             </li>
                             <li>
-                                <input type="button" value={t('common.parameters')} className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => navigate('/Parameters') } />
+                                <input type="button" value={t('common.parameters')} className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => navigate('/Parameters') } />
                             </li>
                             <li>
-                                <input type="button" value={t('common.my-page')} className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={() => navigate('/personalpage') } /></li>
+                                <input type="button" value={t('common.my-page')} className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => navigate('/personalpage') } /></li>
                             <li>
-                                <input type="button" value={t('common.logout')} className="btn btn-secondary header-btn header-btn-online btn-sm" onClick={handleLogout} />
+                                <input type="button" value={t('common.logout')} className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={handleLogout} />
                             </li>
                         </ul>
                     </div>
