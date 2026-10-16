@@ -5,7 +5,7 @@
 	height: 80px;
 	border-radius: 50%;
 	object-fit: cover;
-	background-color: rgb(92, 156, 185);
+	background-color: $avatar-bg;
     cursor: pointer;
     border: 3px solid white;
     &:hover{
@@ -22,7 +22,7 @@
     height: clamp(120px, 40vw, 300px);
     border-radius: 50%;
     object-fit: cover;
-	background-color: rgb(92, 156, 185);
+	background-color: $avatar-bg;
     cursor: pointer;
     // border: 3px solid white;
 }
@@ -74,12 +74,6 @@
     }
 }
 
-.lang-icon {
-    width: 30px !important;
-    height: 30px !important;
-    object-fit: contain;
-}
-
 
 .shortcut-icon{
     border: 1px solid white;
@@ -120,18 +114,7 @@
     align-items: center;
 }
 
-.pp-icons-header img {
-    width: 50px;
-    height: 50px;
-}
-
-.header-btn {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-}
-
+.header-btn-online,
 .header-btn-right {
     height: 50px;
     display: flex;
