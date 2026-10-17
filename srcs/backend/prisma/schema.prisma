@@ -36,7 +36,6 @@ model User {
   uploadedFiles File[]
   aiConversations AiConversation[]
   aiUsage AiUsage[]
-  games Game[]
 
   profilePhoto File?        @relation("UserProfilePhoto", fields: [profilePhotoId], references: [id], onDelete: SetNull)
   messages     Message[]    @relation("MessageSender")
