@@ -1,246 +1,335 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import {
-    PrismaClient,
-    UserRole,
-    AiMessageRole,
-    GameResult,
-} from "../src/generated/prisma/client";
-
-const adapter = new PrismaMariaDb({
-    host: "127.0.0.1",
-    port: 3307,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+dotenv.config({
+    path: "../secrets/.env",
 });
 
-const prisma = new PrismaClient({ adapter });
+import bcrypt from "bcrypt";
+import { randomUUID } from "node:crypto";
+import { UserRole } from "../src/generated/prisma/client.js";
+import { prisma } from "../src/lib/prisma.js";
+
+const TEST_EMAIL = "testdata@example.com";
+const TEST_PSEUDO = "testdata";
+const TEST_PASSWORD = "testdata123";
+
+const OPPONENT_EMAIL = "testdata-opponent@example.com";
+const OPPONENT_PSEUDO = "testdata_opponent";
+
+const BOARD_SIZE = 15;
 
 async function main() {
-    console.log("Creating analytics mock data...");
+    console.log("Creating analytics test data...");
 
-    // --------------------------------------------------
-    // 1. Create or reset test user
-    // --------------------------------------------------
-
-    const user = await prisma.user.upsert({
+    /*
+     * 1. Vorhandenen Testuser finden und löschen
+     *
+     * Achtung: Löschen kann abhängige Daten entfernen.
+     * Nur in der Entwicklungsdatenbank verwenden.
+     */
+    const existingUser = await prisma.user.findFirst({
         where: {
-            email: "analytics@test.com",
-        },
-        update: {},
-        create: {
-            type: UserRole.user,
-            email: "analytics@test.com",
-            firstName: "Analytics",
-            lastName: "Test",
-            passwordHash: "mock-password-hash",
-            pseudo: "analytics_test",
-            birthdate: new Date("1995-01-01"),
+            OR: [
+                { email: TEST_EMAIL },
+                { pseudo: TEST_PSEUDO },
+            ],
         },
     });
 
-    console.log(`User ready: ${user.email}`);
+    if (existingUser) {
+        console.log("Existing test user found. Deleting...");
 
-    // --------------------------------------------------
-    // 2. Remove old test data
-    // --------------------------------------------------
-
-    await prisma.aiUsage.deleteMany({
-        where: {
-            userId: user.id,
-        },
-    });
-
-    await prisma.aiConversation.deleteMany({
-        where: {
-            userId: user.id,
-        },
-    });
-
-    await prisma.game.deleteMany({
-        where: {
-            userId: user.id,
-        },
-    });
-
-    console.log("Old test data removed.");
-
-    // --------------------------------------------------
-    // 3. Create games
-    // --------------------------------------------------
-
-    const gamesToCreate = 100;
-    const gamesWon = 63;
-    const gamesLost = 37;
-
-    for (let i = 0; i < gamesToCreate; i++) {
-        const result =
-            i < gamesWon
-                ? GameResult.won
-                : GameResult.lost;
-
-        const createdAt = randomDateForLast30Days();
-
-        await prisma.game.create({
-            data: {
-                userId: user.id,
-                result,
-                createdAt,
+        await prisma.user.delete({
+            where: {
+                id: existingUser.id,
             },
         });
     }
 
-    console.log(
-        `${gamesToCreate} games created (${gamesWon} won, ${gamesLost} lost).`
+    /*
+     * 2. Vorhandenen Gegner finden und löschen
+     */
+    const existingOpponent = await prisma.user.findFirst({
+        where: {
+            OR: [
+                { email: OPPONENT_EMAIL },
+                { pseudo: OPPONENT_PSEUDO },
+            ],
+        },
+    });
+
+    if (existingOpponent) {
+        console.log("Existing opponent found. Deleting...");
+
+        await prisma.user.delete({
+            where: {
+                id: existingOpponent.id,
+            },
+        });
+    }
+
+    /*
+     * 3. Passwort hashen
+     *
+     * bcrypt mit 12 Runden, wie in der bisherigen Datei.
+     */
+    const passwordHash = await bcrypt.hash(
+        TEST_PASSWORD,
+        12
     );
 
-    // --------------------------------------------------
-    // 4. Create conversations
-    // --------------------------------------------------
+    /*
+     * 4. Zentralen Testuser erstellen
+     */
+    const user = await prisma.user.create({
+        data: {
+            type: UserRole.user,
+            email: TEST_EMAIL,
+            pseudo: TEST_PSEUDO,
+            firstName: "Test",
+            lastName: "Data",
+            passwordHash,
+            birthdate: new Date("2000-01-01"),
+        },
+    });
 
-    const conversationTitles = [
-        "First conversation",
-        "Learning TypeScript",
-        "Prisma questions",
-        "Game ideas",
-        "Random questions",
-    ];
+    console.log(`Created user: ${user.pseudo}`);
 
-    const conversations = [];
+    /*
+     * 5. Zweiten User für die Spiele erstellen
+     */
+    const opponentPasswordHash = await bcrypt.hash(
+        randomUUID(),
+        12
+    );
 
-    for (const title of conversationTitles) {
-        const conversation = await prisma.aiConversation.create({
-            data: {
-                userId: user.id,
-                title,
-            },
-        });
+    const opponent = await prisma.user.create({
+        data: {
+            type: UserRole.user,
+            email: OPPONENT_EMAIL,
+            pseudo: OPPONENT_PSEUDO,
+            firstName: "Test",
+            lastName: "Opponent",
+            passwordHash: opponentPasswordHash,
+            birthdate: new Date("1999-01-01"),
+        },
+    });
 
-        conversations.push(conversation);
-    }
+    console.log(`Created opponent: ${opponent.pseudo}`);
 
-    console.log(`${conversations.length} conversations created.`);
+    /*
+     * 6. AI-Konversationen erstellen
+     */
+    const conversations = await Promise.all(
+        Array.from({ length: 5 }, (_, index) =>
+            prisma.aiConversation.create({
+                data: {
+                    userId: user.id,
+                    title: `Analytics Test Conversation ${index + 1}`,
+                },
+            })
+        )
+    );
 
-    // --------------------------------------------------
-    // 5. Create AI usage data for the last 30 days
-    // --------------------------------------------------
+    console.log(
+        `Created ${conversations.length} AI conversations.`
+    );
 
-    for (let day = 0; day < 30; day++) {
-        const date = new Date();
+    /*
+     * 7. Historische AI-Nutzung erzeugen
+     *
+     * Ungefähr sechs Monate, 1–5 Requests pro Tag.
+     */
+    const aiUsageData = [];
+    const today = new Date();
 
-        date.setDate(date.getDate() - day);
-        date.setHours(12, 0, 0, 0);
+    for (let daysAgo = 180; daysAgo >= 0; daysAgo--) {
+        const date = new Date(today);
 
-        const requests = randomNumber(1, 5);
+        date.setDate(today.getDate() - daysAgo);
 
-        for (let request = 0; request < requests; request++) {
-            const conversation =
-                conversations[
-                    randomNumber(0, conversations.length - 1)
-                ];
+        const requestsPerDay =
+            1 + Math.floor(Math.random() * 5);
 
-            const inputTokens = randomNumber(50, 300);
-            const outputTokens = randomNumber(100, 700);
-            const thinkingTokens = randomNumber(100, 1000);
+        for (
+            let request = 0;
+            request < requestsPerDay;
+            request++
+        ) {
+            const createdAt = new Date(date);
+
+            createdAt.setHours(
+                8 + Math.floor(Math.random() * 12),
+                Math.floor(Math.random() * 60),
+                0,
+                0
+            );
+
+            const inputTokens =
+                50 + Math.floor(Math.random() * 250);
+
+            const outputTokens =
+                20 + Math.floor(Math.random() * 150);
+
+            const thinkingTokens =
+                50 + Math.floor(Math.random() * 500);
 
             const totalTokens =
                 inputTokens +
                 outputTokens +
                 thinkingTokens;
 
-            await prisma.aiUsage.create({
-                data: {
-                    userId: user.id,
-                    conversationId: conversation.id,
-                    inputTokens,
-                    outputTokens,
-                    thinkingTokens,
-                    totalTokens,
-                    createdAt: randomDateForDay(date),
-                },
+            const conversation =
+                conversations[
+                    Math.floor(
+                        Math.random() * conversations.length
+                    )
+                ];
+
+            aiUsageData.push({
+                userId: user.id,
+                conversationId: conversation.id,
+                inputTokens,
+                outputTokens,
+                thinkingTokens,
+                totalTokens,
+                createdAt,
             });
         }
     }
 
-    console.log("AI usage data created.");
+    await prisma.aiUsage.createMany({
+        data: aiUsageData,
+    });
 
-    // --------------------------------------------------
-    // 6. Create messages
-    // --------------------------------------------------
+    console.log(
+        `Created ${aiUsageData.length} AI usage records.`
+    );
 
-    for (const conversation of conversations) {
-        await prisma.aiMessage.createMany({
-            data: [
-                {
-                    conversationId: conversation.id,
-                    role: AiMessageRole.user,
-                    content: "Hello, can you help me?",
-                },
-                {
-                    conversationId: conversation.id,
-                    role: AiMessageRole.assistant,
-                    content: "Of course! How can I help you?",
-                },
-            ],
-        });
+    
+    /*
+     * 8. Historische Spiele und zugehörige Einladungen erzeugen
+     *
+     * Für jedes Spiel wird zuerst eine GameInvitation erstellt.
+     * Game.invitationId verweist auf GameInvitation.invitationId.
+     */
+    const gameData = [];
+    const invitationData = [];
+
+    for (let daysAgo = 180; daysAgo >= 0; daysAgo--) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - daysAgo);
+
+        const gamesPerDay = Math.floor(Math.random() * 5);
+
+        for (let gameIndex = 0; gameIndex < gamesPerDay; gameIndex++) {
+            const createdAt = new Date(date);
+
+            createdAt.setHours(
+                10 + Math.floor(Math.random() * 10),
+                Math.floor(Math.random() * 60),
+                0,
+                0
+            );
+
+            const invitationId = randomUUID();
+
+            // 55 % Siege, 35 % Niederlagen, 10 % Unentschieden
+            const result = Math.random();
+
+            let winnerId: string | null = null;
+            let isDraw = false;
+
+            if (result < 0.55) {
+                winnerId = user.id;
+            } else if (result < 0.90) {
+                winnerId = opponent.id;
+            } else {
+                isDraw = true;
+            }
+
+            invitationData.push({
+                invitationId,
+                status: "accepted" as const,
+                createdAt,
+                resolvedAt: createdAt,
+                senderId: user.id,
+                recipientId: opponent.id,
+                boardSize: BOARD_SIZE,
+            });
+
+            gameData.push({
+                invitationId,
+                boardSize: BOARD_SIZE,
+                playerXId: user.id,
+                playerOId: opponent.id,
+                currentTurnUserId: user.id,
+                board: createEmptyBoard(BOARD_SIZE),
+                winnerId,
+                isDraw,
+                winningLine: [],
+                createdAt,
+                updatedAt: createdAt,
+                closedAt: createdAt,
+            });
+        }
     }
 
-    console.log("AI messages created.");
+    // Erst die referenzierten Einladungen anlegen.
+    await prisma.gameInvitation.createMany({
+        data: invitationData,
+    });
 
-    // --------------------------------------------------
-    // 7. Summary
-    // --------------------------------------------------
+    // Danach die Spiele anlegen.
+    await prisma.game.createMany({
+        data: gameData,
+    });
 
-    console.log("\nMock data successfully created!");
-    console.log("--------------------------------");
-    console.log(`User: ${user.email}`);
-    console.log(`Games won: ${gamesWon}`);
-    console.log(`Games lost: ${gamesLost}`);
-    console.log(`Games played: ${gamesToCreate}`);
-    console.log("--------------------------------");
-    console.log(`User ID: ${user.id}`);
+    const gamesWon = gameData.filter(
+        (game) => game.winnerId === user.id
+    ).length;
+
+    const gamesLost = gameData.filter(
+        (game) => game.winnerId === opponent.id
+    ).length;
+
+    const gamesDrawn = gameData.filter(
+        (game) => game.isDraw
+    ).length;
+
+    console.log(`Created ${invitationData.length} game invitations.`);
+    console.log(`Created ${gameData.length} games.`);
+    console.log(`Wins: ${gamesWon}`);
+    console.log(`Losses: ${gamesLost}`);
+    console.log(`Draws: ${gamesDrawn}`);
+
+
+
+
+    /*
+     * 9. Zusammenfassung
+     */
+    console.log("");
+    console.log("Analytics seed completed!");
+    console.log("");
+    console.log("Login:");
+    console.log(`Pseudo: ${TEST_PSEUDO}`);
+    console.log(`Password: ${TEST_PASSWORD}`);
 }
 
-function randomNumber(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function randomDateForDay(day: Date): Date {
-    const date = new Date(day);
-
-    date.setHours(
-        randomNumber(8, 22),
-        randomNumber(0, 59),
-        randomNumber(0, 59),
-        0
+function createEmptyBoard(
+    size: number
+): (string | null)[][] {
+    return Array.from(
+        { length: size },
+        () => Array<string | null>(size).fill(null)
     );
-
-    return date;
-}
-
-function randomDateForLast30Days(): Date {
-    const date = new Date();
-
-    date.setDate(
-        date.getDate() - randomNumber(0, 29)
-    );
-
-    date.setHours(
-        randomNumber(8, 22),
-        randomNumber(0, 59),
-        randomNumber(0, 59),
-        0
-    );
-
-    return date;
 }
 
 main()
     .catch((error) => {
-        console.error(error);
-        process.exit(1);
+        console.error("Analytics seed failed:", error);
+        process.exitCode = 1;
     })
     .finally(async () => {
         await prisma.$disconnect();
