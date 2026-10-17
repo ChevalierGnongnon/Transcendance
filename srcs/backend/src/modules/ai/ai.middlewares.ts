@@ -6,15 +6,15 @@ import { AppError } from "../../error/AppError.ts";
 type RateLimitRequest = Request & {
     rateLimit: RateLimitInfo;
 };
-// --------------------------------------------------
-// Rate Limiter
-// 3 Requests per hour per authenticated user
-// --------------------------------------------------
 
+/**
+ * Ai rate Limit set to 2 request per minute 
+ */
 export const aiRateLimiter = rateLimit({
     windowMs: 60 * 1000,
     limit: 2,
 
+    // identifier for a client 
     keyGenerator: (req: Request) => {
         if (!req.userId) {
             throw new Error("req.userId is missing");
@@ -49,11 +49,9 @@ export const aiRateLimiter = rateLimit({
     }
 });
 
-
-// --------------------------------------------------
-// Conversation Ownership
-// --------------------------------------------------
-
+/**
+ * Middleware function to verify Conversation Ownership6 
+ */
 export async function checkConversationOwnership(
     req: Request,
     res: Response,

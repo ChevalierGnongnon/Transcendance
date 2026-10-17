@@ -7,16 +7,22 @@ export interface AIMessageData {
   content: string;
 }
 
+/**
+ * Loads and manages the displayed messages 
+ * @param conversationId 
+ * @returns 
+ */
 export function useMessages(conversationId: string | null) {
-  const [messages, setMessages] =
-        useState<AIMessageData[]>([]);
+  const [messages, setMessages] = useState<AIMessageData[]>([]);
 
+    // If conversation Id changes rerun
     useEffect(() => {
         if (!conversationId) {
             setMessages([]);
             return;
         }
 
+        // await the messages stored in the database by a given conversationID
         async function loadMessages() {
             try {
                 const loadedMessages = await getAiMessages(conversationId);
@@ -28,6 +34,7 @@ export function useMessages(conversationId: string | null) {
         loadMessages();
     }, [conversationId]);
 
+  // Add user Message for the react state
   function addUserMessage(content: string) {
     setMessages(previous => [
       ...previous,
@@ -39,6 +46,7 @@ export function useMessages(conversationId: string | null) {
     ]);
   }
 
+  // add the assistant message for the react state
   function addAssistantMessage() {
     const id = crypto.randomUUID();
 
@@ -54,6 +62,7 @@ export function useMessages(conversationId: string | null) {
     return id;
   }
 
+  // update stored messages by message id
   function updateMessage(
     id: string,
     content: string

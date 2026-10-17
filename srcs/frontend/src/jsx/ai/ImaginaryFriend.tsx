@@ -4,8 +4,6 @@ import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 import { AiMessage } from './AiMessage';
 
-// Was sieht der benutzer? 
-
 const MAX_MESSAGE_LENGTH = 200;
 
 function ImaginaryFriend() {

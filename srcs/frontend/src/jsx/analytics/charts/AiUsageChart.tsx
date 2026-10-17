@@ -1,4 +1,4 @@
-import type { AiUsageOverTime } from "./analytics.types";
+import type { AiUsageOverTime } from "../utils/analytics.types";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 interface AiUsageChartsProps{

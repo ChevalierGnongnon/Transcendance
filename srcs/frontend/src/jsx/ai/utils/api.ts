@@ -1,4 +1,8 @@
-// function to return the amoutn of request available 
+/**
+ * function to return the amount of request available 
+ * @param response 
+ * @returns 
+ */
 function getRateLimitInfo(response: Response) {
   const header = response.headers.get('RateLimit');
 
@@ -19,11 +23,13 @@ function getRateLimitInfo(response: Response) {
   };
 }
 
-// Takes which conversation and the message of the user 
-export const sendAiMessage = async (
-  conversationId: string,
-  message: string
-) => {
+/**
+ * Send a HTTP Post request to the ai chatbot wiht id and message
+ * @param conversationId 
+ * @param message 
+ * @returns 
+ */
+export const sendAiMessage = async (conversationId: string,message: string) => {
   // Send a request to "/api/chatbot"
   const res = await fetch('/api/chatbot', {
     method: 'POST',
@@ -65,7 +71,10 @@ export const sendAiMessage = async (
 };
 
 
-// Sends a request to create a new ai requests and returns the creates id
+/**
+ * Sends a request to create a new ai requests and returns the created id
+ * @returns conversationId
+ */
 export const createAiConversation = async () => {
   const res = await fetch('/api/ai/conversations', {
     method: 'POST',
@@ -85,8 +94,16 @@ export const createAiConversation = async () => {
   return data.conversationId;
 };
 
+
+/**
+ * Request to get an existing ai message in a current session by conversationId
+ * @param conversationId 
+ * @returns 
+ */
 export const getAiMessages = async(conversationId: string | null) => {
-  const res = await fetch(`/api/ai/conversations/${conversationId}/messages`, {credentials:'include',});
+  const res = await fetch(`/api/ai/conversations/${conversationId}/messages`, {
+    credentials:'include',
+    method: 'GET',});
   if (res.status === 401)
     throw new Error('Unauthorized');
   if(!res.ok)

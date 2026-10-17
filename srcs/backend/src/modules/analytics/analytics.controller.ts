@@ -1,14 +1,12 @@
-// Controlling HTTP req and response and giving it to the service 
-// Query-Parameter (range, from, to) auslesen und validieren.
-// Was kam vom Client?
-// Ist der User eingeloggt?
-// Welche Parameter wurden geschickt?
-// Welchen Statuscode sende ich?
-// Was gebe ich als JSON zurück?
-
 import type{ Request, Response } from "express"; 
 import { getAnalytics } from "./analytics.service.ts";
 
+/**
+ * Main analytics controller, handles HTTP req and reponse by giving it to the service.  
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 export async function getAnalyticsController(req: Request, res: Response)
 {
     try {

@@ -6,6 +6,7 @@ export interface AnalyticsOverview {
     gamesPlayed: number;
     gamesWon: number;
     gamesLost: number;
+    gamesDrawn: number;
     winRate: number;
 
     aiRequests: number;
@@ -31,12 +32,14 @@ export interface GamesOverTime {
     played: number;
     won: number;
     lost: number;
+    drawn: number;
 }
 
 // THIS IS FOR PIE CHART
 export interface GamesSummary {
     won: number;
     lost: number;
+    drawn: number;
 }
 
 // CENTRAL CONTAINER
