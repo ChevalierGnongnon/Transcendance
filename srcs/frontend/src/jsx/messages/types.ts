@@ -15,7 +15,7 @@ export interface User {
 }
 
 export interface IMessage {
-  id?: string;
+  id: string;
   chatId: string;
   recipientId?: string;
   sender: {
@@ -28,6 +28,8 @@ export interface IMessage {
 }
 
 export interface MessageProps {
+  messageId: string;
+  chatId: string;
   userId: string;
   content: string;
   profilePhoto: { name: string; id: string };

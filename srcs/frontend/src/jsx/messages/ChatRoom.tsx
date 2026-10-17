@@ -101,6 +101,40 @@ function ChatRoom(roomProps: ChatRoomProps) {
     }
   };
 
+  useEffect(() => {
+    const handleAccepted = ({
+      gameId,
+      boardSize,
+      fromUserId,
+      toUserId,
+      chatId,
+    }: {
+      chatId?: string;
+      gameId: string;
+      boardSize: number;
+      fromUserId: string;
+      toUserId: string;
+    }) => {
+      if (chatId !== roomProps.chat.chatId) return;
+      const opponentId = fromUserId === me.id ? toUserId : fromUserId;
+      navigate(`/game?gameId=${gameId}&opponentId=${opponentId}&boardSize=${boardSize}`, {
+        state: {
+          gameId,
+          boardSize,
+          me,
+          opponentId,
+          mode: 'online',
+        },
+      });
+    };
+
+    socket.on('game:accepted', handleAccepted);
+
+    return () => {
+      socket.off('game:accepted', handleAccepted);
+    };
+  }, [navigate, me, roomProps.chat.chatId]);
+
   return (
     <>
       <div className="chat-list chat-list-right my-2">
@@ -138,6 +172,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
         ) : (
           <MessageInput
             chatId={roomProps.chat.chatId}
+            opponentId={roomProps.chat.user.id}
             value={messageText}
             onChange={setMessageText}
             onSend={handleSendMessage}

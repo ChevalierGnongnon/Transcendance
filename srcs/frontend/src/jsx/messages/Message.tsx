@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import ErrorMessage from '../others/error-message.js';
 import { useFriendships } from '../friends/useFriendships.js';
 const previewable = ['image/png', 'image/webp', 'image/jpeg', 'image/gif', 'application/pdf'];
+import MessageInvitationItem from './MessageInvitationItem';
 
 export const Message = (props: MessageProps) => {
   const { t } = useTranslation();
@@ -12,14 +13,14 @@ export const Message = (props: MessageProps) => {
   const [MimeType, setMimeType] = useState('');
   const [loading, setLoading] = useState(false);
   const [deletedFile, setDeletedFile] = useState<boolean>(false);
-  const {getStatus} = useFriendships()
+  const { getStatus } = useFriendships();
 
   useEffect(() => {
     if (!fileId) {
       setMimeType('');
       setLoading(false);
-      
-      return; 
+
+      return;
     }
 
     let cancelled = false;
@@ -28,32 +29,28 @@ export const Message = (props: MessageProps) => {
     fetch(`/api/${fileId}/download`, { credentials: 'include', method: 'HEAD' })
       .then((res) => {
         const MimeType = res.headers.get('Content-Type') ?? '';
-        if (!cancelled){
+        if (!cancelled) {
           setMimeType(MimeType);
-          if (!res.ok)
-            setDeletedFile(true);
+          if (!res.ok) setDeletedFile(true);
         }
       })
       .catch((e) => {
-        if (!cancelled)
-          setMimeType('');
+        if (!cancelled) setMimeType('');
       })
       .finally(() => {
-        if (!cancelled)
-          setLoading(false);
+        if (!cancelled) setLoading(false);
       });
     return () => {
       cancelled = true;
     };
   }, []);
-  useEffect(() =>{
-    function handleFileDeleted(data){
-      if (data.fileId === fileId)
-        setDeletedFile(true);
+  useEffect(() => {
+    function handleFileDeleted(data) {
+      if (data.fileId === fileId) setDeletedFile(true);
     }
-    socket.on('file-deleted', handleFileDeleted)
+    socket.on('file-deleted', handleFileDeleted);
     return () => socket.off('file-deleted', handleFileDeleted);
-  }, []) 
+  }, []);
 
   return (
     <>
@@ -79,34 +76,7 @@ export const Message = (props: MessageProps) => {
             </div>
           </>
         )}
-        {props.type === 'invitation' && (
-          <>
-            <div className="game-invite-box card p-2 m-2">
-              <span className="text-message">{t('message.game-invite')}</span>
-              <p>{t('message.board-size', { size: props.content })}</p>
-              <div className="invite-actions">
-                <button
-                  className="btn btn-success"
-                  onClick={() => {
-                    socket.emit('game:invite:answer', 'accept');
-                    // 'naviagete to game page'
-                  }}
-                >
-                  {t('message.accept')}
-                </button>
-
-                <button
-                  className="btn btn-danger"
-                  onClick={() => {
-                    socket.emit('game:invite:answer', 'decline');
-                  }}
-                >
-                  {t('message.decline')}
-                </button>
-              </div>
-            </div>
-          </>
-        )}
+        {props.type === 'invitation' && <MessageInvitationItem {...props} />}
 
         {props.type === 'file' && (
           <>
@@ -118,11 +88,7 @@ export const Message = (props: MessageProps) => {
               )}
               {/* file preview here if not previewable just use file type icon */}
               {!loading && !deletedFile && MimeType.startsWith('image/') && (
-                <img
-                  src={`/api/${fileId}/download`}
-                  alt="attachment"
-                  className="bg-img-message"
-                />
+                <img src={`/api/${fileId}/download`} alt="attachment" className="bg-img-message" />
               )}
 
               {/* {!loading && !deletedFile && MimeType === 'application/pdf' && (
@@ -133,50 +99,44 @@ export const Message = (props: MessageProps) => {
                 />
               )} */}
 
-              {!loading && !deletedFile && MimeType === 'application/pdf' &&
-                <img
-                  src="/pdf-icon.svg"
-                  alt="icon-pdf"
-                  className="icon-type"
-                />
-              }
+              {!loading && !deletedFile && MimeType === 'application/pdf' && (
+                <img src="/pdf-icon.svg" alt="icon-pdf" className="icon-type" />
+              )}
 
-              {!loading && !deletedFile
-                && MimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' &&
-                <img
-                  src="/docx-icon.svg"
-                  alt="icon-docx"
-                  className="icon-type"
-                />
-              }
+              {!loading &&
+                !deletedFile &&
+                MimeType ===
+                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && (
+                  <img src="/docx-icon.svg" alt="icon-docx" className="icon-type" />
+                )}
 
-              {!loading && !deletedFile 
-                && MimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
-                <img
-                  src="/xlsx-icon.svg"
-                  alt="icon-xslx"
-                  className="icon-type"
-                />
-              }
+              {!loading &&
+                !deletedFile &&
+                MimeType ===
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && (
+                  <img src="/xlsx-icon.svg" alt="icon-xslx" className="icon-type" />
+                )}
 
-              {!loading && !deletedFile 
-                && MimeType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' &&
-                <img
-                  src="/pptx-icon.svg"
-                  alt="icon-pdf"
-                  className="icon-type"
-                />
-              }
+              {!loading &&
+                !deletedFile &&
+                MimeType ===
+                  'application/vnd.openxmlformats-officedocument.presentationml.presentation' && (
+                  <img src="/pptx-icon.svg" alt="icon-pdf" className="icon-type" />
+                )}
               {/* download button */}
-              {!deletedFile &&
-                <input type="button" value={t('common.download-file')} className='btn btn-primary m-1' onClick={
-                  async()=>{
-                    const res = await fetch(`/api/${props.content}/download`, {credentials: 'include'})
-                    if (!res.ok)
-                      setDeletedFile(true)
+              {!deletedFile && (
+                <input
+                  type="button"
+                  value={t('common.download-file')}
+                  className="btn btn-primary m-1"
+                  onClick={async () => {
+                    const res = await fetch(`/api/${props.content}/download`, {
+                      credentials: 'include',
+                    });
+                    if (!res.ok) setDeletedFile(true);
                     else {
                       const blob = await res.blob();
-                      const url = URL.createObjectURL(blob)
+                      const url = URL.createObjectURL(blob);
                       const contentDisposition = res.headers.get('Content-Disposition');
                       const match = contentDisposition?.match(/filename="(.+)"/);
                       const filename = match?.[1] ?? fileId;
@@ -184,31 +144,28 @@ export const Message = (props: MessageProps) => {
                       link.download = filename;
                       link.href = url;
                       link.click();
-                      URL.revokeObjectURL(url)
+                      URL.revokeObjectURL(url);
                     }
-                    
-                  }
-                }/>
-              }
-              { deletedFile &&
-                <ErrorMessage error="FILE_DELETED"></ErrorMessage>
-                
-              }
-              
-              {!deletedFile && props.senderId === props.userId &&
+                  }}
+                />
+              )}
+              {deletedFile && <ErrorMessage error="FILE_DELETED"></ErrorMessage>}
+
+              {!deletedFile && props.senderId === props.userId && (
                 <input
-                type="button"
-                value={t('common.delete-file')}
-                className='btn btn-primary m-1'
-                onClick={async() =>{
-                  const res = await fetch(`/api/${fileId}`, { credentials: 'include', method: 'DELETE' })
-                    if (!res.ok)
-                      setDeletedFile(false);
-                    else
-                      setDeletedFile(true);
-                  }
-                }/>
-              } 
+                  type="button"
+                  value={t('common.delete-file')}
+                  className="btn btn-primary m-1"
+                  onClick={async () => {
+                    const res = await fetch(`/api/${fileId}`, {
+                      credentials: 'include',
+                      method: 'DELETE',
+                    });
+                    if (!res.ok) setDeletedFile(false);
+                    else setDeletedFile(true);
+                  }}
+                />
+              )}
             </div>
           </>
         )}

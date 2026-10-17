@@ -15,7 +15,6 @@ import { ActiveView, IChatPreview, IMessage } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
 import { useTranslation } from 'react-i18next';
 
-
 function Messages() {
   const me = useUser();
 
@@ -30,8 +29,8 @@ function Messages() {
   const [chatList, setChatList] = useState<IChatPreview[]>([]);
   const [error, setError] = useState<Error | null>(null);
 
-  const {t} = useTranslation();
-  
+  const { t } = useTranslation();
+
   useEffect(() => {
     let cancelled = false;
     setLoadingChats(true);
@@ -144,6 +143,9 @@ function Messages() {
       const next = new Map(prev);
 
       const currentMessages = next.get(newMessage.chatId) ?? [];
+      if (newMessage.id && currentMessages.some((message) => message.id === newMessage.id)) {
+        return prev;
+      }
       next.set(newMessage.chatId, [...currentMessages, newMessage]);
 
       return next;

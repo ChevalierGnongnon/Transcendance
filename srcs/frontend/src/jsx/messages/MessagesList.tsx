@@ -76,7 +76,9 @@ function MessagesList({ me, chatId, messages }: MessagesListProps) {
         <ul className="px-3">
           {messages.map((msg, index) => (
             <Message
-              key={index}
+              key={msg.id || index}
+              messageId={msg.id}
+              chatId={msg.chatId}
               userId={me.id}
               profilePhoto={msg.sender.profilePhoto}
               senderId={msg.sender.id}

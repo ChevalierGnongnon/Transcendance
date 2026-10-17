@@ -7,6 +7,7 @@ import '../../scss/messages.scss';
 import MoreOptions from './options';
 
 interface MessageInputProps {
+  opponentId: string;
   chatId: string;
   value: string;
   onChange: (value: string) => void;
@@ -17,6 +18,7 @@ interface MessageInputProps {
 
 function MessageInput({
   chatId,
+  opponentId,
   value,
   onChange,
   onSend,
@@ -62,7 +64,7 @@ function MessageInput({
             +
           </button>
           {showMoreOptions && (
-            <MoreOptions chatId={chatId} onClose={toggleMoreOptions} onSendMessage={onSend} />
+            <MoreOptions chatId={chatId} opponentId={opponentId} onClose={toggleMoreOptions} onSendMessage={onSend} />
           )}
         </div>
 
