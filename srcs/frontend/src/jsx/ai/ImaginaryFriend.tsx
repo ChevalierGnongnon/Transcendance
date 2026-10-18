@@ -6,9 +6,13 @@ import { AiMessage } from './AiMessage';
 
 const MAX_MESSAGE_LENGTH = 200;
 
+/**
+ * Central Imaginary Friend component. 
+ */
 function ImaginaryFriend() {
   const { t } = useTranslation();
 
+  // custom react hook that manges cahat logic and serves state
   const {
     messages,
     messageText,
@@ -21,13 +25,11 @@ function ImaginaryFriend() {
     sendMessage,
   } = useAiChat();
 
-  function handleKeyDown(
-    event: React.KeyboardEvent<HTMLTextAreaElement>
-  ) {
-    if (
-      event.key === 'Enter' &&
-      !event.shiftKey
-    ) {
+  // send message 
+  function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) 
+  {
+    if (event.key === 'Enter' &&!event.shiftKey) 
+    {
       event.preventDefault();
       sendMessage();
     }
@@ -87,11 +89,7 @@ function ImaginaryFriend() {
           type="button"
           className="btn send-message"
           onClick={sendMessage}
-          disabled={
-            sending ||
-            !messageText.trim() ||
-            rateLimitReached
-          }
+          disabled={sending || !messageText.trim() || rateLimitReached}
         >
           {t('imaginary-friend.send')}
         </button>

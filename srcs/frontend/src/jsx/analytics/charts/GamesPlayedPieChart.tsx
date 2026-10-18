@@ -1,4 +1,3 @@
-
 import { GamesSummary } from "../utils/analytics.types";
 import { PieChart, Pie, Tooltip, Legend, ResponsiveContainer, Cell } from "recharts";
 import { useTranslation } from "react-i18next";

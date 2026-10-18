@@ -206,12 +206,9 @@ function Messages() {
           />
         )}
         {activeView === 'block' && <Block />}
-        <div className={activeView === 'imaginaryfriend' ? 
-          'd-flex justify-content-center w-100' : 'd-none'}>
-        <ImaginaryFriend />
+        {activeView === 'imaginaryfriend' && <ImaginaryFriend />}
         </div>
-      </div>
-    </>
+      </>
   );
 }
 
