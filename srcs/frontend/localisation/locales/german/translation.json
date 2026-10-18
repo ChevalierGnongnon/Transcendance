@@ -403,8 +403,8 @@
     "NO_FILE_PROVIDED": "Keine Datei angegeben",
     "CHATID_REQUIRED": "Die Konversations-ID ist erforderlich",
     "TOO_MANY_REQUESTS": "Zu viele Anfragen, bitte versuchen Sie es gleich noch einmal"
-  },
-
+  }
+},
   "game": {
     "loading": "Spiel wird geladen...",
     "your_turn": "Du bist am Zug",
@@ -444,8 +444,7 @@
     "rematch_invite_error": "Revanche-Einladung konnte nicht gesendet werden.",
     "rematch_invite_expired": "Diese Einladung ist nicht mehr verfügbar.",
     "rematch_cancel_error": "Einladung konnte nicht abgebrochen werden."
-  }
-}, 
+  },
 "imaginary-friend": {
   "loading": "Dein imaginärer Freund wird gestartet...",
   "title": "Imaginärer Freund",

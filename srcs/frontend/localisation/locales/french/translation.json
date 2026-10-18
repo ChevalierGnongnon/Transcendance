@@ -403,8 +403,8 @@
     "NO_FILE_PROVIDED": "Aucun fichier fourni",
     "CHATID_REQUIRED": "L'identifiant de la conversation est requis",
     "TOO_MANY_REQUESTS": "Trop de requêtes, veuillez réessayer dans quelques instants"
-  },
-
+  }
+}, 
   "game": {
     "loading": "Chargement du jeu...",
     "your_turn": "À votre tour",
@@ -444,8 +444,7 @@
     "rematch_invite_error": "Impossible d'envoyer l'invitation de revanche.",
     "rematch_invite_expired": "Cette invitation n'est plus disponible.",
     "rematch_cancel_error": "Impossible d'annuler l'invitation."
-  }
-}, 
+  },
 "imaginary-friend": {
   "loading": "Ton ami imaginaire est en cours de démarrage...",
   "title": "Ami imaginaire",
