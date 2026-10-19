@@ -1,5 +1,6 @@
 import type { Server, Socket } from 'socket.io';
 import { randomUUID } from 'node:crypto';
+import { emitAnalyticsUpdated } from '../socket-events.ts';
 
 import { prisma } from '@/lib/prisma.js';
 import type {
@@ -578,7 +579,7 @@ export async function handleGameMove(
 		});
 		return { updatedGame, winnerMessage };
 	});
-
+	emitAnalyticsUpdated(userId);
 	const snapshot = gameSnapshot(result.updatedGame);
 	io.to(`user-${game.playerXId}`).emit('game:state', snapshot);
 	io.to(`user-${game.playerOId}`).emit('game:state', snapshot);
