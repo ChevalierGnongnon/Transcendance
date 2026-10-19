@@ -8,6 +8,8 @@ type AuthContextType = {
     isAuthenticated: true | false | null;
     login: () => void;
     markDisconnected: () => void;
+    // both refresh and logout returns a promise that once solved,
+    // doesn't return anything usefull
     logout: () => Promise<void>;
     refresh: () => Promise<void>;
     onlineFriends: string[];
@@ -31,8 +33,6 @@ export function AuthProvider({children}:{children:ReactNode}){
         .then(data => setIsAuthenticated(data.authenticated === true))
         .catch(() => setIsAuthenticated(false));
     }
-
-    
 
     // useEffect: used to trigger checkauth() one time, when the app is starting.
     // [] at the end is for "trigger it once, never restarted after"
@@ -60,13 +60,20 @@ export function AuthProvider({children}:{children:ReactNode}){
     }, [])
 
     useEffect(() => {
+        // receives online friends sent by filter and emit
         function handleOnlineFriends(data: {onlineFriends: string[]}){
+            // onceper connexion, replaces the whole list
             setOnlineFriends(data.onlineFriends);
         }
+        // receives user online event sent by announce online
         function handleUserOnline(data: {userId: string}){
+            // each time a friend passes from offline to online
             setOnlineFriends(prev => {
                 if (prev.includes(data.userId))
                     return (prev);
+                // copies prev and adds userid at the end 
+                // (react detects changes by checking if its the same
+                // object as before ...prev means copy the current object)
                 return [...prev, data.userId];
             });
         }
@@ -81,7 +88,7 @@ export function AuthProvider({children}:{children:ReactNode}){
             socket.off('online-friends', handleOnlineFriends);
             socket.off('user-online', handleUserOnline);
             socket.off('user-offline', handleUserOffline);
-        }; 
+        };
     }, [])
     function login(){
         localStorage.setItem('auth-sync', Date.now().toString());
@@ -97,12 +104,14 @@ export function AuthProvider({children}:{children:ReactNode}){
             });
         } catch (err){
             console.error('logout error : ', err);
-        } finally {
+        } finally { // finally will execute anyway even if catch is not reached
+            // signal for other tabs that a change occurs in auth so it updates
+            // everywhere. 
             localStorage.setItem('auth-sync', Date.now().toString());
             setIsAuthenticated(false);
         }   
     }
-    // When user fetch api receives a 401 or 403, like invalid cookie, expired cookie...
+    // When user fetch api receives a 401, like invalid cookie, expired cookie...
     function markDisconnected(){
         setIsAuthenticated(false);
         localStorage.setItem('auth-sync', Date.now().toString());

@@ -16,9 +16,12 @@ export const setupSocketConnection = (io: Server) => {
     if (!socket.userId)
       throw new Error('Internal server error');
     const userRoom = `user-${socket.userId}`;
+    // checks if user is already in connected users register
+    // or not, and and announce to the others that he is online
     const isFirstConnection = connectUser(socket.userId);
     if (isFirstConnection === true)
       announceOnline(socket.userId, socket);
+    // gives user list of currently connected users (friends only)
     filterAndEmit(socket.userId, socket)
 
     socket.join(userRoom);
@@ -33,8 +36,10 @@ export const setupSocketConnection = (io: Server) => {
       console.log(`reason: ${reason}`);
       if (!socket.userId)
         throw new Error('Internal server error');
+      // disconnects user and checks if he has other connexions in nav
       const isLastDeconnection = disconnectUser(socket.userId);
       if (isLastDeconnection === true)
+        // if it's the last one, announce he's disconnected
         announceOffline(socket.userId, socket);
     });
   });
