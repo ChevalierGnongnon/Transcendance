@@ -41,9 +41,20 @@ export function logout(_req: Request, res: Response) {
   });
 }
 
-export function checkAuth(req: Request, res: Response) {
+export async function checkAuth(req: Request, res: Response) {
   if (!req.userId)
     return (res.status(200).json({ authenticated: false }));
+  try {
+    const checkUser = await authService.checkUserExists(req.userId);
+    if (!checkUser){
+      res.clearCookie('token', cookieOptions);
+      return (res.status(200).json({ authenticated: false }));
+    }
+  }
+  catch (err){
+    console.error("error: ", err );
+    return (res.status(500).json({error: 'INTERNAL_SERVER_ERROR'}));
+  }
   return (res.status(200).json({ authenticated: true }));
 }
 

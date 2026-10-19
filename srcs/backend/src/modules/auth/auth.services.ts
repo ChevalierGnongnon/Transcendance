@@ -17,6 +17,19 @@ function createToken(userId: string){
 
 
 class authService {
+  async checkUserExists(userId: string){
+    const check = await prisma.user.findUnique({
+      where : {
+        id : userId,
+      },
+      select:{
+        id : true,
+      }
+    })
+    if (!check)
+      return (false);
+    return (true);
+  }
   async login(login: string, password: string) {
     const user = await prisma.user.findFirst({
       where: {
