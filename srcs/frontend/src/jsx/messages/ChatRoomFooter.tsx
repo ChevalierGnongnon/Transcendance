@@ -79,7 +79,9 @@ function ChatRoomFooter({
         onUpdateMessage(res.data, 'sent');
       } else {
         onUpdateMessage(messageToSend, 'error');
-        deleteFile(messageToSend.content);
+        if (messageToSend.type === 'file') {
+          deleteFile(messageToSend.content);
+        }
       }
     });
 
@@ -127,7 +129,7 @@ function ChatRoomFooter({
         )}
 
         {relationship.blockedMe && (
-          <div className="alert alert-danger error-message">{t('message.you-are-blocked')}</div>
+          <div className="alert alert-danger message-blocked">{t('message.you-are-blocked')}</div>
         )}
       </>
     );
@@ -138,6 +140,7 @@ function ChatRoomFooter({
       chatId={chatId}
       userId={userId}
       opponentId={userId}
+      sender={sender}
       value={messageText}
       onChange={setMessageText}
       onSend={handleSendMessage}

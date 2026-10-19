@@ -77,6 +77,7 @@ export const gameCloseSchema = z.object({
 
 export const typingMessageSchema = z.object({
   chatId: z.uuid(),
+  from: z.uuid(),
   to: z.uuid(),
 });
 

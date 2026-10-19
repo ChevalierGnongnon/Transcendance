@@ -5,11 +5,13 @@ import { socket } from './socket';
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 import MoreOptions from './options';
+import type { User } from './types';
 
 interface MessageInputProps {
   opponentId: string;
   chatId: string;
   userId: string;
+  sender: User;
   value: string;
   onChange: (value: string) => void;
   onSend: () => void;
@@ -21,6 +23,7 @@ function MessageInput({
   chatId,
   opponentId,
   userId,
+  sender,
   value,
   onChange,
   onSend,
@@ -42,6 +45,7 @@ function MessageInput({
     if (!typingTimeoutRef.current) {
       const response = await socket.emitWithAck('chat:typing:start', {
         chatId: chatId,
+        from: sender.id,
         to: userId,
       });
 
@@ -56,7 +60,7 @@ function MessageInput({
     }
 
     typingTimeoutRef.current = setTimeout(() => {
-      socket.emit('chat:typing:stop', { chatId: chatId, to: userId });
+      socket.emit('chat:typing:stop', { chatId: chatId, from: sender.id, to: userId });
       typingTimeoutRef.current = null;
     }, 2000);
   };
@@ -69,7 +73,7 @@ function MessageInput({
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (!disabled || !isOverLimit) {
-        socket.emit('chat:typing:stop', { chatId: chatId, to: userId });
+        socket.emit('chat:typing:stop', { chatId: chatId, from: sender.id, to: userId });
         typingTimeoutRef.current = null;
         onSend();
       }
@@ -82,7 +86,7 @@ function MessageInput({
 
   const handleSendClick = () => {
     if (!disabled || !isOverLimit) {
-      socket.emit('chat:typing:stop', { chatId: chatId, to: userId });
+      socket.emit('chat:typing:stop', { chatId: chatId, from: sender.id, to: userId });
       typingTimeoutRef.current = null;
       onSend();
     }
