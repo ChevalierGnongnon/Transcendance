@@ -75,18 +75,24 @@ function MessagesList({ me, chatId, messages, otherLastReadMessagesId }: Message
         }}
       >
         <ul className="px-3">
-          {messages.map((msg, index) => (
-            <Message
-              key={msg.id || index}
-              messageId={msg.id}
-              chatId={msg.chatId}
-              userId={me.id}
-              profilePhoto={msg.sender.profilePhoto}
-              senderId={msg.sender.id}
-              content={msg.content}
-              type={msg.type}
-            />
-          ))}
+          {messages.map((msg, index) => {
+            const isRead = lastReadIndex !== -1 && index <= lastReadIndex;
+            const status = msg.status === 'error' ? 'error' : isRead ? 'read' : msg.status;
+            return (
+              <Message
+                key={msg.id || index}
+                userId={me.id}
+                messageId={msg.id}
+                chatId={msg.chatId}
+                profilePhoto={msg.sender.profilePhoto}
+                senderId={msg.sender.id}
+                content={msg.content}
+                type={msg.type}
+                // status={status ?? 'sending'}
+                status={status ?? 'sent'}
+              />
+            );
+          })}
         </ul>
         <div ref={messagesEndRef} style={{ height: '2px' }} />
       </div>

@@ -11,7 +11,7 @@ export interface MessageFileItemProps {
   status?: MessageStatus;
 }
 
-function MessageFileItem({ fileId, isOwnMessage }: MessageFileItemProps) {
+function MessageFileItem(props: MessageFileItemProps) {
   const { t } = useTranslation();
   const [MimeType, setMimeType] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,17 +19,19 @@ function MessageFileItem({ fileId, isOwnMessage }: MessageFileItemProps) {
   const { getStatus } = useFriendships();
 
   useEffect(() => {
-    if (!fileId) {
+    if (!props.fileId) {
       setMimeType('');
       setLoading(false);
 
       return;
     }
-
+    //if status is sending, it is not attached to the chat
+    if (props.status === 'sending') 
+        return;
     let cancelled = false;
     setLoading(true);
 
-    fetch(`/api/${fileId}/download`, { credentials: 'include', method: 'HEAD' })
+    fetch(`/api/${props.fileId}/download`, { credentials: 'include', method: 'HEAD' })
       .then((res) => {
         const MimeType = res.headers.get('Content-Type') ?? '';
         if (!cancelled) {
@@ -46,11 +48,11 @@ function MessageFileItem({ fileId, isOwnMessage }: MessageFileItemProps) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [props.fileId, props.status]); // will restart when status changes
 
   useEffect(() => {
     function handleFileDeleted(data) {
-      if (data.fileId === fileId) setDeletedFile(true);
+      if (data.fileId === props.fileId) setDeletedFile(true);
     }
     socket.on('file-deleted', handleFileDeleted);
     return () => socket.off('file-deleted', handleFileDeleted);
@@ -59,12 +61,12 @@ function MessageFileItem({ fileId, isOwnMessage }: MessageFileItemProps) {
   return (
     <>
       {/*<div className={`${isOwnMessage ? 'message-right' : 'message-left'} card p-3 m-2 text-break`}>*/}
-      {!isOwnMessage && !MimeType.startsWith('image/') && (
+      {!props.isOwnMessage && !MimeType.startsWith('image/') && (
         <span className="text-message">{t('message.file-received')}</span>
       )}
       {/* file preview here if not previewable just use file type icon */}
       {!loading && !deletedFile && MimeType.startsWith('image/') && (
-        <img src={`/api/${fileId}/download`} alt="attachment" className="bg-img-message" />
+        <img src={`/api/${props.fileId}/download`} alt="attachment" className="bg-img-message" />
       )}
 
       {!loading && !deletedFile && MimeType === 'application/pdf' && (
@@ -96,7 +98,7 @@ function MessageFileItem({ fileId, isOwnMessage }: MessageFileItemProps) {
           value={t('common.download-file')}
           className="btn btn-primary m-1"
           onClick={async () => {
-            const res = await fetch(`/api/${fileId}/download`, {
+            const res = await fetch(`/api/${props.fileId}/download`, {
               credentials: 'include',
             });
             if (!res.ok) setDeletedFile(true);
@@ -105,7 +107,7 @@ function MessageFileItem({ fileId, isOwnMessage }: MessageFileItemProps) {
               const url = URL.createObjectURL(blob);
               const contentDisposition = res.headers.get('Content-Disposition');
               const match = contentDisposition?.match(/filename="(.+)"/);
-              const filename = match?.[1] ?? fileId;
+              const filename = match?.[1] ?? props.fileId;
               const link = document.createElement('a');
               link.download = filename;
               link.href = url;
@@ -117,13 +119,13 @@ function MessageFileItem({ fileId, isOwnMessage }: MessageFileItemProps) {
       )}
       {deletedFile && <ErrorMessage error="FILE_DELETED"></ErrorMessage>}
 
-      {!deletedFile && isOwnMessage && (
+      {!deletedFile && props.isOwnMessage && (
         <input
           type="button"
           value={t('common.delete-file')}
           className="btn btn-primary m-1"
           onClick={async () => {
-            const res = await fetch(`/api/${fileId}`, {
+            const res = await fetch(`/api/${props.fileId}`, {
               credentials: 'include',
               method: 'DELETE',
             });
