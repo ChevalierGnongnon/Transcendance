@@ -1,4 +1,4 @@
-export type ActiveView = 'chats' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
+export type ActiveView = 'chats' | 'new message' | 'imaginaryfriend' | 'conversation';
 export type MessageType = 'text' | 'invitation' | 'file';
 export type MessageStatus = 'sending' | 'sent' | 'read' | 'error';
 export type Relationship = {
@@ -77,37 +77,11 @@ export interface ChatRoomProps {
   me: User;
   chat: IChatPreview;
   setActiveView: (view: ActiveView) => void;
-  setChatList: (chatList: IChatPreview[]) => void;
+  // setChatList: (chatList: IChatPreview[]) => void;
   messages: IMessage[];
   onAddMessage: (message: IMessage) => void;
   onUpdateMessage: (message: IMessage, status: MessageStatus) => void;
   otherLastReadMessagesId: string | null;
-}
-
-export interface ChatProps {
-  chat: IChatPreview;
-  setActiveView: (view: ActiveView) => void;
-  setActiveChat: (chat: IChatPreview | null) => void;
-}
-
-export interface ChatListProps {
-  align: 'center' | 'left';
-  setActiveView: (view: ActiveView) => void;
-  setActiveChat: (chat: IChatPreview | null) => void;
-  chatList: IChatPreview[];
-  loading: boolean;
-  error: Error | null;
-}
-
-export interface newChatProps {
-  autoStartUser?: SearchResult | null;
-  autoStart?: boolean;
-  setAutoStart: (autostart: boolean) => void;
-  chatList: IChatPreview[];
-  setActiveView: (view: ActiveView) => void;
-  setActiveChat: (chat: IChatPreview | null) => void;
-  setChatList: (chatList: IChatPreview[]) => void;
-  // onStartChat: (user: SearchResult) => void;
 }
 
 export interface NewChatState {
