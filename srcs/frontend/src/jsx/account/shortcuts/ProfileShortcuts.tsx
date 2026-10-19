@@ -132,15 +132,6 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
   return (
     <>
       <div className="row g-4 justify-content-center shortcut-grid">
-        {/*<div className="col-12 col-md-6 col-xl-6">
-          <figure
-            className="shortcut-icon justify-content-center"
-            // onClick={() => navigate('/addfriend')}
-          >
-            <img src={addFriendsIcon} alt="message-shortcut" />
-            <span>{t('profile-page.send-friendship-invitation')}</span>
-          </figure>
-        </div>*/}
         {!relationship.blockedByMe &&
           !relationship.blockedMe &&
           !relationship.isFriend &&
