@@ -105,15 +105,17 @@
 
 .avatar-msg{
     margin: 1%;
-    height: 60px;
-    width: 60px;
-    border-radius: 30px;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
 .avatar-msg img{
-    height: 60px;
-    width: 60px;
-    border-radius: 30px;
+    height: 100%;
+    width: 100%;
+    display: block;
     object-fit: cover
 }
 
