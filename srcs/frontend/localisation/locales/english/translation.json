@@ -381,8 +381,8 @@
     "NO_FILE_PROVIDED": "No file provided",
     "CHATID_REQUIRED": "Conversation ID is required",
     "TOO_MANY_REQUESTS": "Too many requests, please try again in a moment"
-  },
-
+  }
+}, 
   "game": {
     "loading": "Loading game...",
     "your_turn": "your turn",
@@ -422,8 +422,7 @@
     "rematch_invite_error": "Could not send rematch invitation.",
     "rematch_invite_expired": "This invitation is no longer available.",
     "rematch_cancel_error": "Could not cancel invitation."
-  }
-}, 
+  },
 "imaginary-friend": {
   "loading": "Starting your imaginary friend...",
   "title": "Imaginary Friend",
