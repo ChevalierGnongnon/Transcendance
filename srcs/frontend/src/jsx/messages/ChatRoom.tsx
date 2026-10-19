@@ -38,9 +38,9 @@ function ChatRoom(roomProps: ChatRoomProps) {
     blockedMe: false,
   });
   const { me, chat, messages, onAddMessage, onUpdateMessage, otherLastReadMessagesId } = roomProps;
+  const userId = chat.user.id;
 
   const loadRelationship = useCallback(async () => {
-    const userId = chat?.user?.id;
     if (!userId) return;
 
     try {
@@ -59,11 +59,67 @@ function ChatRoom(roomProps: ChatRoomProps) {
     } catch (e) {
       console.error('Error get relationship', e);
     }
-  }, [chat?.user?.id, logout]);
+  }, [userId, logout]);
 
   useEffect(() => {
     loadRelationship();
   }, [loadRelationship]);
+
+  useEffect(() => {
+    const updateRelationship = async (data: string) => {
+      await loadRelationship();
+    };
+
+    socket.on('relationship:update', updateRelationship);
+
+    return () => {
+      socket.off('relationship:update', updateRelationship);
+    };
+  }, []);
+
+  const blockUser = async () => {
+    try {
+      const res = await fetch(`/api/social/blocks/${userId}`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (res.status === 401) {
+        logout();
+        throw new Error('Unauthorized, logging out...');
+      }
+      if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+
+      socket.emit('relationship:update', { fromId: me.id, toId: chat.user.id }, (res) => {
+        console.log(res);
+      });
+
+      await loadRelationship();
+    } catch (e) {
+      console.error('Error unBlockUser', e);
+    }
+  };
+
+  const unBlockUser = async () => {
+    try {
+      const res = await fetch(`/api/social/blocks/${userId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (res.status === 401) {
+        logout();
+        throw new Error('Unauthorized, logging out...');
+      }
+      if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+
+      socket.emit('relationship:update', { fromId: me.id, toId: chat.user.id });
+
+      await loadRelationship();
+    } catch (e) {
+      console.error('Error unBlockUser', e);
+    }
+  };
 
   useEffect(() => {
     const handleAccepted = ({
@@ -107,7 +163,8 @@ function ChatRoom(roomProps: ChatRoomProps) {
           userId={chat.user.id}
           pseudo={chat.user.pseudo}
           onSetActiveView={roomProps.setActiveView}
-          onLoadRelationship={loadRelationship}
+          onBlock={blockUser}
+          // onLoadRelationship={loadRelationship}
         />
 
         <MessagesList
@@ -124,7 +181,8 @@ function ChatRoom(roomProps: ChatRoomProps) {
           relationship={relationship}
           onAddMessage={onAddMessage}
           onUpdateMessage={onUpdateMessage}
-          onLoadRelationship={loadRelationship}
+          onUnBlock={unBlockUser}
+          // onLoadRelationship={loadRelationship}
         />
       </div>
     </>

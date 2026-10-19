@@ -14,7 +14,8 @@ interface ChatRoomFooterProps {
   relationship: Relationship;
   onAddMessage: (message: IMessage) => void;
   onUpdateMessage: (message: IMessage, status: MessageStatus) => void;
-  onLoadRelationship: () => Promise<void>;
+  onUnBlock: () => Promise<void>;
+  // onLoadRelationship: () => Promise<void>;
 }
 
 function ChatRoomFooter({
@@ -24,7 +25,8 @@ function ChatRoomFooter({
   relationship,
   onAddMessage,
   onUpdateMessage,
-  onLoadRelationship,
+  onUnBlock,
+  // onLoadRelationship,
 }: ChatRoomFooterProps) {
   const { t } = useTranslation();
 
@@ -43,8 +45,6 @@ function ChatRoomFooter({
         throw new Error('Unauthorized, logging out...');
       }
       if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-
-      await onLoadRelationship();
     } catch (e) {
       console.error('Error delete file', e);
     }
@@ -93,24 +93,24 @@ function ChatRoomFooter({
    *
    * @param userId - The identifier of the user to unblock.
    */
-  const unBlockUser = async (userId: string) => {
-    try {
-      const res = await fetch(`/api/social/blocks/${userId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
+  // const unBlockUser = async (userId: string) => {
+  //   try {
+  //     const res = await fetch(`/api/social/blocks/${userId}`, {
+  //       method: 'DELETE',
+  //       credentials: 'include',
+  //     });
 
-      if (res.status === 401) {
-        logout();
-        throw new Error('Unauthorized, logging out...');
-      }
-      if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+  //     if (res.status === 401) {
+  //       logout();
+  //       throw new Error('Unauthorized, logging out...');
+  //     }
+  //     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
-      await onLoadRelationship();
-    } catch (e) {
-      console.error('Error unBlockUser', e);
-    }
-  };
+  //     await onLoadRelationship();
+  //   } catch (e) {
+  //     console.error('Error unBlockUser', e);
+  //   }
+  // };
 
   if (relationship.blockedByMe || relationship.blockedMe) {
     return (
@@ -122,7 +122,8 @@ function ChatRoomFooter({
               value={t('friends.unblock')}
               className="accept-button px-2"
               onClick={() => {
-                unBlockUser(userId);
+                // unBlockUser(userId);
+                onUnBlock();
               }}
             />
           </div>

@@ -13,7 +13,8 @@ export interface ChatRoomHeader {
   userId: string;
   pseudo: string;
   onSetActiveView: (view: ActiveView) => void;
-  onLoadRelationship: () => Promise<void>;
+  onBlock: () => Promise<void>;
+  // onLoadRelationship: () => Promise<void>;
 }
 
 function ChatRoomHeader({
@@ -21,31 +22,32 @@ function ChatRoomHeader({
   userId,
   pseudo,
   onSetActiveView,
-  onLoadRelationship,
+  // onLoadRelationship,
+  onBlock,
 }: ChatRoomHeader) {
   const { t } = useTranslation();
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
-  const blockUser = async (userId: string) => {
-    try {
-      const res = await fetch(`/api/social/blocks/${userId}`, {
-        method: 'POST',
-        credentials: 'include',
-      });
+  // const blockUser = async (userId: string) => {
+  //   try {
+  //     const res = await fetch(`/api/social/blocks/${userId}`, {
+  //       method: 'POST',
+  //       credentials: 'include',
+  //     });
 
-      if (res.status === 401) {
-        logout();
-        throw new Error('Unauthorized, logging out...');
-      }
-      if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+  //     if (res.status === 401) {
+  //       logout();
+  //       throw new Error('Unauthorized, logging out...');
+  //     }
+  //     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
-      await onLoadRelationship();
-    } catch (e) {
-      console.error('Error unBlockUser', e);
-    }
-  };
+  //     await onLoadRelationship();
+  //   } catch (e) {
+  //     console.error('Error unBlockUser', e);
+  //   }
+  // };
 
   useEffect(() => {
     const startTyping = async (data: { chatId: string }) => {
@@ -94,7 +96,8 @@ function ChatRoomHeader({
             className="btn btn-link text-secondary fs-6 text-decoration-none p-0"
             title={t('message.block')}
             onClick={() => {
-              blockUser(userId);
+              // blockUser(userId);
+              onBlock();
             }}
           >
             <Ban size={32} />

@@ -81,6 +81,11 @@ export const typingMessageSchema = z.object({
   to: z.uuid(),
 });
 
+export const updateRelationshipUpdatedSchema = z.object({
+  fromId: z.uuid(),
+  toId: z.uuid(),
+});
+
 export type newMessageInput = z.infer<typeof messageSchema>;
 export type lastReadInput = z.infer<typeof lastReadSchema>;
 export type startNewChat = z.infer<typeof startNewChatSchema>;
@@ -94,3 +99,4 @@ export type gameMoveInput = z.infer<typeof gameMoveSchema>;
 export type gameStateInput = z.infer<typeof gameStateSchema>;
 export type gameCloseInput = z.infer<typeof gameCloseSchema>;
 export type typingMessage = z.infer<typeof typingMessageSchema>;
+export type updateRelationshipUpdated = z.infer<typeof updateRelationshipUpdatedSchema>;

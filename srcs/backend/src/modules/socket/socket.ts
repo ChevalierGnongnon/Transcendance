@@ -13,6 +13,7 @@ import {
   lastReadSchema,
   messageSchema,
   typingMessageSchema,
+  updateRelationshipUpdatedSchema,
 } from './schemas.js';
 import { onValidated } from './socket.validators.js';
 import { requireAuth } from './socket.middlewares.js';
@@ -38,6 +39,7 @@ import {
   announceOffline,
   filterAndEmit,
 } from './user_status/status_management.ts';
+import { handleRelationshipUpdate } from './chat/handleRelationshipUpdate.ts';
 
 export const setupSocketConnection = (io: Server) => {
   io.use(requireAuth);
@@ -58,6 +60,12 @@ export const setupSocketConnection = (io: Server) => {
 
     onValidated(socket, 'new-chat-message', messageSchema, handleMessages);
     onValidated(socket, 'last-read-message', lastReadSchema, handleMessageRead);
+    onValidated(
+      socket,
+      'relationship:update',
+      updateRelationshipUpdatedSchema,
+      handleRelationshipUpdate
+    );
     onValidated(socket, 'game:accept', gameAcceptSchema, (currentSocket, payload) =>
       handleGameAccept(io, currentSocket, payload)
     );
