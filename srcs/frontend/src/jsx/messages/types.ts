@@ -70,11 +70,10 @@ export interface ChatRoomProps {
   me: User;
   chat: IChatPreview;
   setActiveView: (view: ActiveView) => void;
-  // messages: Map<string, IMessage[]>;
+  setChatList: (chatList: IChatPreview[]) => void;
   messages: IMessage[];
   onAddMessage: (message: IMessage) => void;
   onUpdateMessage: (message: IMessage, status: MessageStatus) => void;
-  updateLastReadMessageId: (chatId: string, messageId: string | null) => void;
   otherLastReadMessagesId: string | null;
 }
 

@@ -4,19 +4,21 @@ import { useNavigate } from 'react-router-dom';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
-import MessageInput from './MessageInput';
 import { socket } from './socket';
-import type { IMessage, ChatRoomProps, MessageType } from './types.js';
-import MessagesList from './MessagesList';
 import { useAuth } from '../auth/auth-context';
+import MessageInput from './MessageInput';
+import MessagesList from './MessagesList';
 import ChatRoomHeader from './ChatRoomHeader';
+import type { IMessage, ChatRoomProps, MessageType } from './types.js';
+import ChatRoomFooter from './ChatRoomFooter';
 
 function ChatRoom(roomProps: ChatRoomProps) {
+  console.log('Render ChatRoom');
+  console.log(roomProps.otherLastReadMessagesId);
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { logout } = useAuth();
-  const [messageText, setMessageText] = useState<string>('');
-  const me = roomProps.me;
+  // const [messageText, setMessageText] = useState<string>('');
   const [relationship, setRelationship] = useState({
     isFriend: false,
     requestSent: false,
@@ -24,11 +26,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
     blockedByMe: false,
     blockedMe: false,
   });
-  const chatId = roomProps.chat.chatId;
-  const messages = roomProps.messages;
-  const [otherLastReadMessagesId, setOtherLastReadMessagesId] = useState<string | null>(
-    roomProps.chat.otherlastReadMessagesId
-  );
+  const { me, chat, messages, onAddMessage, onUpdateMessage, otherLastReadMessagesId } = roomProps;
 
   const loadRelationship = useCallback(async () => {
     const userId = roomProps.chat?.user?.id;
@@ -50,7 +48,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
     } catch (e) {
       console.error('Error get relationship', e);
     }
-  }, [roomProps.chat?.user?.id, logout]);
+  }, [chat?.user?.id, logout]);
 
   useEffect(() => {
     loadRelationship();
@@ -159,12 +157,22 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
         <MessagesList
           me={me}
-          chatId={roomProps.chat.chatId}
+          chatId={chat.chatId}
           messages={messages}
           otherLastReadMessagesId={otherLastReadMessagesId}
         />
 
-        {relationship.blockedByMe ? (
+        <ChatRoomFooter
+          chatId={chat.chatId}
+          userId={chat.user.id}
+          sender={me}
+          isBlocked={relationship.blockedByMe}
+          onAddMessage={onAddMessage}
+          onUpdateMessage={onUpdateMessage}
+          onLoadRelationship={loadRelationship}
+        />
+
+        {/*{relationship.blockedByMe ? (
           <div className="input-group group-new-message my-3 mt-auto">
             <input
               type="button"
@@ -185,7 +193,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
             // onAddMessage
             // onUpdateMessage
           />
-        )}
+        )}*/}
       </div>
     </>
   );

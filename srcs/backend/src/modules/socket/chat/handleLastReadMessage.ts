@@ -22,7 +22,6 @@ export async function handleMessageRead(socket: Socket, payload: lastReadInput) 
       chatId: chatId,
       messageId: messageId,
     });
-    console.log(lastReadMessage);
 
     return lastReadMessage;
   } catch (error) {
