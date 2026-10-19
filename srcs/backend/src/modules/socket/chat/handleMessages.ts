@@ -3,8 +3,22 @@ import { prisma } from '@/lib/prisma.js';
 
 import type { newMessageInput } from '../schemas.js';
 
+const creatNewChat = async (chatId: string, currUserId: string, recipientId: string) => {
+  const newChat = await prisma.chat.create({
+    data: {
+      id: chatId,
+      members: {
+        create: [{ userId: currUserId }, { userId: recipientId }],
+      },
+    },
+  });
+
+  return newChat;
+};
+
 export async function handleMessages(socket: Socket, payload: newMessageInput) {
   const { id, chatId, recipientId, sender, content, type } = payload;
+
   try {
     if (!socket.userId || socket.userId !== sender.id) {
       throw new Error('Not authorized to send this message');
@@ -32,7 +46,10 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
       },
     });
 
-    if (!chat) throw new Error('Chat not found or access denied');
+    if (!chat) {
+      const newChat = creatNewChat(chatId, sender.id, recipientId);
+      if (!newChat) throw new Error('Chat not found or access denied');
+    }
 
     let existingInvitationId: string | null = null;
     const savedMessage = await prisma.$transaction(async (tx) => {

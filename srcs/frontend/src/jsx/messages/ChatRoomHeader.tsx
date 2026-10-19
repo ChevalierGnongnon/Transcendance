@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../scss/messages.scss';
 import { socket } from './socket';
 import type { ActiveView } from './types';
-import { Ban, CircleUserRound, CircleX, MessageCircleMore } from 'lucide-react';
+import { Ban, CircleUserRound, CircleX } from 'lucide-react';
 import { useAuth } from '../auth/auth-context';
 
 export interface ChatRoomHeader {
@@ -85,7 +85,6 @@ function ChatRoomHeader({
         <div className="d-flex align-items-center gap-2">
           <div>{pseudo}</div>
           <div className={`text-secondary fs-6 fw-light fst-italic ${isTyping ? '' : 'invisible'}`}>
-            <MessageCircleMore size={16} />
             typing...
           </div>
         </div>

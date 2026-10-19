@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import '../../scss/messages.scss';
 import { socket } from './socket';
 import SearchBar from '../others/search-bar';
 import { SearchResult, newChatProps } from './types';
+import { useAuth } from '../auth/auth-context';
+import { apiFetch } from './utils/apiFetch';
 
-function NewChat({ setActiveChat, setActiveView, setChatList }: newChatProps) {
+function NewChat({ chatList, setActiveChat, setActiveView, setChatList }: newChatProps) {
   const { t } = useTranslation();
 
   const [user, setUser] = useState<SearchResult | null>(null);
@@ -17,20 +19,25 @@ function NewChat({ setActiveChat, setActiveView, setChatList }: newChatProps) {
       console.error('userId not defined, when try to start message');
       return;
     }
-    socket.emit('start-new-chat', { recipientId: userId }, (res: any) => {
-      if (res.ok) {
-        const newChat = res.data;
+    const chat = chatList.find((c) => c.user.id === user?.id);
+    const chatId = chat?.chatId ?? crypto.randomUUID();
 
-        setChatList((prev) => {
-          const exists = prev.some((chat) => chat.chatId === newChat.chatId);
-          return exists ? prev : [newChat, ...prev];
-        });
-        setActiveChat(newChat);
-        setActiveView('conversation');
-      } else {
-        console.error('Can not creat new chat:', res);
-      }
+    const newChat = {
+      chatId,
+      user,
+      mylastReadMessagesId: null,
+      otherlastReadMessagesId: null,
+      unreadCount: 0,
+    };
+
+    setChatList((prev) => {
+      const exists = prev.some((chat) => chat.chatId === newChat.chatId);
+      return exists ? prev : [newChat, ...prev];
     });
+    setActiveChat(newChat);
+    setActiveView('conversation');
+
+    console.log(chatId);
   };
 
   return (
