@@ -64,9 +64,9 @@ All required environment variables and their purpose are documented in the proje
 | Team Member | Role(s)                    | Responsibilities                                                                                                                                  |
 | ----------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Choflack**  | Product Owner, Developer   | Responsible for defining the project requirements, coordinating the team's priorities, and contributing to the implementation of the application. |
-| **oklimov**  | Project Manager, Developer | Responsible for coordinating the development process, organizing tasks and milestones, and contributing to the implementation of the project.     |
+| **mknoll**  | Project Manager, Developer | Responsible for coordinating the development process, organizing tasks and meetings, and contributing to the implementation of the project.     |
 | **nmagomad**  | Tech Lead, Developer       | Responsible for the overall technical architecture, technology decisions, code quality, and implementation of core features.                      |
-| **mknoll**  | Developer                  | Responsible for implementing and maintaining assigned features, fixing bugs, and contributing to the overall development of the application.      |
+| **oklimov**  | Developer                  | Responsible for implementing and maintaining assigned features, fixing bugs, and contributing to the overall development of the application.      |
 
 
 ## Project Management 
@@ -137,7 +137,6 @@ Docker was chosen to provide a **consistent development and runtime environment*
 - 
 
 ## Features List
-- ## Features
 
 The following table provides an overview of the implemented features, the team members responsible for their development, and a brief description of their functionality.
 
@@ -147,10 +146,10 @@ The following table provides an overview of the implemented features, the team m
 | **User Profiles**                    | Name           | Creation and management of user profiles and profile information.                        |
 | **Messaging**                        | Name           | Real-time communication between users through individual or group conversations.         |
 | **Social Features**                  | Name           | Social interactions between users, such as adding friends or managing connections.       |
-| **AI Chatbot**                       | Name           | Integration of Google Gemini to provide an AI-powered chatbot within the application.    |
+| **AI Chatbot**                       | mknoll           | Integration of Google Gemini to provide an AI-powered chatbot within the application.    |
 | **Multiplayer Game**                 | Name           | Real-time multiplayer gameplay integrated into the messaging platform.                   |
 | **Game History**                     | Name           | Records and displays previous game results and statistics.                               |
-| **Analytics Dashboard**              | Name           | Visualizes application data, including AI usage and game-related statistics.             |
+| **Analytics Dashboard**              | mknoll           | Visualizes application data, including AI usage and game-related statistics.             |
 | **File / Image Uploads**             | Name           | Allows users to upload and manage supported files or images.                             |
 | **Internationalization**             | Name           | Provides support for multiple languages within the application.                          |
 | **Notifications**                    | Name           | Provides users with notifications about relevant events and interactions.                |
@@ -160,9 +159,8 @@ The following table provides an overview of the implemented features, the team m
 
 | Module            | Type  | Points | Team Member(s) | Brief Justification                                                |
 | ----------------- | ----- | -----: | -------------- | ------------------------------------------------------------------ |
-| **Module Name**   | Major |      2 | Name           | Short reason why this module was chosen.                           |
-| **Module Name**   | Minor |      1 | Name           | Short reason why this module was chosen.                           |
-| **Module Name**   | Major |      2 | Name           | Short reason why this module was chosen.                           |
+| **Implement a complete LLM system interface**   | Major |      2 | mknoll           | Interested in working with LLM and Handling Data Processes                           |
+| **Advanced analytics dashboard with data visualization.** | Major |      2 | mknoll           | Good To have a Dashboard in a Social Network, to see stats |
 | **Custom Module** | Major |      2 | Name           | Why this custom module was chosen and what it adds to the project. |
 
 **Total: X points**
@@ -176,11 +174,11 @@ The following table provides an overview of the implemented features, the team m
 * **Contributions:** Short description of implemented features, modules, or components.
 * **Challenges:** Short description of a relevant challenge and how it was solved.
 
-### Name 2
+### mknoll
 
-* **Role:** Role(s)
-* **Contributions:** Short description of implemented features, modules, or components.
-* **Challenges:** Short description of a relevant challenge and how it was solved.
+* **Role:** Project Manager, Developer
+* **Contributions:** Implementation of Analytics Dashboard as well as, the Chatbot
+* **Challenges:** The Challenge of making sure that, the data a fetch from my colleagues table, is in the same format so I can use it. **Key takeaway** is clear communication and keeping everyone updated
 
 ### Name 3
 
