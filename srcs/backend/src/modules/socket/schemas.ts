@@ -11,8 +11,11 @@ export const messageSchema = z.object({
       name: z.string(),
     }),
   }),
-  content: z.string(),
-  type: z.enum(['text', 'image', 'file', 'audio', 'invitation']),
+  content: z
+    .string()
+    .min(1, 'Message cannot be empty')
+    .max(5000, 'Message is too long (max 5000 characters)'),
+  type: z.enum(['text', 'file', 'invitation']),
   createdAt: z.date().optional(),
 });
 

@@ -92,7 +92,8 @@
     "accept": "Accept",
     "decline": "Decline",
     "failed-to-send": "Failed to send. Message will be deleted after the update.",
-    "you-are-blocked": "You are blocked"
+    "you-are-blocked": "You are blocked",
+    "message-too-long": "Message is too long (max {{max}} characters)"
   },
   "friends": {
     "send-friend-request": "Send a friend request",
@@ -320,74 +321,74 @@
     }
   },
   "analytics": {
-  "title": "Analytics Dashboard",
-  "description": "Overview of your activity and AI usage.",
+    "title": "Analytics Dashboard",
+    "description": "Overview of your activity and AI usage.",
 
-  "filters": {
-    "from": "From:",
-    "to": "To:",
-    "7-days": "7 Days",
-    "14-days": "14 Days",
-    "30-days": "30 Days",
-    "apply": "Apply",
-    "export-csv": "Export CSV"
+    "filters": {
+      "from": "From:",
+      "to": "To:",
+      "7-days": "7 Days",
+      "14-days": "14 Days",
+      "30-days": "30 Days",
+      "apply": "Apply",
+      "export-csv": "Export CSV"
+    },
+
+    "errors": {
+      "load-failed": "Could not load analytics.",
+      "invalid-date-range": "The start date cannot be after the end date."
+    },
+
+    "loading": "Loading analytics...",
+    "no-data": "No analytics available.",
+
+    "overview": {
+      "games-played": "Games Played",
+      "games-won": "Games Won",
+      "games-lost": "Games Lost",
+      "win-rate": "Win Rate",
+      "ai-requests": "AI Requests",
+      "total-tokens": "Total Tokens"
+    },
+
+    "charts": {
+      "activity-over-time": "Activity Over Time",
+      "distribution": "Distribution",
+
+      "ai-usage-over-time": "AI Usage Over Time",
+      "games-over-time": "Games Over Time",
+
+      "ai-token-usage": "AI Token Usage",
+      "games-played": "Games Played",
+
+      "input-tokens": "Input Tokens",
+      "output-tokens": "Output Tokens",
+      "thinking-tokens": "Thinking Tokens",
+
+      "won": "Won",
+      "lost": "Lost",
+      "drawn": "drawn",
+
+      "total-tokens": "Total Tokens",
+      "total-games": "Total Games",
+      "EMAIL_EXISTS": "This email is already in use",
+      "FILE_DELETED": "This file has been deleted.",
+      "INVALID_AVATAR": "Invalid avatar",
+      "ENTRY_TOO_LONG": "Input is too long",
+      "QUERY_REQUIRED": "Please enter a search term",
+      "ALREADY_FRIENDS": "You are already friends",
+      "ALREADY_SENT": "You have already sent a request",
+      "INCOMING_EXISTS": "This person has already sent you a friend request.",
+      "CANNOT_ADD_SELF": "You cannot add yourself as a friend.",
+      "FRIENDSHIP_NOT_FOUND": "This friendship does not exist",
+      "FILE_NOT_FOUND": "File not found",
+      "FORBIDDEN": "Access to this file is forbidden",
+      "INVALID_FILE_ID": "Invalid file ID",
+      "NO_FILE_PROVIDED": "No file provided",
+      "CHATID_REQUIRED": "Conversation ID is required",
+      "TOO_MANY_REQUESTS": "Too many requests, please try again in a moment"
+    }
   },
-
-  "errors": {
-    "load-failed": "Could not load analytics.",
-    "invalid-date-range": "The start date cannot be after the end date."
-  },
-
-  "loading": "Loading analytics...",
-  "no-data": "No analytics available.",
-
-  "overview": {
-    "games-played": "Games Played",
-    "games-won": "Games Won",
-    "games-lost": "Games Lost",
-    "win-rate": "Win Rate",
-    "ai-requests": "AI Requests",
-    "total-tokens": "Total Tokens"
-  },
-
-  "charts": {
-    "activity-over-time": "Activity Over Time",
-    "distribution": "Distribution",
-
-    "ai-usage-over-time": "AI Usage Over Time",
-    "games-over-time": "Games Over Time",
-
-    "ai-token-usage": "AI Token Usage",
-    "games-played": "Games Played",
-
-    "input-tokens": "Input Tokens",
-    "output-tokens": "Output Tokens",
-    "thinking-tokens": "Thinking Tokens",
-
-    "won": "Won",
-    "lost": "Lost",
-    "drawn": "drawn",
-
-    "total-tokens": "Total Tokens",
-    "total-games": "Total Games",
-    "EMAIL_EXISTS": "This email is already in use",
-    "FILE_DELETED": "This file has been deleted.",
-    "INVALID_AVATAR": "Invalid avatar",
-    "ENTRY_TOO_LONG": "Input is too long",
-    "QUERY_REQUIRED": "Please enter a search term",
-    "ALREADY_FRIENDS": "You are already friends",
-    "ALREADY_SENT": "You have already sent a request",
-    "INCOMING_EXISTS": "This person has already sent you a friend request.",
-    "CANNOT_ADD_SELF": "You cannot add yourself as a friend.",
-    "FRIENDSHIP_NOT_FOUND": "This friendship does not exist",
-    "FILE_NOT_FOUND": "File not found",
-    "FORBIDDEN": "Access to this file is forbidden",
-    "INVALID_FILE_ID": "Invalid file ID",
-    "NO_FILE_PROVIDED": "No file provided",
-    "CHATID_REQUIRED": "Conversation ID is required",
-    "TOO_MANY_REQUESTS": "Too many requests, please try again in a moment"
-  }
-}, 
   "game": {
     "loading": "Loading game...",
     "your_turn": "your turn",
@@ -428,11 +429,11 @@
     "rematch_invite_expired": "This invitation is no longer available.",
     "rematch_cancel_error": "Could not cancel invitation."
   },
-"imaginary-friend": {
-  "loading": "Starting your imaginary friend...",
-  "title": "Imaginary Friend",
-  "rate-limit": "You can send another message in {{seconds}} seconds.",
-  "placeholder": "Write a message...",
-  "send": "Send"
-}
+  "imaginary-friend": {
+    "loading": "Starting your imaginary friend...",
+    "title": "Imaginary Friend",
+    "rate-limit": "You can send another message in {{seconds}} seconds.",
+    "placeholder": "Write a message...",
+    "send": "Send"
+  }
 }

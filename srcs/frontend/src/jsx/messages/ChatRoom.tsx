@@ -3,6 +3,8 @@ import { useState, useEffect, useCallback } from 'react';
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 import { useAuth } from '../auth/auth-context';
+import { useNavigate } from 'react-router-dom';
+import { socket } from './socket';
 import MessagesList from './MessagesList';
 import ChatRoomHeader from './ChatRoomHeader';
 import ChatRoomFooter from './ChatRoomFooter';
@@ -27,6 +29,7 @@ export interface ChatRoomProps {
 
 function ChatRoom(roomProps: ChatRoomProps) {
   const { logout } = useAuth();
+  const navigate = useNavigate();
   const [relationship, setRelationship] = useState<Relationship>({
     isFriend: false,
     requestSent: false,
@@ -61,65 +64,6 @@ function ChatRoom(roomProps: ChatRoomProps) {
   useEffect(() => {
     loadRelationship();
   }, [loadRelationship]);
-
-  // Check
-  useEffect(() => {
-    if (messages.length > 0) {
-      const lastMessageId = messages[messages.length - 1].id ?? null;
-      const lastMessageIdinChat = roomProps.chat.mylastReadMessagesId;
-      if (lastMessageId !== lastMessageIdinChat) {
-        roomProps.updateLastReadMessageId(roomProps.chat.chatId, lastMessageId);
-      }
-    }
-  }, [roomProps.chat?.chatId]);
-
-  const handleSendMessage = (fileId?: string) => {
-    if (!socket?.connected) return;
-    if (!fileId && !messageText.trim()) return;
-
-    const content = fileId ?? messageText.trim();
-    const messageType = fileId ? 'file' : 'text';
-    const messageToSend: IMessage = {
-      id: crypto.randomUUID(),
-      chatId: roomProps.chat.chatId,
-      recipientId: roomProps.chat.user.id,
-      sender: { id: me.id, profilePhoto: me.profilePhoto },
-      content: content,
-      type: messageType,
-      status: 'sending',
-    };
-
-    roomProps.onAddMessage(messageToSend);
-
-    socket.emit('new-chat-message', messageToSend, (res: any) => {
-      if (res.ok) {
-        roomProps.onUpdateMessage(res.data, 'sent');
-      } else {
-        roomProps.onUpdateMessage(messageToSend, 'error');
-      }
-    });
-
-    setMessageText('');
-  };
-
-  const unBlockUser = async (userId: string) => {
-    try {
-      const res = await fetch(`/api/social/blocks/${userId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-
-      if (res.status === 401) {
-        logout();
-        throw new Error('Unauthorized, logging out...');
-      }
-      if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-
-      await loadRelationship();
-    } catch (e) {
-      console.error('Error unBlockUser', e);
-    }
-  };
 
   useEffect(() => {
     const handleAccepted = ({

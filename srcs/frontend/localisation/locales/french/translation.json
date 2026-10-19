@@ -92,7 +92,8 @@
     "accept": "Accepter",
     "decline": "Refuser",
     "failed-to-send": "Échec de l'envoi. Le message sera supprimé après la mise à jour.",
-    "you-are-blocked": "Vous êtes bloqué"
+    "you-are-blocked": "Vous êtes bloqué",
+    "message-too-long": "Le message est trop long ({{max}} caractères max.)"
   },
   "friends": {
     "send-friend-request": "Envoyer une demande d'ami",
@@ -342,74 +343,74 @@
     }
   },
   "analytics": {
-  "title": "Tableau de bord analytique",
-  "description": "Vue d'ensemble de votre activité et de votre utilisation de l'IA.",
+    "title": "Tableau de bord analytique",
+    "description": "Vue d'ensemble de votre activité et de votre utilisation de l'IA.",
 
-  "filters": {
-    "from": "Du :",
-    "to": "Au :",
-    "7-days": "7 jours",
-    "14-days": "14 jours",
-    "30-days": "30 jours",
-    "apply": "Appliquer",
-    "export-csv": "Exporter en CSV"
+    "filters": {
+      "from": "Du :",
+      "to": "Au :",
+      "7-days": "7 jours",
+      "14-days": "14 jours",
+      "30-days": "30 jours",
+      "apply": "Appliquer",
+      "export-csv": "Exporter en CSV"
+    },
+
+    "errors": {
+      "load-failed": "Impossible de charger les données analytiques.",
+      "invalid-date-range": "La date de début ne peut pas être postérieure à la date de fin."
+    },
+
+    "loading": "Chargement des données analytiques...",
+    "no-data": "Aucune donnée analytique disponible.",
+
+    "overview": {
+      "games-played": "Parties jouées",
+      "games-won": "Parties gagnées",
+      "games-lost": "Parties perdues",
+      "win-rate": "Taux de victoire",
+      "ai-requests": "Requêtes IA",
+      "total-tokens": "Total des tokens"
+    },
+
+    "charts": {
+      "activity-over-time": "Activité au fil du temps",
+      "distribution": "Répartition",
+
+      "ai-usage-over-time": "Utilisation de l'IA au fil du temps",
+      "games-over-time": "Parties au fil du temps",
+
+      "ai-token-usage": "Utilisation des tokens IA",
+      "games-played": "Parties jouées",
+
+      "input-tokens": "Tokens d'entrée",
+      "output-tokens": "Tokens de sortie",
+      "thinking-tokens": "Tokens de raisonnement",
+
+      "won": "Gagnées",
+      "lost": "Perdues",
+      "drawn": "match nul",
+
+      "total-tokens": "Total des tokens",
+      "total-games": "Total des parties",
+      "EMAIL_EXISTS": "Cet email est déjà utilisé",
+      "FILE_DELETED": "Ce fichier a été supprimé.",
+      "INVALID_AVATAR": "L'avatar est invalide",
+      "ENTRY_TOO_LONG": "L'entrée est trop longue",
+      "QUERY_REQUIRED": "Veuillez saisir une entrée",
+      "ALREADY_FRIENDS": "Vous êtes déjà amis",
+      "ALREADY_SENT": "Vous avez déjà envoyé la demande",
+      "INCOMING_EXISTS": "Cette personne vous a déjà envoyé une demande d'ami.",
+      "CANNOT_ADD_SELF": "Vous ne pouvez pas être ami avec vous-même.",
+      "FRIENDSHIP_NOT_FOUND": "Cette amitié n'existe pas",
+      "FILE_NOT_FOUND": "Fichier introuvable",
+      "FORBIDDEN": "Accès au fichier interdit",
+      "INVALID_FILE_ID": "Identifiant du fichier invalide",
+      "NO_FILE_PROVIDED": "Aucun fichier fourni",
+      "CHATID_REQUIRED": "L'identifiant de la conversation est requis",
+      "TOO_MANY_REQUESTS": "Trop de requêtes, veuillez réessayer dans quelques instants"
+    }
   },
-
-  "errors": {
-    "load-failed": "Impossible de charger les données analytiques.",
-    "invalid-date-range": "La date de début ne peut pas être postérieure à la date de fin."
-  },
-
-  "loading": "Chargement des données analytiques...",
-  "no-data": "Aucune donnée analytique disponible.",
-
-  "overview": {
-    "games-played": "Parties jouées",
-    "games-won": "Parties gagnées",
-    "games-lost": "Parties perdues",
-    "win-rate": "Taux de victoire",
-    "ai-requests": "Requêtes IA",
-    "total-tokens": "Total des tokens"
-  },
-
-  "charts": {
-    "activity-over-time": "Activité au fil du temps",
-    "distribution": "Répartition",
-
-    "ai-usage-over-time": "Utilisation de l'IA au fil du temps",
-    "games-over-time": "Parties au fil du temps",
-
-    "ai-token-usage": "Utilisation des tokens IA",
-    "games-played": "Parties jouées",
-
-    "input-tokens": "Tokens d'entrée",
-    "output-tokens": "Tokens de sortie",
-    "thinking-tokens": "Tokens de raisonnement",
-
-    "won": "Gagnées",
-    "lost": "Perdues",
-    "drawn": "match nul",
-
-    "total-tokens": "Total des tokens",
-    "total-games": "Total des parties",
-    "EMAIL_EXISTS": "Cet email est déjà utilisé",
-    "FILE_DELETED": "Ce fichier a été supprimé.",
-    "INVALID_AVATAR": "L'avatar est invalide",
-    "ENTRY_TOO_LONG": "L'entrée est trop longue",
-    "QUERY_REQUIRED": "Veuillez saisir une entrée",
-    "ALREADY_FRIENDS": "Vous êtes déjà amis",
-    "ALREADY_SENT": "Vous avez déjà envoyé la demande",
-    "INCOMING_EXISTS": "Cette personne vous a déjà envoyé une demande d'ami.",
-    "CANNOT_ADD_SELF": "Vous ne pouvez pas être ami avec vous-même.",
-    "FRIENDSHIP_NOT_FOUND": "Cette amitié n'existe pas",
-    "FILE_NOT_FOUND": "Fichier introuvable",
-    "FORBIDDEN": "Accès au fichier interdit",
-    "INVALID_FILE_ID": "Identifiant du fichier invalide",
-    "NO_FILE_PROVIDED": "Aucun fichier fourni",
-    "CHATID_REQUIRED": "L'identifiant de la conversation est requis",
-    "TOO_MANY_REQUESTS": "Trop de requêtes, veuillez réessayer dans quelques instants"
-  }
-}, 
   "game": {
     "loading": "Chargement du jeu...",
     "your_turn": "À votre tour",
@@ -450,11 +451,11 @@
     "rematch_invite_expired": "Cette invitation n'est plus disponible.",
     "rematch_cancel_error": "Impossible d'annuler l'invitation."
   },
-"imaginary-friend": {
-  "loading": "Ton ami imaginaire est en cours de démarrage...",
-  "title": "Ami imaginaire",
-  "rate-limit": "Tu pourras envoyer un autre message dans {{seconds}} secondes.",
-  "placeholder": "Écris un message...",
-  "send": "Envoyer"
-}
+  "imaginary-friend": {
+    "loading": "Ton ami imaginaire est en cours de démarrage...",
+    "title": "Ami imaginaire",
+    "rate-limit": "Tu pourras envoyer un autre message dans {{seconds}} secondes.",
+    "placeholder": "Écris un message...",
+    "send": "Envoyer"
+  }
 }

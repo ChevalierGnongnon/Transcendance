@@ -92,7 +92,8 @@
     "accept": "Annehmen",
     "decline": "Ablehnen",
     "failed-to-send": "Senden fehlgeschlagen. Die Nachricht wird nach dem Update gelöscht.",
-    "you-are-blocked": "Sie wurden blockiert"
+    "you-are-blocked": "Sie wurden blockiert",
+    "message-too-long": "Nachricht ist zu lang (max. {{max}} Zeichen)"
   },
   "friends": {
     "send-friend-request": "Freundschaftsanfrage senden",
@@ -342,74 +343,74 @@
     }
   },
   "analytics": {
-  "title": "Analyse-Dashboard",
-  "description": "Übersicht über deine Aktivitäten und deine KI-Nutzung.",
+    "title": "Analyse-Dashboard",
+    "description": "Übersicht über deine Aktivitäten und deine KI-Nutzung.",
 
-  "filters": {
-    "from": "Von:",
-    "to": "Bis:",
-    "7-days": "7 Tage",
-    "14-days": "14 Tage",
-    "30-days": "30 Tage",
-    "apply": "Anwenden",
-    "export-csv": "CSV exportieren"
+    "filters": {
+      "from": "Von:",
+      "to": "Bis:",
+      "7-days": "7 Tage",
+      "14-days": "14 Tage",
+      "30-days": "30 Tage",
+      "apply": "Anwenden",
+      "export-csv": "CSV exportieren"
+    },
+
+    "errors": {
+      "load-failed": "Die Analysedaten konnten nicht geladen werden.",
+      "invalid-date-range": "Das Startdatum darf nicht nach dem Enddatum liegen."
+    },
+
+    "loading": "Analysedaten werden geladen...",
+    "no-data": "Keine Analysedaten verfügbar.",
+
+    "overview": {
+      "games-played": "Gespielte Spiele",
+      "games-won": "Gewonnene Spiele",
+      "games-lost": "Verlorene Spiele",
+      "win-rate": "Siegesquote",
+      "ai-requests": "KI-Anfragen",
+      "total-tokens": "Tokens insgesamt"
+    },
+
+    "charts": {
+      "activity-over-time": "Aktivität im Zeitverlauf",
+      "distribution": "Verteilung",
+
+      "ai-usage-over-time": "KI-Nutzung im Zeitverlauf",
+      "games-over-time": "Spiele im Zeitverlauf",
+
+      "ai-token-usage": "KI-Token-Nutzung",
+      "games-played": "Gespielte Spiele",
+
+      "input-tokens": "Eingabe-Tokens",
+      "output-tokens": "Ausgabe-Tokens",
+      "thinking-tokens": "Thinking-Tokens",
+
+      "won": "Gewonnen",
+      "lost": "Verloren",
+      "drawn": "Unentschieden",
+
+      "total-tokens": "Tokens insgesamt",
+      "total-games": "Spiele insgesamt",
+      "EMAIL_EXISTS": "Diese E-Mail wird bereits verwendet",
+      "FILE_DELETED": "Diese Datei wurde gelöscht.",
+      "INVALID_AVATAR": "Ungültiger Avatar",
+      "ENTRY_TOO_LONG": "Die Eingabe ist zu lang",
+      "QUERY_REQUIRED": "Bitte geben Sie einen Suchbegriff ein",
+      "ALREADY_FRIENDS": "Sie sind bereits befreundet",
+      "ALREADY_SENT": "Sie haben bereits eine Anfrage gesendet",
+      "INCOMING_EXISTS": "Diese Person hat Ihnen bereits eine Freundschaftsanfrage gesendet.",
+      "CANNOT_ADD_SELF": "Sie können sich nicht selbst als Freund hinzufügen.",
+      "FRIENDSHIP_NOT_FOUND": "Diese Freundschaft existiert nicht",
+      "FILE_NOT_FOUND": "Datei nicht gefunden",
+      "FORBIDDEN": "Zugriff auf diese Datei verweigert",
+      "INVALID_FILE_ID": "Ungültige Datei-ID",
+      "NO_FILE_PROVIDED": "Keine Datei angegeben",
+      "CHATID_REQUIRED": "Die Konversations-ID ist erforderlich",
+      "TOO_MANY_REQUESTS": "Zu viele Anfragen, bitte versuchen Sie es gleich noch einmal"
+    }
   },
-
-  "errors": {
-    "load-failed": "Die Analysedaten konnten nicht geladen werden.",
-    "invalid-date-range": "Das Startdatum darf nicht nach dem Enddatum liegen."
-  },
-
-  "loading": "Analysedaten werden geladen...",
-  "no-data": "Keine Analysedaten verfügbar.",
-
-  "overview": {
-    "games-played": "Gespielte Spiele",
-    "games-won": "Gewonnene Spiele",
-    "games-lost": "Verlorene Spiele",
-    "win-rate": "Siegesquote",
-    "ai-requests": "KI-Anfragen",
-    "total-tokens": "Tokens insgesamt"
-  },
-
-  "charts": {
-    "activity-over-time": "Aktivität im Zeitverlauf",
-    "distribution": "Verteilung",
-
-    "ai-usage-over-time": "KI-Nutzung im Zeitverlauf",
-    "games-over-time": "Spiele im Zeitverlauf",
-
-    "ai-token-usage": "KI-Token-Nutzung",
-    "games-played": "Gespielte Spiele",
-
-    "input-tokens": "Eingabe-Tokens",
-    "output-tokens": "Ausgabe-Tokens",
-    "thinking-tokens": "Thinking-Tokens",
-
-    "won": "Gewonnen",
-    "lost": "Verloren",
-    "drawn": "Unentschieden",
-
-    "total-tokens": "Tokens insgesamt",
-    "total-games": "Spiele insgesamt",
-    "EMAIL_EXISTS": "Diese E-Mail wird bereits verwendet",
-    "FILE_DELETED": "Diese Datei wurde gelöscht.",
-    "INVALID_AVATAR": "Ungültiger Avatar",
-    "ENTRY_TOO_LONG": "Die Eingabe ist zu lang",
-    "QUERY_REQUIRED": "Bitte geben Sie einen Suchbegriff ein",
-    "ALREADY_FRIENDS": "Sie sind bereits befreundet",
-    "ALREADY_SENT": "Sie haben bereits eine Anfrage gesendet",
-    "INCOMING_EXISTS": "Diese Person hat Ihnen bereits eine Freundschaftsanfrage gesendet.",
-    "CANNOT_ADD_SELF": "Sie können sich nicht selbst als Freund hinzufügen.",
-    "FRIENDSHIP_NOT_FOUND": "Diese Freundschaft existiert nicht",
-    "FILE_NOT_FOUND": "Datei nicht gefunden",
-    "FORBIDDEN": "Zugriff auf diese Datei verweigert",
-    "INVALID_FILE_ID": "Ungültige Datei-ID",
-    "NO_FILE_PROVIDED": "Keine Datei angegeben",
-    "CHATID_REQUIRED": "Die Konversations-ID ist erforderlich",
-    "TOO_MANY_REQUESTS": "Zu viele Anfragen, bitte versuchen Sie es gleich noch einmal"
-  }
-},
   "game": {
     "loading": "Spiel wird geladen...",
     "your_turn": "Du bist am Zug",
@@ -450,11 +451,11 @@
     "rematch_invite_expired": "Diese Einladung ist nicht mehr verfügbar.",
     "rematch_cancel_error": "Einladung konnte nicht abgebrochen werden."
   },
-"imaginary-friend": {
-  "loading": "Dein imaginärer Freund wird gestartet...",
-  "title": "Imaginärer Freund",
-  "rate-limit": "Du kannst in {{seconds}} Sekunden eine weitere Nachricht senden.",
-  "placeholder": "Schreibe eine Nachricht...",
-  "send": "Senden"
-}
+  "imaginary-friend": {
+    "loading": "Dein imaginärer Freund wird gestartet...",
+    "title": "Imaginärer Freund",
+    "rate-limit": "Du kannst in {{seconds}} Sekunden eine weitere Nachricht senden.",
+    "placeholder": "Schreibe eine Nachricht...",
+    "send": "Senden"
+  }
 }

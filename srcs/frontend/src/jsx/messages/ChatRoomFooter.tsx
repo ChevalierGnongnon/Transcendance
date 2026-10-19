@@ -137,6 +137,7 @@ function ChatRoomFooter({
     <MessageInput
       chatId={chatId}
       userId={userId}
+      opponentId={userId}
       value={messageText}
       onChange={setMessageText}
       onSend={handleSendMessage}

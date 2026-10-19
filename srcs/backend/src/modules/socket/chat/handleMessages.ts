@@ -4,6 +4,7 @@ import { Prisma } from '@/generated/prisma/client.js';
 
 import type { newMessageInput } from '../schemas.js';
 import type { MessageType } from '@/generated/prisma/enums.js';
+import { handleGameMessages } from './handleGameMessages.ts';
 
 const creatNewChat = async (chatId: string, currUserId: string, recipientId: string) => {
   const newChat = await prisma.chat.create({
@@ -56,6 +57,7 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
     if (!socket.userId || socket.userId !== sender.id) {
       throw new Error('Not authorized to send this message');
     }
+
     const isblocked = await prisma.block.findFirst({
       where: {
         OR: [
@@ -66,6 +68,10 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
     });
 
     if (isblocked) throw new Error('You are blocked');
+
+    if (type === 'invitation') {
+      return await handleGameMessages(socket, payload);
+    }
 
     const chat = await prisma.chat.findFirst({
       where: {
@@ -82,86 +88,22 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
       },
     });
 
-    if (!chat) throw new Error('Chat not found or access denied');
+    let savedMessage = null;
+    if (chat) {
+      if (chat.id !== chatId)
+        throw new Error(
+          'Chat conflict: existing chatId for these users does not match the provided chatId'
+        );
+      savedMessage = await creatNewMessage(id, chat.id, sender.id, content, type);
+    } else {
+      const newChat = await creatNewChat(chatId, sender.id, recipientId);
 
-    // let savedMessage = null;
-    // if (chat) {
-    //   if (chat.id !== chatId)
-    //     throw new Error(
-    //       'Chat conflict: existing chatId for these users does not match the provided chatId'
-    //     );
-    //   savedMessage = await creatNewMessage(id, chat.id, sender.id, content, type);
-    // } else {
-    //   const newChat = await creatNewChat(chatId, sender.id, recipientId);
+      if (!newChat) throw new Error('Chat not creat new chat');
 
-    let existingInvitationId: string | null = null;
-    const savedMessage = await prisma.$transaction(async (tx) => {
-      if (type === 'invitation') {
-        await tx.$queryRaw`SELECT id FROM chats WHERE id = ${chatId} FOR UPDATE`;
-        await tx.$executeRaw`
-          UPDATE game_invitations AS gi
-          INNER JOIN messages AS m ON m.id = gi.invitation_id
-          SET gi.status = 'expired', gi.resolved_at = NOW(3)
-          WHERE m.chat_id = ${chatId}
-            AND gi.status = 'pending'
-            AND m.created_at < ${new Date(Date.now() - 24 * 60 * 60 * 1000)}
-        `;
-        const pendingInvitations = await tx.$queryRaw<{ invitation_id: string }[]>`
-          SELECT gi.invitation_id
-          FROM game_invitations AS gi
-          INNER JOIN messages AS m ON m.id = gi.invitation_id
-          WHERE m.chat_id = ${chatId} AND gi.status = 'pending'
-          LIMIT 1
-        `;
-        if (pendingInvitations.length > 0) {
-          existingInvitationId = pendingInvitations[0].invitation_id;
-          return null;
-        }
-      }
-
-      const message = await tx.message.create({
-        data: { chatId, senderId: sender.id, content, type },
-        select: {
-          id: true,
-          chatId: true,
-          content: true,
-          createdAt: true,
-          type: true,
-          sender: {
-            select: {
-              id: true,
-              pseudo: true,
-              profilePhoto: {
-                select: {
-                  name: true,
-                  id: true,
-                },
-              },
-            },
-          },
-        },
-      });
-
-      if (type === 'invitation') {
-        await tx.$executeRaw`
-          INSERT INTO game_invitations (invitation_id, status)
-          VALUES (${message.id}, 'pending')
-        `;
-      }
-
-      return message;
-    });
-
-    if (existingInvitationId) {
-      socket.emit('game:invitation-created', { invitationId: existingInvitationId, chatId });
-      return 'Message saved and send to recipient';
+      savedMessage = await creatNewMessage(id, newChat.id, sender.id, content, type);
     }
 
     if (!savedMessage) throw new Error('Can not save message');
-
-    if (type === 'invitation') {
-      socket.emit('game:invitation-created', { invitationId: savedMessage.id, chatId });
-    }
 
     if (type === 'file') {
       const updated = await prisma.file.update({

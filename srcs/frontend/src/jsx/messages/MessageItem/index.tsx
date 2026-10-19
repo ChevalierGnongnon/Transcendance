@@ -15,11 +15,13 @@ function Message(props: MessageProps) {
       case 'text':
         return props.content;
       case 'invitation':
-        return <MessageInvitationItem content={props.content} />;
+        return <MessageInvitationItem {...props} />;
       case 'file':
-        return <MessageFileItem fileId={fileId} isOwnMessage={isOwnMessage} status={props.status} />;
+        return (
+          <MessageFileItem fileId={fileId} isOwnMessage={isOwnMessage} status={props.status} />
+        );
       default:
-        return props.content;
+        return null;
     }
   };
 

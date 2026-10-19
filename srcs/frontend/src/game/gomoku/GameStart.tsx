@@ -223,7 +223,7 @@ function GameStart() {
         id: crypto.randomUUID(),
         chatId: finalChatId,
         recipientId: opponentId,
-        sender: { id: me.id, profilePhoto: { name: me.profilePhoto.name } },
+        sender: { id: me.id, profilePhoto: me.profilePhoto },
         type: "invitation",
         content: `${boardSize}`
       };

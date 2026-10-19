@@ -18,7 +18,6 @@ import { onValidated } from './socket.validators.js';
 import { requireAuth } from './socket.middlewares.js';
 import { handleMessages } from './chat/handleMessages.js';
 import { handleMessageRead } from './chat/handleLastReadMessage.js';
-import { handleStartChat } from './chat/handleStartChat.js';
 import {
   handleGameAccept,
   handleGameClose,
@@ -55,7 +54,6 @@ export const setupSocketConnection = (io: Server) => {
 
     onValidated(socket, 'new-chat-message', messageSchema, handleMessages);
     onValidated(socket, 'last-read-message', lastReadSchema, handleMessageRead);
-    onValidated(socket, 'start-new-chat', startNewChatSchema, handleStartChat);
     onValidated(socket, 'game:accept', gameAcceptSchema, (currentSocket, payload) =>
       handleGameAccept(io, currentSocket, payload)
     );
