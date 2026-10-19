@@ -138,7 +138,22 @@
     "EMAIL_REQUIRED": "Email is required",
     "EMAIL_TOO_LONG": "Email is too long",
     "EMAIL_INVALID": "Email is invalid",
-    "EMAIL_EXISTS": "This email is already in use"
+    "EMAIL_EXISTS": "This email is already in use",
+    "FILE_DELETED": "This file has been deleted.",
+    "INVALID_AVATAR": "Invalid avatar",
+    "ENTRY_TOO_LONG": "Input is too long",
+    "QUERY_REQUIRED": "Please enter a search term",
+    "ALREADY_FRIENDS": "You are already friends",
+    "ALREADY_SENT": "You have already sent a request",
+    "INCOMING_EXISTS": "This person has already sent you a friend request.",
+    "CANNOT_ADD_SELF": "You cannot add yourself as a friend.",
+    "FRIENDSHIP_NOT_FOUND": "This friendship does not exist",
+    "FILE_NOT_FOUND": "File not found",
+    "FORBIDDEN": "Access to this file is forbidden",
+    "INVALID_FILE_ID": "Invalid file ID",
+    "NO_FILE_PROVIDED": "No file provided",
+    "CHATID_REQUIRED": "Conversation ID is required",
+    "TOO_MANY_REQUESTS": "Too many requests, please try again in a moment"
   },
   "privacy-policy": {
     "title": "Privacy Policy",
@@ -370,23 +385,7 @@
       "drawn": "drawn",
 
       "total-tokens": "Total Tokens",
-      "total-games": "Total Games",
-      "EMAIL_EXISTS": "This email is already in use",
-      "FILE_DELETED": "This file has been deleted.",
-      "INVALID_AVATAR": "Invalid avatar",
-      "ENTRY_TOO_LONG": "Input is too long",
-      "QUERY_REQUIRED": "Please enter a search term",
-      "ALREADY_FRIENDS": "You are already friends",
-      "ALREADY_SENT": "You have already sent a request",
-      "INCOMING_EXISTS": "This person has already sent you a friend request.",
-      "CANNOT_ADD_SELF": "You cannot add yourself as a friend.",
-      "FRIENDSHIP_NOT_FOUND": "This friendship does not exist",
-      "FILE_NOT_FOUND": "File not found",
-      "FORBIDDEN": "Access to this file is forbidden",
-      "INVALID_FILE_ID": "Invalid file ID",
-      "NO_FILE_PROVIDED": "No file provided",
-      "CHATID_REQUIRED": "Conversation ID is required",
-      "TOO_MANY_REQUESTS": "Too many requests, please try again in a moment"
+      "total-games": "Total Games"
     }
   },
   "game": {
