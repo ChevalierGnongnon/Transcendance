@@ -95,24 +95,15 @@ function HeaderOnline() {
                         </ul>
                     </div>
                 </section>
-                <section className="header-middle d-none d-xl-flex">
+                <section className="header-middle">
                     <SearchBar 
                         ClassName="search-bar"
-                        PlaceHolder={t('common.search-user')}
-                        ListClassName="header-search-results"
-                        BreakPoint={768}
-                        onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
-                    />
-                </section>
-                <section className="d-xl-none header-middle">
-                    <SearchBar
-                        ClassName="mini-search-bar"
                         PlaceHolder={t('common.search')}
-                        ListClassName="mini-search-list"
-                        BreakPoint={null}
+                        ListClassName="header-search-results"
                         onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
                     />
                 </section>
+                
                 <section className="header-right">
                     <div className="d-none d-xl-flex d-flex gap-4">
                             <div className="dropdown pp-icons-header">

@@ -83,7 +83,6 @@ export function validate(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
-// Only for files since we can download (default_avatar)
 export function attachUserIfPresent(req: Request, res: Response, next: NextFunction){
   const token = req.cookies.token;
 

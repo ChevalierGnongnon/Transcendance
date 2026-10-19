@@ -78,8 +78,6 @@ function AddFriend({
         ClassName="search-bar"
         PlaceHolder={t('common.search')}
         ListClassName="header-search-results"
-        BreakPoint={768}
-        PlaceHolder={t('common.search-user')}
         onSelectUser={(user) => {
           setUser(user);
         }}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import '../../scss/messages.scss';
@@ -20,7 +20,9 @@ interface SearchResult {
 export interface nProps {
   setActiveView: (view: ActiveView) => void;
   setActiveChat: (chat: IChatPreview | null) => void;
-  setChatList: (chatList: IChatPreview[]) => void;
+  // real type of a useState setter: accepts a new list OR a function (prev => newList)
+  // needed because startChat uses setChatList(prev => ...) to add the new chat to the latest list
+  setChatList: Dispatch<SetStateAction<IChatPreview[]>>;
 }
 
 function NewChat({ setActiveChat, setActiveView, setChatList }: nProps) {
@@ -58,11 +60,9 @@ function NewChat({ setActiveChat, setActiveView, setChatList }: nProps) {
         ClassName="search-bar"
         PlaceHolder={t('common.search')}
         ListClassName="header-search-results"
-        BreakPoint={768}
         onSelectUser={(user) => {
           setUser(user);
         }}
-        PlaceHolder={t('common.find-user')}
       />
       {user && (
         <div className="row g-4 justify-content-center shortcut-grid">

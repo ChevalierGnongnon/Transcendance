@@ -19,7 +19,6 @@ interface SearchResult{
 interface SearchBarProps {
     ClassName: string, 
     ListClassName: string, 
-    BreakPoint : number | null,
     PlaceHolder: string | undefined,
     onSelectUser: (result: SearchResult) => void;
 }
