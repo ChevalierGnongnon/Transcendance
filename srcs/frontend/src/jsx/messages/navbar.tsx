@@ -37,7 +37,6 @@ function NavBar({ activeView, setActiveView }: NavBarProps) {
       >
         <option value="chats">{t('message.chats')}</option>
         <option value="new message">{t('message.new-message')}</option>
-        <option value="block">{t('message.block')}</option>
         <option value="imaginaryfriend">{t('message.imaginary-friend')}</option>
       </select>
     </>

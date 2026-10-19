@@ -22,12 +22,11 @@ export default function useChat() {
   const [error, setError] = useState<Error | null>(null);
   const [otherlastReadMessagesId, setOtherlastReadMessagesId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (activeChat && activeView === 'chats') {
-      setActiveChat(null);
-    }
-  }, [activeView]);
-
+  /**
+   * Loads the chat list on mount with cancellation safety.
+   * On unmount: cancels pending updates and resets chat state to defaults.
+   * Empty deps → runs once.
+   */
   useEffect(() => {
     let cancelled = false;
     setLoadingChats(true);
@@ -49,6 +48,11 @@ export default function useChat() {
     };
   }, []);
 
+  /**
+   * Fetches and caches messages for chats not yet present in `allMessages`.
+   * Runs whenever chatList or allMessages change; skips work if nothing is missing.
+   * Failed fetches resolve to empty arrays. Cancellation-safe.
+   */
   useEffect(() => {
     const missing = chatList.filter((c) => !allMessages.has(c.chatId));
     if (missing.length === 0) return;
@@ -165,33 +169,6 @@ export default function useChat() {
     }
   }, [activeChat, allMessages]);
 
-  const addMessage = useCallback((newMessage: IMessage) => {
-    setAllMessages((prev) => {
-      const next = new Map(prev);
-
-      const currentMessages = next.get(newMessage.chatId) ?? [];
-      next.set(newMessage.chatId, [...currentMessages, newMessage]);
-
-      return next;
-    });
-  }, []);
-
-  const updateMessage = useCallback((message: IMessage, status: MessageStatus) => {
-    setAllMessages((prev) => {
-      const next = new Map(prev);
-      const messages = next.get(message.chatId) ?? [];
-
-      const index = messages.findIndex((m) => m.id === message.id);
-      if (index === -1) return prev;
-
-      const updated = [...messages];
-      updated[index] = { ...updated[index], status: status };
-      next.set(message.chatId, updated);
-
-      return next;
-    });
-  }, []);
-
   const updateLastReadMessageId = (chatId: string, messageId: string | null) => {
     setChatList((prev) =>
       prev.map((chat) =>
@@ -207,6 +184,11 @@ export default function useChat() {
     socket.emit('last-read-message', { chatId, userId: me?.id, messageId });
   };
 
+  /**
+   * Listens for 'chat:last-read-message' socket events and updates the
+   * corresponding chat's `otherlastReadMessagesId`. Registers on mount,
+   * cleans up on unmount. Empty deps = listener bound once.
+   */
   useEffect(() => {
     const handleUserReadMessages = (data: { chatId: string; messageId: string | null }) => {
       if (!data.chatId || !data.messageId) return;
@@ -229,6 +211,49 @@ export default function useChat() {
     };
   }, []);
 
+  /**
+   * Appends a message to its chat's message list in the store.
+   * Creates a new array/Map for immutable state update.
+   * @param newMessage The message to add.
+   */
+  const addMessage = useCallback((newMessage: IMessage) => {
+    setAllMessages((prev) => {
+      const next = new Map(prev);
+
+      const currentMessages = next.get(newMessage.chatId) ?? [];
+      next.set(newMessage.chatId, [...currentMessages, newMessage]);
+
+      return next;
+    });
+  }, []);
+
+  /**
+   * Updates the status of a message identified by `message.id` within its chat.
+   * No-op if the message isn't found. Immutably replaces the Map.
+   * @param message The message to update.
+   * @param status The new message status.
+   */
+  const updateMessage = useCallback((message: IMessage, status: MessageStatus) => {
+    setAllMessages((prev) => {
+      const next = new Map(prev);
+      const messages = next.get(message.chatId) ?? [];
+
+      const index = messages.findIndex((m) => m.id === message.id);
+      if (index === -1) return prev;
+
+      const updated = [...messages];
+      updated[index] = { ...updated[index], status: status };
+      next.set(message.chatId, updated);
+
+      return next;
+    });
+  }, []);
+
+  /**
+   * Opens an existing chat with the user, or creates and prepends a new one.
+   * Sets it as the active chat and switches the view to 'conversation'.
+   * @param user The user to start or resume a conversation with.
+   */
   const startChat = useCallback(
     (user: SearchResult) => {
       const existingChat = chatList.find((c) => c.user.id === user.id);
@@ -260,6 +285,12 @@ export default function useChat() {
     const id = chat?.otherlastReadMessagesId ?? null;
     setOtherlastReadMessagesId(id);
   }, [chatList, activeChat]);
+
+  useEffect(() => {
+    if (activeChat && activeView === 'chats') {
+      setActiveChat(null);
+    }
+  }, [activeView]);
 
   return {
     me,

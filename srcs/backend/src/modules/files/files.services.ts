@@ -13,7 +13,7 @@ import fs from 'fs';
 import type { File } from '@/generated/prisma/client.js';
 import { getIo } from '../socket/socket-register.ts';
 
-interface FileData{
+interface FileData {
   file: File;
   fileBuffer: Buffer;
 }
@@ -25,7 +25,7 @@ class FileService {
         type: 'default_avatar',
       },
       select: {
-        id: true, 
+        id: true,
         name: true,
       },
     });
@@ -100,18 +100,18 @@ class FileService {
 
         fs.writeFileSync(`/app/uploads/${fileName}`, bufferToWrite);
 
-        const member = await prisma.chatMember.findUnique({
-          where: {
-            chatId_userId: {
-              chatId: chatId,
-              userId: userId,
-            },
-          },
-        });
-
-        if (!member) {
-          throw new ForbiddenRightsError('User is not a member of this chat');
-        }
+        //         const member = await prisma.chatMember.findUnique({
+        //           where: {
+        //             chatId_userId: {
+        //               chatId: chatId,
+        //               userId: userId,
+        //             },
+        //           },
+        //         });
+        //
+        //         if (!member) {
+        //           throw new ForbiddenRightsError('User is not a member of this chat');
+        //         }
 
         await prisma.file.create({
           data: {
@@ -119,7 +119,7 @@ class FileService {
             name: fileName,
             type: type,
             userId: userId,
-            chatId: chatId,
+            // chatId: chatId,
             mimeType: extension === 'webp' ? 'image/webp' : fileType.mime,
             expiresAt: expiredDate,
           },
@@ -137,8 +137,7 @@ class FileService {
         id: fileId,
       },
     });
-    if (file === null)
-      throw new NotFoundError('File not found');
+    if (file === null) throw new NotFoundError('File not found');
 
     if (file.userId !== requesterId)
       throw new ForbiddenRightsError("User doesn't have the rights for this file");
@@ -150,7 +149,7 @@ class FileService {
         id: fileId,
       },
     });
-    
+
     try {
       fs.unlinkSync(`/app/uploads/${file.name}`);
     } catch (err) {
@@ -159,18 +158,17 @@ class FileService {
       }
     }
 
-    if (file.chatId !== null){
-      if (chat !== null){
+    if (file.chatId !== null) {
+      if (chat !== null) {
         const chatMembers = await prisma.chatMember.findMany({
-          where:{
+          where: {
             chatId: chat,
-          }
-        })
-        const rooms = chatMembers.map((member) => `user-${member.userId}`)
+          },
+        });
+        const rooms = chatMembers.map((member) => `user-${member.userId}`);
         const io = getIo();
-        if (!io)
-            return ;
-        io.to(rooms).emit('file-deleted', {fileId})
+        if (!io) return;
+        io.to(rooms).emit('file-deleted', { fileId });
       }
     }
   }
@@ -181,31 +179,26 @@ class FileService {
         id: fileId,
       },
     });
-    if (file === null)
-      throw new NotFoundError('File not found');
+    if (file === null) throw new NotFoundError('File not found');
     let fileBuffer;
-    let data : FileData;
-    try{
+    let data: FileData;
+    try {
       fileBuffer = fs.readFileSync(`/app/uploads/${file.name}`);
-      data = {file, fileBuffer};
+      data = { file, fileBuffer };
     } catch (err) {
       if (err instanceof Error && 'code' in err && err.code === 'ENOENT') {
-        throw new NotFoundError("File has been deleted");
+        throw new NotFoundError('File has been deleted');
       }
-      throw (err)
+      throw err;
     }
-    
-    if (file.type === 'default_avatar')
-      return (data);
-    if (requesterId === undefined)
-      throw new InvalidAuthentificationError('Invalid user id');
-    if (file.type === 'profile_photo')
-      return (data);
+
+    if (file.type === 'default_avatar') return data;
+    if (requesterId === undefined) throw new InvalidAuthentificationError('Invalid user id');
+    if (file.type === 'profile_photo') return data;
     if (file.type === 'message') {
       const chatId = file?.chatId;
-      if (!chatId)
-        throw new ForbiddenRightsError("User doesn't have the rights for this file");
-      
+      if (!chatId) throw new ForbiddenRightsError("User doesn't have the rights for this file");
+
       const member = await prisma.chatMember.findUnique({
         where: {
           chatId_userId: {
@@ -214,10 +207,9 @@ class FileService {
           },
         },
       });
-      if (!member)
-        throw new ForbiddenRightsError("User doesn't have the rights for this file");
+      if (!member) throw new ForbiddenRightsError("User doesn't have the rights for this file");
     }
-    return (data);
+    return data;
   }
 }
 

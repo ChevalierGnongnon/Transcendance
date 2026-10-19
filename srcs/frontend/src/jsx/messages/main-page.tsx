@@ -52,7 +52,7 @@ function Messages() {
 
   return (
     <>
-      <NavBar activeView={activeView} setActiveView={setActiveView}></NavBar>
+      <NavBar activeView={activeView} setActiveView={setActiveView} />
 
       <div className={activeView !== 'chats' ? 'd-flex' : ''}>
         <div
