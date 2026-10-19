@@ -132,7 +132,22 @@
     "EMAIL_REQUIRED": "E-Mail ist erforderlich",
     "EMAIL_TOO_LONG": "E-Mail ist zu lang",
     "EMAIL_INVALID": "Ungültiges E-Mail-Format",
-    "EMAIL_EXISTS": "Diese E-Mail wird bereits verwendet"
+    "EMAIL_EXISTS": "Diese E-Mail wird bereits verwendet",
+    "FILE_DELETED": "Diese Datei wurde gelöscht.",
+    "INVALID_AVATAR": "Ungültiger Avatar",
+    "ENTRY_TOO_LONG": "Die Eingabe ist zu lang",
+    "QUERY_REQUIRED": "Bitte geben Sie einen Suchbegriff ein",
+    "ALREADY_FRIENDS": "Sie sind bereits befreundet",
+    "ALREADY_SENT": "Sie haben bereits eine Anfrage gesendet",
+    "INCOMING_EXISTS": "Diese Person hat Ihnen bereits eine Freundschaftsanfrage gesendet.",
+    "CANNOT_ADD_SELF": "Sie können sich nicht selbst als Freund hinzufügen.",
+    "FRIENDSHIP_NOT_FOUND": "Diese Freundschaft existiert nicht",
+    "FILE_NOT_FOUND": "Datei nicht gefunden",
+    "FORBIDDEN": "Zugriff auf diese Datei verweigert",
+    "INVALID_FILE_ID": "Ungültige Datei-ID",
+    "NO_FILE_PROVIDED": "Keine Datei angegeben",
+    "CHATID_REQUIRED": "Die Konversations-ID ist erforderlich",
+    "TOO_MANY_REQUESTS": "Zu viele Anfragen, bitte versuchen Sie es gleich noch einmal"
   },
   "privacy-policy": {
     "title": "Datenschutzerklärung",
@@ -386,23 +401,7 @@
     "drawn": "Unentschieden",
 
     "total-tokens": "Tokens insgesamt",
-    "total-games": "Spiele insgesamt",
-    "EMAIL_EXISTS": "Diese E-Mail wird bereits verwendet",
-    "FILE_DELETED": "Diese Datei wurde gelöscht.",
-    "INVALID_AVATAR": "Ungültiger Avatar",
-    "ENTRY_TOO_LONG": "Die Eingabe ist zu lang",
-    "QUERY_REQUIRED": "Bitte geben Sie einen Suchbegriff ein",
-    "ALREADY_FRIENDS": "Sie sind bereits befreundet",
-    "ALREADY_SENT": "Sie haben bereits eine Anfrage gesendet",
-    "INCOMING_EXISTS": "Diese Person hat Ihnen bereits eine Freundschaftsanfrage gesendet.",
-    "CANNOT_ADD_SELF": "Sie können sich nicht selbst als Freund hinzufügen.",
-    "FRIENDSHIP_NOT_FOUND": "Diese Freundschaft existiert nicht",
-    "FILE_NOT_FOUND": "Datei nicht gefunden",
-    "FORBIDDEN": "Zugriff auf diese Datei verweigert",
-    "INVALID_FILE_ID": "Ungültige Datei-ID",
-    "NO_FILE_PROVIDED": "Keine Datei angegeben",
-    "CHATID_REQUIRED": "Die Konversations-ID ist erforderlich",
-    "TOO_MANY_REQUESTS": "Zu viele Anfragen, bitte versuchen Sie es gleich noch einmal"
+    "total-games": "Spiele insgesamt"
   }
 },
   "game": {

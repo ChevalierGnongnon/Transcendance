@@ -132,7 +132,22 @@
     "EMAIL_REQUIRED": "L'email est requis",
     "EMAIL_TOO_LONG": "L'email est trop long",
     "EMAIL_INVALID": "L'email est invalide",
-    "EMAIL_EXISTS": "Cet email est déjà utilisé"
+    "EMAIL_EXISTS": "Cet email est déjà utilisé",
+    "FILE_DELETED": "Ce fichier a été supprimé.",
+    "INVALID_AVATAR": "L'avatar est invalide",
+    "ENTRY_TOO_LONG": "L'entrée est trop longue",
+    "QUERY_REQUIRED": "Veuillez saisir une entrée",
+    "ALREADY_FRIENDS": "Vous êtes déjà amis",
+    "ALREADY_SENT": "Vous avez déjà envoyé la demande",
+    "INCOMING_EXISTS": "Cette personne vous a déjà envoyé une demande d'ami.",
+    "CANNOT_ADD_SELF": "Vous ne pouvez pas être ami avec vous-même.",
+    "FRIENDSHIP_NOT_FOUND": "Cette amitié n'existe pas",
+    "FILE_NOT_FOUND": "Fichier introuvable",
+    "FORBIDDEN": "Accès au fichier interdit",
+    "INVALID_FILE_ID": "Identifiant du fichier invalide",
+    "NO_FILE_PROVIDED": "Aucun fichier fourni",
+    "CHATID_REQUIRED": "L'identifiant de la conversation est requis",
+    "TOO_MANY_REQUESTS": "Trop de requêtes, veuillez réessayer dans quelques instants"
   },
   "privacy-policy": {
     "title": "Politique de confidentialité",
@@ -386,23 +401,7 @@
     "drawn": "match nul",
 
     "total-tokens": "Total des tokens",
-    "total-games": "Total des parties",
-    "EMAIL_EXISTS": "Cet email est déjà utilisé",
-    "FILE_DELETED": "Ce fichier a été supprimé.",
-    "INVALID_AVATAR": "L'avatar est invalide",
-    "ENTRY_TOO_LONG": "L'entrée est trop longue",
-    "QUERY_REQUIRED": "Veuillez saisir une entrée",
-    "ALREADY_FRIENDS": "Vous êtes déjà amis",
-    "ALREADY_SENT": "Vous avez déjà envoyé la demande",
-    "INCOMING_EXISTS": "Cette personne vous a déjà envoyé une demande d'ami.",
-    "CANNOT_ADD_SELF": "Vous ne pouvez pas être ami avec vous-même.",
-    "FRIENDSHIP_NOT_FOUND": "Cette amitié n'existe pas",
-    "FILE_NOT_FOUND": "Fichier introuvable",
-    "FORBIDDEN": "Accès au fichier interdit",
-    "INVALID_FILE_ID": "Identifiant du fichier invalide",
-    "NO_FILE_PROVIDED": "Aucun fichier fourni",
-    "CHATID_REQUIRED": "L'identifiant de la conversation est requis",
-    "TOO_MANY_REQUESTS": "Trop de requêtes, veuillez réessayer dans quelques instants"
+    "total-games": "Total des parties"
   }
 }, 
   "game": {
