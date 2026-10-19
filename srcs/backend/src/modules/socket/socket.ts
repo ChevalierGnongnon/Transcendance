@@ -12,7 +12,7 @@ import {
   gameStateSchema,
   lastReadSchema,
   messageSchema,
-  startNewChatSchema,
+  typingMessageSchema,
 } from './schemas.js';
 import { onValidated } from './socket.validators.js';
 import { requireAuth } from './socket.middlewares.js';
@@ -30,6 +30,7 @@ import {
   handleGameMove,
   handleGameRequestRematch,
 } from './game/socket-game.js';
+import { startTypingMessage, stopTypingMessage } from './chat/handleTypingMessage.ts';
 import {
   showConnectedUsers,
   connectUser,
@@ -97,6 +98,8 @@ export const setupSocketConnection = (io: Server) => {
     onValidated(socket, 'game:leave', gameCloseSchema, (currentSocket, payload) =>
       handleGameClose(io, currentSocket, payload)
     );
+    onValidated(socket, 'chat:typing:start', typingMessageSchema, startTypingMessage);
+    onValidated(socket, 'chat:typing:stop', typingMessageSchema, stopTypingMessage);
 
     socket.on('disconnect', (reason) => {
       console.log('User disconnected:', socket.id);

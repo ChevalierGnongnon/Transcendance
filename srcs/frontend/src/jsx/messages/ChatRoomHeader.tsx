@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../scss/messages.scss';
 import { socket } from './socket';
 import type { ActiveView } from './types';
-import { Ban, CircleUserRound, CircleX, UserRoundPen } from 'lucide-react';
+import { Ban, CircleUserRound, CircleX, MessageCircleMore } from 'lucide-react';
 import { useAuth } from '../auth/auth-context';
 
 export interface ChatRoomHeader {
@@ -26,6 +26,7 @@ function ChatRoomHeader({
   const { t } = useTranslation();
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [isTyping, setIsTyping] = useState<boolean>(false);
 
   const blockUser = async (userId: string) => {
     try {
@@ -38,7 +39,6 @@ function ChatRoomHeader({
         logout();
         throw new Error('Unauthorized, logging out...');
       }
-      console.log(res);
       if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
       await onLoadRelationship();
@@ -46,6 +46,29 @@ function ChatRoomHeader({
       console.error('Error unBlockUser', e);
     }
   };
+
+  useEffect(() => {
+    const startTyping = async (data: { chatId: string }) => {
+      setIsTyping(chatId === data.chatId);
+    };
+
+    const stopTyping = (data: { chatId: string }) => {
+      if (chatId === data.chatId) {
+        setIsTyping(false);
+      }
+    };
+    socket.on('chat:typing:start', startTyping);
+    socket.on('chat:typing:stop', stopTyping);
+
+    return () => {
+      socket.off('chat:typing:start', startTyping);
+      socket.off('chat:typing:stop', stopTyping);
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsTyping(false);
+  }, [chatId]);
 
   return (
     <>
@@ -59,7 +82,13 @@ function ChatRoomHeader({
         >
           <CircleX size={32} />
         </button>
-        <div>{pseudo}</div>
+        <div className="d-flex align-items-center gap-2">
+          <div>{pseudo}</div>
+          <div className={`text-secondary fs-6 fw-light fst-italic ${isTyping ? '' : 'invisible'}`}>
+            <MessageCircleMore size={16} />
+            typing...
+          </div>
+        </div>
 
         <div className="d-flex gap-2">
           <button

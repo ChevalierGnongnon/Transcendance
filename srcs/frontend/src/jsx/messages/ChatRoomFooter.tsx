@@ -105,6 +105,7 @@ function ChatRoomFooter({
   return (
     <MessageInput
       chatId={chatId}
+      userId={userId}
       value={messageText}
       onChange={setMessageText}
       onSend={handleSendMessage}

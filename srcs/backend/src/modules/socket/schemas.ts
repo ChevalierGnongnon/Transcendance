@@ -72,6 +72,11 @@ export const gameCloseSchema = z.object({
   gameId: z.uuid(),
 });
 
+export const typingMessageSchema = z.object({
+  chatId: z.uuid(),
+  to: z.uuid(),
+});
+
 export type newMessageInput = z.infer<typeof messageSchema>;
 export type lastReadInput = z.infer<typeof lastReadSchema>;
 export type startNewChat = z.infer<typeof startNewChatSchema>;
@@ -84,3 +89,4 @@ export type gameRequestRematchInput = z.infer<typeof gameRequestRematchSchema>;
 export type gameMoveInput = z.infer<typeof gameMoveSchema>;
 export type gameStateInput = z.infer<typeof gameStateSchema>;
 export type gameCloseInput = z.infer<typeof gameCloseSchema>;
+export type typingMessage = z.infer<typeof typingMessageSchema>;
