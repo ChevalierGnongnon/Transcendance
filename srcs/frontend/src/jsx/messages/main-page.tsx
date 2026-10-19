@@ -2,6 +2,7 @@ import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import ChatRoom from './ChatRoom';
 import NavBar from './navbar';
@@ -11,25 +12,19 @@ import ChatList from './ChatList';
 import ImaginaryFriend from '../ai/ImaginaryFriend';
 import { socket } from './socket.js';
 import { useUser } from './hooks/useUser';
-import { ActiveView, IChatPreview, IMessage } from './types';
+import type { ActiveView, IChatPreview, IMessage, MessageStatus } from './types';
 import { fetchChats, fetchMessages } from './utils/api';
-import { useTranslation } from 'react-i18next';
 
 function Messages() {
   const me = useUser();
-
-  // const isConnected = useSocketConnection();
+  const { t } = useTranslation();
   const [activeView, setActiveView] = useState<ActiveView>('chats');
-
-  const [loadingMessages, setLoadingMessages] = useState(false);
-
   const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
   const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
   const [loadingChats, setLoadingChats] = useState(false);
+  const [loadingMessages, setLoadingMessages] = useState(false);
   const [chatList, setChatList] = useState<IChatPreview[]>([]);
   const [error, setError] = useState<Error | null>(null);
-
-  const { t } = useTranslation();
 
   useEffect(() => {
     let cancelled = false;
@@ -90,11 +85,11 @@ function Messages() {
         return { ...chat, unreadCount: 0 };
       }
 
-      if (!chat.lastReadMessagesId) {
+      if (!chat.mylastReadMessagesId) {
         return { ...chat, unreadCount: messages.length };
       }
 
-      const idx = messages.findIndex((m) => m.id === chat.lastReadMessagesId);
+      const idx = messages.findIndex((m) => m.id === chat.mylastReadMessagesId);
       return {
         ...chat,
         unreadCount: idx === -1 ? messages.length : messages.length - idx - 1,
@@ -104,28 +99,29 @@ function Messages() {
 
   useEffect(() => {
     const handleNewMessage = async (newMessage: IMessage) => {
-      const chatId = newMessage.chatId;
-      const messageId = newMessage.id;
+      // const chatId = newMessage.chatId;
+      // const messageId = newMessage.id;
+      const { chatId, id: messageId, sender } = newMessage;
 
       try {
         if (!chatId || !messageId) throw new Error('Bad message');
 
-        const newChat = {
-          chatId: chatId,
-          user: newMessage.sender,
-          lastReadMessagesId: null,
-          unreadCount: 0,
-        };
         setChatList((prev) => {
           const exist = prev.some((m) => m.chatId === chatId);
-          return exist ? prev : [newChat, ...prev];
+          if (exist) return prev;
+          return [
+            {
+              chatId: chatId,
+              user: sender,
+              pseudo: sender.pseudo ?? 'Unknown',
+              mylastReadMessagesId: null,
+              unreadCount: 0,
+            },
+            ...prev,
+          ];
         });
 
         addMessage(newMessage);
-
-        if (activeChat && chatId === activeChat.chatId) {
-          updateLastReadMessageId(chatId, messageId);
-        }
       } catch (error) {
         console.error('Failed to handle new messages', error);
       }
@@ -136,7 +132,19 @@ function Messages() {
     return () => {
       socket.off('new-chat-message', handleNewMessage);
     };
-  }, [chatList, allMessages]);
+  }, []);
+
+  useEffect(() => {
+    if (activeChat) {
+      const messages = allMessages.get(activeChat.chatId) ?? [];
+      if (messages.length > 0) {
+        const lastMessageId = messages[messages.length - 1].id;
+        if (lastMessageId) {
+          updateLastReadMessageId(activeChat.chatId, lastMessageId);
+        }
+      }
+    }
+  }, [activeChat, allMessages]);
 
   const addMessage = useCallback((newMessage: IMessage) => {
     setAllMessages((prev) => {
@@ -152,23 +160,35 @@ function Messages() {
     });
   }, []);
 
+  const updateMessage = useCallback((message: IMessage, status: MessageStatus) => {
+    setAllMessages((prev) => {
+      const next = new Map(prev);
+      const messages = next.get(message.chatId) ?? [];
+
+      const index = messages.findIndex((m) => m.id === message.id);
+      if (index === -1) return prev;
+
+      const updated = [...messages];
+      updated[index] = { ...updated[index], status: status };
+      next.set(message.chatId, updated);
+
+      return next;
+    });
+  }, []);
+
   const updateLastReadMessageId = (chatId: string, messageId: string | null) => {
     setChatList((prev) =>
       prev.map((chat) =>
         chat.chatId === chatId
           ? {
               ...chat,
-              lastReadMessagesId: messageId,
+              mylastReadMessagesId: messageId,
             }
           : chat
       )
     );
 
-    socket.emit('last-read-message', {
-      chatId: chatId,
-      userId: me?.id,
-      messageId: messageId,
-    });
+    socket.emit('last-read-message', { chatId, userId: me?.id, messageId });
   };
 
   if (!me) {
@@ -193,9 +213,11 @@ function Messages() {
             me={me}
             chat={activeChat}
             setActiveView={setActiveView}
-            messages={allMessages}
+            messages={allMessages.get(activeChat.chatId) ?? []}
             onAddMessage={addMessage}
+            onUpdateMessage={updateMessage}
             updateLastReadMessageId={updateLastReadMessageId}
+            otherLastReadMessagesId={activeChat.otherlastReadMessagesId}
           />
         )}
         {activeView === 'new message' && (

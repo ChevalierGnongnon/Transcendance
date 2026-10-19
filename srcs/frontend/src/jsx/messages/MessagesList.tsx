@@ -2,19 +2,24 @@ import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
-import { Message } from './Message';
+// import { Message } from './Message';
+import Message from './MessageItem';
 import { IMessage, User } from './types';
 
 interface MessagesListProps {
   me: User;
   chatId: string;
   messages: IMessage[];
+  otherLastReadMessagesId: string | null;
 }
 
-function MessagesList({ me, chatId, messages }: MessagesListProps) {
+function MessagesList({ me, chatId, messages, otherLastReadMessagesId }: MessagesListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const lastReadIndex = otherLastReadMessagesId
+    ? messages.findIndex((m) => m.id === otherLastReadMessagesId)
+    : -1;
 
   const scrollToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
     messagesEndRef.current?.scrollIntoView({
@@ -27,18 +32,17 @@ function MessagesList({ me, chatId, messages }: MessagesListProps) {
     if (!containerRef.current) return;
 
     const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-    const atBottom = scrollHeight - scrollTop <= clientHeight + 10; // +10 для погрешности
+    const atBottom = scrollHeight - scrollTop <= clientHeight + 10;
     setIsAtBottom(atBottom);
   }, []);
 
-  //
-  //   useLayoutEffect(() => {
-  //     const el = containerRef.current;
-  //     if (!el) return;
-  //
-  //     el.scrollTop = el.scrollHeight;
-  //     setIsAtBottom(true);
-  //   }, [chatId]);
+  useLayoutEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    el.scrollTop = el.scrollHeight;
+    setIsAtBottom(true);
+  }, [chatId]);
 
   const handleScroll = useCallback(() => {
     checkIfAtBottom();
@@ -62,14 +66,12 @@ function MessagesList({ me, chatId, messages }: MessagesListProps) {
 
   return (
     <>
-      {/*<div className="chat-list chat-list-right my-2">*/}
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="chat-messages-container"
+        className="overflow-y-auto"
         style={{
           maxHeight: '65vh',
-          overflowY: 'auto',
           position: 'relative',
         }}
       >
@@ -89,7 +91,6 @@ function MessagesList({ me, chatId, messages }: MessagesListProps) {
         </ul>
         <div ref={messagesEndRef} style={{ height: '2px' }} />
       </div>
-      {/*</div>*/}
     </>
   );
 }

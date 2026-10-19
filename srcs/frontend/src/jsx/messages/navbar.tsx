@@ -24,10 +24,10 @@ function NavBar({ activeView, setActiveView }: NavBarProps) {
           <img src={moreIcon} alt="newone" />
         </div>
         <span onClick={() => setActiveView('new message')}>{t('message.new-message')}</span>
-        <div className="icon-message-message m-2" onClick={() => setActiveView('block')}>
+        {/*<div className="icon-message-message m-2" onClick={() => setActiveView('block')}>
           <img src={blockIcon} alt="block" />
-        </div>
-        <span onClick={() => setActiveView('block')}>{t('message.block')}</span>
+        </div>*/}
+        {/*<span onClick={() => setActiveView('block')}>{t('message.block')}</span>*/}
         <div className="icon-message-message m-2" onClick={() => setActiveView('imaginaryfriend')}>
           <img src={geminiIcon} alt="gemini" />
         </div>

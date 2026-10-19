@@ -87,7 +87,8 @@
     "game-invite": "Vous êtes invité à jouer au Gomoku",
     "board-size": "Taille du plateau : {{size}}",
     "accept": "Accepter",
-    "decline": "Refuser"
+    "decline": "Refuser",
+    "failed-to-send": "Échec de l'envoi. Le message sera supprimé après la mise à jour."
   },
   "friends": {
     "send-friend-request": "Envoyer une demande d'ami",

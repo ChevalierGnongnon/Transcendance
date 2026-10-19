@@ -87,7 +87,8 @@
     "game-invite": "You have been invited to play Gomoku",
     "board-size": "Board size: {{size}}",
     "accept": "Accept",
-    "decline": "Decline"
+    "decline": "Decline",
+    "failed-to-send": "Failed to send. Message will be deleted after the update."
   },
   "friends": {
     "send-friend-request": "Send a friend request",

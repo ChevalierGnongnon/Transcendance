@@ -1,6 +1,6 @@
 export type ActiveView = 'chats' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
-
 export type MessageType = 'text' | 'invitation' | 'file';
+export type MessageStatus = 'sending' | 'sent' | 'read' | 'error';
 
 export interface User {
   id: string;
@@ -14,17 +14,30 @@ export interface User {
   };
 }
 
+export interface SearchResult {
+  id: string;
+  firstName: string;
+  lastName: string;
+  pseudo: string;
+  profilePhoto: {
+    id: string;
+    name: string;
+  };
+}
+
 export interface IMessage {
   id: string;
   chatId: string;
   recipientId?: string;
   sender: {
     id: string;
+    pseudo?: string;
     profilePhoto: { name: string; id: string };
   };
   content: string;
   type: MessageType;
   createdAt?: string;
+  status?: MessageStatus;
 }
 
 export interface MessageProps {
@@ -35,6 +48,7 @@ export interface MessageProps {
   profilePhoto: { name: string; id: string };
   senderId: string;
   type: MessageType;
+  status: MessageStatus;
 }
 
 export interface IChatPreview {
@@ -47,7 +61,8 @@ export interface IChatPreview {
       id: string;
     };
   };
-  lastReadMessagesId: string | null;
+  mylastReadMessagesId: string | null;
+  otherlastReadMessagesId: string | null;
   unreadCount: number;
 }
 
@@ -55,9 +70,12 @@ export interface ChatRoomProps {
   me: User;
   chat: IChatPreview;
   setActiveView: (view: ActiveView) => void;
-  messages: Map<string, IMessage[]>;
+  // messages: Map<string, IMessage[]>;
+  messages: IMessage[];
   onAddMessage: (message: IMessage) => void;
+  onUpdateMessage: (message: IMessage, status: MessageStatus) => void;
   updateLastReadMessageId: (chatId: string, messageId: string | null) => void;
+  otherLastReadMessagesId: string | null;
 }
 
 export interface ChatProps {
@@ -73,4 +91,10 @@ export interface ChatListProps {
   chatList: IChatPreview[];
   loading: boolean;
   error: Error | null;
+}
+
+export interface newChatProps {
+  setActiveView: (view: ActiveView) => void;
+  setActiveChat: (chat: IChatPreview | null) => void;
+  setChatList: (chatList: IChatPreview[]) => void;
 }
