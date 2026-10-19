@@ -100,8 +100,17 @@ export interface ChatListProps {
 }
 
 export interface newChatProps {
+  autoStartUser?: SearchResult | null;
+  autoStart?: boolean;
+  setAutoStart: (autostart: boolean) => void;
   chatList: IChatPreview[];
   setActiveView: (view: ActiveView) => void;
   setActiveChat: (chat: IChatPreview | null) => void;
   setChatList: (chatList: IChatPreview[]) => void;
+  // onStartChat: (user: SearchResult) => void;
+}
+
+export interface NewChatState {
+  user?: SearchResult;
+  autoStart?: boolean;
 }

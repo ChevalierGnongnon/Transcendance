@@ -1,154 +1,151 @@
-import "../../scss/common-classes.scss"
-import "../../scss/common-variables.scss";
-import "../../scss/headers.scss";
-import { useState , useEffect, useRef} from "react";
-import { useApiFetch } from "../auth/use-api-fetch";
+import '../../scss/common-classes.scss';
+import '../../scss/common-variables.scss';
+import '../../scss/headers.scss';
+import { useState, useEffect, useRef } from 'react';
+import { useApiFetch } from '../auth/use-api-fetch';
 import { useTranslation } from 'react-i18next';
-import { useFriendships } from "../friends/useFriendships";
-interface SearchResult{
+import { useFriendships } from '../friends/useFriendships';
+interface SearchResult {
+  id: string;
+  firstName: string;
+  lastName: string;
+  pseudo: string;
+  profilePhoto: {
     id: string;
-    firstName: string;
-	lastName: string;
-	pseudo: string;
-	profilePhoto: {
-		id: string;
-		name: string;
-	};
+    name: string;
+  };
 }
 
 interface SearchBarProps {
-    ClassName: string, 
-    ListClassName: string, 
-    BreakPoint : number | null,
-    PlaceHolder: string | undefined,
-    onSelectUser: (result: SearchResult) => void;
+  ClassName: string;
+  ListClassName: string;
+  BreakPoint: number | null;
+  PlaceHolder: string | undefined;
+  onSelectUser: (result: SearchResult) => void;
 }
 
-function SearchBar(props: SearchBarProps){
-    const { t } = useTranslation();
-    const [input, setInput] = useState<string>("");
-    const [result, setResult] = useState<SearchResult[] | null>(null)
-    const [researchStarted, setResearchStarted] = useState<boolean>(false);
-    const ref = useRef<HTMLDivElement>(null);
-    const apiFetch = useApiFetch();
+function SearchBar(props: SearchBarProps) {
+  const { t } = useTranslation();
+  const [input, setInput] = useState<string>('');
+  const [result, setResult] = useState<SearchResult[] | null>(null);
+  const [researchStarted, setResearchStarted] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const apiFetch = useApiFetch();
 
-    const { getStatus } = useFriendships()
-    useEffect(() => {
-        async function search() {
-            if (input.trim() === "") {
-                setResult(null);
-                return;
-            }
+  const { getStatus } = useFriendships();
+  useEffect(() => {
+    async function search() {
+      if (input.trim() === '') {
+        setResult(null);
+        return;
+      }
 
-            try {
-                const res = await apiFetch("/api/users/search?q=" + encodeURIComponent(input), { credentials: "include" });
-                if (!res.ok) {
-                    setResult(null);
-                    return;
-                }
-                const data = await res.json();
-                setResult(data);
-            } catch {
-                setResult(null);
-            }
+      try {
+        const res = await apiFetch('/api/users/search?q=' + encodeURIComponent(input), {
+          credentials: 'include',
+        });
+        if (!res.ok) {
+          setResult(null);
+          return;
         }
-        let timeout = setTimeout(search, 300);
-        function timeManager(){
-            clearTimeout(timeout);
-        }
-        return(timeManager);
-    
-    }, [input]);
-    
-    function hideList(event: MouseEvent){
-        if (!ref.current)
-            return ;
-        if (!ref.current.contains(event.target as Node)){
-            setResult(null);
-        }
+        const data = await res.json();
+        setResult(data);
+      } catch {
+        setResult(null);
+      }
     }
-
-    function removeListener(){
-        window.removeEventListener("click", hideList)
+    let timeout = setTimeout(search, 300);
+    function timeManager() {
+      clearTimeout(timeout);
     }
+    return timeManager;
+  }, [input]);
 
-    useEffect(() => {
-        window.addEventListener("click", hideList);
-        return (removeListener)
-    }, []);
-    
-    return(
-        <>
-            <div className="search position-relative" ref={ref}>
-            
-                <input 
-                    type="search"
-                    name="search-bar"
-                    id="search-bar"
-                    className={props.ClassName}
-                    value={input}
-                    placeholder={props.PlaceHolder}
-                    onChange={
-                        function startResearch(event){
-                            setResearchStarted(true);
-                            setInput(event.target.value);
-                        }
+  function hideList(event: MouseEvent) {
+    if (!ref.current) return;
+    if (!ref.current.contains(event.target as Node)) {
+      setResult(null);
+    }
+  }
+
+  function removeListener() {
+    window.removeEventListener('click', hideList);
+  }
+
+  useEffect(() => {
+    window.addEventListener('click', hideList);
+    return removeListener;
+  }, []);
+
+  return (
+    <>
+      <div className="search position-relative" ref={ref}>
+        <input
+          type="search"
+          name="search-bar"
+          id="search-bar"
+          className={props.ClassName}
+          value={input}
+          placeholder={props.PlaceHolder}
+          onChange={function startResearch(event) {
+            setResearchStarted(true);
+            setInput(event.target.value);
+          }}
+        />
+        <ul className={`${props.ListClassName} position-absolute top-100 w-100 z-3`}>
+          {result === null ? null : result.length === 0 ? (
+            <li className="search-no-result">{t('common.no-search-results')}</li>
+          ) : (
+            result.map((user) => (
+              <li
+                className="d-flex align-items-center justify-content-center gap-2 gap-md-5 px-3"
+                key={user.id}
+                onClick={() => {
+                  props.onSelectUser(user);
+                  setResult(null);
+                }}
+              >
+                <figure className="d-none d-xl-block">
+                  <img
+                    src={
+                      user.profilePhoto?.id
+                        ? `/api/${user.profilePhoto.id}/download`
+                        : '/default-avatar.png'
                     }
-                />
-                <ul className={`${props.ListClassName} position-absolute top-100 w-100 z-3`}>
-                {   result === null ? null : result.length === 0 ? (
-                    <li className="search-no-result">{t('common.no-search-results')}</li>
-                    ) : (
-                        result.map((user)=>
-                            <li className="d-flex align-items-center justify-content-center gap-2 gap-md-5 px-3" key={user.id} onClick={(()=> props.onSelectUser(user))}>
-                                <figure className="d-none d-xl-block">
-                                    <img
-                                        src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'}
-                                        alt="avatar"
-                                        className={`avatar-msg ${getStatus(user.id)}-avatar`}
-                                    />
-                                </figure>
-                                <span className="d-flex search-result-name">
-                                    {
-                                        [user.lastName, user.firstName, user.pseudo].map((field, index) => {
-                                            const len = input.length;
-                                            const boldPart = field.slice(0, len);
-                                            const end = field.slice(len, field.length)
-                                            return (
-                                                    <span key={index}  className={`field-name ${index < 2 ? 'd-none d-xl-inline' : ''}`}>
-                                                        { index > 0 &&
-                                                            <span className="mx-4 d-none d-xl-inline"> | </span>
-                                                        }
-                                                        { boldPart.toLowerCase() === input.toLowerCase() &&
-                                                            <>
-                                                                <span>
-                                                                    <strong>{boldPart}</strong>
-                                                                </span>
-                                                                <span>
-                                                                    {end}
-                                                                </span>
-                                                            </>
-                                                        }
-                                                        { boldPart.toLowerCase() !== input.toLowerCase() &&
-                                                            <span>{field}</span>
-                                                        }
-                                                        
-                                                    </span>
-                                                )
-                                            }   
-                                        )
-                                    }
-                                </span>
-                            </li>
-                        )
-                    )
-                }
-                    
-                </ul>
-                
-            </div>
-            
-        </>
-    )
+                    alt="avatar"
+                    className={`avatar-msg ${getStatus(user.id)}-avatar`}
+                  />
+                </figure>
+                <span className="d-flex search-result-name">
+                  {[user.lastName, user.firstName, user.pseudo].map((field, index) => {
+                    const len = input.length;
+                    const boldPart = field.slice(0, len);
+                    const end = field.slice(len, field.length);
+                    return (
+                      <span
+                        key={index}
+                        className={`field-name ${index < 2 ? 'd-none d-xl-inline' : ''}`}
+                      >
+                        {index > 0 && <span className="mx-4 d-none d-xl-inline"> | </span>}
+                        {boldPart.toLowerCase() === input.toLowerCase() && (
+                          <>
+                            <span>
+                              <strong>{boldPart}</strong>
+                            </span>
+                            <span>{end}</span>
+                          </>
+                        )}
+                        {boldPart.toLowerCase() !== input.toLowerCase() && <span>{field}</span>}
+                      </span>
+                    );
+                  })}
+                </span>
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
+    </>
+  );
 }
 export default SearchBar;
