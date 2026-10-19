@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { requireAuth, validate} from './auth.middlewares.js';
+import { attachUserIfPresent, validate} from './auth.middlewares.js';
 import { loginValidator, registrationValidator} from './auth.validators.js';
 import { login, logout, checkAuth, register} from './auth.controllers.js';
 import { uploadImageConfig } from '../files/files.middlewares.ts';
@@ -13,6 +13,6 @@ router.post('/login', RateLimiter(15, 10, 'TOO_MANY_REQUESTS', true), loginValid
 router.post('/logout', logout);
 // 20 trys per hour
 router.post('/register', RateLimiter(60, 20, 'TOO_MANY_REQUESTS'),  uploadImageConfig.single('avatar'), registrationValidator, validate, register);
-router.get('/check-auth', requireAuth, checkAuth);
+router.get('/check-auth', attachUserIfPresent, checkAuth);
 
 export default router;

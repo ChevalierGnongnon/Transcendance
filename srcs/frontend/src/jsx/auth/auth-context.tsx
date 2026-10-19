@@ -27,7 +27,8 @@ export function AuthProvider({children}:{children:ReactNode}){
         await fetch('/api/check-auth',{
                 credentials: 'include'
         })
-        .then(res => setIsAuthenticated(res.ok))
+        .then(res => res.json())
+        .then(data => setIsAuthenticated(data.authenticated === true))
         .catch(() => setIsAuthenticated(false));
     }
 

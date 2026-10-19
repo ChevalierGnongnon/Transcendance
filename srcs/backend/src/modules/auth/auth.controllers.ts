@@ -41,8 +41,10 @@ export function logout(_req: Request, res: Response) {
   });
 }
 
-export function checkAuth(_req: Request, res: Response) {
-  res.status(200).json({ authenticated: true });
+export function checkAuth(req: Request, res: Response) {
+  if (!req.userId)
+    return (res.status(200).json({ authenticated: false }));
+  return (res.status(200).json({ authenticated: true }));
 }
 
 export async function register(req: Request, res: Response) {
