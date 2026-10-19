@@ -73,17 +73,6 @@ export interface IChatPreview {
   unreadCount: number;
 }
 
-export interface ChatRoomProps {
-  me: User;
-  chat: IChatPreview;
-  setActiveView: (view: ActiveView) => void;
-  // setChatList: (chatList: IChatPreview[]) => void;
-  messages: IMessage[];
-  onAddMessage: (message: IMessage) => void;
-  onUpdateMessage: (message: IMessage, status: MessageStatus) => void;
-  otherLastReadMessagesId: string | null;
-}
-
 export interface NewChatState {
   user?: SearchResult;
   autoStart?: boolean;
