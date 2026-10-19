@@ -41,7 +41,7 @@
     overflow-y: auto;
 }
 
-.header-search-results li li {
+.header-search-results li {
     border-bottom: 1px solid white;
     padding: 1%;
     &:hover{
@@ -49,12 +49,12 @@
     }
 }
 
-.header-search-results li figure li figure {
+.header-search-results li figure {
     margin: 0;
 }
 
 
-.header-search-results li img li img {
+.header-search-results li img {
     height: 80px;
     width: 80px;
     border-radius: 50%;
