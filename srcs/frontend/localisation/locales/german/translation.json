@@ -377,6 +377,7 @@
     "games-played": "Gespielte Spiele",
     "games-won": "Gewonnene Spiele",
     "games-lost": "Verlorene Spiele",
+    "games-drawn": "Unentschieden",
     "win-rate": "Siegesquote",
     "ai-requests": "KI-Anfragen",
     "total-tokens": "Tokens insgesamt"

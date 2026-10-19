@@ -251,6 +251,12 @@ function Analytics() {
                     value={analytics.overview.gamesLost}
                 />
             </div>
+            <div className="col-12 col-sm-5 col-lg-4">
+                <AnalyticsCard
+                    title={t("analytics.overview.games-drawn")}
+                    value={analytics.overview.gamesDrawn}
+                />
+            </div>
             <div className="col-12 col-sm-6 col-lg-4">
                 <AnalyticsCard
                     title={t("analytics.overview.win-rate")}
@@ -261,12 +267,6 @@ function Analytics() {
                 <AnalyticsCard
                     title={t("analytics.overview.ai-requests")}
                     value={analytics.overview.aiRequests}
-                />
-            </div>
-            <div className="col-12 col-sm-6 col-lg-4">
-                <AnalyticsCard
-                    title={t("analytics.overview.total-tokens")}
-                    value={analytics.overview.totalTokens}
                 />
             </div>
         </div>

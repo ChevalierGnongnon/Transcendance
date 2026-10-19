@@ -377,6 +377,7 @@
     "games-played": "Parties jouées",
     "games-won": "Parties gagnées",
     "games-lost": "Parties perdues",
+    "games-drawn": "Match nul",
     "win-rate": "Taux de victoire",
     "ai-requests": "Requêtes IA",
     "total-tokens": "Total des tokens"

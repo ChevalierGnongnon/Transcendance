@@ -377,6 +377,7 @@
     "games-played": "Зіграно ігор",
     "games-won": "Виграно ігор",
     "games-lost": "Програно ігор",
+    "games-drawn": "нічи",
     "win-rate": "Відсоток перемог",
     "ai-requests": "Запити до ШІ",
     "total-tokens": "Усього токенів"

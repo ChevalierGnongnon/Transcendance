@@ -355,6 +355,7 @@
     "games-played": "Games Played",
     "games-won": "Games Won",
     "games-lost": "Games Lost",
+    "games-drawn": "Games Drawn",
     "win-rate": "Win Rate",
     "ai-requests": "AI Requests",
     "total-tokens": "Total Tokens"
