@@ -1,25 +1,16 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
-import { socket } from './socket';
 import { useAuth } from '../auth/auth-context';
-import MessageInput from './MessageInput';
 import MessagesList from './MessagesList';
 import ChatRoomHeader from './ChatRoomHeader';
-import type { IMessage, ChatRoomProps, MessageType } from './types.js';
 import ChatRoomFooter from './ChatRoomFooter';
+import type { ChatRoomProps, Relationship } from './types.js';
 
 function ChatRoom(roomProps: ChatRoomProps) {
-  console.log('Render ChatRoom');
-  console.log(roomProps.otherLastReadMessagesId);
-  const { t } = useTranslation();
-  // const navigate = useNavigate();
   const { logout } = useAuth();
-  // const [messageText, setMessageText] = useState<string>('');
-  const [relationship, setRelationship] = useState({
+  const [relationship, setRelationship] = useState<Relationship>({
     isFriend: false,
     requestSent: false,
     requestReceived: false,
@@ -151,8 +142,11 @@ function ChatRoom(roomProps: ChatRoomProps) {
     <>
       <div className="chat-list chat-list-right my-2">
         <ChatRoomHeader
-          pseudo={roomProps.chat.user.pseudo}
+          chatId={chat.chatId}
+          userId={chat.user.id}
+          pseudo={chat.user.pseudo}
           onSetActiveView={roomProps.setActiveView}
+          onLoadRelationship={loadRelationship}
         />
 
         <MessagesList
@@ -166,34 +160,11 @@ function ChatRoom(roomProps: ChatRoomProps) {
           chatId={chat.chatId}
           userId={chat.user.id}
           sender={me}
-          isBlocked={relationship.blockedByMe}
+          relationship={relationship}
           onAddMessage={onAddMessage}
           onUpdateMessage={onUpdateMessage}
           onLoadRelationship={loadRelationship}
         />
-
-        {/*{relationship.blockedByMe ? (
-          <div className="input-group group-new-message my-3 mt-auto">
-            <input
-              type="button"
-              value={t('friends.unblock')}
-              className="accept-button px-2"
-              onClick={() => {
-                unBlockUser(roomProps.chat.user.id);
-              }}
-            />
-          </div>
-        ) : (
-          <MessageInput
-            chatId={roomProps.chat.chatId}
-            opponentId={roomProps.chat.user.id}
-            value={messageText}
-            onChange={setMessageText}
-            onSend={handleSendMessage}
-            // onAddMessage
-            // onUpdateMessage
-          />
-        )}*/}
       </div>
     </>
   );

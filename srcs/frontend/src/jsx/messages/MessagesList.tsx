@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
-// import { Message } from './Message';
 import Message from './MessageItem';
 import { IMessage, User } from './types';
 

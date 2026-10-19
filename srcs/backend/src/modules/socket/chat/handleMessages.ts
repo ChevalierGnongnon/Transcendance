@@ -18,7 +18,7 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
       },
     });
 
-    if (isblocked) return;
+    if (isblocked) throw new Error('You are blocked');
 
     const chat = await prisma.chat.findFirst({
       where: {
@@ -33,7 +33,6 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
     });
 
     if (!chat) throw new Error('Chat not found or access denied');
-    // throw new Error();
 
     let existingInvitationId: string | null = null;
     const savedMessage = await prisma.$transaction(async (tx) => {
@@ -100,10 +99,13 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
 
     if (!savedMessage) throw new Error('Can not save message');
 
+<<<<<<< HEAD
     if (type === 'invitation') {
       socket.emit('game:invitation-created', { invitationId: savedMessage.id, chatId });
     }
 
+=======
+>>>>>>> 14a03e1 (feat(chat): implement block functionality in header, disable input for blocked)
     socket.to(`user-${recipientId}`).emit('new-chat-message', savedMessage);
 
     return savedMessage;

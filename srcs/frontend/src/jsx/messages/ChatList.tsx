@@ -7,7 +7,6 @@ import type { ChatListProps } from './types';
 
 function ChatList(props: ChatListProps) {
   const { t } = useTranslation();
-  // const [unread, setUnread] = useState<[{ chatId: string; count: string }]>();
 
   return (
     <>

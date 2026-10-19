@@ -104,8 +104,6 @@ function Messages() {
 
   useEffect(() => {
     const handleNewMessage = async (newMessage: IMessage) => {
-      // const chatId = newMessage.chatId;
-      // const messageId = newMessage.id;
       const { chatId, id: messageId, sender } = newMessage;
 
       try {

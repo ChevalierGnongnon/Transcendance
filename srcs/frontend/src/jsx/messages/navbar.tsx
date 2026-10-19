@@ -1,6 +1,5 @@
 import messageIcon from '../../assets/icons/message-60.png';
 import moreIcon from '../../assets/icons/plus.png';
-import blockIcon from '../../assets/icons/croix.png';
 import geminiIcon from '../../assets/icons/gemini.png';
 import { useTranslation } from 'react-i18next';
 import { ActiveView } from './types';
@@ -24,10 +23,6 @@ function NavBar({ activeView, setActiveView }: NavBarProps) {
           <img src={moreIcon} alt="newone" />
         </div>
         <span onClick={() => setActiveView('new message')}>{t('message.new-message')}</span>
-        {/*<div className="icon-message-message m-2" onClick={() => setActiveView('block')}>
-          <img src={blockIcon} alt="block" />
-        </div>*/}
-        {/*<span onClick={() => setActiveView('block')}>{t('message.block')}</span>*/}
         <div className="icon-message-message m-2" onClick={() => setActiveView('imaginaryfriend')}>
           <img src={geminiIcon} alt="gemini" />
         </div>

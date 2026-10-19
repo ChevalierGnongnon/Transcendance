@@ -24,13 +24,10 @@ function MessageStatus({ status, isOwnMessage }: MessageStatusProps) {
   const getStatusIcon = () => {
     switch (status) {
       case 'sending':
-        // return <span className="status-icon sending">○</span>;
         return <Clock size={12} />;
       case 'sent':
-        // return <span className="status-icon sent">✓</span>;
         return <Check size={12} />;
       case 'read':
-        // return <span className="status-icon read">✓✓</span>;
         return <CheckCheck size={12} />;
       default:
         return null;
