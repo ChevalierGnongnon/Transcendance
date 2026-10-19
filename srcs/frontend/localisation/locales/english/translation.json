@@ -427,7 +427,11 @@
     "rematch_invite_cancel": "Rematch invitation cancelled.",
     "rematch_invite_error": "Could not send rematch invitation.",
     "rematch_invite_expired": "This invitation is no longer available.",
-    "rematch_cancel_error": "Could not cancel invitation."
+    "rematch_cancel_error": "Could not cancel invitation.",
+    "invitation_accepted": "Invitation accepted",
+    "invitation_declinedd": "Invitation declined",
+    "invitation_expired": "Invitation expired",
+    "invitation_unavailable": "Invitation status unavalaible"
   },
   "imaginary-friend": {
     "loading": "Starting your imaginary friend...",

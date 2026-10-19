@@ -1,6 +1,6 @@
 import { prisma } from '../../lib/prisma.js';
 import { NotFoundError } from '../../common/errors.js';
-import FileService  from '../files/files.services.ts';
+import FileService from '../files/files.services.ts';
 import { updateProfilePhoto } from './users.controllers.ts';
 class UsersService {
   async getActiveGame(userId: string) {
@@ -50,14 +50,12 @@ class UsersService {
         },
       },
     });
-    
 
     if (!user) {
       throw new NotFoundError('User not found');
     }
     return user;
   }
-
 
   async getAllUsers() {
     const users = await prisma.user.findMany({
@@ -71,6 +69,7 @@ class UsersService {
         lastName: true,
         email: true,
       },
+      take: 20,
     });
 
     if (!users) {
@@ -78,69 +77,68 @@ class UsersService {
     }
     return users;
   }
-  async updateProfilePhoto(UserId: string, FileId: string){
+  async updateProfilePhoto(UserId: string, FileId: string) {
     const oldPpId = await prisma.user.findUnique({
-      where:{
+      where: {
         id: UserId,
       },
       select: {
         profilePhotoId: true,
-      }
-    })
+      },
+    });
     const checkNewFileId = await prisma.file.findUnique({
-      where:{
+      where: {
         id: FileId,
-      }
+      },
     });
     if (!checkNewFileId || checkNewFileId.type !== 'default_avatar') {
       throw new Error('INVALID_AVATAR');
     }
-    
-    await prisma.user.update({ 
-      where: { 
-        id: UserId
+
+    await prisma.user.update({
+      where: {
+        id: UserId,
       },
-      data: { 
-        profilePhotoId: FileId
-      }
-    })
-  
-    if (oldPpId?.profilePhotoId){
+      data: {
+        profilePhotoId: FileId,
+      },
+    });
+
+    if (oldPpId?.profilePhotoId) {
       try {
         await FileService.deleteFile(oldPpId.profilePhotoId, UserId);
-      } catch (err) {
-
-      }
+      } catch (err) {}
     }
   }
-  async searchUsers(input: string, currentUserId: string){
+  async searchUsers(input: string, currentUserId: string) {
     const res = await prisma.user.findMany({
-      where:{
+      where: {
         isDeleted: false,
         id: {
           not: currentUserId,
         },
-        OR:[{
-            lastName : {
-              startsWith: input
-            }
+        OR: [
+          {
+            lastName: {
+              startsWith: input,
+            },
           },
           {
-            firstName:{
-              startsWith: input
-            }
+            firstName: {
+              startsWith: input,
+            },
           },
           {
             pseudo: {
-              startsWith: input
-            }
-          }
-        ]
+              startsWith: input,
+            },
+          },
+        ],
       },
-      select:{
+      select: {
         id: true,
         pseudo: true,
-        firstName: true, 
+        firstName: true,
         lastName: true,
         profilePhoto: {
           select: {
@@ -150,22 +148,21 @@ class UsersService {
         },
       },
       orderBy: {
-        pseudo: "asc", 
+        pseudo: 'asc',
       },
       take: 20,
-      
-    })
-    return (res);
+    });
+    return res;
   }
-  async getUserInfo(pseudo: string){
+  async getUserInfo(pseudo: string) {
     const res = await prisma.user.findUnique({
       where: {
         pseudo: pseudo,
-      }, 
+      },
       select: {
         id: true,
         pseudo: true,
-        firstName: true, 
+        firstName: true,
         lastName: true,
         profilePhoto: {
           select: {
@@ -173,54 +170,49 @@ class UsersService {
             name: true,
           },
         },
-      }
-    })
-    if (!res)
-      throw new NotFoundError('USER_NOT_FOUND')
-    return (res);
+      },
+    });
+    if (!res) throw new NotFoundError('USER_NOT_FOUND');
+    return res;
   }
-  async updateLastName(userId: string, newLastName: string){
-    await prisma.user.update({ 
-      where: { 
+  async updateLastName(userId: string, newLastName: string) {
+    await prisma.user.update({
+      where: {
         id: userId,
       },
-      data: { 
+      data: {
         lastName: newLastName,
       },
-    })
+    });
   }
 
-  async updateFirstName(userId: string, newFirstName: string){
-    await prisma.user.update({ 
-      where: { 
+  async updateFirstName(userId: string, newFirstName: string) {
+    await prisma.user.update({
+      where: {
         id: userId,
       },
-      data: { 
+      data: {
         firstName: newFirstName,
       },
-    })
+    });
   }
-  async updatePseudo(userId: string, newPseudo: string){
+  async updatePseudo(userId: string, newPseudo: string) {
     const res = await prisma.user.findUnique({
-      where:{
+      where: {
         pseudo: newPseudo,
-      }
-    })
-    if (!res){
-      await prisma.user.update({ 
-        where: { 
+      },
+    });
+    if (!res) {
+      await prisma.user.update({
+        where: {
           id: userId,
         },
-        data: { 
+        data: {
           pseudo: newPseudo,
         },
-      })
-    }
-    else
-      throw new Error('PSEUDO_EXISTS');
+      });
+    } else throw new Error('PSEUDO_EXISTS');
   }
 }
-
-
 
 export default new UsersService();
