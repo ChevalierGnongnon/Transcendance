@@ -25,6 +25,8 @@ function Message(props: MessageProps) {
     }
   };
 
+  if (props.type === 'invitation' && isOwnMessage) return null;
+
   return (
     <>
       <li
@@ -33,7 +35,7 @@ function Message(props: MessageProps) {
         <figure className="avatar-msg">
           <img
             src={
-              props.profilePhoto.id
+              props.profilePhoto?.id
                 ? `/api/${props.profilePhoto.id}/download`
                 : '/default-avatar.png'
             }

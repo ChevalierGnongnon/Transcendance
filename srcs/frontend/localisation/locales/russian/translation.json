@@ -449,7 +449,11 @@
     "rematch_invite_cancel": "Приглашение на реванш отменено.",
     "rematch_invite_error": "Не удалось отправить приглашение на реванш.",
     "rematch_invite_expired": "Это приглашение больше недоступно.",
-    "rematch_cancel_error": "Не удалось отменить приглашение."
+    "rematch_cancel_error": "Не удалось отменить приглашение.",
+    "invitation_accepted": "Приглашение принято",
+    "invitation_declinedd": "Приглашение отклонено",
+    "invitation_expired": "Срок действия приглашения истёк",
+    "invitation_unavailable": "Статус приглашения недоступен"
   },
 
   "imaginary-friend": {

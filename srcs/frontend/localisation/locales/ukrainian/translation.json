@@ -449,7 +449,11 @@
     "rematch_invite_cancel": "Запрошення на реванш скасовано.",
     "rematch_invite_error": "Не вдалося надіслати запрошення на реванш.",
     "rematch_invite_expired": "Це запрошення більше недоступне.",
-    "rematch_cancel_error": "Не вдалося скасувати запрошення."
+    "rematch_cancel_error": "Не вдалося скасувати запрошення.",
+    "invitation_accepted": "Запрошення прийнято",
+    "invitation_declinedd": "Запрошення відхилено",
+    "invitation_expired": "Термін дії запрошення минув",
+    "invitation_unavailable": "Статус запрошення недоступний"
   },
   "imaginary-friend": {
     "loading": "Ваш уявний друг запускається...",

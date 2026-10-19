@@ -80,13 +80,13 @@ function MessageInvitationItem(props: MessageProps) {
     <div className="game-invite-box card p-2 m-2">
       <span className="text-message">
         {state === 'accepted'
-          ? 'Invitation accepted'
+          ? t('game.invitation_accepted')
           : state === 'declined'
-            ? 'Invitation declined'
+            ? t('game.invitation_declinedd')
             : state === 'expired'
-              ? 'Invitation expired'
+              ? t('game.invitation_expired')
               : state === 'error'
-                ? 'Invitation status unavailable'
+                ? t('game.invitation_unavailable')
                 : t('game.invite_message')}
       </span>
       <div className="invite-actions">

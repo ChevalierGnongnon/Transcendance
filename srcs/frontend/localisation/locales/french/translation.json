@@ -449,7 +449,11 @@
     "rematch_invite_cancel": "Invitation de revanche annulée.",
     "rematch_invite_error": "Impossible d'envoyer l'invitation de revanche.",
     "rematch_invite_expired": "Cette invitation n'est plus disponible.",
-    "rematch_cancel_error": "Impossible d'annuler l'invitation."
+    "rematch_cancel_error": "Impossible d'annuler l'invitation.",
+    "invitation_accepted": "Invitation acceptée",
+    "invitation_declinedd": "Invitation refusée",
+    "invitation_expired": "Invitation expirée",
+    "invitation_unavailable": "Statut de l'invitation indisponible"
   },
   "imaginary-friend": {
     "loading": "Ton ami imaginaire est en cours de démarrage...",

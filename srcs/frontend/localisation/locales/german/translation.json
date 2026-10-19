@@ -449,7 +449,11 @@
     "rematch_invite_cancel": "Revanche-Einladung abgebrochen.",
     "rematch_invite_error": "Revanche-Einladung konnte nicht gesendet werden.",
     "rematch_invite_expired": "Diese Einladung ist nicht mehr verfügbar.",
-    "rematch_cancel_error": "Einladung konnte nicht abgebrochen werden."
+    "rematch_cancel_error": "Einladung konnte nicht abgebrochen werden.",
+    "invitation_accepted": "Einladung angenommen",
+    "invitation_declinedd": "Einladung abgelehnt",
+    "invitation_expired": "Einladung abgelaufen",
+    "invitation_unavailable": "Einladungsstatus nicht verfügbar"
   },
   "imaginary-friend": {
     "loading": "Dein imaginärer Freund wird gestartet...",
