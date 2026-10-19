@@ -1,17 +1,21 @@
 import z from 'zod';
 
 export const messageSchema = z.object({
-  id: z.uuid().optional(),
+  id: z.uuid(),
   chatId: z.uuid(),
   recipientId: z.uuid(),
   sender: z.object({
     id: z.uuid(),
     profilePhoto: z.object({
+      id: z.uuid(),
       name: z.string(),
     }),
   }),
-  content: z.string(),
-  type: z.enum(['text', 'image', 'file', 'audio', 'invitation']),
+  content: z
+    .string()
+    .min(1, 'Message cannot be empty')
+    .max(5000, 'Message is too long (max 5000 characters)'),
+  type: z.enum(['text', 'file', 'invitation']),
   createdAt: z.date().optional(),
 });
 
@@ -71,6 +75,11 @@ export const gameCloseSchema = z.object({
   gameId: z.uuid(),
 });
 
+export const typingMessageSchema = z.object({
+  chatId: z.uuid(),
+  to: z.uuid(),
+});
+
 export type newMessageInput = z.infer<typeof messageSchema>;
 export type lastReadInput = z.infer<typeof lastReadSchema>;
 export type startNewChat = z.infer<typeof startNewChatSchema>;
@@ -83,3 +92,4 @@ export type gameRequestRematchInput = z.infer<typeof gameRequestRematchSchema>;
 export type gameMoveInput = z.infer<typeof gameMoveSchema>;
 export type gameStateInput = z.infer<typeof gameStateSchema>;
 export type gameCloseInput = z.infer<typeof gameCloseSchema>;
+export type typingMessage = z.infer<typeof typingMessageSchema>;

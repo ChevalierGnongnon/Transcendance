@@ -60,7 +60,10 @@
     "add-friend": "Ajouter un ami",
     "send-friendship-invitation": "Envoyer une demande d'ami",
     "friend-list": "Ma liste d'amis",
-    "my-stats": "Mes statistiques"
+    "my-stats": "Mes statistiques",
+    "block-user": "Bloquer l'utilisateur",
+    "unblock-user": "Débloquer l'utilisateur",
+    "remove-friend": "Retirer des amis"
   },
   "update-my-profile": {
     "change-account-infos": "Modifier les informations du compte",
@@ -87,7 +90,10 @@
     "game-invite": "Vous êtes invité à jouer au Gomoku",
     "board-size": "Taille du plateau : {{size}}",
     "accept": "Accepter",
-    "decline": "Refuser"
+    "decline": "Refuser",
+    "failed-to-send": "Échec de l'envoi. Le message sera supprimé après la mise à jour.",
+    "you-are-blocked": "Vous êtes bloqué",
+    "message-too-long": "Le message est trop long ({{max}} caractères max.)"
   },
   "friends": {
     "send-friend-request": "Envoyer une demande d'ami",
@@ -352,59 +358,59 @@
     }
   },
   "analytics": {
-  "title": "Tableau de bord analytique",
-  "description": "Vue d'ensemble de votre activité et de votre utilisation de l'IA.",
+    "title": "Tableau de bord analytique",
+    "description": "Vue d'ensemble de votre activité et de votre utilisation de l'IA.",
 
-  "filters": {
-    "from": "Du :",
-    "to": "Au :",
-    "7-days": "7 jours",
-    "14-days": "14 jours",
-    "30-days": "30 jours",
-    "apply": "Appliquer",
-    "export-csv": "Exporter en CSV"
+    "filters": {
+      "from": "Du :",
+      "to": "Au :",
+      "7-days": "7 jours",
+      "14-days": "14 jours",
+      "30-days": "30 jours",
+      "apply": "Appliquer",
+      "export-csv": "Exporter en CSV"
+    },
+
+    "errors": {
+      "load-failed": "Impossible de charger les données analytiques.",
+      "invalid-date-range": "La date de début ne peut pas être postérieure à la date de fin."
+    },
+
+    "loading": "Chargement des données analytiques...",
+    "no-data": "Aucune donnée analytique disponible.",
+
+    "overview": {
+      "games-played": "Parties jouées",
+      "games-won": "Parties gagnées",
+      "games-lost": "Parties perdues",
+      "games-drawn": "Match nul",
+      "win-rate": "Taux de victoire",
+      "ai-requests": "Requêtes IA",
+      "total-tokens": "Total des tokens"
+    },
+
+    "charts": {
+      "activity-over-time": "Activité au fil du temps",
+      "distribution": "Répartition",
+
+      "ai-usage-over-time": "Utilisation de l'IA au fil du temps",
+      "games-over-time": "Parties au fil du temps",
+
+      "ai-token-usage": "Utilisation des tokens IA",
+      "games-played": "Parties jouées",
+
+      "input-tokens": "Tokens d'entrée",
+      "output-tokens": "Tokens de sortie",
+      "thinking-tokens": "Tokens de raisonnement",
+
+      "won": "Gagnées",
+      "lost": "Perdues",
+      "drawn": "match nul",
+
+      "total-tokens": "Total des tokens",
+      "total-games": "Total des parties"
+    }
   },
-
-  "errors": {
-    "load-failed": "Impossible de charger les données analytiques.",
-    "invalid-date-range": "La date de début ne peut pas être postérieure à la date de fin."
-  },
-
-  "loading": "Chargement des données analytiques...",
-  "no-data": "Aucune donnée analytique disponible.",
-
-  "overview": {
-    "games-played": "Parties jouées",
-    "games-won": "Parties gagnées",
-    "games-lost": "Parties perdues",
-    "games-drawn": "Match nul",
-    "win-rate": "Taux de victoire",
-    "ai-requests": "Requêtes IA",
-    "total-tokens": "Total des tokens"
-  },
-
-  "charts": {
-    "activity-over-time": "Activité au fil du temps",
-    "distribution": "Répartition",
-
-    "ai-usage-over-time": "Utilisation de l'IA au fil du temps",
-    "games-over-time": "Parties au fil du temps",
-
-    "ai-token-usage": "Utilisation des tokens IA",
-    "games-played": "Parties jouées",
-
-    "input-tokens": "Tokens d'entrée",
-    "output-tokens": "Tokens de sortie",
-    "thinking-tokens": "Tokens de raisonnement",
-
-    "won": "Gagnées",
-    "lost": "Perdues",
-    "drawn": "match nul",
-
-    "total-tokens": "Total des tokens",
-    "total-games": "Total des parties"
-  }
-}, 
   "game": {
     "loading": "Chargement du jeu...",
     "your_turn": "À votre tour",
@@ -443,13 +449,17 @@
     "rematch_invite_cancel": "Invitation de revanche annulée.",
     "rematch_invite_error": "Impossible d'envoyer l'invitation de revanche.",
     "rematch_invite_expired": "Cette invitation n'est plus disponible.",
-    "rematch_cancel_error": "Impossible d'annuler l'invitation."
+    "rematch_cancel_error": "Impossible d'annuler l'invitation.",
+    "invitation_accepted": "Invitation acceptée",
+    "invitation_declinedd": "Invitation refusée",
+    "invitation_expired": "Invitation expirée",
+    "invitation_unavailable": "Statut de l'invitation indisponible"
   },
-"imaginary-friend": {
-  "loading": "Ton ami imaginaire est en cours de démarrage...",
-  "title": "Ami imaginaire",
-  "rate-limit": "Tu pourras envoyer un autre message dans {{seconds}} secondes.",
-  "placeholder": "Écris un message...",
-  "send": "Envoyer"
-}
+  "imaginary-friend": {
+    "loading": "Ton ami imaginaire est en cours de démarrage...",
+    "title": "Ami imaginaire",
+    "rate-limit": "Tu pourras envoyer un autre message dans {{seconds}} secondes.",
+    "placeholder": "Écris un message...",
+    "send": "Envoyer"
+  }
 }

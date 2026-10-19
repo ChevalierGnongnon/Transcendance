@@ -1,54 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import '../../scss/messages.scss';
-import { socket } from './socket';
-import { IChatPreview, ActiveView } from './types';
 import SearchBar from '../others/search-bar';
+import { SearchResult } from './types';
+import UserCard from './UserCard';
 
-interface SearchResult {
-  id: string;
-  firstName: string;
-  lastName: string;
-  pseudo: string;
-  profilePhoto: {
-    id: string;
-    name: string;
-  };
+export interface newChatProps {
+  autoStartUser?: SearchResult | null;
+  autoStart?: boolean;
+  setAutoStart: (autostart: boolean) => void;
+  onStartChat: (user: SearchResult) => void;
 }
 
-export interface nProps {
-  setActiveView: (view: ActiveView) => void;
-  setActiveChat: (chat: IChatPreview | null) => void;
-  setChatList: (chatList: IChatPreview[]) => void;
-}
-
-function NewChat({ setActiveChat, setActiveView, setChatList }: nProps) {
+function NewChat({
+  autoStartUser = null,
+  autoStart = false,
+  setAutoStart,
+  onStartChat,
+}: newChatProps) {
   const { t } = useTranslation();
+  const startedRef = useRef(false);
+  const [user, setUser] = useState<SearchResult | null>(autoStart ? autoStartUser : null);
 
-  const [user, setUser] = useState<SearchResult | null>(null);
-
-  const startChat = () => {
-    const userId = user?.id;
-    if (!userId) {
-      console.error('userId not defined, when try to start message');
-      return;
+  useEffect(() => {
+    if (autoStart && autoStartUser && !startedRef.current) {
+      startedRef.current = true;
+      onStartChat(autoStartUser);
     }
-    socket.emit('start-new-chat', { recipientId: userId }, (res: any) => {
-      if (res.ok) {
-        const newChat = res.data;
+    return () => {
+      setAutoStart(false);
+      setUser(null);
+    };
+  }, []);
 
-        setChatList((prev) => {
-          const exists = prev.some((chat) => chat.chatId === newChat.chatId);
-          return exists ? prev : [newChat, ...prev];
-        });
-        setActiveChat(newChat);
-        setActiveView('conversation');
-      } else {
-        console.error('Can not creat new chat:', res);
-      }
-    });
-  };
+  if (autoStart && autoStartUser) return null;
 
   return (
     <form className="form-new-chat p-3 my-2 gap-3 d-flex flex-column justify-content-center align-items-center">
@@ -56,7 +42,7 @@ function NewChat({ setActiveChat, setActiveView, setChatList }: nProps) {
       <h3>{t('message.search-user')} : </h3>
       <SearchBar
         ClassName="search-bar"
-        PlaceHolder={t('common.search')}
+        PlaceHolder={t('common.find-user')}
         ListClassName="header-search-results"
         BreakPoint={768}
         onSelectUser={(user) => {
@@ -65,20 +51,7 @@ function NewChat({ setActiveChat, setActiveView, setChatList }: nProps) {
       />
       {user && (
         <div className="row g-4 justify-content-center shortcut-grid">
-          <div className="col-12 col-md-6 col-xl-4">
-            <figure className="friend-card py-2 px-1 justify-content-center text-break">
-              <img src={`api/${user?.profilePhoto.id}/download`} alt={t('friends.avatar-alt')} />
-              <span>
-                {user?.firstName} {user?.lastName}
-              </span>
-              <input
-                type="button"
-                value={t('message.start-chat')}
-                className="accept-button text-break"
-                onClick={startChat}
-              />
-            </figure>
-          </div>
+          <UserCard user={user} actionLabel={t('message.start-chat')} onAction={onStartChat} />
         </div>
       )}
     </form>

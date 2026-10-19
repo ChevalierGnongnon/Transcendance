@@ -60,7 +60,10 @@
     "add-friend": "Einen Freund hinzufügen",
     "send-friendship-invitation": "Freundschaftsanfrage senden",
     "friend-list": "Meine Freundesliste",
-    "my-stats": "Meine Statistiken"
+    "my-stats": "Meine Statistiken",
+    "block-user": "Benutzer blockieren",
+    "unblock-user": "Benutzer entsperren",
+    "remove-friend": "Aus Freunden entfernen"
   },
   "update-my-profile": {
     "change-account-infos": "Kontoinformationen ändern",
@@ -87,7 +90,10 @@
     "game-invite": "Sie wurden zu einer Partie Gomoku eingeladen",
     "board-size": "Spielfeldgröße: {{size}}",
     "accept": "Annehmen",
-    "decline": "Ablehnen"
+    "decline": "Ablehnen",
+    "failed-to-send": "Senden fehlgeschlagen. Die Nachricht wird nach dem Update gelöscht.",
+    "you-are-blocked": "Sie wurden blockiert",
+    "message-too-long": "Nachricht ist zu lang (max. {{max}} Zeichen)"
   },
   "friends": {
     "send-friend-request": "Freundschaftsanfrage senden",
@@ -352,59 +358,59 @@
     }
   },
   "analytics": {
-  "title": "Analyse-Dashboard",
-  "description": "Übersicht über deine Aktivitäten und deine KI-Nutzung.",
+    "title": "Analyse-Dashboard",
+    "description": "Übersicht über deine Aktivitäten und deine KI-Nutzung.",
 
-  "filters": {
-    "from": "Von:",
-    "to": "Bis:",
-    "7-days": "7 Tage",
-    "14-days": "14 Tage",
-    "30-days": "30 Tage",
-    "apply": "Anwenden",
-    "export-csv": "CSV exportieren"
+    "filters": {
+      "from": "Von:",
+      "to": "Bis:",
+      "7-days": "7 Tage",
+      "14-days": "14 Tage",
+      "30-days": "30 Tage",
+      "apply": "Anwenden",
+      "export-csv": "CSV exportieren"
+    },
+
+    "errors": {
+      "load-failed": "Die Analysedaten konnten nicht geladen werden.",
+      "invalid-date-range": "Das Startdatum darf nicht nach dem Enddatum liegen."
+    },
+
+    "loading": "Analysedaten werden geladen...",
+    "no-data": "Keine Analysedaten verfügbar.",
+
+    "overview": {
+      "games-played": "Gespielte Spiele",
+      "games-won": "Gewonnene Spiele",
+      "games-lost": "Verlorene Spiele",
+      "games-drawn": "Unentschieden",
+      "win-rate": "Siegesquote",
+      "ai-requests": "KI-Anfragen",
+      "total-tokens": "Tokens insgesamt"
+    },
+
+    "charts": {
+      "activity-over-time": "Aktivität im Zeitverlauf",
+      "distribution": "Verteilung",
+
+      "ai-usage-over-time": "KI-Nutzung im Zeitverlauf",
+      "games-over-time": "Spiele im Zeitverlauf",
+
+      "ai-token-usage": "KI-Token-Nutzung",
+      "games-played": "Gespielte Spiele",
+
+      "input-tokens": "Eingabe-Tokens",
+      "output-tokens": "Ausgabe-Tokens",
+      "thinking-tokens": "Thinking-Tokens",
+
+      "won": "Gewonnen",
+      "lost": "Verloren",
+      "drawn": "Unentschieden",
+
+      "total-tokens": "Tokens insgesamt",
+      "total-games": "Spiele insgesamt"
+    }
   },
-
-  "errors": {
-    "load-failed": "Die Analysedaten konnten nicht geladen werden.",
-    "invalid-date-range": "Das Startdatum darf nicht nach dem Enddatum liegen."
-  },
-
-  "loading": "Analysedaten werden geladen...",
-  "no-data": "Keine Analysedaten verfügbar.",
-
-  "overview": {
-    "games-played": "Gespielte Spiele",
-    "games-won": "Gewonnene Spiele",
-    "games-lost": "Verlorene Spiele",
-    "games-drawn": "Unentschieden",
-    "win-rate": "Siegesquote",
-    "ai-requests": "KI-Anfragen",
-    "total-tokens": "Tokens insgesamt"
-  },
-
-  "charts": {
-    "activity-over-time": "Aktivität im Zeitverlauf",
-    "distribution": "Verteilung",
-
-    "ai-usage-over-time": "KI-Nutzung im Zeitverlauf",
-    "games-over-time": "Spiele im Zeitverlauf",
-
-    "ai-token-usage": "KI-Token-Nutzung",
-    "games-played": "Gespielte Spiele",
-
-    "input-tokens": "Eingabe-Tokens",
-    "output-tokens": "Ausgabe-Tokens",
-    "thinking-tokens": "Thinking-Tokens",
-
-    "won": "Gewonnen",
-    "lost": "Verloren",
-    "drawn": "Unentschieden",
-
-    "total-tokens": "Tokens insgesamt",
-    "total-games": "Spiele insgesamt"
-  }
-},
   "game": {
     "loading": "Spiel wird geladen...",
     "your_turn": "Du bist am Zug",
@@ -443,13 +449,17 @@
     "rematch_invite_cancel": "Revanche-Einladung abgebrochen.",
     "rematch_invite_error": "Revanche-Einladung konnte nicht gesendet werden.",
     "rematch_invite_expired": "Diese Einladung ist nicht mehr verfügbar.",
-    "rematch_cancel_error": "Einladung konnte nicht abgebrochen werden."
+    "rematch_cancel_error": "Einladung konnte nicht abgebrochen werden.",
+    "invitation_accepted": "Einladung angenommen",
+    "invitation_declinedd": "Einladung abgelehnt",
+    "invitation_expired": "Einladung abgelaufen",
+    "invitation_unavailable": "Einladungsstatus nicht verfügbar"
   },
-"imaginary-friend": {
-  "loading": "Dein imaginärer Freund wird gestartet...",
-  "title": "Imaginärer Freund",
-  "rate-limit": "Du kannst in {{seconds}} Sekunden eine weitere Nachricht senden.",
-  "placeholder": "Schreibe eine Nachricht...",
-  "send": "Senden"
-}
+  "imaginary-friend": {
+    "loading": "Dein imaginärer Freund wird gestartet...",
+    "title": "Imaginärer Freund",
+    "rate-limit": "Du kannst in {{seconds}} Sekunden eine weitere Nachricht senden.",
+    "placeholder": "Schreibe eine Nachricht...",
+    "send": "Senden"
+  }
 }

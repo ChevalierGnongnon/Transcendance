@@ -1,6 +1,13 @@
-export type ActiveView = 'chats' | 'new message' | 'block' | 'imaginaryfriend' | 'conversation';
-
+export type ActiveView = 'chats' | 'new message' | 'imaginaryfriend' | 'conversation';
 export type MessageType = 'text' | 'invitation' | 'file';
+export type MessageStatus = 'sending' | 'sent' | 'read' | 'error';
+export type Relationship = {
+  isFriend: false;
+  requestSent: false;
+  requestReceived: false;
+  blockedByMe: false;
+  blockedMe: false;
+};
 
 export interface User {
   id: string;
@@ -14,17 +21,30 @@ export interface User {
   };
 }
 
+export interface SearchResult {
+  id: string;
+  firstName: string;
+  lastName: string;
+  pseudo: string;
+  profilePhoto: {
+    id: string;
+    name: string;
+  };
+}
+
 export interface IMessage {
   id: string;
   chatId: string;
   recipientId?: string;
   sender: {
     id: string;
+    pseudo?: string;
     profilePhoto: { name: string; id: string };
   };
   content: string;
   type: MessageType;
   createdAt?: string;
+  status?: MessageStatus;
 }
 
 export interface MessageProps {
@@ -35,6 +55,7 @@ export interface MessageProps {
   profilePhoto: { name: string; id: string };
   senderId: string;
   type: MessageType;
+  status: MessageStatus;
 }
 
 export interface IChatPreview {
@@ -47,30 +68,12 @@ export interface IChatPreview {
       id: string;
     };
   };
-  lastReadMessagesId: string | null;
+  mylastReadMessagesId: string | null;
+  otherlastReadMessagesId: string | null;
   unreadCount: number;
 }
 
-export interface ChatRoomProps {
-  me: User;
-  chat: IChatPreview;
-  setActiveView: (view: ActiveView) => void;
-  messages: Map<string, IMessage[]>;
-  onAddMessage: (message: IMessage) => void;
-  updateLastReadMessageId: (chatId: string, messageId: string | null) => void;
-}
-
-export interface ChatProps {
-  chat: IChatPreview;
-  setActiveView: (view: ActiveView) => void;
-  setActiveChat: (chat: IChatPreview | null) => void;
-}
-
-export interface ChatListProps {
-  align: 'center' | 'left';
-  setActiveView: (view: ActiveView) => void;
-  setActiveChat: (chat: IChatPreview | null) => void;
-  chatList: IChatPreview[];
-  loading: boolean;
-  error: Error | null;
+export interface NewChatState {
+  user?: SearchResult;
+  autoStart?: boolean;
 }

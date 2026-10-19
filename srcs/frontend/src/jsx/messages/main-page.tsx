@@ -1,211 +1,93 @@
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 import ChatRoom from './ChatRoom';
 import NavBar from './navbar';
 import NewChat from './new-chat';
-import Block from './block';
 import ChatList from './ChatList';
 import ImaginaryFriend from '../ai/ImaginaryFriend';
-import { socket } from './socket.js';
-import { useUser } from './hooks/useUser';
-import { ActiveView, IChatPreview, IMessage } from './types';
-import { fetchChats, fetchMessages } from './utils/api';
-import { useTranslation } from 'react-i18next';
+import type { IChatPreview, NewChatState } from './types';
+import { Loading } from './Loading';
+import useChat from './hooks/useChat';
 
 function Messages() {
-  const me = useUser();
-
-  // const isConnected = useSocketConnection();
-  const [activeView, setActiveView] = useState<ActiveView>('chats');
-
-  const [loadingMessages, setLoadingMessages] = useState(false);
-
-  const [activeChat, setActiveChat] = useState<IChatPreview | null>(null);
-  const [allMessages, setAllMessages] = useState<Map<string, IMessage[]>>(new Map());
-  const [loadingChats, setLoadingChats] = useState(false);
-  const [chatList, setChatList] = useState<IChatPreview[]>([]);
-  const [error, setError] = useState<Error | null>(null);
-
   const { t } = useTranslation();
 
-  useEffect(() => {
-    let cancelled = false;
-    setLoadingChats(true);
-    fetchChats()
-      .then((chats) => {
-        if (!cancelled) setChatList(chats);
-      })
-      .catch((e) => {
-        if (!cancelled) setError(e instanceof Error ? e : new Error('Unknown'));
-      })
-      .finally(() => {
-        if (!cancelled) setLoadingChats(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const location = useLocation();
+  const state = location.state as NewChatState | null;
+  const [autoStartChat, setAutoStartChat] = useState<boolean>(state?.autoStart ?? false);
 
-  useEffect(() => {
-    const missing = chatList.filter((c) => !allMessages.has(c.chatId));
-    if (missing.length === 0) return;
+  const {
+    me,
+    activeView,
+    activeChat,
+    chatList,
+    setActiveView,
+    setActiveChat,
+    loadingChats,
+    error,
+    messages,
+    addMessage,
+    updateMessage,
+    startChat,
+    otherlastReadMessagesId,
+  } = useChat();
 
-    let cancelled = false;
-
-    Promise.all(
-      missing.map((chat) =>
-        fetchMessages(chat.chatId)
-          .then((messages) => ({ chatId: chat.chatId, messages }))
-          .catch(() => ({ chatId: chat.chatId, messages: [] as IMessage[] }))
-      )
-    ).then((results) => {
-      if (cancelled) return;
-      setAllMessages((prev) => {
-        const next = new Map(prev);
-        for (const { chatId, messages } of results) {
-          if (!next.has(chatId)) next.set(chatId, messages);
-        }
-        return next;
-      });
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [chatList, allMessages]);
-
-  const chatListWithUnread = useMemo(() => {
-    return chatList.map((chat) => {
-      const messages = allMessages.get(chat.chatId) ?? [];
-      const last = messages[messages.length - 1];
-
-      if (
-        messages.length === 0 ||
-        last?.sender.id === me?.id ||
-        activeChat?.chatId === chat.chatId
-      ) {
-        return { ...chat, unreadCount: 0 };
-      }
-
-      if (!chat.lastReadMessagesId) {
-        return { ...chat, unreadCount: messages.length };
-      }
-
-      const idx = messages.findIndex((m) => m.id === chat.lastReadMessagesId);
-      return {
-        ...chat,
-        unreadCount: idx === -1 ? messages.length : messages.length - idx - 1,
-      };
-    });
-  }, [chatList, allMessages, activeChat, me?.id]);
-
-  useEffect(() => {
-    const handleNewMessage = async (newMessage: IMessage) => {
-      const chatId = newMessage.chatId;
-      const messageId = newMessage.id;
-
-      try {
-        if (!chatId || !messageId) throw new Error('Bad message');
-
-        const newChat = {
-          chatId: chatId,
-          user: newMessage.sender,
-          lastReadMessagesId: null,
-          unreadCount: 0,
-        };
-        setChatList((prev) => {
-          const exist = prev.some((m) => m.chatId === chatId);
-          return exist ? prev : [newChat, ...prev];
-        });
-
-        addMessage(newMessage);
-
-        if (activeChat && chatId === activeChat.chatId) {
-          updateLastReadMessageId(chatId, messageId);
-        }
-      } catch (error) {
-        console.error('Failed to handle new messages', error);
-      }
-    };
-
-    socket.on('new-chat-message', handleNewMessage);
-
-    return () => {
-      socket.off('new-chat-message', handleNewMessage);
-    };
-  }, [chatList, allMessages]);
-
-  const addMessage = useCallback((newMessage: IMessage) => {
-    setAllMessages((prev) => {
-      const next = new Map(prev);
-
-      const currentMessages = next.get(newMessage.chatId) ?? [];
-      if (newMessage.id && currentMessages.some((message) => message.id === newMessage.id)) {
-        return prev;
-      }
-      next.set(newMessage.chatId, [...currentMessages, newMessage]);
-
-      return next;
-    });
-  }, []);
-
-  const updateLastReadMessageId = (chatId: string, messageId: string | null) => {
-    setChatList((prev) =>
-      prev.map((chat) =>
-        chat.chatId === chatId
-          ? {
-              ...chat,
-              lastReadMessagesId: messageId,
-            }
-          : chat
-      )
-    );
-
-    socket.emit('last-read-message', {
-      chatId: chatId,
-      userId: me?.id,
-      messageId: messageId,
-    });
+  const openChat = (chat: IChatPreview | null) => {
+    setActiveChat(chat);
+    setActiveView('conversation');
   };
 
-  if (!me) {
+  if (!me || error) {
     return <div>{t('common.something-went-wrong')}</div>;
+  }
+
+  if (loadingChats) {
+    return <Loading text={t('common.loading')} />;
   }
 
   return (
     <>
-      <NavBar activeView={activeView} setActiveView={setActiveView}></NavBar>
+      <NavBar activeView={activeView} setActiveView={setActiveView} />
 
       <div className={activeView !== 'chats' ? 'd-flex' : ''}>
-        <ChatList
-          align={activeView === 'chats' ? 'center' : 'left'}
-          setActiveView={setActiveView}
-          setActiveChat={setActiveChat}
-          chatList={chatListWithUnread}
-          loading={loadingChats}
-          error={error}
-        />
+        <div
+          className={
+            activeView === 'chats'
+              ? 'chat-list mx-auto my-2'
+              : 'chat-list chat-list-side my-2 d-none d-md-block'
+          }
+        >
+          <ChatList
+            chatList={chatList}
+            loading={loadingChats}
+            error={error}
+            onOpenChat={openChat}
+          />
+        </div>
         {activeView === 'conversation' && activeChat && (
           <ChatRoom
             me={me}
             chat={activeChat}
             setActiveView={setActiveView}
-            messages={allMessages}
+            messages={messages}
             onAddMessage={addMessage}
-            updateLastReadMessageId={updateLastReadMessageId}
+            onUpdateMessage={updateMessage}
+            otherLastReadMessagesId={otherlastReadMessagesId}
           />
         )}
-        {activeView === 'new message' && (
+        {(activeView === 'new message' || autoStartChat) && (
           <NewChat
-            setActiveChat={setActiveChat}
-            setActiveView={setActiveView}
-            setChatList={setChatList}
+            autoStartUser={state?.user ? state?.user : null}
+            autoStart={autoStartChat}
+            setAutoStart={setAutoStartChat}
+            onStartChat={startChat}
           />
         )}
-        {activeView === 'block' && <Block />}
         {activeView === 'imaginaryfriend' && <ImaginaryFriend />}
         </div>
       </>

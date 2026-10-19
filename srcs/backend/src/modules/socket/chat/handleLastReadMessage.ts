@@ -18,15 +18,14 @@ export async function handleMessageRead(socket: Socket, payload: lastReadInput) 
       },
     });
 
-    return { ok: true, lastReadMessage };
+    socket.broadcast.emit('chat:last-read-message', {
+      chatId: chatId,
+      messageId: messageId,
+    });
+
+    return lastReadMessage;
   } catch (error) {
     console.error('Error save message', error);
     throw error;
-
-    // socket.emit('chat_error', {
-    //   event: 'last-read-message',
-    //   code: 'NOT_UPDATE_LAST_READ',
-    //   message: 'Error update last read message',
-    // });
   }
 }

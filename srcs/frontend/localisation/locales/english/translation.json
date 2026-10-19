@@ -60,7 +60,10 @@
     "add-friend": "Add a friend",
     "send-friendship-invitation": "Send friend request",
     "friend-list": "My friend list",
-    "my-stats": "My stats"
+    "my-stats": "My stats",
+    "block-user": "Block user",
+    "unblock-user": "Unblock user",
+    "remove-friend": "Remove from friends"
   },
   "update-my-profile": {
     "change-account-infos": "Change account information",
@@ -87,7 +90,10 @@
     "game-invite": "You have been invited to play Gomoku",
     "board-size": "Board size: {{size}}",
     "accept": "Accept",
-    "decline": "Decline"
+    "decline": "Decline",
+    "failed-to-send": "Failed to send. Message will be deleted after the update.",
+    "you-are-blocked": "You are blocked",
+    "message-too-long": "Message is too long (max {{max}} characters)"
   },
   "friends": {
     "send-friend-request": "Send a friend request",
@@ -330,59 +336,59 @@
     }
   },
   "analytics": {
-  "title": "Analytics Dashboard",
-  "description": "Overview of your activity and AI usage.",
+    "title": "Analytics Dashboard",
+    "description": "Overview of your activity and AI usage.",
 
-  "filters": {
-    "from": "From:",
-    "to": "To:",
-    "7-days": "7 Days",
-    "14-days": "14 Days",
-    "30-days": "30 Days",
-    "apply": "Apply",
-    "export-csv": "Export CSV"
+    "filters": {
+      "from": "From:",
+      "to": "To:",
+      "7-days": "7 Days",
+      "14-days": "14 Days",
+      "30-days": "30 Days",
+      "apply": "Apply",
+      "export-csv": "Export CSV"
+    },
+
+    "errors": {
+      "load-failed": "Could not load analytics.",
+      "invalid-date-range": "The start date cannot be after the end date."
+    },
+
+    "loading": "Loading analytics...",
+    "no-data": "No analytics available.",
+
+    "overview": {
+      "games-played": "Games Played",
+      "games-won": "Games Won",
+      "games-lost": "Games Lost",
+      "games-drawn": "Games Drawn",
+      "win-rate": "Win Rate",
+      "ai-requests": "AI Requests",
+      "total-tokens": "Total Tokens"
+    },
+
+    "charts": {
+      "activity-over-time": "Activity Over Time",
+      "distribution": "Distribution",
+
+      "ai-usage-over-time": "AI Usage Over Time",
+      "games-over-time": "Games Over Time",
+
+      "ai-token-usage": "AI Token Usage",
+      "games-played": "Games Played",
+
+      "input-tokens": "Input Tokens",
+      "output-tokens": "Output Tokens",
+      "thinking-tokens": "Thinking Tokens",
+
+      "won": "Won",
+      "lost": "Lost",
+      "drawn": "drawn",
+
+      "total-tokens": "Total Tokens",
+      "total-games": "Total Games"
+    }
   },
-
-  "errors": {
-    "load-failed": "Could not load analytics.",
-    "invalid-date-range": "The start date cannot be after the end date."
-  },
-
-  "loading": "Loading analytics...",
-  "no-data": "No analytics available.",
-
-  "overview": {
-    "games-played": "Games Played",
-    "games-won": "Games Won",
-    "games-lost": "Games Lost",
-    "games-drawn": "Games Drawn",
-    "win-rate": "Win Rate",
-    "ai-requests": "AI Requests",
-    "total-tokens": "Total Tokens"
-  },
-
-  "charts": {
-    "activity-over-time": "Activity Over Time",
-    "distribution": "Distribution",
-
-    "ai-usage-over-time": "AI Usage Over Time",
-    "games-over-time": "Games Over Time",
-
-    "ai-token-usage": "AI Token Usage",
-    "games-played": "Games Played",
-
-    "input-tokens": "Input Tokens",
-    "output-tokens": "Output Tokens",
-    "thinking-tokens": "Thinking Tokens",
-
-    "won": "Won",
-    "lost": "Lost",
-    "drawn": "drawn",
-
-    "total-tokens": "Total Tokens",
-    "total-games": "Total Games"
-  }
-}, 
   "game": {
     "loading": "Loading game...",
     "your_turn": "your turn",
@@ -423,11 +429,11 @@
     "rematch_invite_expired": "This invitation is no longer available.",
     "rematch_cancel_error": "Could not cancel invitation."
   },
-"imaginary-friend": {
-  "loading": "Starting your imaginary friend...",
-  "title": "Imaginary Friend",
-  "rate-limit": "You can send another message in {{seconds}} seconds.",
-  "placeholder": "Write a message...",
-  "send": "Send"
-}
+  "imaginary-friend": {
+    "loading": "Starting your imaginary friend...",
+    "title": "Imaginary Friend",
+    "rate-limit": "You can send another message in {{seconds}} seconds.",
+    "placeholder": "Write a message...",
+    "send": "Send"
+  }
 }

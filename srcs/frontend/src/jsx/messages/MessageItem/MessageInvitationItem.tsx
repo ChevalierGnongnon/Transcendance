@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { MessageProps } from './types.js';
-import { socket } from './socket.js';
+import type { MessageProps } from '../types.js';
+import { socket } from '../socket.js';
 
 type InviteState = 'loading' | 'pending' | 'accepted' | 'declined' | 'expired' | 'error';
 
@@ -80,20 +80,28 @@ function MessageInvitationItem(props: MessageProps) {
     <div className="game-invite-box card p-2 m-2">
       <span className="text-message">
         {state === 'accepted'
-          ? 'Invitation accepted'
+          ? t('game.invitation_accepted')
           : state === 'declined'
-            ? 'Invitation declined'
+            ? t('game.invitation_declinedd')
             : state === 'expired'
-              ? 'Invitation expired'
+              ? t('game.invitation_expired')
               : state === 'error'
-                ? 'Invitation status unavailable'
+                ? t('game.invitation_unavailable')
                 : t('game.invite_message')}
       </span>
       <div className="invite-actions">
-        <button className="btn btn-success" disabled={disabled} onClick={() => respond('game:accept')}>
+        <button
+          className="btn btn-success"
+          disabled={disabled}
+          onClick={() => respond('game:accept')}
+        >
           {t('game.accept')}
         </button>
-        <button className="btn btn-danger" disabled={disabled} onClick={() => respond('game:decline')}>
+        <button
+          className="btn btn-danger"
+          disabled={disabled}
+          onClick={() => respond('game:decline')}
+        >
           {t('game.decline')}
         </button>
       </div>

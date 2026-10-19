@@ -251,7 +251,7 @@ function Analytics() {
                     value={analytics.overview.gamesLost}
                 />
             </div>
-            <div className="col-12 col-sm-5 col-lg-4">
+            <div className="col-12 col-sm-6 col-lg-4">
                 <AnalyticsCard
                     title={t("analytics.overview.games-drawn")}
                     value={analytics.overview.gamesDrawn}

@@ -14,6 +14,7 @@ import { useAuth } from "../auth/auth-context";
 import { useParams } from "react-router-dom";
 import { useApiFetch } from "../auth/use-api-fetch";
 import { useFriendships } from "../friends/useFriendships";
+import ProfileShortcuts from './shortcuts/ProfileShortcuts';
 
 interface User {
 	id: string;
@@ -140,32 +141,7 @@ function PersonalPage() {
 					}
 
 
-					{ !isMine &&
-						<>
-							
-							<div className="row g-4 justify-content-center shortcut-grid">
-								<div className="col-12 col-md-6 col-xl-6">
-									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/addfriend")}>
-										<img src={addFriendsIcon} alt="message-shortcut" />
-										<span>{t("profile-page.send-friendship-invitation")}</span>
-									</figure>
-								</div>
-
-								<div className="col-12 col-md-6 col-xl-6">
-									<figure className="shortcut-icon justify-content-center">
-										<img src={playShortcut} alt="play-shortcut" />
-										<span>{t("common.send-game-invitation")}</span>
-									</figure>
-								</div>
-								<div className="col-12 col-md-6 col-xl-4">
-									<figure className="shortcut-icon justify-content-center">
-										<img src={messageIcon} alt="message-shortcut" onClick={() => navigate("/messages")} />
-										<span>{t("common.send-message")}</span>
-									</figure>
-								</div>
-							</div>
-						</>
-					}
+					{!isMine && <ProfileShortcuts user={displayedUser} /> }
 
 					{isMine &&
 						<>
