@@ -1,10 +1,7 @@
 import { useState } from "react";
-
 import type {GamesSummary, AiTokenUsage } from "../utils/analytics.types";
-
 import GamesPlayedPieChart from "./GamesPlayedPieChart";
 import AiTokenUsagePieChart from "./AiTokenPieChart";
-import GamesOverTimeChart from "./GamesOverTimeChart";
 import { useTranslation } from "react-i18next";
 
 
@@ -16,12 +13,8 @@ interface PieChartSectionProps {
 }
 
 
-function PieChartSection({
-    gamesSummary,
-    aiTokenUsage,
-	totalTokens,
-	totalGames,
-}: PieChartSectionProps) {
+function PieChartSection({gamesSummary, aiTokenUsage, totalTokens, totalGames}: PieChartSectionProps) 
+{
     const { t } = useTranslation();
     const [selectedChart, setSelectedChart] = useState("aiTokens");
 

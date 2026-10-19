@@ -7,10 +7,8 @@ interface AiTokenUsagePieChartProps {
 	totalTokens: number;
 }
 
-function AiTokenUsagePieChart({
-    data,
-	totalTokens
-}: AiTokenUsagePieChartProps) {
+function AiTokenUsagePieChart({data, totalTokens}: AiTokenUsagePieChartProps) 
+{
 	const { t } = useTranslation();
 	// Change data in frontend vor Visualisation and Rechart purposes
 	const chartData = [

@@ -1,5 +1,4 @@
 import '../../scss/analytics.scss';
-
 import { useEffect, useState } from "react";
 import { getAnalytics } from "./utils/analyticsApi";
 import type { AnalyticsData } from "./utils/analytics.types";
@@ -11,6 +10,11 @@ import { useSocketConnection } from '../messages/hooks/useSocketConnection';
 import { socket } from '../messages/socket';
 import { useTranslation } from 'react-i18next';
 
+
+/**
+ * Default dates, today -7 days
+ * This gets preset
+ */
 function getDefaultDates() {
     const today = new Date();
     const sevenDaysAgo = new Date(today);
@@ -25,7 +29,6 @@ function getDefaultDates() {
     };
 }
 
-
 function Analytics() {
     const { t } = useTranslation();
     const today = new Date().toISOString().split("T")[0];
@@ -39,12 +42,13 @@ function Analytics() {
     const [activeTo, setActiveTo] = useState(defaultDates.to);
     const isConnected = useSocketConnection();
 
+    // Effect to load Analytics data 
     useEffect(() => {
         async function loadAnalytics() {
-            console.log("Loading analytics:", {
-            activeFrom,
-            activeTo,
-        });
+        //     console.log("Loading analytics:", {
+        //     activeFrom,
+        //     activeTo,
+        // });
             try {
                 setLoading(true);
                 setError(null);
@@ -63,8 +67,9 @@ function Analytics() {
             }
         }
 
+        // taking care of change in the database 
         function handleAnalyticsUpdated(){
-            console.log("Analytics updated");
+            // console.log("Analytics updated");
             loadAnalytics();
         }
 
@@ -86,40 +91,41 @@ function Analytics() {
     }
 
     function handleApplyFilter() {
-    console.log("Apply clicked");
+   // console.log("Apply clicked");
 
     if (from > to) {
-        console.log("error");
+        // console.log("error");
         setError("The start date cannot be after the end date.");
         return;
     }
 
-    console.log("FROM:", from);
-    console.log("TO:", to);
+    // console.log("FROM:", from);
+    // console.log("TO:", to);
 
     setError(null);
     setActiveFrom(from);
     setActiveTo(to);
-}
+    }
 
+    // Preset dates
     function applyPreset(days: number) {
-    const todayDate = new Date();
+        const todayDate = new Date();
 
-    const fromDate = new Date(todayDate);
-    fromDate.setDate(todayDate.getDate() - days);
+        const fromDate = new Date(todayDate);
+        fromDate.setDate(todayDate.getDate() - days);
 
-    const formatDate = (date: Date) => {
-        return date.toISOString().split("T")[0];
-    };
+        const formatDate = (date: Date) => {
+            return date.toISOString().split("T")[0];
+        };
 
-    const newFrom = formatDate(fromDate);
-    const newTo = formatDate(todayDate);
+        const newFrom = formatDate(fromDate);
+        const newTo = formatDate(todayDate);
 
-    setFrom(newFrom);
-    setTo(newTo);
+        setFrom(newFrom);
+        setTo(newTo);
 
-    setActiveFrom(newFrom);
-    setActiveTo(newTo);
+        setActiveFrom(newFrom);
+        setActiveTo(newTo);
     }
 
 
@@ -145,9 +151,11 @@ function Analytics() {
 
         <input
             id="analytics-from"
+            name="analytics-from"
             type="date"
             className="form-control"
             value={from}
+            min="2026-01-01"
             max={today}
             onChange={(event) => setFrom(event.target.value)}
         />
@@ -164,8 +172,10 @@ function Analytics() {
         <input
             id="analytics-to"
             type="date"
+            name="analytics-to"
             className="form-control"
             value={to}
+            min="2026-01-01"
             max={today}
             onChange={(event) => setTo(event.target.value)}
         />

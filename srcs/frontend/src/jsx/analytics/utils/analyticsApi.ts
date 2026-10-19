@@ -1,3 +1,9 @@
+/**
+ * Analytics API to get the data on a specific time span 
+ * @param from 
+ * @param to 
+ * @returns 
+ */
 export const getAnalytics = async (from: string, to: string) => {
     const params = new URLSearchParams({
         from,

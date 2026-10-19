@@ -1,9 +1,7 @@
 import type { AnalyticsData } from "./analytics.types";
 
-function downloadCsv(
-	csv:string,
-	filename: string
-){
+function downloadCsv(csv:string, filename: string)
+{
 	// Binary large Object
 	// Telling the browser the we want create a file of type csv with chatset utf 8 
 	const blob = new Blob(
@@ -70,11 +68,8 @@ function createDailyAnalyticsData(analytics: AnalyticsData) {
     return rows;
 }
 
-export function exportAnalyticsToCsv(
-    analytics: AnalyticsData,
-	from: string,
-	to: string
-) {
+export function exportAnalyticsToCsv(analytics: AnalyticsData, from: string,to: string) 
+{
 	
 	const dailyData = createDailyAnalyticsData(analytics);
 

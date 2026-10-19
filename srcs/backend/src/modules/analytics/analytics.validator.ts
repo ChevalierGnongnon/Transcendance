@@ -1,5 +1,4 @@
 import { query } from "express-validator";
-
 /**
  * AnalyticsValidator function 
  */
