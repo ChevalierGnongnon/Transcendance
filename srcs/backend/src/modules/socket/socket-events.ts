@@ -11,3 +11,8 @@ export function emitAnalyticsUpdated(userId:string)
 {
 	io.to(`user-${userId}`).emit('analytics:updated');
 }
+
+export function emitGameStatsUpdated(userId:string)
+{
+	io.to(`user-${userId}`).emit('game:updated');
+}
