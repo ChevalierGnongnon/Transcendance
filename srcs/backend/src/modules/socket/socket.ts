@@ -118,7 +118,14 @@ export const setupSocketConnection = (io: Server) => {
       const activeGameId = socket.data.activeGameId as string | undefined;
       if (activeGameId) {
         socket.data.activeGameId = undefined;
-        void handleGameClose(io, socket, { gameId: activeGameId }).catch((error) => {
+        void (async () => {
+          const sockets = await io.in(`user-${socket.userId}`).fetchSockets();
+          const otherTabInGame = sockets.some(
+            (s) => s.id !== socket.id && s.data.activeGameId === activeGameId
+          );
+          if (otherTabInGame) return;
+          await handleGameClose(io, socket, { gameId: activeGameId });
+        })().catch((error) => {
           console.error('Failed to persist game departure after disconnect:', error);
         });
       }
