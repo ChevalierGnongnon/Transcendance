@@ -25,6 +25,9 @@ export const previewWhiteList = [
   'application/pdf',
 ]
 
+// its role: parsing. must be before validator because req.body is empty with 
+// multipart/formdata object, multer must parse it first.
+// and multer creates req.file and avatar_required rule checks req.file 
 export const uploadImageConfig = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024 },
