@@ -8,7 +8,7 @@ export function useConversation() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedConversationId =sessionStorage.getItem('aiConversationId');
+        const storedConversationId =localStorage.getItem('aiConversationId');
 
         setConversationId(storedConversationId);
         setLoading(false);

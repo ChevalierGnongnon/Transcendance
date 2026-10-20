@@ -1,5 +1,6 @@
 import {getAiMessages} from '../utils/api';
 import { useState, useEffect } from 'react';
+import { socket } from '../../messages/socket';
 
 export interface AIMessageData {
   id: string;
@@ -31,7 +32,19 @@ export function useMessages(conversationId: string | null) {
                 console.error('Error loading AI messages:',error);
             }
         }
-        loadMessages();
+        function handleAiMessageCreated(data: { conversationId: string }) {
+        if (data.conversationId === conversationId) {
+            loadMessages();
+        }
+    }
+
+    loadMessages();
+
+    socket.on('ai:message-created', handleAiMessageCreated);
+
+    return () => {
+        socket.off('ai:message-created', handleAiMessageCreated);
+    };
     }, [conversationId]);
 
   // Add user Message for the react state

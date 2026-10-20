@@ -77,7 +77,7 @@ export function AuthProvider({children}:{children:ReactNode}){
 
     async function login(){
         const conversationId = await createAiConversation();
-        sessionStorage.setItem('aiConversationId', conversationId);
+        localStorage.setItem('aiConversationId', conversationId);
         localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(true);
         setAiConversationId(conversationId);
@@ -89,7 +89,7 @@ export function AuthProvider({children}:{children:ReactNode}){
             method: 'POST',
             credentials: 'include'
         });
-        sessionStorage.removeItem('aiConversationId');
+        localStorage.removeItem('aiConversationId');
         setAiConversationId(null);
         localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(false);

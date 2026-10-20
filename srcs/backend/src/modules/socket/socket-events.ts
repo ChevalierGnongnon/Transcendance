@@ -12,7 +12,10 @@ export function emitAnalyticsUpdated(userId:string)
 	io.to(`user-${userId}`).emit('analytics:updated');
 }
 
-export function emitGameStatsUpdated(userId:string)
+export function emitAiMessageCreated(userId: string,conversationId: string) 
 {
-	io.to(`user-${userId}`).emit('game:updated');
+    io.to(`user-${userId}`).emit(
+        'ai:message-created',
+        { conversationId }
+    );
 }
