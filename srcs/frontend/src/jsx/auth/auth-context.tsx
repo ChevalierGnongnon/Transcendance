@@ -118,7 +118,7 @@ export function AuthProvider({children}:{children:ReactNode}){
             setIsAuthenticated(false);
             // Mknoll: ai cleaning conversation is put there so even though server
             // request fails, cleaning is still done. please recheck
-            sessionStorage.removeItem('aiConversationId');
+            localStorage.removeItem('aiConversationId');
             setAiConversationId(null);
         }
     }

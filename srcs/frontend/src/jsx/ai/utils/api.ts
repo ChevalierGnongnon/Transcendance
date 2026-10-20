@@ -59,9 +59,7 @@ export const sendAiMessage = async (conversationId: string,message: string) => {
   }
 
   if (!res.ok) {
-    throw new Error(
-      'Failed to send AI message'
-    );
+    throw new Error('Failed to send AI message$');
   }
 
   return {

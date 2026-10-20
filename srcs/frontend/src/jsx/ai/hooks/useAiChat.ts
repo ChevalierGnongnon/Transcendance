@@ -44,7 +44,7 @@ export function useAiChat() {
       // read ai Repsonse stream chunk by chunkl
       await readAiResponseStream(response, chunk => {
           aiResponse += chunk;
-
+          //console.log("CHUNK:", chunk);
           messages.updateMessage(assistantMessageId, aiResponse);
         }
       );
