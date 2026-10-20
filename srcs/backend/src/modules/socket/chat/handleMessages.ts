@@ -72,6 +72,18 @@ export async function handleMessages(socket: Socket, payload: newMessageInput) {
     if (type === 'invitation') {
       return await handleGameMessages(socket, payload);
     }
+    if (type === 'file'){
+      const res = await prisma.file.findFirst({
+        where:{
+          id: content, 
+          userId: sender.id,
+          chatId: null,
+          type: 'message'
+        }
+      });
+      if (!res)
+          throw new Error('Not authorized to send this message')
+    }
 
     const chat = await prisma.chat.findFirst({
       where: {
