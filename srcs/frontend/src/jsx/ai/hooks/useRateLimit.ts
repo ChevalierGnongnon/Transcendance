@@ -1,30 +1,44 @@
+
 import { useEffect, useState } from 'react';
+import { socket } from '../../messages/socket';
 
 export function useRateLimit() {
   const [rateLimitReached, setRateLimitReached] = useState(false);
-  const [rateLimitSeconds, setRateLimitSeconds] =useState(0);
+  const [rateLimitSeconds, setRateLimitSeconds] = useState(0);
 
-  // set countdown intervall every 1000 milliseconds
+  // Countdown every second updated
   useEffect(() => {
     if (!rateLimitReached || rateLimitSeconds <= 0)
       return;
 
     const timer = setInterval(() => {
-      setRateLimitSeconds( previous => previous - 1);
+      setRateLimitSeconds(previous => previous - 1);
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [rateLimitReached,rateLimitSeconds,]);
+  }, [rateLimitReached, rateLimitSeconds]);
 
+  // cancel ratelimit after countdown 
   useEffect(() => {
     if (rateLimitReached && rateLimitSeconds <= 0)
       setRateLimitReached(false);
+  }, [rateLimitReached, rateLimitSeconds]);
 
-  }, [rateLimitReached,rateLimitSeconds,]);
+  // ratelimits from other tabs
+  useEffect(() => {
+    function handleAiRateLimit(data: { resetSeconds: number }) {
+      startRateLimit(data.resetSeconds);
+    }
 
-  // function to start Timer with a given number of seconds
-  function startRateLimit(seconds: number) 
-  {
+    socket.on('ai:rate-limit', handleAiRateLimit);
+
+    return () => {
+      socket.off('ai:rate-limit', handleAiRateLimit);
+    };
+  }, []);
+
+  // start countdown 
+  function startRateLimit(seconds: number) {
     setRateLimitReached(true);
     setRateLimitSeconds(seconds);
   }

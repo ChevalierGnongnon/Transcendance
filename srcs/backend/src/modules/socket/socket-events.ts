@@ -19,3 +19,10 @@ export function emitAiMessageCreated(userId: string,conversationId: string)
         { conversationId }
     );
 }
+
+export function emitAiRateLimit(userId: string, resetSeconds: number) {
+    io.to(`user-${userId}`).emit(
+        'ai:rate-limit',
+        { resetSeconds }
+    );
+}

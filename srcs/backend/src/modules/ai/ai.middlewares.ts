@@ -2,6 +2,7 @@ import rateLimit, { type RateLimitInfo } from "express-rate-limit";
 import type { Request,Response, NextFunction} from "express";
 import { prisma } from '../../lib/prisma.js';
 import { AppError } from "../../error/AppError.ts";
+import { emitAiRateLimit } from "../socket/socket-events.ts";
 
 type RateLimitRequest = Request & {
     rateLimit: RateLimitInfo;
@@ -42,6 +43,9 @@ export const aiRateLimiter = rateLimit({
         );
 
         res.setHeader("Retry-After", retryAfterSeconds);
+        if (req.userId) {
+            emitAiRateLimit(req.userId, retryAfterSeconds);
+        }
     }
         res.status(429).json({
             error: "Too many Ai requests. Please try again later."
