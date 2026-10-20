@@ -313,7 +313,7 @@ function GameStart() {
           value={mode}
           onChange={(e) => {
             setMode(e.target.value as 'online' | 'local');
-            setOpponentId(e.target.value === 'local' ? 'me.id' : '');
+            setOpponentId(e.target.value === 'local' ? (me?.id ?? '') : '');
           }}
         >
           <option value="online">{t('game.play_online')}</option>
