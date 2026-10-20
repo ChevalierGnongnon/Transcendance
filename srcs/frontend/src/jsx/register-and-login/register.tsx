@@ -41,6 +41,10 @@ function Register() {
 			setError(null);
 			try {
 				const formData = new FormData();
+				// takes the values from each field formdata and not 
+				// json here because we send a binary file (avatar)
+				// json can only transport text. formdata is sent on
+				// multipart/form-data
 				formData.append('name', name);
 				formData.append('last_name', last_name);
 				formData.append('email', email);
@@ -49,22 +53,29 @@ function Register() {
 				formData.append('birthdate', birthdate);
 				formData.append('pseudo', pseudo);
 				
+				// if there is a loaded file, take its value
 				if (avatarFile){
 					formData.append('avatar', avatarFile);
 				}
+				// else get selected default avatar
 				else {
+					// here, only avatar id is sent since it is already in db.
 					if (avatar)
 						formData.append('avatar', avatar);
 				}
-				const request = new XMLHttpRequest();
-				request.open('POST', '/api/register');
+				// For progress bar. Fetch doesn't allow to follow progression.
+				// So we use xml http request. 
+				const request = new XMLHttpRequest(); // creates the request object
+				request.open('POST', '/api/register'); // configures it
+				// when answer arrives, will do this (asynchrone)
 				request.onload = () =>{
-					if (request.status === 201){
+					if (request.status === 201){ // if success login and go to personalpage
 						login();
 						navigate('/personalpage')
 					}
 					else {
-						setIsSubmitting(false);
+						// if false parse the answer with json and return good error message
+						setIsSubmitting(false); 
 						try{
 							const error = JSON.parse(request.responseText);
 							setError(error?.error ?? 'INTERNAL_SERVER_ERROR');
@@ -76,12 +87,14 @@ function Register() {
 						}
 					}
 				}
+				// progress bar 
 				request.upload.onprogress = (event)=>{
 					if (event.lengthComputable === true){
 						let progress = (event.loaded / event.total) * 100;
 						setUploadProgress(progress);
 					}   
 				}
+				// sets error if database fails 
 				request.onerror = () => {
 					setIsSubmitting(false);
 					setError('DATABASE_ERROR');
@@ -94,6 +107,7 @@ function Register() {
 		}
 		
 	}
+	//  on page load, will get default avatars
 	useEffect(() => {
 			fetch('/api/default-avatars')
 			.then(res =>{
