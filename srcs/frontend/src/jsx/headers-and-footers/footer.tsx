@@ -1,14 +1,13 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import i18n from "../../../localisation/i18n";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../auth/auth-context";
 import "../../scss/footer.scss"
 
 function Footer() {
-  const { logout } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+
   const handleLogout = async () => {
     await logout();
     navigate("/login");
@@ -63,7 +62,7 @@ function Footer() {
         </div>
       )}
 
-    {!isAuthenticated &&
+    {isAuthenticated === false &&
         <div className="d-flex gap-2">
             <input
                 type="button"

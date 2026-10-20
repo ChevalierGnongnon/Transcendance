@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState,  useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import '../../scss/messages.scss';
@@ -44,7 +44,6 @@ function NewChat({
         ClassName="search-bar"
         PlaceHolder={t('common.find-user')}
         ListClassName="header-search-results"
-        BreakPoint={768}
         onSelectUser={(user) => {
           setUser(user);
         }}

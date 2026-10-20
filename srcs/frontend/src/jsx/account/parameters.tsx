@@ -1,11 +1,10 @@
 import "../../scss/common-classes.scss";
 import "../../scss/parameters.scss";
-import i18n from "../../../localisation/i18n";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import FileImport from "../files/file-import";
 import ErrorMessage from "../others/error-message";
 import { useState, useEffect } from "react";
+import { useApiFetch } from "../auth/use-api-fetch";
 
 interface DefaultAvatar {
 	id: string;
@@ -14,21 +13,23 @@ interface DefaultAvatar {
 
 function Parameters() {
 	const { t } = useTranslation();
+	const apiFetch = useApiFetch();
 	const [avatarError, setAvatarError] = useState<string | null>(null);
 	const [accountError, setAccountError] = useState<string | null>(null);
 	const [defaultAvatars, setDefaultAvatars] = useState<DefaultAvatar[]>([]);
 	const [avatar, setAvatar] = useState<string | null>(null);
 	const [hasCustomFile, setHasCustomFile] = useState<boolean>(false);
 	const [pickedDefault, setPickedDefault] = useState<boolean>(false);
-	const [updated, setUpdated] = useState<boolean>(false);
-
+	const [avatarUpdated, setAvatarUpdated] = useState<boolean>(false);
+	const [infosUpdated, setInfosUpdated] = useState<boolean>(false);
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [pseudo, setPseudo] = useState("")
 
 	const manageAvatarUpdate = async () => {
 		try {
-			const response = await fetch("/api/my-profile/avatar", {
+			setAvatarUpdated(false);
+			const response = await apiFetch("/api/my-profile/avatar", {
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -36,7 +37,7 @@ function Parameters() {
 			});
 			const data = await response.json();
 			if (response.ok) {
-				setUpdated(true);
+				setAvatarUpdated(true);
 			} else {
 				setAvatarError(data.error);
 			}
@@ -46,13 +47,18 @@ function Parameters() {
 	};
 
 	const manageUpdate = async() =>{
+
 		try{
 			const body: Record<string, string> = {};
-			if (firstName) body.first_name = firstName;
-			if (lastName) body.last_name = lastName;
-			if (pseudo) body.pseudo = pseudo;
-
-			const response = await fetch("/api/my-profile", {
+			if (firstName)
+				body.first_name = firstName;
+			if (lastName)
+				body.last_name = lastName;
+			if (pseudo)
+				body.pseudo = pseudo;
+			setAccountError(null);
+			setInfosUpdated(false);
+			const response = await apiFetch("/api/my-profile", {
 				method: "PATCH",
 				headers: { "Content-Type": "application/json" },
 				credentials: "include",
@@ -62,6 +68,12 @@ function Parameters() {
 			if (!response.ok) {
 				setAccountError(data.error);
 			}
+			else {
+				setInfosUpdated(true);
+				setFirstName('');
+				setLastName('');
+				setPseudo('');
+			}
 		}
 		catch(err){
 			setAccountError('DATABASE_ERROR');
@@ -69,7 +81,12 @@ function Parameters() {
 	}
 	useEffect(() => {
 		fetch("/api/default-avatars")
-			.then((res) => res.json())
+			.then(res =>{
+				if (!res.ok){
+					throw new Error('FETCH_DEFAULT_AVATARS_ERROR')
+				}
+				return (res.json());
+			})
 			.then((data: DefaultAvatar[]) => setDefaultAvatars(data))
 			.catch(() => setAvatarError("FETCH_DEFAULT_AVATARS_ERROR"));
 	}, []);
@@ -115,6 +132,7 @@ function Parameters() {
 								className="btn btn-primary update-button text-wrap"
 								onClick={manageUpdate}
 							/>
+							{infosUpdated && <span className="d-block text-center text-white">✓ {t('common.updated')}</span>}
 							<ErrorMessage error={accountError} />
 						</form>
 					</div>
@@ -126,9 +144,9 @@ function Parameters() {
 							{ !pickedDefault && 
 								<FileImport
 									mode="avatar"
-									onUploaded={(fileId) => setAvatar(fileId)}
+									onUploaded={(fileId) => { setAvatar(fileId); setAvatarError(null); setAvatarUpdated(true); }}
 									onSelectedChange={setHasCustomFile}
-									inputPlaceHolder="Importer une nouvelle image"
+									inputPlaceHolder={t('common.import-image')}
 								/>
 							}
 
@@ -142,7 +160,7 @@ function Parameters() {
 												src={`/api/${item.id}/download`}
 												alt={item.name}
 												className={`img-avatar-completeProfile ${avatar === item.id ? "selected" : ""}`}
-												onClick={() => { setAvatar(item.id); setPickedDefault(true); setUpdated(false); }}
+												onClick={() => { setAvatar(item.id); setPickedDefault(true); setAvatarUpdated(false); }}
 											/>
 										))}
 									</div>
@@ -154,7 +172,7 @@ function Parameters() {
 									<input
 										type="button"
 										value={t('common.import-file-instead')}
-										onClick={()=>{ setPickedDefault(false); setAvatar(null); setUpdated(false); }}
+										onClick={()=>{ setPickedDefault(false); setAvatar(null); setAvatarUpdated(false); }}
 										className="file-delete-button"
 									/>
 									<input
@@ -163,9 +181,9 @@ function Parameters() {
 										className="btn btn-primary update-button text-wrap"
 										onClick={manageAvatarUpdate}
 									/>
-									{updated && <span className="d-block text-center text-white">✓ {t('common.updated')}</span>}
 								</>
 							)}
+							{avatarUpdated && <span className="d-block text-center text-white">✓ {t('common.updated')}</span>}
 							<ErrorMessage error={avatarError} />
 						</form>
 

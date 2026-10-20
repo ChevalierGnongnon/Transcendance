@@ -51,47 +51,78 @@ class FileService {
             profilePhotoId: true,
           },
         });
-        const result = await sharp(fileBuffer).toFormat('webp').toBuffer();
+        let result: Buffer;
+        try{
+          result = await sharp(fileBuffer).toFormat('webp').toBuffer();
+
+        } catch (err){
+          throw new UnsupportedFileTypeError('CORRUPTED_IMAGE');
+        }
         const id = randomUUID();
         const fileName = `${id}.webp`;
-
         fs.writeFileSync(`/app/uploads/${fileName}`, result);
 
-        await prisma.$transaction([
-          prisma.file.create({
-            data: {
-              id: id,
-              name: fileName,
-              type: type,
-              userId: userId,
-              mimeType: 'image/webp',
-              expiresAt: null,
-            },
-          }),
-          prisma.user.update({
-            where: {
-              id: userId,
-            },
-            data: {
-              profilePhotoId: id,
-            },
-          }),
-        ]);
+        try{
+          await prisma.$transaction([
+            prisma.file.create({
+              data: {
+                id: id,
+                name: fileName,
+                type: type,
+                userId: userId,
+                mimeType: 'image/webp',
+                expiresAt: null,
+              },
+            }),
+            prisma.user.update({
+              where: {
+                id: userId,
+              },
+              data: {
+                profilePhotoId: id,
+              },
+            }),
+          ]);
+        } catch (err) {
+          try{
+            fs.unlinkSync(`/app/uploads/${fileName}`);
+          }
+          catch { }
+          
+          throw (err);
+        }
+        
         if (previousUser?.profilePhotoId) {
           try {
             await this.deleteFile(previousUser.profilePhotoId, userId);
           } catch (err) {
-            // best-effort: ignore (ex: ancien avatar par défaut)
+            
           }
         }
         return id;
       } else if (type === 'message' && messageFileWhiteList.includes(fileType.mime) && chatId) {
+        // const member = await prisma.chatMember.findUnique({
+        //   where: {
+        //     chatId_userId: {
+        //       // chatId: chatId,
+        //       userId: userId,
+        //     },
+        //   },
+        // });
+
+        // if (!member) {
+        //   throw new ForbiddenRightsError('User is not a member of this chat');
+        // }
         let bufferToWrite = fileBuffer;
         let extension = fileType.ext;
         const expiredDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
         if (avatarWhiteList.includes(fileType.mime) || fileType.mime === 'image/gif') {
-          bufferToWrite = await sharp(fileBuffer).toFormat('webp').toBuffer();
+          try {
+            bufferToWrite = await sharp(fileBuffer, {animated: true}).toFormat('webp').toBuffer();
+          } catch {
+            throw new UnsupportedFileTypeError('CORRUPTED_IMAGE');
+          }
           extension = 'webp';
         }
 
@@ -100,30 +131,25 @@ class FileService {
 
         fs.writeFileSync(`/app/uploads/${fileName}`, bufferToWrite);
 
-        //         const member = await prisma.chatMember.findUnique({
-        //           where: {
-        //             chatId_userId: {
-        //               chatId: chatId,
-        //               userId: userId,
-        //             },
-        //           },
-        //         });
-        //
-        //         if (!member) {
-        //           throw new ForbiddenRightsError('User is not a member of this chat');
-        //         }
-
-        await prisma.file.create({
-          data: {
-            id: id,
-            name: fileName,
-            type: type,
-            userId: userId,
-            // chatId: chatId,
-            mimeType: extension === 'webp' ? 'image/webp' : fileType.mime,
-            expiresAt: expiredDate,
-          },
-        });
+        try{
+          await prisma.file.create({
+            data: {
+              id: id,
+              name: fileName,
+              type: type,
+              userId: userId,
+              mimeType: extension === 'webp' ? 'image/webp' : fileType.mime,
+              expiresAt: expiredDate,
+            },
+          });
+        } catch (err){
+          try{
+            fs.unlinkSync(`/app/uploads/${fileName}`);
+          }
+          catch { }
+          
+          throw (err);
+        }
         return id;
       } else {
         throw new UnsupportedFileTypeError('File type is not in whitelist');
@@ -179,7 +205,11 @@ class FileService {
         id: fileId,
       },
     });
-    if (file === null) throw new NotFoundError('File not found');
+    if (file === null)
+      throw new NotFoundError('File not found');
+    if (file.expiresAt !== null && file.expiresAt.getTime() < Date.now())
+        throw new NotFoundError("File has been deleted");
+
     let fileBuffer;
     let data: FileData;
     try {

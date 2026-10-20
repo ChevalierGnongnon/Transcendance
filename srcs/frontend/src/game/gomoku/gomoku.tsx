@@ -76,11 +76,15 @@ function Gomoku({
 
     const handleRematchAccepted = (invitation: RematchInvitation & { gameId: string }) => {
       if (invitation.invitationId !== rematchInvitation?.invitationId) return;
-      const opponentId = invitation.fromUserId === myUserId ? invitation.toUserId : invitation.fromUserId;
+      const opponentId =
+        invitation.fromUserId === myUserId ? invitation.toUserId : invitation.fromUserId;
       if (opponentId !== players[1]?.id) return;
-      navigate(`/game?gameId=${invitation.gameId}&opponentId=${opponentId}&boardSize=${invitation.boardSize}`, {
-        replace: true,
-      });
+      navigate(
+        `/game?gameId=${invitation.gameId}&opponentId=${opponentId}&boardSize=${invitation.boardSize}`,
+        {
+          replace: true,
+        }
+      );
       setRematchInvitation(null);
     };
 
@@ -124,57 +128,65 @@ function Gomoku({
     if (!gameId || !isConnected || !isFinished || rematchInvitation || isRematchSending) return;
     setRematchError('');
     setIsRematchSending(true);
-    socket.emit('game:request-rematch', { gameId }, (response: {
-      ok: boolean;
-      data?: RematchInvitation;
-      error?: { message?: string };
-    }) => {
-      setIsRematchSending(false);
-      if (!response.ok || !response.data) {
-        setRematchError(response.error?.message ?? t('game.rematch_invite_error'));
-        return;
+    socket.emit(
+      'game:request-rematch',
+      { gameId },
+      (response: { ok: boolean; data?: RematchInvitation; error?: { message?: string } }) => {
+        setIsRematchSending(false);
+        if (!response.ok || !response.data) {
+          setRematchError(response.error?.message ?? t('game.rematch_invite_error'));
+          return;
+        }
+        setRematchInvitation(response.data);
       }
-      setRematchInvitation(response.data);
-    });
+    );
   };
 
   const respondToRematch = (accept: boolean) => {
     if (!rematchInvitation) return;
-    socket.emit(accept ? 'game:accept' : 'game:decline', rematchInvitation, (response: {
-      ok: boolean;
-      error?: { message?: string };
-    }) => {
-      if (!response.ok) {
-        setRematchError(response.error?.message ?? t('game.rematch_invite_expired'));
-        return;
+    socket.emit(
+      accept ? 'game:accept' : 'game:decline',
+      rematchInvitation,
+      (response: { ok: boolean; error?: { message?: string } }) => {
+        if (!response.ok) {
+          setRematchError(response.error?.message ?? t('game.rematch_invite_expired'));
+          return;
+        }
+        if (!accept) setRematchInvitation(null);
       }
-      if (!accept) setRematchInvitation(null);
-    });
+    );
   };
 
   const cancelRematch = () => {
     if (!rematchInvitation || rematchInvitation.fromUserId !== myUserId) return;
-    socket.emit('game:cancel-invitation', { invitationId: rematchInvitation.invitationId }, (response: {
-      ok: boolean;
-      error?: { message?: string };
-    }) => {
-      if (!response.ok) {
-        setRematchError(response.error?.message ?? t('game.rematch_cancel_error'));
-        return;
+    socket.emit(
+      'game:cancel-invitation',
+      { invitationId: rematchInvitation.invitationId },
+      (response: { ok: boolean; error?: { message?: string } }) => {
+        if (!response.ok) {
+          setRematchError(response.error?.message ?? t('game.rematch_cancel_error'));
+          return;
+        }
+        setRematchInvitation(null);
       }
-      setRematchInvitation(null);
-    });
+    );
   };
 
   return (
-    <div className="d-flex justify-content-center py-3">
-      <div className="gomoku-card">
+    <div className="container-fluid d-flex justify-content-center py-3 px-2">
+      <div className="gomoku-card p-2 p-md-3 mw-100">
         <h2 className="text-center mb-3 gomoku-title">Gomoku</h2>
 
-        <div className="gomoku-info-bar d-flex justify-content-between align-items-center mb-3">
-          <div className={`player-box ${currentPlayer?.id === players[0]?.id ? 'active-turn' : ''}`}>
+        <div className="gomoku-info-bar d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 mb-3">
+          <div
+            className={`player-box ${currentPlayer?.id === players[0]?.id ? 'active-turn' : ''}`}
+          >
             <img
-              src={players[0]?.profilePhoto ? `/uploads/${players[0].profilePhoto}` : '/default-avatar.png'}
+              src={
+                players[0]?.profilePhoto
+                  ? `/uploads/${players[0].profilePhoto}`
+                  : '/default-avatar.png'
+              }
               alt="me avatar"
               className="player-avatar"
             />
@@ -183,7 +195,10 @@ function Gomoku({
 
           <div className="turn-info">
             {winner ? (
-              <>{t('game.winner')}:<br />{winner.username}</>
+              <>
+                {t('game.winner')}:<br />
+                {winner.username}
+              </>
             ) : isDraw ? (
               t('game.draw')
             ) : opponentLeft ? (
@@ -193,13 +208,23 @@ function Gomoku({
             ) : currentPlayer?.id === myUserId ? (
               t('game.your_turn')
             ) : (
-              <>{t('game.waiting')}<br />{t('game.opponent')}</>
+              <>
+                {t('game.waiting')}
+                <br />
+                {t('game.opponent')}
+              </>
             )}
           </div>
 
-          <div className={`player-box ${currentPlayer?.id === players[1]?.id ? 'active-turn' : ''}`}>
+          <div
+            className={`player-box ${currentPlayer?.id === players[1]?.id ? 'active-turn' : ''}`}
+          >
             <img
-              src={players[1]?.profilePhoto ? `/uploads/${players[1].profilePhoto}` : '/default-avatar.png'}
+              src={
+                players[1]?.profilePhoto
+                  ? `/uploads/${players[1].profilePhoto}`
+                  : '/default-avatar.png'
+              }
               alt="opponent avatar"
               className="player-avatar"
             />
@@ -211,11 +236,18 @@ function Gomoku({
           <button
             className="btn btn-primary gomoku-reset-btn"
             onClick={mode === 'online' ? handleNewGame : reset}
-            disabled={mode === 'online' && (!isConnected || !isFinished || isRematchSending || Boolean(rematchInvitation))}
+            disabled={
+              mode === 'online' &&
+              (!isConnected || !isFinished || isRematchSending || Boolean(rematchInvitation))
+            }
           >
             {t('game.new_game')}
           </button>
-          <button className="btn btn-primary gomoku-reset-btn ms-3" onClick={handleCloseGame} disabled={isLeaving}>
+          <button
+            className="btn btn-primary gomoku-reset-btn ms-3"
+            onClick={handleCloseGame}
+            disabled={isLeaving}
+          >
             {t('game.finish')}
           </button>
         </div>
@@ -229,23 +261,19 @@ function Gomoku({
             </span>
             {rematchInvitation.toUserId === myUserId && (
               <div className="invite-actions mt-2">
-                <button
-                  className="btn btn-success me-2"
-                  onClick={() => respondToRematch(true)}
-                >
+                <button className="btn btn-success me-2" onClick={() => respondToRematch(true)}>
                   {t('game.accept')}
                 </button>
-                          
-                <button
-                  className="btn btn-danger"
-                  onClick={() => respondToRematch(false)}
-                >
+
+                <button className="btn btn-danger" onClick={() => respondToRematch(false)}>
                   {t('game.decline')}
                 </button>
               </div>
             )}
             {rematchInvitation.fromUserId === myUserId && (
-              <button className="btn btn-danger mt-2" onClick={cancelRematch}>{t('game.invite_cancel')}</button>
+              <button className="btn btn-danger mt-2" onClick={cancelRematch}>
+                {t('game.invite_cancel')}
+              </button>
             )}
           </div>
         ) : null}
@@ -256,7 +284,12 @@ function Gomoku({
         )}
         <div
           className="gomoku-grid"
-          style={{ gridTemplateColumns: `repeat(${board.length}, var(--cell-size))` }}
+          style={
+            {
+              '--cols': board.length,
+              gridTemplateColumns: `repeat(${board.length}, var(--cell-size))`,
+            } as React.CSSProperties
+          }
         >
           {board.map((row, rIdx) =>
             row.map((cell, cIdx) => {
@@ -266,7 +299,14 @@ function Gomoku({
                   key={`${rIdx}-${cIdx}`}
                   className={`gomoku-cell btn ${isWinningCell ? 'win-cell' : ''}`}
                   onClick={() => handleClick(rIdx, cIdx)}
-                  disabled={!!winner || isDraw || gameIsClosed || opponentLeft || (mode === 'online' && (!isConnected || currentPlayer?.id !== myUserId || cell !== null))}
+                  disabled={
+                    !!winner ||
+                    isDraw ||
+                    gameIsClosed ||
+                    opponentLeft ||
+                    (mode === 'online' &&
+                      (!isConnected || currentPlayer?.id !== myUserId || cell !== null))
+                  }
                 >
                   {cell}
                 </button>
@@ -274,7 +314,11 @@ function Gomoku({
             })
           )}
         </div>
-        {rematchError && <p role="alert" className="text-danger">{rematchError}</p>}
+        {rematchError && (
+          <p role="alert" className="text-danger">
+            {rematchError}
+          </p>
+        )}
       </div>
     </div>
   );

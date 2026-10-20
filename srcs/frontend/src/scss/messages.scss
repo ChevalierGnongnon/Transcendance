@@ -111,15 +111,20 @@
   margin-right: auto;
 }
 
-.avatar-msg {
-  margin: 0;
+.avatar-msg{
+    margin: 1%;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
-.avatar-msg img {
-  height: 60px;
-  width: 60px;
-  border-radius: 30px;
-  object-fit: cover;
+.avatar-msg img{
+    height: 100%;
+    width: 100%;
+    display: block;
+    object-fit: cover
 }
 
 .nav-bar {
@@ -216,25 +221,15 @@
   }
 }
 
-.friends-block {
-  width: 100%;
-}
-
-.user-block {
-  width: 60%;
-  height: 40px;
-  border: 1px solid white;
-}
-
-.more-options-div {
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  margin-bottom: 8px;
-  z-index: 10;
-  border-radius: 12px;
-  width: 300px;
-  background-color: transparent;
+.more-options-div{
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 8px;
+    z-index: 10;
+    border-radius: 12px;
+    width: 300px;
+    background-color: transparent;
 }
 
 .more-options-btn {

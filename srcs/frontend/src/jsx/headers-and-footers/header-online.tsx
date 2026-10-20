@@ -2,7 +2,7 @@ import "../../scss/common-classes.scss";
 import "../../scss/profile-page.scss";
 import i18n from "../../../localisation/i18n";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import messageIcon from "../../assets/icons/icon-messages.png";
 import parametersIcon from "../../assets/icons/icon-parameters.png";
@@ -14,11 +14,11 @@ import { useApiFetch } from "../auth/use-api-fetch";
 import langIcon from "../../assets/icons/lang_icon.png";
 import SearchBar from "../others/search-bar";
 import '../../scss/headers.scss'
+import ErrorMessage from "../others/error-message";
 
 interface User {
 	firstName: string;
 	lastName: string;
-	email: string;
 	pseudo: string;
 	profilePhoto: {
 		id: string;
@@ -31,19 +31,27 @@ function HeaderOnline() {
 	const { t } = useTranslation();
 	const { logout } = useAuth();
 	const apiFetch = useApiFetch();
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         apiFetch("/api/my-profile", { credentials: "include" })
             .then((res) => {
                 if (!res.ok) {
-                logout();
-                return;
+                    if (res.status === 401)
+                        logout();
+                    else
+                        setError('IMPOSSIBLE_LOADING_ACCOUNT');
+                    return;
                 }
-                return res.json();
+                return (res.json());
             })
             .then((data) => {
-                if (data) setUser(data);
-        });
+                if (data)
+                    setUser(data);
+            })
+            .catch(
+                () => setError('IMPOSSIBLE_LOADING_ACCOUNT')
+            )
     }, []);
 
 	const navigate = useNavigate();
@@ -51,8 +59,11 @@ function HeaderOnline() {
 		await logout();
 		navigate("/login");
 	};
-    if (!user)
-        return <p>{t('common.loading')}</p>;
+    if (!user) {
+        if (error !== null)
+            return (<ErrorMessage error={error}></ErrorMessage>)
+        return (<p>{t('common.loading')}</p>);
+    }
     return (
         <>
             <header className="profile-page-header py-3 px-4">
@@ -68,7 +79,7 @@ function HeaderOnline() {
                 <section className="d-xl-none">
                     <div className="dropdown pp-icons-header">
                         <button
-                            className="btn btn-secondary btn-sm dropdown-toggle header-btn"
+                            className="btn btn-secondary btn-sm dropdown-toggle header-btn header-btn-layout"
                             type="button"
                             data-bs-toggle="dropdown"
                         >
@@ -76,38 +87,28 @@ function HeaderOnline() {
                         </button>
 
                         <ul className="dropdown-menu">
-                            <li><input type="button" value="Fr" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
-                            <li><input type="button" value="Eng" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
-                            <li><input type="button" value="De" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
-                            <li><input type="button" value="Ru" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
-                            <li><input type="button" value="Ua" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
+                            <li><input type="button" value="Fr" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
+                            <li><input type="button" value="Eng" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
+                            <li><input type="button" value="De" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
+                            <li><input type="button" value="Ru" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
+                            <li><input type="button" value="Ua" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
                         </ul>
                     </div>
                 </section>
-                <section className="header-middle d-none d-xl-flex">
+                <section className="header-middle">
                     <SearchBar 
                         ClassName="search-bar"
-                        PlaceHolder={t('common.search-user')}
-                        ListClassName="header-search-results"
-                        BreakPoint={768}
-                        onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
-                    ></SearchBar>   
-                </section>
-                <section className="d-xl-none header-middle">
-                    <SearchBar
-                        ClassName="mini-search-bar"
                         PlaceHolder={t('common.search')}
-                        ListClassName="mini-search-list"
-                        BreakPoint={null}
+                        ListClassName="header-search-results"
                         onSelectUser={(user) => navigate(`/profile/${user.pseudo}`)}
-                    >
-                    </SearchBar>
+                    />
                 </section>
+                
                 <section className="header-right">
                     <div className="d-none d-xl-flex d-flex gap-4">
                             <div className="dropdown pp-icons-header">
                                 <button
-                                    className="btn btn-secondary btn-sm dropdown-toggle header-btn"
+                                    className="btn btn-secondary btn-sm dropdown-toggle header-btn header-btn-layout"
                                     type="button"
                                     data-bs-toggle="dropdown"
                                 >
@@ -117,11 +118,11 @@ function HeaderOnline() {
                                 <span>{t('common.languages')}</span>
                                 
                                 <ul className="dropdown-menu">
-                                    <li><input type="button" value="Fr" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
-                                    <li><input type="button" value="Eng" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
-                                    <li><input type="button" value="De" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
-                                    <li><input type="button" value="Ru" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
-                                    <li><input type="button" value="Ua" className="btn btn-secondary header-btn btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
+                                    <li><input type="button" value="Fr" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('fr'); localStorage.setItem('lang', 'fr'); }} /></li>
+                                    <li><input type="button" value="Eng" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('lang', 'en'); }} /></li>
+                                    <li><input type="button" value="De" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('lang', 'de'); }} /></li>
+                                    <li><input type="button" value="Ru" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('ru'); localStorage.setItem('lang', 'ru'); }} /></li>
+                                    <li><input type="button" value="Ua" className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => { i18n.changeLanguage('uk'); localStorage.setItem('lang', 'uk'); }} /></li>
                                 </ul>
                             </div>
                         <figure className="m-0 pp-icons-header" onClick={() => navigate('/messages')}>
@@ -143,19 +144,19 @@ function HeaderOnline() {
                     </div>
                     <div className="dropdown d-xl-none">
                         <button className="btn btn-secondary btn-sm dropdown-toggle header-btn-right" type="button" data-bs-toggle="dropdown">
-                            {t('profile-page.go-to')}
+                            {t('profile-page.navigate')}
                         </button>
                         <ul className="dropdown-menu">
                             <li>
-                                <input type="button" value={t('common.messages')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/messages')}/>
+                                <input type="button" value={t('common.messages')} className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => navigate('/messages')}/>
                             </li>
                             <li>
-                                <input type="button" value={t('common.parameters')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/Parameters') } />
+                                <input type="button" value={t('common.parameters')} className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => navigate('/Parameters') } />
                             </li>
                             <li>
-                                <input type="button" value={t('common.my-page')} className="btn btn-secondary header-btn btn-sm" onClick={() => navigate('/personalpage') } /></li>
+                                <input type="button" value={t('common.my-page')} className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={() => navigate('/personalpage') } /></li>
                             <li>
-                                <input type="button" value={t('common.logout')} className="btn btn-secondary header-btn btn-sm" onClick={handleLogout} />
+                                <input type="button" value={t('common.logout')} className="btn btn-secondary header-btn header-btn-layout btn-sm" onClick={handleLogout} />
                             </li>
                         </ul>
                     </div>

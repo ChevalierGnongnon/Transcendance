@@ -16,6 +16,8 @@
     border-top-left-radius: $radius-md;
     border-top-right-radius: $radius-md;
     text-align: center;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
 .header-middle{
@@ -27,8 +29,7 @@
     }
 }
 
-.header-search-results,
-.mini-search-list {
+.header-search-results {
     background-color: $navy-hover;
     color: white;
     padding: 0;
@@ -40,8 +41,7 @@
     overflow-y: auto;
 }
 
-.header-search-results li,
-.mini-search-list li {
+.header-search-results li {
     border-bottom: 1px solid white;
     padding: 1%;
     &:hover{
@@ -49,14 +49,12 @@
     }
 }
 
-.header-search-results li figure,
-.mini-search-list li figure {
+.header-search-results li figure {
     margin: 0;
 }
 
 
-.header-search-results li img,
-.mini-search-list li img {
+.header-search-results li img {
     height: 80px;
     width: 80px;
     border-radius: 50%;
@@ -79,14 +77,5 @@
         text-overflow: ellipsis;
         vertical-align: bottom;
     }
-}
-
-.mini-search-bar{
-    width: 100%;
-    border-top-left-radius: $radius-md;
-    border-top-right-radius: $radius-md;
-    text-align: center;
-    appearance: none;
-    -webkit-appearance: none;
 }
 

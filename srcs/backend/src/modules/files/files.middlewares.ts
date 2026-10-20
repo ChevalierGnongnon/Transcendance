@@ -1,4 +1,5 @@
 import multer from 'multer';
+import { UnsupportedFileTypeError } from '@/common/errors.js';
 
 export const avatarWhiteList = [
     'image/png',
@@ -28,8 +29,11 @@ export const uploadImageConfig = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
-    cb(null, avatarWhiteList.includes(file.mimetype));
-  },
+      if (avatarWhiteList.includes(file.mimetype))
+        cb(null, true);
+      else
+        cb(new UnsupportedFileTypeError());
+    },
 })
 
 
@@ -37,6 +41,11 @@ export const uploadAttachmentConfig = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 10 * 1024 * 1024},
     fileFilter: (req, file, cb) => {
-    cb(null, messageFileWhiteList.includes(file.mimetype));
-  },
+      if (messageFileWhiteList.includes(file.mimetype))
+        cb(null, true);
+      else
+        cb(new UnsupportedFileTypeError());
+    },
 })
+
+

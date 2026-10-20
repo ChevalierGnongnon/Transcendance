@@ -19,7 +19,7 @@ interface User {
   id: string;
   firstName: string;
   lastName: string;
-  email: string;
+  // email: string;
   pseudo: string;
   profilePhoto: {
     id: string;

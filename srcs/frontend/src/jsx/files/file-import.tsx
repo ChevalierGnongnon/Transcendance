@@ -1,7 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
+import { useAuth } from "../auth/auth-context";
 import ErrorMessage from "../others/error-message";
 import "../../scss/files.scss"
+
+
 interface FileImportComponent{
     mode: 'avatar' | 'message';
     onUploaded?: (fileId: string) => void;
@@ -10,6 +13,7 @@ interface FileImportComponent{
     deferUpload?: boolean;
     onFileReady?: (file: File | null) => void;
     externalProgress?: number;
+    externalError?: string | null;
     inputPlaceHolder: string | undefined
 }
 
@@ -37,7 +41,10 @@ function FileImport(fileImportComponent: FileImportComponent){
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [uploadProgress, setUploadProgress] = useState<number>(0)
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [confirmed, setConfirmed] = useState(false);
+    const [confirmed, setConfirmed] = useState<boolean>(false);
+    const [isUploading, setIsUploading] = useState<boolean>(false);
+    const {markDisconnected} = useAuth();
+
 
     return (
         <div className="file_component p-2 d-flex flex-column">
@@ -50,36 +57,35 @@ function FileImport(fileImportComponent: FileImportComponent){
                 placeholder={fileImportComponent.inputPlaceHolder}
                 onChange={
                     (e)=>{
+                        if (previewURL)
+                            URL.revokeObjectURL(previewURL);
                         setUploadProgress(0);
                         setConfirmed(false);
                         const file = e.target.files?.[0];
                         if (file){
-                            if (fileImportComponent.mode === 'avatar'
-                                && file.size <= (5 * 1024 * 1024)
-                                && avatarWhiteList.includes(file.type)){
-                                    setErrorMessage(null);
-                                    setSelectedFile(file);
-                                    const view = URL.createObjectURL(file);
-                                    setPreviewURL(view);
-                                    if (fileImportComponent.onSelectedChange)
-                                        fileImportComponent.onSelectedChange(true);
-                            }
-                            else if (fileImportComponent.mode === 'message'
-                                && file.size <= (10 * 1024 * 1024)
-                                && messageFileWhiteList.includes(file.type)){
-                                    setErrorMessage(null);
-                                    setSelectedFile(file);
-                                    const view = URL.createObjectURL(file);
-                                    setPreviewURL(view);
-                                    if (fileImportComponent.onSelectedChange)
-                                        fileImportComponent.onSelectedChange(true);
-                            }
-                            else {
-                                setErrorMessage('WRONG_FILE_TYPE');
+                            const whiteList = fileImportComponent.mode === 'avatar' ? avatarWhiteList : messageFileWhiteList;
+                            const maxSize = fileImportComponent.mode === 'avatar' ? 5 * 1024 * 1024 : 10 * 1024 * 1024;
+                            let fileError: string | null = null;
+
+                            if (!whiteList.includes(file.type))
+                                fileError = 'WRONG_FILE_TYPE';
+                            else if (file.size > maxSize)
+                                fileError = 'INVALID_FILE_SIZE';
+
+                            if (fileError) {
+                                setErrorMessage(fileError);
                                 setSelectedFile(null);
                                 setPreviewURL(null);
                                 if (fileImportComponent.onSelectedChange)
                                     fileImportComponent.onSelectedChange(false);
+                            }
+                            else {
+                                setErrorMessage(null);
+                                setSelectedFile(file);
+                                const view = URL.createObjectURL(file);
+                                setPreviewURL(view);
+                                if (fileImportComponent.onSelectedChange)
+                                    fileImportComponent.onSelectedChange(true);
                             }
                         }
                         else {
@@ -131,43 +137,88 @@ function FileImport(fileImportComponent: FileImportComponent){
                 type="button"
                 value={t('common.confirm')}
                 className="file-accept-button"
+                disabled={isUploading || selectedFile === null}
                 onClick={()=>{
-                    setUploadProgress(0);
-                    let url ;
-                    if (selectedFile === null)
-                        return ;
-                    if (fileImportComponent.deferUpload){
-                        if (fileImportComponent.onFileReady)
-                            fileImportComponent.onFileReady(selectedFile);
-                        setConfirmed(true);
+                    if (isUploading === true)
                         return;
-                    }
-                    let form = new FormData();
-                    form.append('file', selectedFile);
-                    let request = new XMLHttpRequest();
-                    if (fileImportComponent.mode === 'avatar')
-                        url = '/api/avatar';
-                    else if (fileImportComponent.mode === 'message')
-                        url = '/api/message';
-                    else
-                        return ;
-                    request.open('POST', url);
-                    request.onload = () =>{
-                        if (request.status === 201){
-                            const id = JSON.parse(request.responseText);
-                            if (fileImportComponent.onUploaded)
-                                fileImportComponent.onUploaded(id.file_id);
+                    else {
+                        setIsUploading(true);
+                        setUploadProgress(0);
+                        let url ;
+                        if (selectedFile === null){
+                            setIsUploading(false);
+                            return ;
                         }
+                            
+                        if (fileImportComponent.deferUpload){
+                            if (fileImportComponent.onFileReady)
+                                fileImportComponent.onFileReady(selectedFile);
+                            setConfirmed(true);
+                            setIsUploading(false);
+                            return;
+                        }
+                        let form = new FormData();
+                        form.append('file', selectedFile);
+                        let request = new XMLHttpRequest();
+                        if (fileImportComponent.mode === 'avatar')
+                            url = '/api/avatar';
+                        else{
+                            setIsUploading(false);
+                            return ;
+                        }
+                        request.open('POST', url);
+                        request.onload = () =>{
+                            if (request.status === 201){
+                                const id = JSON.parse(request.responseText);
+                                if (fileImportComponent.onUploaded){
+                                    fileImportComponent.onUploaded(id.file_id);
+                                    
+                                }
+                                setErrorMessage(null);
+                                setUploadProgress(0);
+                                setConfirmed(false);
+                                if (fileInputRef.current)
+                                    fileInputRef.current.value = '';
+                                setSelectedFile(null);
+                                if (previewURL)
+                                    URL.revokeObjectURL(previewURL);
+                                setPreviewURL(null);
+                                if (fileImportComponent.onSelectedChange)
+                                    fileImportComponent.onSelectedChange(false);
+                            }
+                            else if (request.status === 401)
+                                markDisconnected();
+                            else {
+                                try{
+                                    const error = JSON.parse(request.responseText);
+                                    setErrorMessage(error?.error ?? 'INTERNAL_SERVER_ERROR');
+                                } catch {
+                                    if (request.status === 413)
+                                        setErrorMessage('INVALID_FILE_SIZE');
+                                    else
+                                        setErrorMessage('INTERNAL_SERVER_ERROR');
+                                    
+                                }
+                            }
+                            setIsUploading(false);
+
+                        }
+                        request.upload.onprogress = (event) =>{
+                            if (event.lengthComputable === true){
+                                let progress = (event.loaded / event.total) * 100;
+                                setUploadProgress(progress);
+                            }   
+                        }
+                        request.onerror = () => {
+                            setErrorMessage('DATABASE_ERROR');
+                            setIsUploading(false);
+                        };
+                        request.send(form);
                     }
-                    request.upload.onprogress = (event) =>{
-                        let progress = (event.loaded / event.total) * 100;
-                        setUploadProgress(progress);
-                    }
-                    request.send(form);
                 }
             }/>
             {confirmed && <span className="d-block text-center text-white">✓ {t('common.ready')}</span>}
-            <ErrorMessage error={errorMessage} />
+            <ErrorMessage error={errorMessage ?? fileImportComponent.externalError ?? null} />
             <input
                 type="button"
                 value={t('common.undo')}
@@ -179,7 +230,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                         fileInputRef.current.value = '';
                     setSelectedFile(null);
                     if (previewURL)
-                        URL.revokeObjectURL(previewURL)
+                        URL.revokeObjectURL(previewURL);
                     setPreviewURL(null);
                     setErrorMessage(null);
                     setUploadProgress(0);

@@ -1,10 +1,15 @@
 import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 import type { Request, Response, NextFunction } from 'express';
+import { prisma } from '../../lib/prisma.js';
 
-export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
+
+export const requireAuth = async(req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.token;
 
+  // login page will return 401 on first
+  // website connexion if cookie is expired or no one has login.
+  // it is normal and attended.
   if (!token || typeof token !== 'string') {
     return res.status(401).json({
       error: 'INVALID_TOKEN',
@@ -19,25 +24,45 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
     });
   }
 
+  let decoded;
   try {
-    const decoded = jwt.verify(token, secret);
+    decoded = jwt.verify(token, secret);
 
-    if (typeof decoded === 'string' || typeof decoded.userId !== 'string') {
-      return res.status(403).json({
-        error: 'INVALID_TOKEN',
-      });
-    }
+  } catch (error) {
+    // token doesn't pass jwt verify (expired or modified)
+    return (res.status(401).json({error: 'INVALID_TOKEN',}));
+  }
 
-    req.jwtPayload = decoded;
-    req.userId = decoded.userId;
+  if (typeof decoded === 'string' || typeof decoded.userId !== 'string') {
+    // token is valid but its value doesn't have the good shape
+    return (res.status(401).json({ error: 'INVALID_TOKEN' }));
+  }
 
-    next();
+  let user;
+  try{
+    user = await prisma.user.findUnique({
+      where: {
+        id:decoded.userId
+      },
+      select: {
+        id:true
+      }
+    })
   } catch (error) {
     console.error(error);
-    return res.status(403).json({
-      error: 'INVALID_TOKEN',
+    return res.status(500).json({
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
+
+  if (!user){
+    // user doesn't exist anymore in database
+    return res.status(401).json({ error: 'INVALID_TOKEN' });
+  }
+  req.jwtPayload = decoded;
+  req.userId = decoded.userId;
+
+  next();
 };
 
 export function validate(req: Request, res: Response, next: NextFunction) {
@@ -58,8 +83,7 @@ export function validate(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
-//Only for files since we can download (default_avatar) files when register, don't use it anywhere else then in this situation
-export function attachUserIfPresent(req: Request, res: Response, next:NextFunction){
+export function attachUserIfPresent(req: Request, res: Response, next: NextFunction){
   const token = req.cookies.token;
 
   if (!token || typeof token !== 'string') {
@@ -84,7 +108,6 @@ export function attachUserIfPresent(req: Request, res: Response, next:NextFuncti
 
     next();
   } catch (error) {
-    console.error(error);
     return (next());
   }
 }

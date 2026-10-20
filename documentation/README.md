@@ -114,7 +114,7 @@ MariaDB was chosen because the team already had experience with **MariaDB/MySQL*
 
 ### Database Schema
 
-![database_schema](/documentation/DBSchema.png)
+![DBSchema](/documentation/DBSchema.png)
 
 ### Real-Time Communication
 

@@ -37,17 +37,23 @@ export function showConnectedUsers(){
     return (Array.from(userList.keys()));
 }
 
+// called when user just connected
 export async function announceOnline(userId: string, socket: Socket){
     const register = await friendshipsServices.getFriendsRegister(userId);
+    // gets all friends (other user)
     const friends = register.map(f => f.userId === userId ? f.friendId : f.userId);
+    // get connected users 
     const connected = showConnectedUsers();
-
+    // filters only the ones that are connected
     const onlineFriends = friends.filter(friendId => connected.includes(friendId));
+    // builds the room 
     const rooms = onlineFriends.map(id => `user-${id}`)
 
+    // emits to the rooms that the user is online 
     socket.to(rooms).emit('user-online', { userId })
 }
 
+//same as online but fot disconnected 
 export async function announceOffline(userId: string, socket: Socket){
     const register = await friendshipsServices.getFriendsRegister(userId);
     const friends = register.map(f => f.userId === userId ? f.friendId : f.userId);
@@ -67,6 +73,7 @@ export async function announceOffline(userId: string, socket: Socket){
 //     socket.emit('online-friends', { onlineFriends })
 // }
 
+// gives to the user the list of connected friends
 export async function filterAndEmit(userId: string, socket: Socket){
     const register = await friendshipsServices.getFriendsRegister(userId);
     const friends = register.map(f => f.userId === userId ? f.friendId : f.userId);

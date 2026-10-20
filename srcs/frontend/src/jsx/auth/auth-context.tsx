@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode} from "react";
 import { createAiConversation } from "../ai/utils/api";
 
 import { socket } from "../messages/socket";
+
 // Shape of the info shared everywhere in the app (via AuthProvider):
 // whether or not the user is connected,
 // and functions to change its status and check if it changed
@@ -9,6 +10,8 @@ type AuthContextType = {
     isAuthenticated: true | false | null;
     login: () => void;
     markDisconnected: () => void;
+    // both refresh and logout returns a promise that once solved,
+    // doesn't return anything usefull
     logout: () => Promise<void>;
     refresh: () => Promise<void>;
     onlineFriends: string[];
@@ -29,7 +32,8 @@ export function AuthProvider({children}:{children:ReactNode}){
         await fetch('/api/check-auth',{
                 credentials: 'include'
         })
-        .then(res => setIsAuthenticated(res.ok))
+        .then(res => res.json())
+        .then(data => setIsAuthenticated(data.authenticated === true))
         .catch(() => setIsAuthenticated(false));
     }
 
@@ -48,18 +52,33 @@ export function AuthProvider({children}:{children:ReactNode}){
         }
     }, [isAuthenticated])
 
-    // // To handle deconnexion in all tabs if one logged out 
-    // useEffect(() => {
-    //     window.addEventListener('storage', refresh)
-    //     return () => window.removeEventListener('storage', refresh);
-    // }, [])
+    // To handle logout in all tabs if one logged out 
+    useEffect(() => {
+        function listenToStorage(event: StorageEvent){
+            if (event.key === 'auth-sync')
+                refresh();
+        }
+        window.addEventListener('storage', listenToStorage)
+        return () => window.removeEventListener('storage', listenToStorage);
+    }, [])
 
     useEffect(() => {
+        // receives online friends sent by filter and emit
         function handleOnlineFriends(data: {onlineFriends: string[]}){
+            // onceper connexion, replaces the whole list
             setOnlineFriends(data.onlineFriends);
         }
+        // receives user online event sent by announce online
         function handleUserOnline(data: {userId: string}){
-            setOnlineFriends(prev => [...prev, data.userId]);
+            // each time a friend passes from offline to online
+            setOnlineFriends(prev => {
+                if (prev.includes(data.userId))
+                    return (prev);
+                // copies prev and adds userid at the end 
+                // (react detects changes by checking if its the same
+                // object as before ...prev means copy the current object)
+                return [...prev, data.userId];
+            });
         }
 
         function handleUserOffline(data: {userId: string}){
@@ -72,7 +91,7 @@ export function AuthProvider({children}:{children:ReactNode}){
             socket.off('online-friends', handleOnlineFriends);
             socket.off('user-online', handleUserOnline);
             socket.off('user-offline', handleUserOffline);
-        }; 
+        };
     }, [])
 
     async function login(){
@@ -83,18 +102,27 @@ export function AuthProvider({children}:{children:ReactNode}){
         setAiConversationId(conversationId);
     }
 
-    // When user disconnects himself volontarly (clicks on logout)
+    // When user disconnects himself volontarily (clicks on logout)
     const logout = async() => {
-        await fetch('/api/logout', {
-            method: 'POST',
-            credentials: 'include'
-        });
-        localStorage.removeItem('aiConversationId');
-        setAiConversationId(null);
-        localStorage.setItem('auth-sync', Date.now().toString());
-        setIsAuthenticated(false);
+        try{
+            await fetch('/api/logout', {
+                method: 'POST',
+                credentials: 'include'
+            });
+        } catch (err){
+            console.error('logout error : ', err);
+        } finally { // finally will execute anyway even if catch is not reached
+            // signal for other tabs that a change occurs in auth so it updates
+            // everywhere. 
+            localStorage.setItem('auth-sync', Date.now().toString());
+            setIsAuthenticated(false);
+            // Mknoll: ai cleaning conversation is put there so even though server
+            // request fails, cleaning is still done. please recheck
+            sessionStorage.removeItem('aiConversationId');
+            setAiConversationId(null);
+        }
     }
-    // When user fetch api receives a 401 or 403, like invalid cookie, expired cookie...
+    // When user fetch api receives a 401, like invalid cookie, expired cookie...
     function markDisconnected(){
         setIsAuthenticated(false);
         localStorage.setItem('auth-sync', Date.now().toString());
@@ -105,7 +133,7 @@ export function AuthProvider({children}:{children:ReactNode}){
     }
 
     return (
-        //returns value + usefull functions
+        //returns value + useful functions
         <context.Provider value={{ isAuthenticated, login, logout, markDisconnected, refresh, onlineFriends }}>
             {children}
         </context.Provider>

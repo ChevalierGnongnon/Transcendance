@@ -2,16 +2,23 @@ import { body } from 'express-validator';
 
 export const loginValidator = [
   body('login')
+    .isString()
+    .withMessage('LOGIN_INVALID')
+    .bail()
     .trim()
     .notEmpty()
     .withMessage('LOGIN_REQUIRED')
     .isLength({ max: 255 })
     .withMessage('LOGIN_TOO_LONG'),
   body('password')
+    .isString()
+    .withMessage('PASSWORD_INVALID')
+    .bail()
+    .customSanitizer((value) => (typeof value === 'string' ? value.normalize('NFKC') : value))
     .notEmpty()
     .withMessage('PASSWORD_REQUIRED')
-    .isLength({ max: 255 })
-    .withMessage('PASSWORD_TOO_LONG'),
+    .isLength({ max: 64 })
+    .withMessage('PASSWORD_TOO_LONG')
 ];
 
 export const registrationValidator = [
@@ -22,10 +29,11 @@ export const registrationValidator = [
     .isLength({ max: 50 })
     .withMessage('FIRST_NAME_TOO_LONG'),
   body('last_name')
+    .trim()
     .notEmpty()
     .withMessage('LAST_NAME_REQUIRED')
     .isLength({ max: 50 })
-    .withMessage('LAST_NAME_REQUIRED'),
+    .withMessage('LAST_NAME_TOO_LONG'),
   body('email')
     .notEmpty()
     .withMessage('EMAIL_REQUIRED')
@@ -34,13 +42,17 @@ export const registrationValidator = [
     .isEmail()
     .withMessage('EMAIL_INVALID'),
   body('password')
+    .customSanitizer((value) => (typeof value === 'string' ? value.normalize('NFKC') : value))
     .notEmpty()
-    .withMessage('PASSWORD_WEAK')
-    .isLength({ max: 255 })
-    .withMessage('')
+    .withMessage('PASSWORD_REQUIRED')
+    // reduced from 255 to 64 because bcrypt only takes 72 octets
+    // (a-z: 1 octet, non-ascii: could be more:
+    // (accents / cyrillic: 2, emojis: 4))
+    .isLength({ max: 64 })
+    .withMessage('PASSWORD_TOO_LONG')
     .matches(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{12,}$/)
     .withMessage('PASSWORD_WEAK'),
-  body('passwordVerify').custom((value, { req }) => {
+  body('passwordVerify').customSanitizer((value) => (typeof value === 'string' ? value.normalize('NFKC') : value)).custom((value, { req }) => {
     if (value !== req.body.password) {
       throw new Error('PASSWORDS_DO_NOT_MATCH');
     }
@@ -48,9 +60,11 @@ export const registrationValidator = [
   }),
   body('birthdate')
     .notEmpty()
-    .withMessage('AGE_REQUIREMENT')
-    // .isISO8601()
-    // .withMessage('Email is required')
+    .withMessage('INVALID_BIRTHDATE')
+    .bail()
+    .isISO8601()
+    .withMessage('INVALID_BIRTHDATE')
+    .bail()
     .toDate()
     .custom((value) => {
       const birthDate = new Date(value);
@@ -60,7 +74,7 @@ export const registrationValidator = [
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
       }
-      if (age < 18) {
+      if (age < 18 || age > 100) {
         throw new Error('AGE_REQUIREMENT');
       }
       return true;
@@ -69,12 +83,21 @@ export const registrationValidator = [
     .trim()
     .notEmpty()
     .withMessage('PSEUDO_REQUIRED')
+    .bail()
     .matches(/^[a-zA-Z0-9_-]{3,30}$/)
-    .withMessage('PSEUDO_INVALID'),
+    .withMessage('PSEUDO_INVALID')
+    .bail(),
   body('avatar').custom((value, { req }) => {
     if (!value && !req.file) {
       throw new Error('AVATAR_REQUIRED');
     }
     return true;
   }),
+  body('avatar')
+    .optional({ values: 'falsy' })
+    .isString()
+    .withMessage('INVALID_AVATAR')
+    .bail()
+    .isUUID()
+    .withMessage('INVALID_AVATAR'),
 ];

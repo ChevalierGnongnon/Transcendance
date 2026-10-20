@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useApiFetch } from '../auth/use-api-fetch';
 import { useTranslation } from 'react-i18next';
 import { useFriendships } from '../friends/useFriendships';
+
 interface SearchResult {
   id: string;
   firstName: string;
@@ -19,10 +20,11 @@ interface SearchResult {
 interface SearchBarProps {
   ClassName: string;
   ListClassName: string;
-  BreakPoint: number | null;
+  BreakPoint?: number;
   PlaceHolder: string | undefined;
   onSelectUser: (result: SearchResult) => void;
 }
+  
 
 function SearchBar(props: SearchBarProps) {
   const { t } = useTranslation();
@@ -60,6 +62,7 @@ function SearchBar(props: SearchBarProps) {
     }
     return timeManager;
   }, [input]);
+
 
   function hideList(event: MouseEvent) {
     if (!ref.current) return;

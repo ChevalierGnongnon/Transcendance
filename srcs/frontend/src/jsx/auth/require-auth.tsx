@@ -10,7 +10,7 @@ export function RequireAuth({children}: {children:ReactNode}){
         return (null);
     // if connected, return the page asked
     else if (isAuthenticated === true){
-        return children;
+        return (<>{children}</>);
     }
     // else redirect to login
     else {

@@ -35,10 +35,7 @@
     padding: 8px 12px;
     margin: 1% auto;
 }
-.delete-friend-button{
-    @extend .delete-button;
-    width: 40%;
-}
+
 .friends-page{
     text-align: center;
     background-color: $background-common-color;

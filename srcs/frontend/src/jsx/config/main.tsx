@@ -12,15 +12,15 @@ import { AuthProvider } from '../auth/auth-context'
 import { RequireAuth } from "../auth/require-auth";
 import { GuestOnly } from "../auth/guest-only";
 import Messages from "../messages/main-page"
-import AddFriend from "../friends/add-friend"
 import MyFriends from "../friends/my-friends";
 import GameStart from "../../game/gomoku/GameStart"
 import GamePage from "../../game/gomoku/GamePage";
-import Analytics from "../analytics/analytics";
-import FileImport from "../files/file-import";
 import Footer from "../headers-and-footers/footer";
+import PageNotFound from "../others/404-not-found";
+import Analytics from "../analytics/analytics";
 import PrivacyPolicy from "../others/legal/PrivacyPolicy";
 import TermsOfService from "../others/legal/TermsOfService";
+
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -35,13 +35,15 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 					<Route path="/personalpage" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/parameters" element={<RequireAuth><Parameters /></RequireAuth>} />
 					<Route path="/messages" element={<RequireAuth><Messages /></RequireAuth>} />
-					{/* <Route path="/addfriend" element={<RequireAuth><AddFriend /></RequireAuth>} /> */}
 					<Route path="/myfriends" element={<RequireAuth><MyFriends /></RequireAuth>} />
 					<Route path="/profile/:pseudo" element={<RequireAuth><PersonalPage /></RequireAuth>} />
 					<Route path="/" element={<GuestOnly><Login/></GuestOnly>} />
 					<Route path="/game/gomoku" element={<RequireAuth><GameStart /></RequireAuth>} />
 					<Route path="/game" element={<RequireAuth><GamePage /></RequireAuth>} />
+					
 					<Route path="/analytics" element={<RequireAuth><Analytics /></RequireAuth>} />
+					<Route path="*" element={<PageNotFound />} />
+
 				</Routes>
 				<Footer />
 			</AuthProvider>

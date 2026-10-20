@@ -46,8 +46,12 @@ export const setupSocketConnection = (io: Server) => {
     console.log('User connected:', socket.id);
     if (!socket.userId) throw new Error('Internal server error');
     const userRoom = `user-${socket.userId}`;
+    // checks if user is already in connected users register
+    // or not, and and announce to the others that he is online
     const isFirstConnection = connectUser(socket.userId);
-    if (isFirstConnection === true) announceOnline(socket.userId, socket);
+    if (isFirstConnection === true)
+      announceOnline(socket.userId, socket);
+    // gives user list of currently connected users (friends only)
     filterAndEmit(socket.userId, socket);
 
     socket.join(userRoom);
@@ -102,6 +106,7 @@ export const setupSocketConnection = (io: Server) => {
     socket.on('disconnect', (reason) => {
       console.log('User disconnected:', socket.id);
       console.log(`reason: ${reason}`);
+
       const activeGameId = socket.data.activeGameId as string | undefined;
       if (activeGameId) {
         socket.data.activeGameId = undefined;
@@ -109,9 +114,14 @@ export const setupSocketConnection = (io: Server) => {
           console.error('Failed to persist game departure after disconnect:', error);
         });
       }
-      if (!socket.userId) throw new Error('Internal server error');
+      if (!socket.userId)
+        throw new Error('Internal server error');
+      // disconnects user and checks if he has other connexions in nav
       const isLastDeconnection = disconnectUser(socket.userId);
-      if (isLastDeconnection === true) announceOffline(socket.userId, socket);
+      if (isLastDeconnection === true)
+        // if it's the last one, announce he's disconnected
+        announceOffline(socket.userId, socket);
+
     });
   });
 };

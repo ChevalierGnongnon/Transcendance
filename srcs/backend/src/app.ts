@@ -9,10 +9,18 @@ import filesRoutes from './modules/files/files.routes.js';
 import chatRoutes from './modules/chat/chat.routes.js';
 import socialRoutes from './modules/social/social.routes.ts';
 import healthRouter from './modules/health.js';
+import { errorManager, notFoundCall} from './common/common-middlewares.ts';
 import aiRouter from "./modules/ai/ai.routes.ts"
 import analyticsRouter from "./modules/analytics/analytics.routes.ts";
 
 const app = express();
+
+// all requests go through nginx before express, so express sees nginx ip for everyone.
+// rate-limiter counts per IP, it would consider every user as a single person, 20 search requests 
+// would hit the limit and block everyone.
+// this tells express there is 1 proxy in front: trust the X-Forwarded-For header to get the real IP.
+app.set('trust proxy', 1);
+
 
 app.use(helmet());
 app.use(cors({ origin: 'https://transcendance.fr' }));
@@ -27,5 +35,8 @@ app.use('/api', aiRouter);
 app.use('/api', analyticsRouter);
 // app.use('/api', friendshipsRoutes);
 app.use('/api', socialRoutes);
+app.use(notFoundCall);
+app.use(errorManager)
 
 export default app;
+ 

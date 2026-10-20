@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import UsersService from './users.services.ts';
 import { NotFoundError } from '../../common/errors.js';
+import { Prisma } from '@/generated/prisma/client.js';
 import usersServices from './users.services.ts';
 
 export async function getMyProfile(req: Request, res: Response) {
@@ -14,6 +15,7 @@ export async function getMyProfile(req: Request, res: Response) {
       return res.status(404).json({ error: 'USER_NOT_FOUND' });
     }
 
+    console.error('get my profile error: ', error)
     return res.status(500).json({
       error: 'INTERNAL_SERVER_ERROR',
     });
@@ -44,6 +46,7 @@ export async function updateProfilePhoto(req: Request, res: Response) {
     if (error instanceof Error && error.message === 'INVALID_AVATAR'){
       return res.status(400).json({ error: 'INVALID_AVATAR' });
     }
+    console.error('update my profile error : ', error)
     return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
   }
 }
@@ -56,7 +59,8 @@ export async function searchUsers(req: Request, res: Response){
     const users = await usersServices.searchUsers(input!, userId);
     return (res.status(200).json(users));
   } catch(error) {
-    return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
+    console.error('search users error: ', error)
+    return (res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' }));
   }
   
 }
@@ -71,6 +75,7 @@ export async  function getUserByPseudo(req: Request, res: Response) {
   }catch (error){
     if (error instanceof NotFoundError)
       return (res.status(404).json({ error: 'USER_NOT_FOUND' }));
+    console.error('get user by pseudo error :', error)
     return (res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' }));
 
   }
@@ -89,9 +94,13 @@ export async function getAllUsers(req: Request, res: Response) {
 export async function getUser(req: Request, res: Response) {
   try {
     const {id} = req.params;
+    if (typeof id !== 'string')
+      return(res.status(400).json({error: 'INVALID_USER_ID'}))
     const user = await UsersService.getUserById(id);
     return res.status(200).json(user);
   } catch (error) {
+    if (error instanceof NotFoundError)
+      return res.status(404).json({ error: 'USER_NOT_FOUND' });
     console.error("Get user error:", error);
     return res.status(500).json({ error: "INTERNAL_SERVER_ERROR" });
   }
@@ -118,6 +127,10 @@ export async function updateUser(req: Request, res: Response){
     if (error instanceof Error && error.message === 'PSEUDO_EXISTS') {
       return res.status(409).json({ error: 'PSEUDO_EXISTS' });
     }
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      return res.status(409).json({ error: 'PSEUDO_EXISTS' });
+    }
+    console.error('update user error :', error)
     return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
   }
 }

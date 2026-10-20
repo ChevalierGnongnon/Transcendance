@@ -6,7 +6,7 @@ function AppHeader(){
     const {isAuthenticated} = useAuth();
     
     if (isAuthenticated == null)
-        return (null); // in case it takes time to check authentfication, displays nothing(no flash)
+        return (null); // in case it takes time to check authentication, displays nothing(no flash)
     else if (isAuthenticated)
         return <HeaderOnline/>
     else
