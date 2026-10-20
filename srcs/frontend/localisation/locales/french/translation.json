@@ -94,7 +94,8 @@
     "decline": "Refuser",
     "failed-to-send": "Échec de l'envoi. Le message sera supprimé après la mise à jour.",
     "you-are-blocked": "Vous êtes bloqué",
-    "message-too-long": "Le message est trop long ({{max}} caractères max.)"
+    "message-too-long": "Le message est trop long ({{max}} caractères max.)",
+    "typing": "écrit..."
   },
   "friends": {
     "send-friend-request": "Envoyer une demande d'ami",

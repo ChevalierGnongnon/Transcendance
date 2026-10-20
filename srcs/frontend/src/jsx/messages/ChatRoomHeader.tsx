@@ -85,7 +85,7 @@ function ChatRoomHeader({
         <div className="d-flex align-items-center gap-2">
           <div>{pseudo}</div>
           <div className={`text-secondary fs-6 fw-light fst-italic ${isTyping ? '' : 'invisible'}`}>
-            typing...
+            {t('message.typing')}
           </div>
         </div>
 

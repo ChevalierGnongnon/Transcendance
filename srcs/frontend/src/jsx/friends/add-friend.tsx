@@ -77,7 +77,7 @@ function AddFriend({
       <SearchBar
         ClassName="search-bar"
         ListClassName="header-search-results"
-        PlaceHolder='search...'
+        PlaceHolder={t('common.find-user')}
         BreakPoint={768}
         onSelectUser={(user) => {
           setUser(user);

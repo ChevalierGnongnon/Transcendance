@@ -94,7 +94,8 @@
     "decline": "Decline",
     "failed-to-send": "Failed to send. Message will be deleted after the update.",
     "you-are-blocked": "You are blocked",
-    "message-too-long": "Message is too long (max {{max}} characters)"
+    "message-too-long": "Message is too long (max {{max}} characters)",
+    "typing": "typing..."
   },
   "friends": {
     "send-friend-request": "Send a friend request",

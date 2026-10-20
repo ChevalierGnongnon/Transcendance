@@ -94,7 +94,8 @@
     "decline": "Ablehnen",
     "failed-to-send": "Senden fehlgeschlagen. Die Nachricht wird nach dem Update gelöscht.",
     "you-are-blocked": "Sie wurden blockiert",
-    "message-too-long": "Nachricht ist zu lang (max. {{max}} Zeichen)"
+    "message-too-long": "Nachricht ist zu lang (max. {{max}} Zeichen)",
+    "typing": "schreibt..."
   },
   "friends": {
     "send-friend-request": "Freundschaftsanfrage senden",
