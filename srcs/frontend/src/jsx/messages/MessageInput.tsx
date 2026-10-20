@@ -1,13 +1,15 @@
-import { useState, ChangeEvent, KeyboardEvent } from 'react';
+import { useState, ChangeEvent, KeyboardEvent, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { socket } from './socket';
 
 import '../../scss/common-classes.scss';
 import '../../scss/messages.scss';
 import MoreOptions from './options';
 
 interface MessageInputProps {
+  opponentId: string;
   chatId: string;
+  userId: string;
   value: string;
   onChange: (value: string) => void;
   onSend: () => void;
@@ -17,6 +19,8 @@ interface MessageInputProps {
 
 function MessageInput({
   chatId,
+  opponentId,
+  userId,
   value,
   onChange,
   onSend,
@@ -25,15 +29,48 @@ function MessageInput({
 }: MessageInputProps) {
   const { t } = useTranslation();
   const [showMoreOptions, setShowMoreOptions] = useState(false);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const MAX_LENGTH = 5000;
+  const isOverLimit = value.length >= MAX_LENGTH;
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    onChange(e.target.value);
+  const handleChange = async (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+
+    if (newValue.length > MAX_LENGTH) return;
+    onChange(newValue);
+
+    if (!typingTimeoutRef.current) {
+      const response = await socket.emitWithAck('chat:typing:start', {
+        chatId: chatId,
+        to: userId,
+      });
+
+      if (!response.ok) {
+        console.error(`error: ${response}`);
+        return;
+      }
+    }
+
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit('chat:typing:stop', { chatId: chatId, to: userId });
+      typingTimeoutRef.current = null;
+    }, 2000);
   };
+
+  useEffect(() => {
+    return () => clearTimeout(typingTimeoutRef.current);
+  }, []);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      if (!disabled) {
+      if (!disabled || !isOverLimit) {
+        socket.emit('chat:typing:stop', { chatId: chatId, to: userId });
+        typingTimeoutRef.current = null;
         onSend();
       }
     }
@@ -44,7 +81,9 @@ function MessageInput({
   };
 
   const handleSendClick = () => {
-    if (!disabled) {
+    if (!disabled || !isOverLimit) {
+      socket.emit('chat:typing:stop', { chatId: chatId, to: userId });
+      typingTimeoutRef.current = null;
       onSend();
     }
   };
@@ -62,7 +101,12 @@ function MessageInput({
             +
           </button>
           {showMoreOptions && (
-            <MoreOptions chatId={chatId} onClose={toggleMoreOptions} onSendMessage={onSend} />
+            <MoreOptions
+              chatId={chatId}
+              opponentId={opponentId}
+              onClose={toggleMoreOptions}
+              onSendMessage={onSend}
+            />
           )}
         </div>
 
@@ -80,11 +124,16 @@ function MessageInput({
           className="btn send-message"
           onClick={handleSendClick}
           type="button"
-          disabled={disabled || !value.trim()}
+          disabled={disabled || !value.trim() || isOverLimit}
         >
           {t('common.send')}
         </button>
       </div>
+      {isOverLimit && (
+        <div className="text-danger small px-2">
+          {t('message.message-too-long', { max: MAX_LENGTH })}
+        </div>
+      )}
     </>
   );
 }

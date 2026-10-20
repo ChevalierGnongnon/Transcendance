@@ -10,6 +10,8 @@ import chatRoutes from './modules/chat/chat.routes.js';
 import socialRoutes from './modules/social/social.routes.ts';
 import healthRouter from './modules/health.js';
 import { errorManager, notFoundCall} from './common/common-middlewares.ts';
+import aiRouter from "./modules/ai/ai.routes.ts"
+import analyticsRouter from "./modules/analytics/analytics.routes.ts";
 
 const app = express();
 
@@ -29,6 +31,9 @@ app.use('/api', usersRoutes);
 app.use('/api', filesRoutes);
 app.use('/api', healthRouter);
 app.use('/api', chatRoutes);
+app.use('/api', aiRouter);
+app.use('/api', analyticsRouter);
+// app.use('/api', friendshipsRoutes);
 app.use('/api', socialRoutes);
 app.use(notFoundCall);
 app.use(errorManager)

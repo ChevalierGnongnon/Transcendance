@@ -3,6 +3,32 @@ import { NotFoundError } from '../../common/errors.js';
 import FileService  from '../files/files.services.ts';
 
 class UsersService {
+  async getActiveGame(userId: string) {
+    const game = await prisma.game.findFirst({
+      where: {
+        OR: [{ playerXId: userId }, { playerOId: userId }],
+        winnerId: null,
+        isDraw: false,
+        closedAt: null,
+      },
+      orderBy: { updatedAt: 'desc' },
+      select: {
+        id: true,
+        boardSize: true,
+        playerXId: true,
+        playerOId: true,
+      },
+    });
+
+    if (!game) return null;
+
+    return {
+      gameId: game.id,
+      boardSize: game.boardSize,
+      opponentId: game.playerXId === userId ? game.playerOId : game.playerXId,
+    };
+  }
+
   async getUserById(userId: string) {
     const user = await prisma.user.findUnique({
       where: {
@@ -22,14 +48,12 @@ class UsersService {
         },
       },
     });
-    
 
     if (!user) {
       throw new NotFoundError('User not found');
     }
     return user;
   }
-
 
   async getAllUsers() {
     const users = await prisma.user.findMany({
@@ -53,8 +77,8 @@ class UsersService {
       },
       select: {
         profilePhotoId: true,
-      }
-    })
+      },
+    });
     const checkNewFileId = await prisma.file.findUnique({
       where:{
         id: fileId,
@@ -77,38 +101,37 @@ class UsersService {
     if (oldPpId?.profilePhotoId){
       try {
         await FileService.deleteFile(oldPpId.profilePhotoId, userId);
-      } catch (err) {
-
-      }
+      } catch (err) {}
     }
   }
-  async searchUsers(input: string, currentUserId: string){
+  async searchUsers(input: string, currentUserId: string) {
     const res = await prisma.user.findMany({
       where:{
         id: {
           not: currentUserId,
         },
-        OR:[{
-            lastName : {
-              startsWith: input
-            }
+        OR: [
+          {
+            lastName: {
+              startsWith: input,
+            },
           },
           {
-            firstName:{
-              startsWith: input
-            }
+            firstName: {
+              startsWith: input,
+            },
           },
           {
             pseudo: {
-              startsWith: input
-            }
-          }
-        ]
+              startsWith: input,
+            },
+          },
+        ],
       },
-      select:{
+      select: {
         id: true,
         pseudo: true,
-        firstName: true, 
+        firstName: true,
         lastName: true,
         profilePhoto: {
           select: {
@@ -118,22 +141,21 @@ class UsersService {
         },
       },
       orderBy: {
-        pseudo: "asc", 
+        pseudo: 'asc',
       },
       take: 20,
-      
-    })
-    return (res);
+    });
+    return res;
   }
-  async getUserInfo(pseudo: string){
+  async getUserInfo(pseudo: string) {
     const res = await prisma.user.findUnique({
       where: {
         pseudo: pseudo,
-      }, 
+      },
       select: {
         id: true,
         pseudo: true,
-        firstName: true, 
+        firstName: true,
         lastName: true,
         profilePhoto: {
           select: {
@@ -141,11 +163,10 @@ class UsersService {
             name: true,
           },
         },
-      }
-    })
-    if (!res)
-      throw new NotFoundError('USER_NOT_FOUND')
-    return (res);
+      },
+    });
+    if (!res) throw new NotFoundError('USER_NOT_FOUND');
+    return res;
   }
   async updateLastName(userId: string, newLastName: string){
     const userToUpdate = await prisma.user.findUnique({
@@ -217,9 +238,8 @@ class UsersService {
     if (res.id !== userId)
       throw new Error('PSEUDO_EXISTS');
       
+
   }
 }
-
-
 
 export default new UsersService();

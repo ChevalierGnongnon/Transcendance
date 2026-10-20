@@ -1,4 +1,6 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode} from "react";
+import { createAiConversation } from "../ai/utils/api";
+
 import { socket } from "../messages/socket";
 
 // Shape of the info shared everywhere in the app (via AuthProvider):
@@ -22,6 +24,7 @@ const context = createContext<AuthContextType | undefined>(undefined);
 // info everywhere inside its tags
 export function AuthProvider({children}:{children:ReactNode}){
     const [isAuthenticated, setIsAuthenticated] = useState<true | false | null>(null)
+    const [conversationId, setAiConversationId] = useState<string | null>(null);
     const [onlineFriends, setOnlineFriends] = useState<string[]>([]);
     //simple function to avoid code repetition, checks/fetches the current connection status
     const checkAuth = async() => {
@@ -90,9 +93,13 @@ export function AuthProvider({children}:{children:ReactNode}){
             socket.off('user-offline', handleUserOffline);
         };
     }, [])
-    function login(){
+
+    async function login(){
+        const conversationId = await createAiConversation();
+        sessionStorage.setItem('aiConversationId', conversationId);
         localStorage.setItem('auth-sync', Date.now().toString());
         setIsAuthenticated(true);
+        setAiConversationId(conversationId);
     }
 
     // When user disconnects himself volontarily (clicks on logout)
@@ -109,7 +116,11 @@ export function AuthProvider({children}:{children:ReactNode}){
             // everywhere. 
             localStorage.setItem('auth-sync', Date.now().toString());
             setIsAuthenticated(false);
-        }   
+            // Mknoll: ai cleaning conversation is put there so even though server
+            // request fails, cleaning is still done. please recheck
+            sessionStorage.removeItem('aiConversationId');
+            setAiConversationId(null);
+        }
     }
     // When user fetch api receives a 401, like invalid cookie, expired cookie...
     function markDisconnected(){

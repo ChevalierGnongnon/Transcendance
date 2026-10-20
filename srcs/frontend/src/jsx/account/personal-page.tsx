@@ -12,8 +12,10 @@ import statsShortcut from "../../assets/icons/stats.png"
 import { useAuth } from "../auth/auth-context";
 import { useParams } from "react-router-dom";
 import { useFriendships } from "../friends/useFriendships";
+
 import PageNotFound from "../others/404-not-found";
 import ErrorMessage from "../others/error-message";
+import ProfileShortcuts from './shortcuts/ProfileShortcuts';
 
 interface User {
 	id: string;
@@ -97,6 +99,22 @@ function PersonalPage() {
 
 	const isMine = pseudo === undefined || user?.pseudo === pseudo;
 
+
+	const handlePlay = async () => {
+		try {
+			const response = await fetch('/api/my-active-game', { credentials: 'include' });
+			if (response.ok) {
+				const activeGame = await response.json();
+				if (activeGame?.gameId && activeGame?.opponentId && activeGame?.boardSize) {
+					navigate(`/game?gameId=${activeGame.gameId}&opponentId=${activeGame.opponentId}&boardSize=${activeGame.boardSize}`);
+					return;
+				}
+			}
+		} catch (error) {
+			console.error('Failed to check for an active game:', error);
+		}
+		navigate('/game/gomoku');
+	};
 	if (notFound)
 		return (<PageNotFound></PageNotFound>)
 
@@ -106,6 +124,7 @@ function PersonalPage() {
 		else
 			return(<ErrorMessage error={error}></ErrorMessage>)
 	}
+
 
 	return (
 		<>
@@ -151,32 +170,7 @@ function PersonalPage() {
 					}
 
 
-					{ !isMine &&
-						<>
-							
-							<div className="row g-4 justify-content-center shortcut-grid">
-								<div className="col-12 col-md-6 col-xl-6">
-									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/addfriend")}>
-										<img src={addFriendsIcon} alt="message-shortcut" />
-										<span>{t("profile-page.send-friendship-invitation")}</span>
-									</figure>
-								</div>
-
-								<div className="col-12 col-md-6 col-xl-6">
-									<figure className="shortcut-icon justify-content-center">
-										<img src={playShortcut} alt="play-shortcut" />
-										<span>{t("common.send-game-invitation")}</span>
-									</figure>
-								</div>
-								<div className="col-12 col-md-6 col-xl-4">
-									<figure className="shortcut-icon justify-content-center">
-										<img src={messageIcon} alt="message-shortcut" onClick={() => navigate("/messages")} />
-										<span>{t("common.send-message")}</span>
-									</figure>
-								</div>
-							</div>
-						</>
-					}
+					{!isMine && <ProfileShortcuts user={displayedUser} /> }
 
 					{isMine &&
 						<>
@@ -197,7 +191,7 @@ function PersonalPage() {
 										<span>{t("common.parameters")}</span>
 									</figure>
 								</div>
-								<div className="col-12 col-md-6 col-xl-4" onClick={() => navigate('/game/gomoku')}>
+								<div className="col-12 col-md-6 col-xl-4" onClick={handlePlay}>
 									<figure className="shortcut-icon justify-content-center">
 										<img src={playShortcut} alt="play-shortcut" />
 										<span>{t("common.play")}</span>
@@ -209,7 +203,6 @@ function PersonalPage() {
 					
 					{isMine && 
 						<>
-							<span>{t("profile-page.my-friends")}</span>
 							<div className="row g-4 justify-content-center shortcut-grid">
 								<div className="col-12 col-md-6 col-xl-6">
 									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/myfriends")}>
@@ -217,24 +210,14 @@ function PersonalPage() {
 										<span>{t("profile-page.friend-list")}</span>
 									</figure>
 								</div>
-								{/* <div className="col-12 col-md-6 col-xl-6">
-									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/addfriend")}>
-										<img src={addFriendsIcon} alt="message-shortcut" />
-										<span>{t("profile-page.add-friend")}</span>
-									</figure>
-								</div> */}
-							</div>
 
-							<span>{t("profile-page.game-stats")}</span>
-							<div className="row g-4 justify-content-center shortcut-grid">
 								<div className="col-12 col-md-6 col-xl-6">
-									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/mystats")}>
-										<img src={statsShortcut} alt="message-shortcut" />
-										<span>{t("profile-page.my-stats")}</span>
-									</figure>
+									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/analytics")}>
+										<img src={statsShortcut} alt="analytics-shortcut" />
+										<span>Analytics</span>
+								</figure>
 								</div>
 							</div>
-
 						</>
 					}
 					

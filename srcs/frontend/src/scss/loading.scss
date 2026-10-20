@@ -1,0 +1,37 @@
+.loader-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 0;
+  width: 100%;
+  min-height: 800px;
+}
+
+.loader-square {
+  width: 50px;
+  height: 50px;
+  // background: #3b82f6; rgb(5, 22, 48);
+  background: rgb(5, 22, 48);
+  border-radius: 8px;
+  animation: loader-pulse 1s ease-in-out infinite;
+}
+
+.loader-text {
+  font-size: 14px;
+  color: #4b5563;
+  letter-spacing: 0.5px;
+}
+
+@keyframes loader-pulse {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.6) rotate(45deg);
+    opacity: 0.5;
+  }
+}

@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { MessageType } from './types';
 import { useAuth } from '../auth/auth-context';
 import FileImport from '../files/file-import';
+import { useNavigate } from 'react-router-dom';
 
 interface MoreOptionsProps {
   chatId: string;
+  opponentId: string;
   onClose: () => void;
   onSendMessage: (content?: string, type?: MessageType) => void;
 }
@@ -14,6 +16,7 @@ interface MoreOptionsProps {
 function MoreOptions(props: MoreOptionsProps) {
   const { t } = useTranslation();
   const { logout } = useAuth();
+  const navigate = useNavigate();
   const handleSendMessage = props.onSendMessage;
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
@@ -40,10 +43,10 @@ function MoreOptions(props: MoreOptionsProps) {
         logout();
         return;
       }
-      if (request.status === 201){
-        const data = JSON.parse(request.responseText)
-        handleSendMessage(data.file_id)
-        props.onClose()
+      if (request.status === 201) {
+        const data = JSON.parse(request.responseText);
+        handleSendMessage(data.file_id);
+        props.onClose();
       }
       else {
         try{
@@ -62,7 +65,7 @@ function MoreOptions(props: MoreOptionsProps) {
     };
     request.send(formData);
   };
-  
+
   return (
     <div className="more-options-div gap-1 d-flex flex-column align-items-center">
       <FileImport
@@ -78,6 +81,11 @@ function MoreOptions(props: MoreOptionsProps) {
         type="button"
         value={t('message.invite-to-game')}
         className="btn btn-primary more-options-btn"
+        onClick={() => {
+          navigate('/game/gomoku', {
+            state: { opponentId: props.opponentId, chatId: props.chatId },
+          });
+        }}
       />
     </div>
   );

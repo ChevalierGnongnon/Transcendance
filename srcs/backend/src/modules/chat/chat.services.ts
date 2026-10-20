@@ -30,6 +30,7 @@ class chatService {
                     },
                   },
                 },
+                lastReadMessagesId: true,
               },
             },
           },
@@ -42,7 +43,8 @@ class chatService {
     const ret = myChats.map((chat) => ({
       chatId: chat.chatId,
       user: chat.chat.members[0]?.user,
-      lastReadMessagesId: chat.lastReadMessagesId,
+      mylastReadMessagesId: chat.lastReadMessagesId,
+      otherlastReadMessagesId: chat.chat.members[0]?.lastReadMessagesId,
     }));
 
     return ret;
@@ -77,7 +79,27 @@ class chatService {
     if (!messages) {
       throw new NotFoundError('Dont have messages in this chat');
     }
-    return messages;
+
+    const result = messages.map((m) => ({ ...m, status: 'sent' }));
+    return result;
+  }
+
+  async getChatByUserId(currentUserId: string, otherUserId: string) {
+    const chat = await prisma.chat.findFirst({
+      where: {
+        members: {
+          every: { userId: { in: [currentUserId, otherUserId] } },
+        },
+        AND: [
+          { members: { some: { userId: currentUserId } } },
+          { members: { some: { userId: otherUserId } } },
+        ],
+      },
+    });
+
+    if (!chat) throw new NotFoundError('Chat with this user not found');
+
+    return chat;
   }
 }
 

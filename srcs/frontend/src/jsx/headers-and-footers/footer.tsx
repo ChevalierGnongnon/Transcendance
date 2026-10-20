@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../auth/auth-context";
 import "../../scss/footer.scss"
@@ -14,14 +14,18 @@ function Footer() {
   };
   return (
     <footer className="fixed-bottom common-footer d-flex flex-column align-items-center gap-3 p-2">
-      <div className="d-flex gap-2 mx-auto">
-        <a className="link" onClick={() => navigate("/termsofservice")}>
-          {t("common.terms-of-service")}
-        </a>
-        <a className="link" onClick={() => navigate("/privacypolicy")}>
-          {t("common.privacy-policy")}
-        </a>
-      </div>
+      <nav
+            className="d-flex flex-wrap justify-content-center gap-3"
+            aria-label={t("common.legal-navigation")}
+        >
+            <Link className="link" to="/termsofservice">
+                {t("common.terms-of-service")}
+            </Link>
+
+            <Link className="link" to="/privacypolicy">
+                {t("common.privacy-policy")}
+            </Link>
+        </nav>
 
       {isAuthenticated && (
         <div className="div-connected-only d-flex gap-2 d-none d-md-flex">

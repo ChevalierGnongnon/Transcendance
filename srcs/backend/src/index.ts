@@ -6,6 +6,7 @@ import cron from 'node-cron';
 import app from './app.js';
 import { fileManager } from './scripts/file-manager.ts';
 import { setupSocketConnection } from './modules/socket/socket.ts';
+import { initializeSocketEvents } from './modules/socket/socket-events.ts';
 import { setIo } from './modules/socket/socket-register.ts';
 
 
@@ -21,11 +22,12 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   connectionStateRecovery: {},
   cors: {
-    // origin: 'https://transcendance.fr',
+    origin: 'https://transcendance.fr',
     credentials: true,
   },
 });
 
+initializeSocketEvents(io);
 setIo(io);
 
 

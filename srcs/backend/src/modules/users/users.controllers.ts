@@ -22,6 +22,16 @@ export async function getMyProfile(req: Request, res: Response) {
   }
 }
 
+export async function getMyActiveGame(req: Request, res: Response) {
+  try {
+    const game = await UsersService.getActiveGame(req.userId!);
+    return res.status(200).json(game);
+  } catch (error) {
+    console.error('Get active game error:', error);
+    return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
+  }
+}
+
 
 
 export async function updateProfilePhoto(req: Request, res: Response) {
