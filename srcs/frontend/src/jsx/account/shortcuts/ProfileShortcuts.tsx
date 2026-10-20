@@ -162,7 +162,9 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
             icon={playShortcut}
             label={t('common.send-game-invitation')}
             onClick={() => {
-              navigate('/game/gomoku');
+              navigate('/game/gomoku', {
+                state: { opponentId: user.id },
+              });
             }}
             alt="play-shortcut"
           />

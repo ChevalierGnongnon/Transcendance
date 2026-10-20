@@ -42,12 +42,12 @@ function GameStart() {
     };
   } | null>(null);
 
-  console.log(isConnected);
-
   // If StartGame was opened from Chat or Personal page → opponentId is preselected
   useEffect(() => {
-    if (incomingOpponentId && incomingChatId) {
+    if (incomingOpponentId) {
       setOpponentId(incomingOpponentId);
+    }
+    if (incomingChatId) {
       setChatId(incomingChatId);
     }
   }, [incomingOpponentId, incomingChatId]);
