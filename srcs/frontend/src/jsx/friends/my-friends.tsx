@@ -1,17 +1,16 @@
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 
 import '../../scss/friends.scss';
 import AddFriend from './add-friend';
-import FriendCard from './FriendCard';
 import { useAuth } from '../auth/auth-context';
 import { apiFetch, apiFetchVoid } from './apiFetch';
-import OutgoingList from './OutgoingRequestsList';
-import { Friend, OutgoingRequest, Relationships, BlockedUsers, IncomingRequests } from './types';
+import type { Friend, OutgoingRequest, Relationships, BlockedUsers } from './types';
 import OutgoingRequestsList from './OutgoingRequestsList';
 import FriendsList from './FriendsList';
 import IncomingRequestsList from './IncomingRequestsList';
 import BlockList from './BlockList';
+import { socket } from '../messages/socket';
 
 interface User {
   id: string;
@@ -69,6 +68,28 @@ function MyFriends() {
       });
   }, []);
 
+  useEffect(() => {
+    if (!me?.id) return;
+
+    const updateRelationship = async (data: { userId: string }) => {
+      if (data?.userId === me?.id) {
+        apiFetch<Relationships>('/api/social/state', {}, logout)
+          .then((data) => {
+            setRelationships(data);
+          })
+          .catch((err) => {
+            console.error('Error gettting relationships :', err);
+          });
+      }
+    };
+
+    socket.on('relationship:update', updateRelationship);
+
+    return () => {
+      socket.off('relationship:update', updateRelationship);
+    };
+  }, [me?.id, logout]);
+
   const sendFriendRequest = async (userId: string) => {
     try {
       const data = await apiFetch<OutgoingRequest>(
@@ -82,6 +103,8 @@ function MyFriends() {
         ...prev,
         outgoingRequests: [...prev.outgoingRequests, newOutgoingRequest],
       }));
+
+      socket.emit('relationship:update', { fromId: me?.id, toId: userId });
     } catch (err) {
       console.error('Error sendFriendRequest:', err);
     }
@@ -100,6 +123,9 @@ function MyFriends() {
         incomingRequests: prev.incomingRequests.filter((req) => req.id !== requestId),
         friends: [newFriend, ...prev.friends],
       }));
+
+      console.log(newFriend);
+      socket.emit('relationship:update', { fromId: me?.id, toId: newFriend.friend.id });
     } catch (err) {
       console.error('Error cancelFriendRequest:', err);
     }
@@ -108,10 +134,14 @@ function MyFriends() {
   const cancelFriendRequest = async (requestId: string) => {
     try {
       await apiFetchVoid(`/api/social/friend-requests/${requestId}`, { method: 'DELETE' }, logout);
+
+      const req = relationships.outgoingRequests.find((o) => o.id === requestId);
       setRelationships((prev) => ({
         ...prev,
         outgoingRequests: prev.outgoingRequests.filter((req) => req.id !== requestId),
       }));
+
+      socket.emit('relationship:update', { fromId: me?.id, toId: req?.receiver.id });
     } catch (err) {
       console.error('Error cancelFriendRequest:', err);
     }
@@ -120,10 +150,14 @@ function MyFriends() {
   const declineFriendRequest = async (requestId: string) => {
     try {
       await apiFetchVoid(`/api/social/friend-requests/${requestId}`, { method: 'DELETE' }, logout);
+
+      const req = relationships.incomingRequests.find((i) => i.id === requestId);
       setRelationships((prev) => ({
         ...prev,
         incomingRequests: prev.incomingRequests.filter((req) => req.id !== requestId),
       }));
+
+      socket.emit('relationship:update', { fromId: me?.id, toId: req?.sender.id });
     } catch (err) {
       console.error('Error declineFriendRequest:', err);
     }
@@ -132,10 +166,14 @@ function MyFriends() {
   const deleteFriendship = async (friendshipsId: string) => {
     try {
       await apiFetchVoid(`/api/social/friendships/${friendshipsId}`, { method: 'DELETE' }, logout);
+
+      const friendship = relationships.friends.find((f) => f.id === friendshipsId);
       setRelationships((prev) => ({
         ...prev,
         friends: prev.friends.filter((req) => req.id !== friendshipsId),
       }));
+
+      socket.emit('relationship:update', { fromId: me?.id, toId: friendship?.friend.id });
     } catch (err) {
       console.error('Error declineFriendRequest:', err);
     }
@@ -157,6 +195,8 @@ function MyFriends() {
         outgoingRequests: prev.outgoingRequests.filter((o) => o.receiver.id !== userId),
         blockedUsers: [newBlockedUser, ...prev.blockedUsers],
       }));
+
+      socket.emit('relationship:update', { fromId: me?.id, toId: userId });
     } catch (err) {
       console.error('Error blockUser:', err);
     }
@@ -169,6 +209,8 @@ function MyFriends() {
         ...prev,
         blockedUsers: prev.blockedUsers.filter((req) => req.blocked.id !== userId),
       }));
+
+      socket.emit('relationship:update', { fromId: me?.id, toId: userId });
     } catch (err) {
       console.error('Error unblock user:', err);
     }

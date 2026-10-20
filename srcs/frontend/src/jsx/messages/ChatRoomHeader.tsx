@@ -14,40 +14,13 @@ export interface ChatRoomHeader {
   pseudo: string;
   onSetActiveView: (view: ActiveView) => void;
   onBlock: () => Promise<void>;
-  // onLoadRelationship: () => Promise<void>;
 }
 
-function ChatRoomHeader({
-  chatId,
-  userId,
-  pseudo,
-  onSetActiveView,
-  // onLoadRelationship,
-  onBlock,
-}: ChatRoomHeader) {
+function ChatRoomHeader({ chatId, userId, pseudo, onSetActiveView, onBlock }: ChatRoomHeader) {
   const { t } = useTranslation();
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [isTyping, setIsTyping] = useState<boolean>(false);
-
-  // const blockUser = async (userId: string) => {
-  //   try {
-  //     const res = await fetch(`/api/social/blocks/${userId}`, {
-  //       method: 'POST',
-  //       credentials: 'include',
-  //     });
-
-  //     if (res.status === 401) {
-  //       logout();
-  //       throw new Error('Unauthorized, logging out...');
-  //     }
-  //     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-
-  //     await onLoadRelationship();
-  //   } catch (e) {
-  //     console.error('Error unBlockUser', e);
-  //   }
-  // };
 
   useEffect(() => {
     const startTyping = async (data: { chatId: string }) => {
@@ -96,7 +69,6 @@ function ChatRoomHeader({
             className="btn btn-link text-secondary fs-6 text-decoration-none p-0"
             title={t('message.block')}
             onClick={() => {
-              // blockUser(userId);
               onBlock();
             }}
           >

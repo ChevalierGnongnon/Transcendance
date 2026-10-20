@@ -15,7 +15,6 @@ interface ChatRoomFooterProps {
   onAddMessage: (message: IMessage) => void;
   onUpdateMessage: (message: IMessage, status: MessageStatus) => void;
   onUnBlock: () => Promise<void>;
-  // onLoadRelationship: () => Promise<void>;
 }
 
 function ChatRoomFooter({
@@ -26,7 +25,6 @@ function ChatRoomFooter({
   onAddMessage,
   onUpdateMessage,
   onUnBlock,
-  // onLoadRelationship,
 }: ChatRoomFooterProps) {
   const { t } = useTranslation();
 
@@ -88,35 +86,11 @@ function ChatRoomFooter({
     setMessageText('');
   };
 
-  /**
-   * Unblocks a user by their ID and reloads the relationship data.
-   *
-   * @param userId - The identifier of the user to unblock.
-   */
-  // const unBlockUser = async (userId: string) => {
-  //   try {
-  //     const res = await fetch(`/api/social/blocks/${userId}`, {
-  //       method: 'DELETE',
-  //       credentials: 'include',
-  //     });
-
-  //     if (res.status === 401) {
-  //       logout();
-  //       throw new Error('Unauthorized, logging out...');
-  //     }
-  //     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-
-  //     await onLoadRelationship();
-  //   } catch (e) {
-  //     console.error('Error unBlockUser', e);
-  //   }
-  // };
-
   if (relationship.blockedByMe || relationship.blockedMe) {
     return (
       <>
         {relationship.blockedByMe && (
-          <div className="input-group group-new-message my-2 mt-auto">
+          <div className="input-group group-new-message my-3 mt-auto">
             <input
               type="button"
               value={t('friends.unblock')}

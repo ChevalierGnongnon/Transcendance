@@ -67,7 +67,9 @@ function ChatRoom(roomProps: ChatRoomProps) {
 
   useEffect(() => {
     const updateRelationship = async (data: string) => {
-      await loadRelationship();
+      if (data?.userId === me?.id) {
+        await loadRelationship();
+      }
     };
 
     socket.on('relationship:update', updateRelationship);
@@ -90,9 +92,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
       }
       if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
-      socket.emit('relationship:update', { fromId: me.id, toId: chat.user.id }, (res) => {
-        console.log(res);
-      });
+      socket.emit('relationship:update', { fromId: me.id, toId: chat.user.id });
 
       await loadRelationship();
     } catch (e) {
@@ -100,6 +100,9 @@ function ChatRoom(roomProps: ChatRoomProps) {
     }
   };
 
+  /**
+   * Unblocks a user by their ID and reloads the relationship data.
+   */
   const unBlockUser = async () => {
     try {
       const res = await fetch(`/api/social/blocks/${userId}`, {
@@ -164,7 +167,6 @@ function ChatRoom(roomProps: ChatRoomProps) {
           pseudo={chat.user.pseudo}
           onSetActiveView={roomProps.setActiveView}
           onBlock={blockUser}
-          // onLoadRelationship={loadRelationship}
         />
 
         <MessagesList
@@ -182,7 +184,6 @@ function ChatRoom(roomProps: ChatRoomProps) {
           onAddMessage={onAddMessage}
           onUpdateMessage={onUpdateMessage}
           onUnBlock={unBlockUser}
-          // onLoadRelationship={loadRelationship}
         />
       </div>
     </>

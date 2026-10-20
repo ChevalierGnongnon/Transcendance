@@ -10,9 +10,5 @@ export async function handleRelationshipUpdate(socket: Socket, payload: updateRe
     throw new Error('Not authorized');
   }
 
-  console.log(payload);
-
-  socket.to(`user-${toId}`).emit('relationship:update', { userId: toId }, (res) => {
-    console.log('response');
-  });
+  socket.to(`user-${toId}`).emit('relationship:update', { userId: toId });
 }
