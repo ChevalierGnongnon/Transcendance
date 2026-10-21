@@ -4,6 +4,7 @@ import FriendRequestServices from './friend-request.services.js';
 import FriendshipsServices from './friendships.services.js';
 import { ConflictError, ForbiddenRightsError, NotFoundError } from '@/common/errors.js';
 import { Prisma } from '@/generated/prisma/client.js';
+import { checkNewFriendOnlineStatus } from '../socket/user_status/status_management.ts';
 
 export const sendFriendRequest = async (req: Request<{ userId: string }>, res: Response) => {
   const senderId = req.userId;
@@ -49,7 +50,8 @@ export const acceptFriendRequest = async (req: Request<{ id: string }>, res: Res
     if (!currentUserId) throw new Error('Current userId is Empty');
 
     const request = await FriendRequestServices.acceptFriendRequest(friendRequestId, currentUserId);
-
+    //fixed : update online status for both users immediatly
+    checkNewFriendOnlineStatus(currentUserId, request.friend.id);
     return res.status(201).json(request);
   } catch (error) {
     if (error instanceof NotFoundError) {

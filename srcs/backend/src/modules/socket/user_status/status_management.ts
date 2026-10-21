@@ -1,7 +1,24 @@
 import friendshipsServices from "@/modules/social/friendships.services.js";
-import {Socket} from "socket.io"
+import { Socket } from "socket.io"
+import { getIo } from "../socket-register.ts";
 
 const userList = new Map<string, number>();
+
+// Used for when friendship is just accepted to update both users online status.
+export function checkNewFriendOnlineStatus(userAId: string, userBId: string){
+    const io = getIo();
+
+    if (!io)
+        return ;
+    const connected = showConnectedUsers();
+    if (connected.includes(userAId)){
+        io.to(`user-${userBId}`).emit('user-online', {userId: userAId});
+    }
+    if (connected.includes(userBId)){
+        io.to(`user-${userAId}`).emit('user-online', {userId: userBId});
+    }
+
+}
 
 export function connectUser(userId: string){
     let nbConnections = userList.get(userId);
