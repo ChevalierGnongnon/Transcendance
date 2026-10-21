@@ -44,14 +44,6 @@ services:
     secrets:
       - mariadb_password
       - mariadb_root_password
-  adminer:
-    image: adminer
-    container_name: adminer
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - transcendance
 
   frontend:
     build:
@@ -104,10 +96,6 @@ services:
         condition: service_healthy
 
 secrets:
-  OAuth_client_github_id:
-    file: ./secrets/github/OAuth_client_github_id.txt
-  OAuth_client_github_secret:
-    file: ./secrets/github/OAuth_client_github_secret.txt
   admin_password:
     file: ./secrets/accounts/admin_password.txt
   mariadb_password:
