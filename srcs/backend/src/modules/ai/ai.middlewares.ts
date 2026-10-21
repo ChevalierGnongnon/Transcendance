@@ -43,15 +43,33 @@ export const aiRateLimiter = rateLimit({
         );
 
         res.setHeader("Retry-After", retryAfterSeconds);
-        if (req.userId) {
-            emitAiRateLimit(req.userId, retryAfterSeconds);
-        }
     }
         res.status(429).json({
             error: "Too many Ai requests. Please try again later."
         });
     }
 });
+
+/**
+ * Middleware funcrtiton to take care of rate limit with multiple tabs 
+ * @param req 
+ * @param _res 
+ * @param next 
+ */
+export function notifyAiRateLimit(req: Request, _res: Response, next: NextFunction) 
+{
+  const rateLimitInfo = (req as RateLimitRequest).rateLimit;
+
+  if (rateLimitInfo.remaining === 0 && rateLimitInfo.resetTime && req.userId) 
+    {
+    const resetSeconds = Math.max(1,Math.ceil(
+        (rateLimitInfo.resetTime.getTime() - Date.now()) / 1000
+      )
+    );
+    emitAiRateLimit(req.userId, resetSeconds);
+  }
+  next();
+}
 
 /**
  * Middleware function to verify Conversation Ownership6 

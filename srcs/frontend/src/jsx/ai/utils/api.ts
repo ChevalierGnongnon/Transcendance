@@ -53,9 +53,7 @@ export const sendAiMessage = async (conversationId: string,message: string) => {
     const retryAfter =
       res.headers.get('Retry-After');
 
-    throw new Error(
-      `AI_RATE_LIMIT:${retryAfter ?? rateLimit?.resetSeconds ?? 60}`
-    );
+    throw new Error(`AI_RATE_LIMIT:${retryAfter ?? rateLimit?.resetSeconds ?? 60}`);
   }
 
   if (!res.ok) {

@@ -65,7 +65,7 @@ export function useAiChat() {
 
       rateLimit.startRateLimit(seconds);
 
-      setError('Maximum AI request limit reached.');
+      // setError('Maximum AI request limit reached.');
       return;
     }
 
