@@ -7,6 +7,7 @@ import MessageFileItem from './MessageFileItem';
 import MessageInvitationItem from './MessageInvitationItem';
 
 function Message(props: MessageProps) {
+  const { t } = useTranslation();
   const fileId = props.type === 'file' ? props.content : '';
   const isOwnMessage = props.senderId === props.userId;
 
@@ -39,7 +40,7 @@ function Message(props: MessageProps) {
                 ? `/api/${props.profilePhoto.id}/download`
                 : '/default-avatar.png'
             }
-            alt="avatar"
+            alt={t('alt.avatar')}
           />
         </figure>
 

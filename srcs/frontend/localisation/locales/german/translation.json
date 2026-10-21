@@ -119,6 +119,19 @@
     "INVALID_TOKEN": "Ungültige Sitzung",
     "DATABASE_ERROR": "Serverfehler, bitte versuchen Sie es später erneut",
     "WRONG_FILE_TYPE": "Falscher Dateityp",
+    "ACCOUNT_NOT_FOUND": "Konto nicht gefunden",
+    "CORRUPTED_IMAGE": "Das Bild ist beschädigt oder unlesbar",
+    "USERID_REQUIRED": "Benutzer-ID ist erforderlich",
+    "USERID_MUST_BE_VALID_UUID": "Ungültige Benutzer-ID",
+    "ID_REQUIRED": "ID ist erforderlich",
+    "ID_MUST_BE_A_VALID_UUID": "Ungültige ID",
+    "FRIENDSHIPID_REQUIRED": "Freundschafts-ID ist erforderlich",
+    "FRIENDSHIPID_MUST_BE_A_VALID_UUID": "Ungültige Freundschafts-ID",
+    "INVALID_FROM_DATE": "Ungültiges Startdatum",
+    "INVALID_TO_DATE": "Ungültiges Enddatum",
+    "INVALID_DATE_RANGE": "Das Startdatum muss vor dem Enddatum liegen",
+    "UNAUTHORIZED": "Sie müssen angemeldet sein",
+    "CHAT_NOT_FOUND": "Unterhaltung nicht gefunden",
     "FETCH_DEFAULT_AVATARS_ERROR": "Die Standardavatare konnten nicht abgerufen werden",
     "AVATAR_REQUIRED": "Bitte wähle oder lade einen Avatar hoch",
     "INTERNAL_SERVER_ERROR": "Serverfehler, bitte später erneut versuchen",
@@ -307,6 +320,7 @@
   "terms-of-service": {
     "title": "Nutzungsbedingungen",
     "last-updated": "Zuletzt aktualisiert: September 2026",
+    "introduction": "Diese Nutzungsbedingungen regeln Ihren Zugang zu unserer Anwendung und deren Nutzung. Bitte lesen Sie sie sorgfältig durch, bevor Sie unsere Dienste nutzen.",
 
     "acceptance": {
       "title": "1. Zustimmung zu diesen Bedingungen",
@@ -488,5 +502,32 @@
     "rate-limit": "Du kannst in {{seconds}} Sekunden eine weitere Nachricht senden.",
     "placeholder": "Schreibe eine Nachricht...",
     "send": "Senden"
+  },
+
+  "alt": {
+    "avatar": "Profilbild",
+    "my-avatar": "Mein Profilbild",
+    "opponent-avatar": "Profilbild des Gegners",
+    "messages": "Nachrichten-Symbol",
+    "parameters": "Einstellungen-Symbol",
+    "my-page": "Meine-Seite-Symbol",
+    "play": "Spielen-Symbol",
+    "friend-list": "Freundesliste-Symbol",
+    "analytics": "Statistik-Symbol",
+    "add-friend": "Freund-hinzufügen-Symbol",
+    "remove-friend": "Freund-entfernen-Symbol",
+    "block": "Benutzer-blockieren-Symbol",
+    "unblock": "Benutzer-entsperren-Symbol",
+    "file-preview": "Dateivorschau",
+    "attachment": "Angehängtes Bild",
+    "pdf": "PDF-Datei",
+    "docx": "Word-Datei",
+    "xlsx": "Excel-Datei",
+    "pptx": "PowerPoint-Datei",
+    "language": "Sprache ändern",
+    "logout": "Abmelden-Symbol",
+    "chats": "Unterhaltungen-Symbol",
+    "new-message": "Neue-Nachricht-Symbol",
+    "imaginary-friend": "Imaginärer-Freund-Symbol"
   }
 }

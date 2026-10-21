@@ -66,30 +66,30 @@ function MessageFileItem(props: MessageFileItemProps) {
       )}
       {/* file preview here if not previewable just use file type icon */}
       {!loading && !deletedFile && MimeType.startsWith('image/') && (
-        <img src={`/api/${props.fileId}/download`} alt="attachment" className="bg-img-message" />
+        <img src={`/api/${props.fileId}/download`} alt={t('alt.attachment')} className="bg-img-message" />
       )}
 
       {!loading && !deletedFile && MimeType === 'application/pdf' && (
-        <img src="/pdf-icon.svg" alt="icon-pdf" className="icon-type" />
+        <img src="/pdf-icon.svg" alt={t('alt.pdf')} className="icon-type" />
       )}
 
       {!loading &&
         !deletedFile &&
         MimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && (
-          <img src="/docx-icon.svg" alt="icon-docx" className="icon-type" />
+          <img src="/docx-icon.svg" alt={t('alt.docx')} className="icon-type" />
         )}
 
       {!loading &&
         !deletedFile &&
         MimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && (
-          <img src="/xlsx-icon.svg" alt="icon-xslx" className="icon-type" />
+          <img src="/xlsx-icon.svg" alt={t('alt.xlsx')} className="icon-type" />
         )}
 
       {!loading &&
         !deletedFile &&
         MimeType ===
           'application/vnd.openxmlformats-officedocument.presentationml.presentation' && (
-          <img src="/pptx-icon.svg" alt="icon-pdf" className="icon-type" />
+          <img src="/pptx-icon.svg" alt={t('alt.pptx')} className="icon-type" />
         )}
       {/* download button */}
       {!deletedFile && (

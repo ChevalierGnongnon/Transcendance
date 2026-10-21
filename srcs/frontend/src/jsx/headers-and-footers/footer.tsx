@@ -17,7 +17,7 @@ function Footer() {
       <nav
             className="d-flex flex-wrap justify-content-center gap-3"
             aria-label={t("common.legal-navigation")}
-        >
+      >
             <Link className="link" to="/termsofservice">
                 {t("common.terms-of-service")}
             </Link>

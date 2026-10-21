@@ -104,30 +104,30 @@ function FileImport(fileImportComponent: FileImportComponent){
 
             <figure className="file_preview_frame">
                 {   previewURL && selectedFile?.type.startsWith('image/') &&
-                    <img className="avatar-preview" src={previewURL ?? ''} alt="file-preview" />
+                    <img className="avatar-preview" src={previewURL ?? ''} alt={t('alt.file-preview')} />
                 }
 
                 {selectedFile?.type === 'application/pdf' &&
                     <div className="icon-preview">
-                        <img src="/pdf-icon.svg" alt="icon-pdf" />
+                        <img src="/pdf-icon.svg" alt={t('alt.pdf')} />
                     </div>
                 }
 
                 {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' &&
                     <div className="icon-preview">
-                        <img src="/docx-icon.svg" alt="icon-docx" />
+                        <img src="/docx-icon.svg" alt={t('alt.docx')} />
                     </div>
                 }
 
                 {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
                     <div className="icon-preview">
-                        <img src="/xlsx-icon.svg" alt="icon-xlsx" />
+                        <img src="/xlsx-icon.svg" alt={t('alt.xlsx')} />
                     </div>
                 }
 
                 {selectedFile?.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' &&
                     <div className="icon-preview">
-                        <img src="/pptx-icon.svg" alt="icon-pptx" />
+                        <img src="/pptx-icon.svg" alt={t('alt.pptx')} />
                     </div>
                 }
                 

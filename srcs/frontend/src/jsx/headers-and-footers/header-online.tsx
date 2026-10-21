@@ -69,7 +69,7 @@ function HeaderOnline() {
             <header className="profile-page-header py-3 px-4">
                 <section className="d-none d-xl-flex header-left d-flex align-items-center gap-3">
                     <figure className="m-0" onClick={() => navigate('/PersonalPage')}>
-                        <img src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'} alt="avatar" className="img-avatar-header" />
+                        <img src={user.profilePhoto?.id ? `/api/${user.profilePhoto.id}/download` : '/default-avatar.png'} alt={t('alt.avatar')} className="img-avatar-header" />
                     </figure>
                     <div className="d-flex flex-column">
                         <h3>{user.pseudo}</h3>
@@ -83,7 +83,7 @@ function HeaderOnline() {
                             type="button"
                             data-bs-toggle="dropdown"
                         >
-                            <img src={langIcon} alt="language-icon" className="lang-icon" />
+                            <img src={langIcon} alt={t('alt.language')} className="lang-icon" />
                         </button>
 
                         <ul className="dropdown-menu">
@@ -112,7 +112,7 @@ function HeaderOnline() {
                                     type="button"
                                     data-bs-toggle="dropdown"
                                 >
-                                    <img src={langIcon} alt="language-icon" className="lang-icon" />
+                                    <img src={langIcon} alt={t('alt.language')} className="lang-icon" />
                                 </button>
                                 
                                 <span>{t('common.languages')}</span>
@@ -126,19 +126,19 @@ function HeaderOnline() {
                                 </ul>
                             </div>
                         <figure className="m-0 pp-icons-header" onClick={() => navigate('/messages')}>
-                            <img src={messageIcon} alt="message-icon"/>
+                            <img src={messageIcon} alt={t('alt.messages')}/>
                             <span>{t('common.messages')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header" onClick={() => navigate('/parameters')}>
-                            <img src={parametersIcon} alt="parameters-icon" />
+                            <img src={parametersIcon} alt={t('alt.parameters')} />
                             <span>{t('common.parameters')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header" onClick={() => navigate('/personalpage')}>
-                            <img src={myPageIcon} alt="parameters-icon" />
+                            <img src={myPageIcon} alt={t('alt.my-page')} />
                             <span>{t('common.my-page')}</span>
                         </figure>
                         <figure className="m-0 pp-icons-header" data-tooltip={t('common.logout')} onClick={handleLogout}>
-                            <img src={logoutIcon} alt="logout-icon" />
+                            <img src={logoutIcon} alt={t('alt.logout')} />
                             <span>{t('common.logout')}</span>
                         </figure>
                     </div>

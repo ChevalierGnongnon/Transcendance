@@ -16,7 +16,7 @@ function HeaderOffline() {
                         type="button"
                         data-bs-toggle="dropdown"
                     >
-                        <img src={langIcon} alt="language-icon" className="lang-icon" />
+                        <img src={langIcon} alt={t('alt.language')} className="lang-icon" />
                     </button>
 
 

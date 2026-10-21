@@ -16,15 +16,15 @@ function NavBar({ activeView, setActiveView }: NavBarProps) {
     <>
       <div className="p-1 nav-bar d-none d-md-grid">
         <div className="icon-message-message m-2" onClick={() => setActiveView('chats')}>
-          <img src={messageIcon} alt="messagelist" />
+          <img src={messageIcon} alt={t('alt.chats')} />
         </div>
         <span onClick={() => setActiveView('chats')}>{t('message.chats')}</span>
         <div className="icon-message-message m-2" onClick={() => setActiveView('new message')}>
-          <img src={moreIcon} alt="newone" />
+          <img src={moreIcon} alt={t('alt.new-message')} />
         </div>
         <span onClick={() => setActiveView('new message')}>{t('message.new-message')}</span>
         <div className="icon-message-message m-2" onClick={() => setActiveView('imaginaryfriend')}>
-          <img src={geminiIcon} alt="gemini" />
+          <img src={geminiIcon} alt={t('alt.imaginary-friend')} />
         </div>
         <span onClick={() => setActiveView('imaginaryfriend')}>
           {t('message.imaginary-friend')}

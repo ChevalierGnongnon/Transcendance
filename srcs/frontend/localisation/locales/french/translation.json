@@ -121,6 +121,19 @@
     "INVALID_TOKEN": "Session invalide",
     "DATABASE_ERROR": "Erreur serveur, merci de réessayer plus tard",
     "WRONG_FILE_TYPE": "Mauvais type de fichier",
+    "ACCOUNT_NOT_FOUND": "Compte introuvable",
+    "CORRUPTED_IMAGE": "L'image est corrompue ou illisible",
+    "USERID_REQUIRED": "L'identifiant de l'utilisateur est requis",
+    "USERID_MUST_BE_VALID_UUID": "Identifiant d'utilisateur invalide",
+    "ID_REQUIRED": "L'identifiant est requis",
+    "ID_MUST_BE_A_VALID_UUID": "Identifiant invalide",
+    "FRIENDSHIPID_REQUIRED": "L'identifiant de l'amitié est requis",
+    "FRIENDSHIPID_MUST_BE_A_VALID_UUID": "Identifiant d'amitié invalide",
+    "INVALID_FROM_DATE": "Date de début invalide",
+    "INVALID_TO_DATE": "Date de fin invalide",
+    "INVALID_DATE_RANGE": "La date de début doit être antérieure à la date de fin",
+    "UNAUTHORIZED": "Vous devez être connecté",
+    "CHAT_NOT_FOUND": "Conversation introuvable",
     "FETCH_DEFAULT_AVATARS_ERROR": "Les avatars par défaut n'ont pas pu être importés",
     "AVATAR_REQUIRED": "Veuillez choisir ou importer un avatar",
     "INTERNAL_SERVER_ERROR": "Erreur serveur, veuillez réessayer plus tard",
@@ -307,6 +320,7 @@
   "terms-of-service": {
     "title": "Conditions d'utilisation",
     "last-updated": "Dernière mise à jour : septembre 2026",
+    "introduction": "Les présentes conditions d'utilisation régissent votre accès à notre application et son utilisation. Veuillez les lire attentivement avant d'utiliser nos services.",
 
     "acceptance": {
       "title": "1. Acceptation des présentes conditions",
@@ -488,5 +502,32 @@
     "rate-limit": "Tu pourras envoyer un autre message dans {{seconds}} secondes.",
     "placeholder": "Écris un message...",
     "send": "Envoyer"
+  },
+
+  "alt": {
+    "avatar": "Photo de profil",
+    "my-avatar": "Ma photo de profil",
+    "opponent-avatar": "Photo de profil de l'adversaire",
+    "messages": "Icône des messages",
+    "parameters": "Icône des paramètres",
+    "my-page": "Icône de ma page",
+    "play": "Icône jouer",
+    "friend-list": "Icône de la liste d'amis",
+    "analytics": "Icône des statistiques",
+    "add-friend": "Icône ajouter un ami",
+    "remove-friend": "Icône retirer un ami",
+    "block": "Icône bloquer l'utilisateur",
+    "unblock": "Icône débloquer l'utilisateur",
+    "file-preview": "Aperçu du fichier",
+    "attachment": "Image jointe",
+    "pdf": "Fichier PDF",
+    "docx": "Fichier Word",
+    "xlsx": "Fichier Excel",
+    "pptx": "Fichier PowerPoint",
+    "language": "Changer de langue",
+    "logout": "Icône de déconnexion",
+    "chats": "Icône des conversations",
+    "new-message": "Icône nouveau message",
+    "imaginary-friend": "Icône de l'ami imaginaire"
   }
 }

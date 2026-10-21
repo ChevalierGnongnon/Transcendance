@@ -187,7 +187,7 @@ function Gomoku({
                   ? `/uploads/${players[0].profilePhoto}`
                   : '/default-avatar.png'
               }
-              alt="me avatar"
+              alt={t('alt.my-avatar')}
               className="player-avatar"
             />
             <span className="player-name">{players[0]?.username}</span>
@@ -225,7 +225,7 @@ function Gomoku({
                   ? `/uploads/${players[1].profilePhoto}`
                   : '/default-avatar.png'
               }
-              alt="opponent avatar"
+              alt={t('alt.opponent-avatar')}
               className="player-avatar"
             />
             <span className="player-name">{players[1]?.username}</span>

@@ -143,7 +143,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
               onClick={() => {
                 sendFriendRequest(user.id);
               }}
-              alt="addfriend-shortcut"
+              alt={t('alt.add-friend')}
             />
           )}
         {!relationship.blockedByMe && !relationship.blockedMe && relationship.isFriend && (
@@ -153,7 +153,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
             onClick={() => {
               deleteFriend(user.id);
             }}
-            alt="delete-friend-shortcut"
+            alt={t('alt.remove-friend')}
           />
         )}
 
@@ -166,7 +166,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
                 state: { opponentId: user.id },
               });
             }}
-            alt="play-shortcut"
+            alt={t('alt.play')}
           />
         )}
 
@@ -182,7 +182,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
                 },
               });
             }}
-            alt="message-shortcut"
+            alt={t('alt.messages')}
           />
         )}
 
@@ -193,7 +193,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
             onClick={() => {
               blockUser(user.id);
             }}
-            alt="block-shortcut"
+            alt={t('alt.block')}
           />
         )}
 
@@ -204,7 +204,7 @@ export default function ProfileShortcuts({ user }: ProfileShortcutsProps) {
             onClick={() => {
               unBlockUser(user.id);
             }}
-            alt="unblock-shortcut"
+            alt={t('alt.unblock')}
           />
         )}
       </div>

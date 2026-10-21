@@ -138,7 +138,7 @@ function PersonalPage() {
 										? `/api/${displayedUser.profilePhoto.id}/download`
 										: "/default-avatar.png"
 								}
-								alt="avatar"
+								alt={t('alt.avatar')}
 								className="img-avatar-profile-page my-avatar"
 							/>
 							<div className="d-flex flex-column">
@@ -157,7 +157,7 @@ function PersonalPage() {
 										? `/api/${displayedUser.profilePhoto.id}/download`
 										: "/default-avatar.png"
 								}
-								alt="avatar"
+								alt={t('alt.avatar')}
 								className={`img-avatar-profile-page ${getStatus(displayedUser.id)}-avatar`}
 							/>
 							<div className="d-flex flex-column">
@@ -178,7 +178,7 @@ function PersonalPage() {
 							<div className="row g-4 justify-content-center shortcut-grid">
 								<div className="col-12 col-md-6 col-xl-4">
 									<figure className="shortcut-icon justify-content-center">
-										<img src={messageIcon} alt="message-shortcut" onClick={() => navigate("/messages")} />
+										<img src={messageIcon} alt={t('alt.messages')} onClick={() => navigate("/messages")} />
 										<span>{t("common.messages")}</span>
 									</figure>
 								</div>
@@ -187,13 +187,13 @@ function PersonalPage() {
 										className="shortcut-icon justify-content-center"
 										onClick={() => navigate("/Parameters")}
 									>
-										<img src={updateShortcut} alt="message-shortcut" />
+										<img src={updateShortcut} alt={t('alt.parameters')} />
 										<span>{t("common.parameters")}</span>
 									</figure>
 								</div>
 								<div className="col-12 col-md-6 col-xl-4" onClick={handlePlay}>
 									<figure className="shortcut-icon justify-content-center">
-										<img src={playShortcut} alt="play-shortcut" />
+										<img src={playShortcut} alt={t('alt.play')} />
 										<span>{t("common.play")}</span>
 									</figure>
 								</div>
@@ -206,16 +206,16 @@ function PersonalPage() {
 							<div className="row g-4 justify-content-center shortcut-grid">
 								<div className="col-12 col-md-6 col-xl-6">
 									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/myfriends")}>
-										<img src={iconFriendList} alt="message-shortcut" />
+										<img src={iconFriendList} alt={t('alt.friend-list')} />
 										<span>{t("profile-page.friend-list")}</span>
 									</figure>
 								</div>
 
 								<div className="col-12 col-md-6 col-xl-6">
 									<figure className="shortcut-icon justify-content-center" onClick={() => navigate("/analytics")}>
-										<img src={statsShortcut} alt="analytics-shortcut" />
-										<span>Analytics</span>
-								</figure>
+										<img src={statsShortcut} alt={t('alt.analytics')} />
+										<span>{t('analytics.title')}</span>
+									</figure>
 								</div>
 							</div>
 						</>

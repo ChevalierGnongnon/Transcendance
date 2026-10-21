@@ -115,7 +115,7 @@ function SearchBar(props: SearchBarProps) {
                         ? `/api/${user.profilePhoto.id}/download`
                         : '/default-avatar.png'
                     }
-                    alt="avatar"
+                    alt={t('alt.avatar')}
                     className={`avatar-msg ${getStatus(user.id)}-avatar`}
                   />
                 </figure>

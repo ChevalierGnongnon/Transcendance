@@ -119,6 +119,19 @@
     "INVALID_TOKEN": "Invalid session",
     "DATABASE_ERROR": "Server error, please try again later",
     "WRONG_FILE_TYPE": "Bad file type",
+    "ACCOUNT_NOT_FOUND": "Account not found",
+    "CORRUPTED_IMAGE": "The image is corrupted or unreadable",
+    "USERID_REQUIRED": "User ID is required",
+    "USERID_MUST_BE_VALID_UUID": "Invalid user ID",
+    "ID_REQUIRED": "ID is required",
+    "ID_MUST_BE_A_VALID_UUID": "Invalid ID",
+    "FRIENDSHIPID_REQUIRED": "Friendship ID is required",
+    "FRIENDSHIPID_MUST_BE_A_VALID_UUID": "Invalid friendship ID",
+    "INVALID_FROM_DATE": "Invalid start date",
+    "INVALID_TO_DATE": "Invalid end date",
+    "INVALID_DATE_RANGE": "The start date must be before the end date",
+    "UNAUTHORIZED": "You must be logged in",
+    "CHAT_NOT_FOUND": "Conversation not found",
     "FETCH_DEFAULT_AVATARS_ERROR": "Failed to fetch default avatars",
     "AVATAR_REQUIRED": "Please choose or upload an avatar",
     "INTERNAL_SERVER_ERROR": "Server error, please try again later",
@@ -285,6 +298,7 @@
   "terms-of-service": {
     "title": "Terms of Service",
     "last-updated": "Last updated: September 2026",
+    "introduction": "These Terms of Service govern your access to and use of our application. Please read them carefully before using our services.",
 
     "acceptance": {
       "title": "1. Acceptance of These Terms",
@@ -466,5 +480,32 @@
     "rate-limit": "You can send another message in {{seconds}} seconds.",
     "placeholder": "Write a message...",
     "send": "Send"
+  },
+
+  "alt": {
+    "avatar": "Profile picture",
+    "my-avatar": "My profile picture",
+    "opponent-avatar": "Opponent's profile picture",
+    "messages": "Messages icon",
+    "parameters": "Settings icon",
+    "my-page": "My page icon",
+    "play": "Play icon",
+    "friend-list": "Friend list icon",
+    "analytics": "Statistics icon",
+    "add-friend": "Add friend icon",
+    "remove-friend": "Remove friend icon",
+    "block": "Block user icon",
+    "unblock": "Unblock user icon",
+    "file-preview": "File preview",
+    "attachment": "Attached image",
+    "pdf": "PDF file",
+    "docx": "Word file",
+    "xlsx": "Excel file",
+    "pptx": "PowerPoint file",
+    "language": "Change language",
+    "logout": "Log out icon",
+    "chats": "Conversations icon",
+    "new-message": "New message icon",
+    "imaginary-friend": "Imaginary friend icon"
   }
 }
