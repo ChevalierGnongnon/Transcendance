@@ -66,7 +66,11 @@ function MessageInput({
   };
 
   useEffect(() => {
-    return () => clearTimeout(typingTimeoutRef.current);
+    return () => {
+      if (typingTimeoutRef.current !== null) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
   }, []);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {

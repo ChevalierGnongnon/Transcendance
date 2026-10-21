@@ -66,7 +66,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
   }, [loadRelationship]);
 
   useEffect(() => {
-    const updateRelationship = async (data: string) => {
+    const updateRelationship = async (data: { userId: string }) => {
       if (data?.userId === me?.id) {
         loadRelationship();
       }

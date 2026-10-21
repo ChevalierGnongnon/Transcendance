@@ -38,7 +38,7 @@ export interface IMessage {
   recipientId?: string;
   sender: {
     id: string;
-    pseudo?: string;
+    pseudo: string;
     profilePhoto: { name: string; id: string };
   };
   content: string;

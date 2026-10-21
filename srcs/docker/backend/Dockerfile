@@ -1,27 +1,20 @@
-FROM node:24-alpine AS builder
-
-WORKDIR /app
-
-COPY srcs/backend/package*.json ./
-
-RUN npm ci
-
-COPY srcs/backend/src ./src
-
-RUN npm run build
-
 FROM node:24-alpine
 
+RUN apk add --no-cache curl
+
+
 WORKDIR /app
 
-ENV NODE_ENV=production
-
 COPY srcs/backend/package*.json ./
-RUN npm ci --omit=dev
+# COPY srcs/backend/prisma ./prisma
 
-COPY --from=builder /app/dist ./dist
-COPY srcs/backend/default-avatars/ /app/uploads/
+RUN npm install
+
+# RUN npx prisma generate
+
+COPY srcs/docker/backend/default-avatars/ /app/uploads/
 
 EXPOSE 3000
 
-CMD ["nmp", "start"]
+# CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "npx prisma generate && npm run prisma:deploy && npm run db:seed && npm run dev"]

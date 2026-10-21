@@ -74,7 +74,7 @@ services:
   backend:
     build:
       context: ../..
-      dockerfile: srcs/docker/backend/Dockerfile.dev
+      dockerfile: srcs/docker/backend/Dockerfile
     image: backend:transcendance
     container_name: backend
     volumes:
