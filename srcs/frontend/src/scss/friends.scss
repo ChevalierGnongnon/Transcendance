@@ -1,63 +1,62 @@
-@use "./common-variables.scss" as *;
-@use "./mixins.scss" as *;
+@use './common-variables.scss' as *;
+@use './mixins.scss' as *;
 
-.friend-card{
-    border: 1px solid white;
-    color: white;
-    border-radius: 30px;
-    background-color: $background-common-color;
-    min-height: 125px;
+.friend-card {
+  border: 1px solid white;
+  color: white;
+  border-radius: 30px;
+  background-color: $background-common-color;
+  min-height: 125px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    text-align: center;
-    cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
 
-    img {
-        max-width: 120px;
-        max-height: 120px;
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-
-    }
-    &:hover{
-        background-color: $navy-hover;
-    }
+  img {
+    max-width: 120px;
+    max-height: 120px;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+  }
+  &:hover {
+    background-color: $navy-hover;
+  }
 }
-.delete-button{
-    @include bordered-btn(white, $red-color);
-    width: 60%;
-    appearance: none;
-    -webkit-appearance: none;
-    padding: 8px 12px;
-    margin: 1% auto;
-}
-
-.friends-page{
-    text-align: center;
-    background-color: $background-common-color;
-    color: white;
-    min-height: 100vh;
+.delete-button {
+  @include bordered-btn(white, $red-color);
+  // width: 60%;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 12px;
+  margin: 1% auto;
 }
 
-.accept-button{
-    @include bordered-btn(white, $green-color);
-    appearance: none;
-    -webkit-appearance: none;
-    padding: 8px 12px;
-    margin: 1% auto;
-}
-.orange-border{
-    @include frame($orange-color);
+.friends-page {
+  text-align: center;
+  background-color: $background-common-color;
+  color: white;
+  min-height: 100vh;
 }
 
-.green-border{
-    @include frame($green-color);
+.accept-button {
+  @include bordered-btn(white, $green-color);
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 12px;
+  margin: 1% auto;
+}
+.orange-border {
+  @include frame($orange-color);
 }
 
-.red-border{
-    @include frame($red-color);
+.green-border {
+  @include frame($green-color);
+}
+
+.red-border {
+  @include frame($red-color);
 }

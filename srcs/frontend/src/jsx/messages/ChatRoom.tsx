@@ -68,7 +68,7 @@ function ChatRoom(roomProps: ChatRoomProps) {
   useEffect(() => {
     const updateRelationship = async (data: string) => {
       if (data?.userId === me?.id) {
-        await loadRelationship();
+        loadRelationship();
       }
     };
 
@@ -92,9 +92,9 @@ function ChatRoom(roomProps: ChatRoomProps) {
       }
       if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
-      socket.emit('relationship:update', { fromId: me.id, toId: chat.user.id });
+      loadRelationship();
 
-      await loadRelationship();
+      socket.emit('relationship:update', { fromId: me.id, toId: chat.user.id });
     } catch (e) {
       console.error('Error unBlockUser', e);
     }
@@ -116,9 +116,9 @@ function ChatRoom(roomProps: ChatRoomProps) {
       }
       if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
 
-      socket.emit('relationship:update', { fromId: me.id, toId: chat.user.id });
+      loadRelationship();
 
-      await loadRelationship();
+      socket.emit('relationship:update', { fromId: me.id, toId: chat.user.id });
     } catch (e) {
       console.error('Error unBlockUser', e);
     }
