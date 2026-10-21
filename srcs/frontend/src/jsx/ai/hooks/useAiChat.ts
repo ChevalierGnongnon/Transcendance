@@ -57,7 +57,7 @@ export function useAiChat() {
   }
 
   function handleSendError(error: unknown) {
-    console.error('Error sending AI message:',error);
+    // console.error('Error sending AI message:',error);
 
     if (error instanceof Error && error.message.startsWith(
         'AI_RATE_LIMIT:')) {
@@ -70,7 +70,7 @@ export function useAiChat() {
     }
 
     setError('Could not send your message.',);
-    console.log('Error sending', error);
+    // console.log('Error sending', error);
   }
 
   return {
