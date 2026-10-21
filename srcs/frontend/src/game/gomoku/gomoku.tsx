@@ -1,4 +1,4 @@
-import './scss/gomoku.scss';
+import '../../scss/gomoku.scss';
 
 import React, { useEffect, useState } from 'react';
 import useGomoku from './useGomoku';

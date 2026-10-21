@@ -609,6 +609,19 @@ export async function handleGameMove(
   const invitationDetails = winnerId ? await getInvitationDetails(game.invitationId) : null;
   if (winnerId && !invitationDetails) throw new Error('Game invitation not found');
 
+  const winMessages = [
+    'Haha, I won!',
+    'Victory is mine!',
+    'Looks like I won! 😎',
+    'And that’s a win for me!',
+    'Game over, I won!',
+    'Better luck next time!',
+    'Winner winner, that’s me!',
+    'I came, I played, I won!',
+    'Another victory! 🎉',
+    'Yes! I won this one! 🏆',
+  ];
+
   const result = await prisma.$transaction(async (tx) => {
     const update = await tx.game.updateMany({
       where: {
@@ -636,7 +649,7 @@ export async function handleGameMove(
       data: {
         chatId: invitationDetails.chatId,
         senderId: winnerId,
-        content: 'haha, i win!',
+        content: winMessages[Math.floor(Math.random() * winMessages.length)],
         type: 'text',
       },
       select: {

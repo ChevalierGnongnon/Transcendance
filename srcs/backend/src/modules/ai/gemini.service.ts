@@ -83,7 +83,7 @@ export async function *generateResponseStream(history: ChatMessage[], message: s
     }
     catch (error)
     {
-        console.error("Gemini error:", error);
+        //console.error("Gemini error:", error);
         if (error instanceof ApiError)
         {
             if (error.status === 429)
