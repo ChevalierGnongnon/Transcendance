@@ -1,12 +1,13 @@
-import { useTranslation } from "react-i18next";
-import { useAuth } from "../auth/auth-context";
-// import ""
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '../auth/auth-context';
+import { useEffect } from 'react';
+
 type FriendCardProps = {
   userId: string;
   name: string;
   profilePhotoId?: string;
   isFriend: boolean;
-  
+
   buttonValue: string;
   buttonClassName?: string;
   onButtonClick?: () => void;
@@ -16,33 +17,37 @@ type FriendCardProps = {
   onSecondButtonClick?: () => void;
 };
 
-
 function FriendCard({
-    name,
-    profilePhotoId,
-    buttonValue,
-    buttonClassName,
-    onButtonClick,
+  name,
+  profilePhotoId,
+  buttonValue,
+  buttonClassName,
+  onButtonClick,
 
-    secondButtonValue,
-    secondButtonClassName,
-    onSecondButtonClick,
-    userId,
-    isFriend
-  }: FriendCardProps) {
+  secondButtonValue,
+  secondButtonClassName,
+  onSecondButtonClick,
+  userId,
+  isFriend,
+}: FriendCardProps) {
   const { t } = useTranslation();
-  const {onlineFriends} = useAuth();
-  
+  const { onlineFriends } = useAuth();
+
   let isOnline = onlineFriends.includes(userId);
 
-  
+  useEffect(() => {
+    isOnline = onlineFriends.includes(userId);
+  }, [userId]);
+
   return (
     <div className="col-12 col-md-6 col-xl-4">
       <figure className="friend-card py-2 px-1 justify-content-center">
         <img
           src={`/api/${profilePhotoId}/download`}
           alt={t('friends.avatar-alt')}
-          className={!isFriend ? 'not-friend-avatar' : isOnline ? 'online-avatar' : 'offline-avatar'}
+          className={
+            !isFriend ? 'not-friend-avatar' : isOnline ? 'online-avatar' : 'offline-avatar'
+          }
         />
         <span>{name}</span>
 

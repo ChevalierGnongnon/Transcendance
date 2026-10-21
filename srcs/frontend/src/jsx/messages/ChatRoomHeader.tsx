@@ -39,7 +39,7 @@ function ChatRoomHeader({ chatId, userId, pseudo, onSetActiveView, onBlock }: Ch
       socket.off('chat:typing:start', startTyping);
       socket.off('chat:typing:stop', stopTyping);
     };
-  }, []);
+  }, [chatId]);
 
   useEffect(() => {
     setIsTyping(false);

@@ -61,7 +61,7 @@ export default function useChat() {
 
     Promise.all(
       missing.map((chat) =>
-        fetchMessages(chat.chatId)
+        fetchMessages(chat.chatId, 500)
           .then((messages) => ({ chatId: chat.chatId, messages }))
           .catch(() => ({ chatId: chat.chatId, messages: [] as IMessage[] }))
       )
@@ -106,6 +106,9 @@ export default function useChat() {
     );
   }, [allMessages, activeChat, me?.id]);
 
+  /**
+   * Subscribes to incoming socket messages and updates the chat list and messages state.
+   */
   useEffect(() => {
     const handleNewMessage = async (newMessage: IMessage) => {
       const { chatId, id: messageId, sender } = newMessage;
@@ -221,7 +224,10 @@ export default function useChat() {
       const next = new Map(prev);
 
       const currentMessages = next.get(newMessage.chatId) ?? [];
-      next.set(newMessage.chatId, [...currentMessages, newMessage]);
+      const updated = [...currentMessages, newMessage];
+
+      const trimmed = updated.length > 500 ? updated.slice(-500) : updated;
+      next.set(newMessage.chatId, trimmed);
 
       return next;
     });

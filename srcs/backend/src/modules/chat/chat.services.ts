@@ -50,12 +50,14 @@ class chatService {
     return ret;
   }
 
-  async getMessagesByChatId(chatId: string) {
+  async getMessagesByChatId(chatId: string, limit: number = 100) {
     const messages = await prisma.message.findMany({
       where: { chatId },
       orderBy: {
-        createdAt: 'asc',
+        // createdAt: 'asc',
+        createdAt: 'desc',
       },
+      take: limit,
       select: {
         id: true,
         chatId: true,
@@ -80,8 +82,7 @@ class chatService {
       throw new NotFoundError('Dont have messages in this chat');
     }
 
-    const result = messages.map((m) => ({ ...m, status: 'sent' }));
-    return result;
+    return messages.reverse().map((m) => ({ ...m, status: 'sent' }));
   }
 
   async getChatByUserId(currentUserId: string, otherUserId: string) {

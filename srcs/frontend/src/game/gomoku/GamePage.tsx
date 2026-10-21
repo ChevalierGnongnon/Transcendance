@@ -52,13 +52,13 @@ function GamePage() {
     {
       id: me.id,
       username: me.pseudo,
-      profilePhoto: me.profilePhotoId,
+      profilePhoto: me.profilePhoto?.id,
       symbol: "X"
     },
     {
       id: opponent.id,
       username: opponent.pseudo,
-      profilePhoto: opponent.profilePhotoId,
+      profilePhoto: opponent.profilePhoto?.id,
       symbol: "O"
     }
   ];
