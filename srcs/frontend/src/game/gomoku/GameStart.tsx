@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './scss/gamestart.scss';
+import '../../scss/gamestart.scss';
 import { socket } from '../../jsx/messages/socket';
 import { useSocketConnection } from '../../jsx/messages/hooks/useSocketConnection';
 import { useTranslation } from 'react-i18next';
