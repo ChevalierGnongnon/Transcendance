@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import messageIcon from "../../assets/icons/icon-messages.png";
 import updateShortcut from "../../assets/icons/icon-update.png";
 import playShortcut from "../../assets/icons/play-shortcut.png";
-import addFriendsIcon from "../../assets/icons/icon-add-friends.png";
 import iconFriendList from "../../assets/icons/icon-friend-list.png";
 import statsShortcut from "../../assets/icons/stats.png"
 import { useAuth } from "../auth/auth-context";

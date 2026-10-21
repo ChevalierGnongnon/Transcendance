@@ -30,7 +30,6 @@ function SearchBar(props: SearchBarProps) {
   const { t } = useTranslation();
   const [input, setInput] = useState<string>('');
   const [result, setResult] = useState<SearchResult[] | null>(null);
-  const [researchStarted, setResearchStarted] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
   const apiFetch = useApiFetch();
 
@@ -91,7 +90,6 @@ function SearchBar(props: SearchBarProps) {
           value={input}
           placeholder={props.PlaceHolder}
           onChange={function startResearch(event) {
-            setResearchStarted(true);
             setInput(event.target.value);
           }}
         />

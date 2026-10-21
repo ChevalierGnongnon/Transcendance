@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import messageIcon from "../../assets/icons/icon-messages.png";
 import parametersIcon from "../../assets/icons/icon-parameters.png";
-import notificationIcon from "../../assets/icons/icon-notifications.png";
 import logoutIcon from "../../assets/icons/icon-disconnect.png";
 import myPageIcon from "../../assets/icons/icon-my-page.png";
 import { useAuth } from "../auth/auth-context";

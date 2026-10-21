@@ -101,18 +101,6 @@ class FileService {
         }
         return id;
       } else if (type === 'message' && messageFileWhiteList.includes(fileType.mime) && chatId) {
-        // const member = await prisma.chatMember.findUnique({
-        //   where: {
-        //     chatId_userId: {
-        //       // chatId: chatId,
-        //       userId: userId,
-        //     },
-        //   },
-        // });
-
-        // if (!member) {
-        //   throw new ForbiddenRightsError('User is not a member of this chat');
-        // }
         let bufferToWrite = fileBuffer;
         let extension = fileType.ext;
         const expiredDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
