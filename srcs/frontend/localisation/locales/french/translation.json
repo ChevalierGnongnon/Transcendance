@@ -399,7 +399,7 @@
     }
   },
   "analytics": {
-    "title": "Tableau de bord analytique",
+    "title": "Statistiques",
     "description": "Vue d'ensemble de votre activité et de votre utilisation de l'IA.",
 
     "filters": {

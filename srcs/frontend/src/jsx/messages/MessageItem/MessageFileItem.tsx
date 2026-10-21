@@ -51,11 +51,11 @@ function MessageFileItem(props: MessageFileItemProps) {
   }, [props.fileId, props.status]); // will restart when status changes
 
   useEffect(() => {
-    function handleFileDeleted(data) {
+    function handleFileDeleted(data: {fileId: string}) {
       if (data.fileId === props.fileId) setDeletedFile(true);
     }
     socket.on('file-deleted', handleFileDeleted);
-    return () => socket.off('file-deleted', handleFileDeleted);
+    return () => {socket.off('file-deleted', handleFileDeleted)}
   }, []);
 
   return (
