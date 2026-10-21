@@ -184,7 +184,7 @@ function Gomoku({
             <img
               src={
                 players[0]?.profilePhoto
-                  ? `/uploads/${players[0].profilePhoto}`
+                  ? `/api/${players[0].profilePhoto}/download`
                   : '/default-avatar.png'
               }
               alt={t('alt.my-avatar')}
@@ -222,7 +222,7 @@ function Gomoku({
             <img
               src={
                 players[1]?.profilePhoto
-                  ? `/uploads/${players[1].profilePhoto}`
+                  ? `/api/${players[1].profilePhoto}/download`
                   : '/default-avatar.png'
               }
               alt={t('alt.opponent-avatar')}
