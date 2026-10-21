@@ -132,7 +132,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                 }
                 
             </figure>
-            <progress className="w-25 mx-auto" value={fileImportComponent.externalProgress ?? uploadProgress} max={100}></progress>
+            <progress className="w-75 mx-auto"value={fileImportComponent.externalProgress ?? uploadProgress} max={100}></progress>
             <input
                 type="button"
                 value={t('common.confirm')}
