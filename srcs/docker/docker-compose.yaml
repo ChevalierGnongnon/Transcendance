@@ -83,8 +83,6 @@ services:
     secrets:
       - mariadb_password
       - admin_password
-      - OAuth_client_github_secret
-      - OAuth_client_github_id
     healthcheck:
       test: ["CMD", "node", "/app/src/scripts/healthcheck.js"]
       interval: 5s
