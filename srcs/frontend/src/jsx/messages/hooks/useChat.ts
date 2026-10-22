@@ -265,7 +265,6 @@ export default function useChat() {
       const existingChat = chatList.find((c) => c.user.id === user.id);
 
       if (existingChat) {
-        console.log(existingChat);
         setActiveChat(existingChat);
         setActiveView('conversation');
         return;

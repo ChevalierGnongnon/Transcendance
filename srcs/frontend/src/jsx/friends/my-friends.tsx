@@ -124,7 +124,6 @@ function MyFriends() {
         friends: [newFriend, ...prev.friends],
       }));
 
-      console.log(newFriend);
       socket.emit('relationship:update', { fromId: me?.id, toId: newFriend.friend.id });
     } catch (err) {
       console.error('Error cancelFriendRequest:', err);
