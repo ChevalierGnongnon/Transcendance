@@ -1,4 +1,4 @@
-# ft_transcendence
+# LinkPlay
 
 _This project has been created as part of the 42 curriculum by chhoflac, oklimov, nmagomad, mknoll._
 
@@ -114,7 +114,7 @@ MariaDB was chosen because the team already had experience with **MariaDB/MySQL*
 
 ### Database Schema
 
-![DBSchema](/documentation/DBSchema.png)
+![DBSchema](image/DBSchema.png)
 
 ### Real-Time Communication
 

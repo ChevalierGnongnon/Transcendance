@@ -56,6 +56,7 @@ function FileImport(fileImportComponent: FileImportComponent){
                 ref={fileInputRef}
                 placeholder={fileImportComponent.inputPlaceHolder}
                 onChange={
+                    
                     (e)=>{
                         if (previewURL)
                             URL.revokeObjectURL(previewURL);
