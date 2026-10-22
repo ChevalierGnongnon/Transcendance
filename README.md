@@ -233,6 +233,8 @@ The following table provides an overview of the implemented features, the team m
 
 ## Resources
 
+### Links
+
 - https://recharts.github.io/en-US/guide/
 - https://www.prisma.io/docs/orm
 - https://ai.google.dev/gemini-api/docs
@@ -245,3 +247,12 @@ The following table provides an overview of the implemented features, the team m
 - https://getbootstrap.com/docs/5.3/getting-started/introduction/
 - https://express-validator.github.io/docs/
 - https://zod.dev/
+
+
+### AI Usage
+
+In this project, AI was used to:
+
+- Debugging: Identify errors, troubleshoot issues, and suggest solutions to improve code reliability.
+- Tutoring: Explain technical concepts, clarify unfamiliar technologies, and support the learning process.
+- Documentation Enhancement: Improve documentation clarity, structure, and readability.
