@@ -50,11 +50,107 @@ https://localhost:8443
 
 Open the URL in your browser to access the application.
 
-### Configuration
+## Configuration and Setup
 
-The application is configured through Docker and the project's environment configuration. If required, create and configure the `.env` file before running `make`.
+The application is configured using Docker Compose and environment variables. Before starting the application, create the required directories and configuration files inside `./srcs/docker`.
 
-All required environment variables and their purpose are documented in the project's `.env.example` file.
+### Directory Structure
+
+Create the following directory structure:
+
+```text
+srcs/
+└── docker/
+    ├── .env
+    ├── .env.example
+    ├── accounts/
+    │   └── admin_password.txt
+    ├── mariadb/
+    │   ├── mariadb_password.txt
+    │   └── mariadb_root_password.txt
+    └── certs/
+        ├── init_certs.sh
+        ├── transcendance.crt
+        └── transcendance_private.key
+```
+
+### 1. Environment Variables
+
+Create a `.env` file inside `./srcs/docker/` using `.env.example` as a template.
+
+```bash
+cd srcs/docker
+cp .env.example .env
+```
+
+Configure all required environment variables according to the descriptions provided in `.env.example`.
+
+### 2. Secrets Configuration
+
+Create the required directories and password files:
+
+```bash
+mkdir -p accounts mariadb
+
+touch accounts/admin_password.txt
+touch mariadb/mariadb_password.txt
+touch mariadb/mariadb_root_password.txt
+```
+
+Add a strong password to each file:
+
+- `accounts/admin_password.txt` — password for the application administrator account.
+- `mariadb/mariadb_password.txt` — password for the MariaDB application user.
+- `mariadb/mariadb_root_password.txt` — password for the MariaDB root user.
+
+Each file should contain only the corresponding password.
+
+### 3. SSL Certificates
+
+Create the `certs` directory and the certificate initialization script:
+
+```bash
+mkdir -p certs
+touch certs/init_certs.sh
+chmod +x certs/init_certs.sh
+```
+
+Add the following content to `certs/init_certs.sh`:
+
+```bash
+#!/bin/bash
+
+set -e
+
+openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+    -keyout ./transcendance_private.key \
+    -out ./transcendance.crt \
+    -subj "/C=FR/ST=GRAND_EST/L=Mulhouse/O=42Mulhouse/CN=transcendance.fr"
+```
+
+The command generates a self-signed SSL certificate and its private key with the following subject information:
+
+| Parameter | Description          | Example            |
+| --------- | -------------------- | ------------------ |
+| `C`       | Country code         | `FR`               |
+| `ST`      | State or region      | `GRAND_EST`        |
+| `L`       | City                 | `Mulhouse`         |
+| `O`       | Organization         | `42Mulhouse`       |
+| `CN`      | Common Name (domain) | `transcendance.fr` |
+
+#### Generate the certificates
+
+Run the script from the `certs` directory:
+
+```bash
+cd certs
+./init_certs.sh
+```
+
+After execution, the following files will be generated:
+
+- `transcendance.crt` — the SSL certificate.
+- `transcendance_private.key` — the private key associated with the certificate.
 
 ## Team Information
 
@@ -247,7 +343,6 @@ The following table provides an overview of the implemented features, the team m
 - https://getbootstrap.com/docs/5.3/getting-started/introduction/
 - https://express-validator.github.io/docs/
 - https://zod.dev/
-
 
 ### AI Usage
 
